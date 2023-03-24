@@ -1,0 +1,104 @@
+sapt viit un doc de juma de pagina cu core gamplay
+neaparat sapt viit
+
+
+la lab:
+discutam 
+analize de design
+
+descompunem jocuri cum sunt facute, dc sunt facuted
+dc si despre ce duc
+
+aspecte de design legate de league:
+    harta:
+        - oarecum simetrica, simetrica fata de diag secundara
+        - e simetrica mai putin jungla, care are alta simetrie
+
+        - 5 jucatori , 3 lane uri
+        jucatori, lane uri = resursele
+        toata lumea sa beneficieze de resurse
+
+        3 reguli:
+            - dc solo mid
+        in lol, 30s sunt suficiente ca jucatorul dp mijloc sa dea back
+        si sa se intoarca inapoi
+        imping wave ul, ma intorc, si cand ma intorc n am pierdut nmc
+        - resursele sunt limitate si importante
+        suportul a evoluat sa joace fara bani multi
+
+
+        * variante alternative ale istoriei - shadow of war/mordor/ hogwards legacy
+        * am vzt deja filmul, vreau ceva nou
+
+-> cum as putea sa extrag un joc din chestia asta
+
+nu pot fi un personaj celebru din carte => restrictioneaza player ul prea mult
+
+
+core gameplay d&d:
+    - rolling dice is enjoyable
+
+conceptul de viata vine din conceptul de fise 
+
+wow si a schimbat paradigma - team oriented => colaborezi cu strangers 
+design ul construieste jucatorii
+jucatori informeaza design ul
+
+
+in jurul jocului, se construiesc comunitati.
+
+--- understand ur players ---- 
+
+
+total war : conduc o tara militar si economic
+                - sunt 2 jocuri acolo
+                - a inceput cu o premisa ft atractiva: japanese samurai
+                - core gamplay: un oras care sa faca bani, orasele construiesc armate, armatele stapanesc orase
+                - puteai alege sa participi sa conduci luptele, aspectul tactic.
+                - primul joc in care se lupt grupe de soldati
+
+radius - ultimum General
+
+
+
+
+chess:
+
+
+-aspectele psihologice pe care le impunem in jocurile noastre
+-paradigmele jocurilor
+
+the house always wins - fallout las vegas
+
+
+
+heroes:
+
+    -posta electronica
+    - premisa tacttica slaba
+    - strategic bun
+    - 
+
+starting from a good core gameplay, the story enchances it (a good song, good graphics)
+
+death stranding - good story (if u have kids)
+
+-future labs: how do u build a dramatic act?
+
+orice obiectiv trb ajuns in urma rezolvarii unui conflict, face parte din rasplata jucatorului
+
+**working the problem
+divide & impera
+
+
+niste povesti anterioare care au fost deja spuse - ne putem baza pe ele
+
+ex de design:
+    extend a game to add x.
+
+dungeons & dragons has some orgins in 19th century
+
+ciobaca - no three (google play)
+
+
+

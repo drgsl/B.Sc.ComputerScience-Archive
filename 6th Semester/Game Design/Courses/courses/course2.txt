@@ -1,0 +1,101 @@
+de ce ne jucam jocuri
+ - gameplay
+...
+
+cum vrea sa joace jucatorul
+cooperativ / solo ?
+scurte / oricat de lungi?
+obiective clare / stabilite de el?
+
+cum construim jocul?
+    1. teste        - prototyping - 
+                dezvoltare iterativa
+                stabilim core-ul
+    2. aspecte:
+        Formal elements - define the structure of a game
+            players, objectives, procedures, rules, resources 
+        dramatic ststems: story
+        system dynamics
+
+
+1. Formal elements
+
+1.1 players
+    caati jucatori
+    care este natura jucatorilor
+    cooperativ / adversarial
+    exista un invingator / nu ?
+    *rolul fiecarui jucator
+    -> cooperative / single / multiplayer + pvp / pve
+
+    jucatorii joaca pt core gamplay dar trb sa vada ca acel core gampplay duce undeva
+
+    odata ce am stabilit un obiectiv, pierdem niste posibili jucatori
+    orice raspuns, reduce potentialii jucatori
+    toate obiectivele pot fi atinse: mai greu / mai usor dar toate posibile
+
+    eroare a design ului: sa ajungi pe un drum care nu duce nimanui
+
+
+
+    Types of objectives:
+        -capture = chess
+        -chase = catch/evade opponent
+        -race = reach a goal before other ppl
+        -alignment = arrange pieces in a certain pattern
+        -rescue / escape = getr a defined unit or piece to safety (XCOM)
+        -Forbidden act = get the opponent to break the rules (Twister)
+        - Building = build/mentain structures (Cities:Skylines)
+        - Exploration:Explore the game area (Read dead redemption)
+        -Solution: Solve a puzzle / problem
+        - Outwit = gain/use knowledge to defeat opponents (Diplomacy)
+
+        nu exista jocuri pure, care sa aiba un singur tip de obiectiv ? 
+        cuantificati printr o formula dungeons & dragons
+
+1.2 Procedures: 
+    -pc gaming is uncomfortable
+    de definit modul de interactiune a jocului cu mediul pe care va fi rulat
+    de definit numarul de actiuni - starcraft iti trb minim 100clicks/min pt a fi competitiv
+
+1.3 Rules:
+    - ce pot sa fac si ce nu pot sa fac
+    - cum pot interactiona cu obiectele si in ce fel
+    - poti sa faci orice.. dar e ok sa faci orice?
+
+1.4 Resources:
+    - a resource is o componenta din joc care e utila si are nevoie de efort
+    ca sa o obtin
+    - aur, gold, viata, sanatate, items, nr de potiuni, timp - chess, 
+    succesiunea jucatorilor - hearthstone (jucatorul care nu joaca primul
+    primeste 2 chestii: o carte + coin ul ala), geografia hartii
+    - economia de actiuni - dungeons & dragons
+    - un mod de a califica resursele : numele de slot uri
+
+1.5 Conflict:
+    intre player si obiectiv
+    -death stranding conflictul este mersul intre a si b
+    - shadow of mordor: conflict is killing orcs & also the core gamplay
+    - calibram nivelul conflictului
+    sources of conflict:
+        - opponents: NPCS, players
+        - Dilemmas:
+            -> Raise/Fold in poker
+            -> Choose an NPC in a quest
+        - Obtacles:
+            -> {physical, such as platforms in a platformer}
+            -> mental, such as puzzles
+        *ethics
+    Boundaries:
+        - care e spatiul de joc si care e spatiul din afara jocului
+
+1.6 Outcome:
+    Desired end state for a game:
+        - okaw, u win / u lose
+        - in minecraft, jucatorul este indemnat sa si gaseasca singur obiectivele
+        - jucatorul stie cel mai bine ce vrea sa faca
+        - iti resping realitatea, si imi creez propira realitate (Speedrunners)
+        matris wife memes(?)
+        - jocuri bune = care imit compartament imergent
+
+*Books

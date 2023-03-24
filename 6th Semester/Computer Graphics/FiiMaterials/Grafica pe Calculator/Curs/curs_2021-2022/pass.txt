@@ -1,0 +1,3 @@
+Credentiale:
+username = gpc2009
+password = pentrustudenti
