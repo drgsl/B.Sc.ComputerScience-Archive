@@ -30,4 +30,4 @@ For more information about the principles behind the GPL, please see [The Founda
 
 ## 🤝 Contact
 
-If you have any questions about this repository or would like to get in touch with Dragos A. Bobu, feel free to reach out to his [email](mailto:bobudragos0@gmail.com?subject=[GitHub]%BSc%20Interest) or [website](https://bobudragos.github.io/).
+If you have any questions about this repository or would like to get in touch with Dragos A. Bobu, feel free to reach out to his [email](mailto:bobudragos0@gmail.com?subject=[GitHub]BSc%20Interest) or [website](https://bobudragos.github.io/).
