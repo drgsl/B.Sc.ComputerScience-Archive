@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1607528733 source:c:\users\drago\desktop\fii\ip\electron test\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<cstring>
+	<graphics.h>
+	<winbgim.h>
+
+1607606756 source:c:\users\drago\desktop\fii\ip\electron test\mycode.cpp
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	<graphics.h>
+	<winbgim.h>
+
+1607955201 source:c:\users\drago\documents\c++\fii\ip\electron test\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<cstring>
+	<graphics.h>
+	<winbgim.h>
+

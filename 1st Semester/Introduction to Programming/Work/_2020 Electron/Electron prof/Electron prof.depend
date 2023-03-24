@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1610715417 source:c:\users\drago\documents\c++\fii\ip\electron prof\main.cpp
+	<stdio.h>
+	<string.h>
+	<winbgim.h>
+	<iostream>
+	<time.h>
+
+1608099587 source:c:\users\drago\documents\c++\fii\ip\electron prof\newcode.cpp
+	<stdio.h>
+	<string.h>
+	<winbgim.h>
+	<iostream>
+
+1610837463 source:c:\users\drago\documents\c++\fii\ip\electron prof\unitedcode.cpp
+	<time.h>
+	<iostream>
+	<winbgim.h>
+	<graphics.h>
+	<string.h>
+

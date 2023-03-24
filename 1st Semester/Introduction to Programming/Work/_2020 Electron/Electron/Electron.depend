@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1607954478 source:c:\users\drago\documents\c++\fii\ip\electron\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<graphics.h>
+	<winbgim.h>
+	<string>
+	<iostream>
+
+1607953512 source:c:\users\drago\documents\c++\fii\ip\electron\mousemovetest.cpp
+	<iostream>
+	<graphics.h>
+	<winbgim.h>
+	<math.h>
+
+1607954478 source:f:\!_ programming languages\_ c++\_2020 fii\ip\_2020 electron\electron\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<graphics.h>
+	<winbgim.h>
+	<string>
+	<iostream>
+

@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1604489712 source:c:\users\drago\documents\c++\facultate\ip\supershapes 2d\main.cpp
+	<iostream>
+	<graphics.h>
+	<winbgim.h>
+	<math.h>
+
+1604489712 source:f:\!_ programming languages\_ c++\_2020 fii\ip\_2020 graphics\supershapes 2d\main.cpp
+	<iostream>
+	<graphics.h>
+	<winbgim.h>
+	<math.h>
+

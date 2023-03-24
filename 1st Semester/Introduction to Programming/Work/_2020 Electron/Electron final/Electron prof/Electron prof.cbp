@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Electron prof" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Electron prof" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Electron prof" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="AMPLOP.PS" />
+		<Unit filename="BATERIE.PS" />
+		<Unit filename="CONDENS.PS" />
+		<Unit filename="DIODA.PS" />
+		<Unit filename="NOD.PS" />
+		<Unit filename="POLARIZ.PS" />
+		<Unit filename="REZIST.PS" />
+		<Unit filename="SERVOMOT.PS" />
+		<Unit filename="SINU.PS" />
+		<Unit filename="STOP.PS" />
+		<Unit filename="TRANZNPN.PS" />
+		<Unit filename="TRANZPNP.PS" />
+		<Unit filename="ZENNER.PS" />
+		<Unit filename="unitedCode.cpp" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,9 @@
+BATERIE.txt
+DIODA.txt
+amplop.txt
+CONDENS.txt
+POLARIZ.txt
+REZIST.txt
+TRANZNPN.txt
+TRANZPNP.txt
+ZENNER.txt

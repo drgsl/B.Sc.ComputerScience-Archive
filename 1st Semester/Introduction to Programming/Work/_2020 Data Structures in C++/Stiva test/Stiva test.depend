@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1605743386 source:c:\users\drago\desktop\fii\ip\stiva test\main.cpp
+	<iostream>
+	<stdlib.h>
+	<time.h>
+

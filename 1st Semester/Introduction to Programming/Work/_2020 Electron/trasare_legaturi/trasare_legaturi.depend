@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1608201103 source:c:\users\drago\documents\c++\codeschool\trasare_legaturi\main.cpp
+	<iostream>
+	<winbgim.h>
+	<stdlib.h>
+	<time.h>
+

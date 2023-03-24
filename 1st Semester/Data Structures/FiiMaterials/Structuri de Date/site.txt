@@ -1,0 +1,4 @@
+https://profs.info.uaic.ro/~sd/
+
+user: sd
+pass: sd20192020

@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1604439876 source:c:\users\drago\documents\c++\facultate\ip\winbgim tests\main.cpp
+	<iostream>
+	<graphics.h>
+	<winbgim.h>
+	<math.h>
+

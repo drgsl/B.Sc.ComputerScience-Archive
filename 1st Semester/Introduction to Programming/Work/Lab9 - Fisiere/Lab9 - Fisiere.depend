@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1606878068 source:c:\users\drago\desktop\fii\ip\lab9 - fisiere\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<cstring>
+
+1606905456 source:c:\users\drago\documents\c++\fii\ip\lab9 - fisiere\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<cstring>
+

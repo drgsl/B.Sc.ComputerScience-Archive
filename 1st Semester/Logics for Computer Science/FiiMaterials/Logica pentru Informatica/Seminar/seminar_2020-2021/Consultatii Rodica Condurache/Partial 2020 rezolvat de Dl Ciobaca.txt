@@ -1,0 +1,242 @@
+Q1.
+
+"daca am promovat la Logica, atunci am invatat, dar eu nu am invatat."
+
+Identificam propozitiile atomice:
+
+- am promovat la Logica.
+- am invatat.
+
+Asociem fiecarei propozitii atomice o variabila propozitionala:
+
+- am promovat la Logica (p).
+- am invatat (q).
+
+Identificam conectorii logici: "daca-atunci" (implicatie), "dar" (si) si "nu" (negatie).
+
+Frazei ii asociem ((p -> q) /\ ¬ q).
+
+
+
+
+Q2. Oricum am alege o formula ϕ ∈ LP, formula ϕ este nesatisfiabila
+ddaca ϕ ≡ (ϕ ∧ ¬ ϕ).
+
+                               Ce gandim:
+                               ———————————————————//
+                               pt orice ϕ, ϕ este nesat. ddaca ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+Ce scriem:
+Fie ϕ o formula oarecare.
+
+                               Ce gandim:
+                               ϕ ∈ LP
+                               ———————————————————//
+                               ϕ este nesat. ddaca ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+Ce scriem:
+Aratam fiecare directie in parte.
+1. daca ϕ este nesat. atunci ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+                               Ce gandim:
+                               ϕ ∈ LP
+                               ———————————————————//
+                               daca ϕ este nesat. atunci ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+Ce scriem: (cateodata sarim pasul fiindca pare "trivial")
+Presupunem ca ϕ este nesat. si aratam ϕ ≡ (ϕ ∧ ¬ ϕ).
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               ϕ este nesat.
+                               ———————————————————//
+                               ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+Ce scriem:
+GRESIT: ϕ este nesat. ddaca τ^(ϕ) = 0 (nu are sens).
+
+CORECT: ϕ este nesat. ddaca pt. orice τ, τ^(ϕ) = 0.
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               pt orice τ, τ^(ϕ) = 0
+                               ———————————————————//
+                               ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+Ce scriem:
+ϕ ≡ (ϕ ∧ ¬ ϕ) ddaca, prin def., pt. orice τ, τ^(ϕ) = τ^(ϕ ∧ ¬ϕ).
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               pt orice τ, τ^(ϕ) = 0
+                               ———————————————————//
+                               pt. orice τ, τ^(ϕ) = τ^(ϕ ∧ ¬ϕ).
+
+Ce scriem:
+Fie τ : A -> B o atribuire oarecare.
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               pt orice atribure τ₁, τ₁^(ϕ) = 0   (*)
+                               τ : A -> B
+                               ———————————————————//
+                               τ^(ϕ) = τ^(ϕ ∧ ¬ϕ).
+
+Ce scriem:
+
+Din (*), stiu τ^(ϕ) = 0.
+                               _____
+Calculez τ^(ϕ ∧ ¬ ϕ) = τ^(ϕ) · τ^(ϕ) = 0 · 1 (sau 1 · 0) = 0.
+
+Asadar, τ^(ϕ) = 0 = τ^(ϕ ∧ ¬ ϕ).
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               pt orice atribure τ₁, τ₁^(ϕ) = 0   (*)
+                               τ : A -> B
+                               ———————————————————//
+                               τ^(ϕ) = 0 = τ^(ϕ ∧ ¬ ϕ)
+
+Ce scriu:
+Cum τ a fost ales arbitrar, τ^(ϕ) = 0 = τ^(ϕ ∧ ¬ ϕ) pentru atribuire τ.
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               pt orice atribure τ₁, τ₁^(ϕ) = 0   (*)
+                               ———————————————————//
+                               pentru orice τ: τ^(ϕ) = 0 = τ^(ϕ ∧ ¬ ϕ)
+
+Ce scriu:
+Asadar ϕ ≡ (ϕ ∧ ¬ ϕ).
+
+
+                               Ce gandim:  
+                               ϕ ∈ LP
+                               pt orice atribure τ₁, τ₁^(ϕ) = 0   (*)
+                               ———————————————————//
+                               ϕ ≡ (ϕ ∧ ¬ ϕ)
+
+Ce scriu:
+2. daca ϕ ≡ (ϕ ∧ ¬ ϕ), atunci ϕ este nesat.
+
+                               Ce gandim:
+                               ϕ ∈ LP
+                               ———————————————————//
+                               daca ϕ ≡ (ϕ ∧ ¬ ϕ), atunci ϕ este nesat. 
+
+Ce scriu:
+Presupun ϕ ≡ (ϕ ∧ ¬ ϕ) si arat ϕ este nesat..
+
+                               Ce gandim:
+                               ϕ ∈ LP
+                               ϕ ≡ (ϕ ∧ ¬ ϕ)
+                               ———————————————————//
+                               ϕ este nesat. 
+
+Ce scriu:
+...
+
+
+
+
+
+Ce scriem:
+Fie ϕ o formula oarecare.
+Aratam fiecare directie in parte.
+1. daca ϕ este nesat. atunci ϕ ≡ (ϕ ∧ ¬ ϕ)
+   Presupunem ca ϕ este nesat. si aratam ϕ ≡ (ϕ ∧ ¬ ϕ).
+   CORECT: ϕ este nesat. ddaca pt. orice τ, τ^(ϕ) = 0.
+   ϕ ≡ (ϕ ∧ ¬ ϕ) ddaca, prin def., pt. orice τ, τ^(ϕ) = τ^(ϕ ∧ ¬ϕ) (*).
+   Fie τ : A -> B o atribuire oarecare.
+   Din (*), stiu τ^(ϕ) = 0.
+   Calculez τ^(ϕ ∧ ¬ ϕ) = τ^(ϕ) · τ^(ϕ) = 0 · 1 (sau 1 · 0) = 0.
+   Asadar, τ^(ϕ) = 0 = τ^(ϕ ∧ ¬ ϕ).
+   Cum τ a fost ales arbitrar, τ^(ϕ) = 0 = τ^(ϕ ∧ ¬ ϕ) pentru atribuire τ.
+   Asadar ϕ ≡ (ϕ ∧ ¬ ϕ).
+
+2. daca ϕ ≡ (ϕ ∧ ¬ ϕ), atunci ϕ este nesat.
+   Presupun ϕ ≡ (ϕ ∧ ¬ ϕ) si arat ϕ este nesat..
+   ...
+
+
+                                                          ____
+GRESEALA FRECVENTA: τ^(ϕ ∧ ¬ ϕ) = τ^(ϕ) · τ^(¬ϕ) = τ(ϕ) · τ(ϕ)
+τ : A -> B
+τ^ : LP -> B
+
+
+
+Q3. Aratati ca (p₁ -> (p₁ ∨ p₁)) este valida, folosind alg. lui Tseitin si rez.
+
+GRESIT: (p₁ -> (p₁ ∨ p₁)) este valida, folosind alg. lui Tseitin si rez.
+
+GRESIT: (p₁ -> (p₁ ∨ p₁)) ≡ ¬ p₁ ∨ (p₁ ∨ p1) ≡ ...
+
+
+(p₁ -> (p₁ ∨ p₁)) este valida ddaca ¬ (p₁ -> (p₁ ∨ p₁)) este nesatisfiabila.
+
+Notez ϕ = (p₁ -> (p₁ ∨ p₁)).
+
+Calculam o FNC a ¬ (p₁ -> (p₁ ∨ p₁)) folosind Tseitin.
+
+Pas 1. Calculam arborele formulei.
+Pas 2. Asociem fiecarui nod intern o variabila propozitionala noua, iar frunzelor le asociem chiar v.p. din frunza respective.
+
+¬ (p₁ -> (p₁ ∨ p₁))      p          (N1)
+  (p₁ -> (p₁ ∨ p₁))      q          (N2)
+                 p₁      p₁
+          (p₁ ∨ p₁)      r          (N3)
+                 p₁      p₁
+                 p₁      p₁
+                 
+Pas 3. Pentru fiecare nod intern, adaugam clauzele date de algoritm.
+N1: (p ∨ q) ∧ (¬ p ∨ ¬ q)
+N2: (p₁ ∨ q) ∧ (¬ r ∨ q) ∧ (¬ p₁ ∨ ¬ q ∨ r)
+N3: (¬ p1 ∨ r) ∧ (¬ p1 ∨ r) ∧ (¬ r ∨ p₁ ∨ p₁)
+
+Pas 4. Adaugam o clauze cu nodul radacina:
+p.
+
+Asadar, ϕ' = (p ∨ q) ∧ (¬ p ∨ ¬ q) ∧
+(p₁ ∨ q) ∧ (¬ r ∨ q) ∧ (¬ p₁ ∨ ¬ q ∨ r) ∧
+(¬ p1 ∨ r) ∧ (¬ p1 ∨ r) ∧ (¬ r ∨ p₁ ∨ p₁) ∧
+p o FNC pentru ¬ϕ.
+
+Gasim o demonstratie prin rezolutie pentru □ pornind de la clauzele lui ϕ':
+
+1. { p } (premisa)
+2. { ¬ p ∨ ¬ q } (premisa)
+3. { ¬ q } (R.B., 1, 2, a = p)
+4. { p₁, q} (premisa)
+5. { p₁ } (R.B., 4, 3, a = q)
+6. { ¬ p1, r} (premisa)
+7. { r } (R.B., 5, 6, a = p₁)
+8. { ¬ r, q } (premisa)
+9. { q } (R.B., 7, 8, a = r)
+10. □ (R.B., 9, 3, a = q)
+
+Asadar, ϕ' este nesatisfiabila. Dar, din alg. Tseitin, ϕ' e
+echisatisfiabila cu ¬ ϕ. Asadar, ¬ ϕ e nesat. Asadar, ϕ este valida (q.e.d.)
+
+
+
+
+
+
+
+
+Q4. Dati o demo. formala pentru { (p → q), (q → r) } ⊢ (¬ r → ¬ p) fara sa folositi reguli derivate (M.T.).
+
+
+Iata demontratia formala:
+
+ 1. { (p → q), (q → r), ¬ r, p } ⊢ p       (ipoteza)
+ 2. { (p → q), (q → r), ¬ r, p } ⊢ (p → q) (ipoteza)    
+ 3. { (p → q), (q → r), ¬ r, p } ⊢ q       (→e, 2, 1)
+ 4. { (p → q), (q → r), ¬ r, p } ⊢ (q → r) (ipoteza)
+ 5. { (p → q), (q → r), ¬ r, p } ⊢ r       (→e, 4, 3)
+ 6. { (p → q), (q → r), ¬ r, p } ⊢ ¬ r     (ipoteza)
+ 7. { (p → q), (q → r), ¬ r, p } ⊢ ⊥       (¬e, 6, 5)
+ 8. { (p → q), (q → r), ¬ r } ⊢ ¬ p        (¬i, 7)
+ 9. { (p → q), (q → r) } ⊢ (¬ r → ¬ p)     (→i, 8)
+

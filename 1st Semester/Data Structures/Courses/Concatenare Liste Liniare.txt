@@ -1,0 +1,32 @@
+struct nod {
+	Elt inf
+	nod * succ
+}
+
+struct Llin {
+	nod * prim
+	nod * ultim
+}
+
+function concatenare(LLin L1, LLin L2)
+begin
+
+if(L1.prim == NULL) then return L1;
+
+p1 <- L1.prim ; p2 <- L2.prim ; 
+
+while(p1 != NULL) do {
+	q1 <- p1->succ;
+	q2 <- p2->succ;
+
+	p1->succ <- p2;
+	p2->succ <- q1;
+
+	p1 <- q1;
+	p2 <- q2;
+}
+
+L1.ultim <- L2.ultim;
+
+return L1;
+end

@@ -1,0 +1,45 @@
+#include <iostream>
+#include <graphics.h>
+#include <winbgim.h>
+
+#include <math.h>
+
+using namespace std;
+
+int x = 100, y = 200;
+
+int r = 10;
+
+int main()
+{
+
+    initwindow(800, 600);
+
+    circle(x, y, r);
+    cout << x << y;
+    while(true)
+    {
+
+        if((mousex() >= x-r && mousex() <= x+r) && (mousey() >= y-r && mousey() <= y+r))
+        {
+            cout<<"in circle " << mousex() << " " << mousey() <<'\n';
+            while(ismouseclick(WM_LBUTTONDOWN))
+            {
+                swapbuffers();
+                cleardevice();
+                cout << "mouseClicked";
+                x = mousex();
+                y= mousey();
+                circle(x, y, r);
+                if(ismouseclick(WM_LBUTTONUP))
+                {
+                    clearmouseclick(WM_LBUTTONDOWN);
+                    clearmouseclick(WM_LBUTTONUP);
+                }
+            }
+        }
+    }
+    getch();
+    return 0;
+}
+

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="Debug" />
+	<File name="ZENNER.PS" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="249" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="AMPLOP.PS" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="58" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="BATERIE.PS" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="33" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="POLARIZ.PS" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="50" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="REZIST.PS" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="45" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="TRANZPNP.PS" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="50" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="TRANZNPN.PS" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="49" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="DIODA.PS" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="35" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="SINU.PS" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="51" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="SERVOMOT.PS" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="40" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="NOD.PS" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="STOP.PS" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="16" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="CONDENS.PS" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="39" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="unitedCode.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="34383" topLine="706" />
+		</Cursor>
+		<Folding>
+			<Collapse line="31" />
+			<Collapse line="37" />
+			<Collapse line="44" />
+			<Collapse line="59" />
+			<Collapse line="65" />
+			<Collapse line="74" />
+			<Collapse line="83" />
+			<Collapse line="102" />
+			<Collapse line="103" />
+			<Collapse line="112" />
+			<Collapse line="282" />
+			<Collapse line="290" />
+			<Collapse line="322" />
+			<Collapse line="329" />
+			<Collapse line="409" />
+			<Collapse line="416" />
+			<Collapse line="454" />
+			<Collapse line="475" />
+			<Collapse line="508" />
+			<Collapse line="522" />
+			<Collapse line="530" />
+			<Collapse line="535" />
+			<Collapse line="537" />
+			<Collapse line="543" />
+			<Collapse line="545" />
+			<Collapse line="550" />
+			<Collapse line="552" />
+			<Collapse line="569" />
+			<Collapse line="576" />
+			<Collapse line="582" />
+			<Collapse line="584" />
+			<Collapse line="589" />
+			<Collapse line="591" />
+			<Collapse line="635" />
+			<Collapse line="642" />
+			<Collapse line="644" />
+			<Collapse line="674" />
+			<Collapse line="708" />
+			<Collapse line="714" />
+			<Collapse line="748" />
+			<Collapse line="750" />
+			<Collapse line="757" />
+			<Collapse line="759" />
+			<Collapse line="805" />
+			<Collapse line="831" />
+			<Collapse line="835" />
+			<Collapse line="842" />
+			<Collapse line="848" />
+			<Collapse line="858" />
+			<Collapse line="862" />
+			<Collapse line="880" />
+			<Collapse line="890" />
+			<Collapse line="908" />
+			<Collapse line="919" />
+			<Collapse line="922" />
+			<Collapse line="935" />
+			<Collapse line="945" />
+			<Collapse line="961" />
+			<Collapse line="1040" />
+			<Collapse line="1046" />
+			<Collapse line="1062" />
+			<Collapse line="1090" />
+			<Collapse line="1099" />
+			<Collapse line="1106" />
+			<Collapse line="1119" />
+			<Collapse line="1125" />
+			<Collapse line="1140" />
+			<Collapse line="1147" />
+			<Collapse line="1151" />
+			<Collapse line="1162" />
+			<Collapse line="1164" />
+		</Folding>
+	</File>
+</CodeBlocks_layout_file>

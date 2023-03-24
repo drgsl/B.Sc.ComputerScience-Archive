@@ -1,0 +1,21 @@
+function buildTree(n,sir[])
+begin
+if n==0 then return NULL
+else
+    s<-stivaVida()
+    for i<-0 to n-1 do
+      {
+      if sir[i]>= 'A' and sir[i]<='Z' then
+       {new (p); p->inf <-sir[i]; p->stg <-NULL; p->drp <-NULL;
+       push(s,p)}
+      if sir[i]=='$' then
+        push(s,NULL)
+      if sir[i]==')' then
+       {dr<-top(s); pop(s)
+       st<-top(s); pop(s)
+       r<-top(s);
+       r->stg <-st
+       r->drp <-dr}
+}
+    return top(s)           
+end

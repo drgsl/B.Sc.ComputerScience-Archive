@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1603210607 source:c:\users\drago\documents\c++\facultate\ip\s3\main.cpp
+	<iostream>
+	<cstring>
+

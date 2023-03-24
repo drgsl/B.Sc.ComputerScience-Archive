@@ -1,0 +1,13 @@
+function buildTree(n, sir[])
+begin
+for i <- 0 to nMax-1 do t[i] <- '$'
+i <- 0
+for j <- 0 to n-1 do {
+if sir[j]>='A' and sir[j]<='Z' then t[i] <- sir[j]
+if sir[j] == '(' then i <- 2*i + 1
+if sir[j] == ',' then i <- i + 1 
+if sir[j] == ')' then i <- (i-1)/2
+}
+return t
+
+end
