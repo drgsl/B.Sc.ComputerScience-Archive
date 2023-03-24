@@ -1,0 +1,407 @@
+<html lang="en">
+<head>
+  <title>OS course -- Laboratory #1</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h2><font color="blue">Laboratory #1 :</font> training exercises</h2>
+
+<b>Summary:</b>
+<h4>I) <a href="lab1_en.html#sec_1">Exercises with basic commands (1st part)</a></h4>
+<h5><a href="lab1_en.html#sec_1a">Solved exercises</a></h5>
+<h5><a href="lab1_en.html#sec_1b">Exercises given for solving</a></h5>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exercises with basic commands (1st part):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Solved exercises:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab1_ex0.1-new ---------------------------------------------------------------------------------------->
+<p><big>[basic operations on files #1]</big>
+<br>
+<ol>
+  <li><b>Examples of creating different types of files</b>.
+   Type the commands that create the following:
+   <ul>
+    <li>i) a subdirectory named d1, in your home directory; two subdirectories d2 and d3, in d1 previously created; a d4 subdirectory, in d2 previously created.</li>
+    <li>ii) several regular files, such as: p1.c and p2.c, in the previously created subdirectory d1; p3.c and p4.cpp, in the previously created subdirectory d2; p5.c and p6.h, in the previously created subdirectory d4.</li>
+    <li>iii) using any of the text editors mentioned in the lesson, create a regular file named 15lines.txt, in the previously created subdirectory d1, whose contents will be the sequence of numbers from 1 to 15, each written separately, on a line of text.</li>
+    <li>iv) in the previously created d2 subdirectory, create a hard link, called hardlnk1, to the previously created 15lines.txt file, as well as a symbolic link, called symlnk2, to the same file.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-1a')">Show / Hide some possible solutions</button>
+
+<pre id="lab1_ex0-1a" style="display:none;" class="stil_solutie">
+<b>i)</b> A possible solution would be the following command - notice the repeated change of the current working directory:
+cd
+mkdir d1
+cd d1
+mkdir d2 d3
+cd d2
+mkdir d4
+cd
+ls -R d1  # to view the result of the creation operations
+
+Another possible solution - without repeatedly changing the current working directory:
+cd
+mkdir d1 d1/d2 d1/d3 d1/d2/d4
+ls -R d1/  # to view the result of the creation operations
+
+Another possible solution - notice the use of the -p option of the mkdir command:
+
+cd
+mkdir -p d1/d3
+mkdir --parents d1/d2/d4
+ls -R d1  # to view the result of the creation operations
+
+<b>ii)</b> A possible solution would be the following command sequence:
+cd
+touch d1/p1.c d1/p2.c d1/d2/p3.c d1/d2/p4.cpp d1/d2/d4/p5.c d1/d2/d4/p6.h
+ls -lR d1/  # to view the result of the creation operations
+
+Another possible solution is with the repeated change of the current working director, similar as above. Try to write it yourself!
+
+<b>iii)</b> A possible solution would be (instead of mcedit you can use any other text editor):
+cd
+mcedit d1/15lines.txt
+#Note: in the editor window that appears on the screen, enter the specified sequence of numbers and then save (F2) and exit the editor (F10).
+cat d1/15lines.txt # to view the result
+
+<b>iv)</b> A possible solution would be:
+cd
+ln d1/15lines.txt d1/d2/hardlnk1
+ln -s ../15lines.txt d1/d2/symlnk2
+  # Remark: Note that in the case of symbolic links, the relative path of the target must be specified relative to the directory where that symbolic link will be created!
+ls -lR d1  # to view the result
+  # Note: now we can refer to the 15lines.txt file by any of its 3 names (aliases), for example:
+cat d1/15lines.txt
+cat d1/d2/hardlnk1
+cat d1/d2/symlnk2
+</pre>
+<br><br>
+
+  <li><b>Examples of copying, moving and deleting different types of files</b>.
+   Type the commands that perform the following file operations:
+   <ul>
+    <li>i) copy the previously created d4 subdirectory to the previously created d3 subdirectory; copy the previously created p4.cpp file to the previously created d3 subdirectory so that the created copy is called p4bis.cpp.</li>
+    <li>ii) move the file d1/d3/p4bis.cpp, created in the previous step, to the subdirectory d1/d3/d4, keeping its name unchanged;
+        	rename the file d1/d3/d4/p5.c, created in the previous step, in p5.cpp, without changing its location (i.e., the directory where it is located);
+			move the file d1/d3/d4/p6.h, created in the previous step, to the subdirectory d1/d2, changing its name to p6bis.h.</li>
+    <li>iii) delete the previously created d1/d3/d4 subdirector, including all its contents.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-1b')">Show / Hide some possible solutions</button>
+
+<pre id="lab1_ex0-1b" style="display:none;" class="stil_solutie">
+<b>i)</b> A possible solution would be:
+cd
+cp -R d1/d2/d4 d1/d3                 # -R: recursive copying, i.e. with all the contents of that directory
+cp -i d1/d2/p4.cpp d1/d3/p4bis.cpp   # -i: requires confirmation in case of overwriting
+ls -lR d1/  # to view the result of the copy operations
+
+<b>ii)</b> A possible solution would be:
+cd
+mv -i d1/d3/p4bis.cpp d1/d3/d4/      # -i: requires confirmation in case of overwriting
+mv -i d1/d3/d4/p5.c d1/d3/d4/p5.cpp
+mv -i d1/d3/d4/p6.h d1/d2/p6bis.h
+ls -lR d1/  # to view the result of the move/rename operations
+
+<b>iii)</b> A first solution would be:
+cd
+rmdir d1/d3/d4
+  # Note: the rmdir command will error, saying that the directory is not empty.
+ls -R d1/d3/d4   # we look at what files it contains, and we delete them first...
+rm d1/d3/d4/p5.cpp
+rm d1/d3/d4/...  # repeat this step for the other files that may still exist in that directory!
+rmdir d1/d3/d4   # after we clear the directory, we can delete it with rmdir.
+
+Another possible solution is using recursive deletion:
+cd
+rm -R -i d1/d3/d4/  # -R: recursive deletion, -i: requires confirmation for each file to be deleted
+</pre>
+</ol>
+</p>
+
+
+<li><!-- Problema: lab1_ex0.2-new ---------------------------------------------------------------------------------------->
+<p><big>[basic operations on files #2]</big>
+<br>
+<ol>
+  <li><b>Examples of viewing the contents of text files with various commands</b>.
+   Type the commands that perform the following file operations:
+   <ul>
+    <li>i) view the contents of the previously created d1/15lines.txt file, displayed in the natural order of the text lines and in the reverse order, respectively.</li>
+    <li>ii) view the file <tt>/etc/passwd</tt>, which contains information about the user accounts on the system you are working on,
+		so that the displayed view is paused "when passing from one screen to another"; repeat this operation, with the possibility of "navigating" in both directions.</li>
+	<li>iii) similarly, study the information about the user groups on the system you are working on, by looking at the file <tt>/etc/group</tt>.</li>
+    <li>iv) view the contents of the previously created d1/15lines.txt file, displaying only the first N lines, respectively the last N lines, where the N value is specified as the command argument.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-2a')">Show / Hide some possible solutions</button>
+
+<pre id="lab1_ex0-2a" style="display:none;" class="stil_solutie">
+<b>i)</b> A possible solution would be:
+cat d1/15lines.txt  # for the natural order of text lines in the file
+tac d1/15lines.txt  # for the reverse order
+
+Another solution:
+cat -n d1/15lines.txt   # the displayed text lines are preceded by the order number of each in the file
+
+<b>ii)</b> A possible solution would be:
+more /etc/passwd    # navigation, in one direction, is done by pressing the SPACE key to move to the next screen
+less /etc/passwd    # navigation in both directions is done by pressing either the up / down arrow keys (to move to the next line) or the PgUp / PgDn keys (to move to the next screen)
+
+<i>Remark</i>: the "database" about user accounts, i.e. the /etc/passwd file, contains text lines conforming to the following template:
+<big><i>username</i>:x:<i>User ID</i>:<i>Group ID</i> of the user's primary group:<i>user's personal data</i>:<i>home directory</i>:<i>login shell</i></big>
+
+<b>iii)</b> Similar to the previous point:
+more /etc/group    # navigation, in one direction, is done by pressing the SPACE key to move to the next screen
+less /etc/group    # navigation in both directions is done by pressing either the up / down arrow keys (to move to the next line) or the PgUp / PgDn keys (to move to the next screen)
+
+<i>Remark</i>: the "database" about user groups, i.e. the /etc/group file, contains text lines conforming to the following template:
+<big><i>groupname</i>:x:<i>Group ID</i>:a (posible null) <i>list of usernames</i>, thus describing the membership of the users in secondary groups</big>
+
+<b>iv)</b> A possible solution would be:
+head d1/15lines.txt        # displays the first 10 lines of text (N=10 in this case)
+head -n 5 d1/15lines.txt   # displays the first 5 lines of text
+head -n -5 d1/15lines.txt  # displays all lines (from the beginning of the file) except the last 5 lines of text
+
+tail d1/15lines.txt        # displays the last 10 lines of text (N=10 in this case), in natural order, not the inverted one as in the tac command!
+tail -n 5 d1/15lines.txt   # displays the last 5 lines of text, in natural order
+tail -n +5 d1/15lines.txt  # displays all lines, starting with the 5th line, in the natural order (basically, it displays the whole file, except the first 4 lines of text)
+</pre>
+<br><br>
+
+  <li><b>Examples of obtaining file information, with various commands</b>.
+   Enter the commands that provide us with the following file information:
+   <ul>
+    <li>i) find out what kind of content the following files have (without explicitly viewing their content with the commands exemplified above):<br>
+		<tt>/etc/passwd</tt> , <tt>/usr/bin/write</tt> , <tt>/usr/share/man/man1/write.1.gz</tt> , <tt>/usr/include/fcntl.h</tt> .</li>
+    <li>ii) view the metadata (i.e., properties) associated with the file <tt>/etc/passwd</tt>;
+		then display only the following metadata associated with it: permissions in symbolic notation, size in bytes, date of last modification and its name.</li>
+	<li>iii) similarly, study the metadata information associated with the file <tt>/etc/group</tt>.</li>
+	<li>iv) edit various metadata associated with the previously created <tt>d1/15lines.txt</tt> file.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-2b-a')">Show / Hide some possible solutions for i) -- iii)</button>
+
+<pre id="lab1_ex0-2b-a" style="display:none;" class="stil_solutie">
+<b>i)</b> One possible solution would be:
+file /etc/passwd
+file /usr/bin/write
+file /usr/share/man/man1/write.1.gz
+file /usr/include/fcntl.h
+file /etc	# the file command "recognizes" a directory too!
+
+<b>ii)</b> One possible solution would be:
+stat /etc/passwd
+stat -c "%A %s %y %n" /etc/passwd
+sau:
+stat --format="%A %s %y %n" /etc/passwd
+
+<b>iii)</b> One possible solution would be:
+stat /etc/group
+</pre>
+
+<button onclick="myToggle('lab1_ex0-2b-b')">Show / Hide some examples for iv)</button>
+
+<pre id="lab1_ex0-2b-b" style="display:none;" class="stil_explicatie">
+
+<b>iv)</b> First, let's look at the current value of the metadata associated with the d1/15lines.txt file, which we created earlier:
+cd
+stat d1/15lines.txt
+# A possible example of the result displayed by the stat command might be the following:
+#
+#   File: ‘d1/15lines.txt’
+#   Size: 35              Blocks: 8          IO Block: 4096   regular file
+# Device: fd05h/64773d    Inode: 12692988    Links: 2
+# Access: (0644/-rw-r--r--)  Uid: ( 1019/vidrascu)   Gid: (  503/   profs)
+# Access: 2020-02-21 13:14:54.414890033 +0200
+# Modify: 2020-02-21 13:12:38.780513539 +0200
+# Change: 2020-02-21 13:14:03.775005209 +0200
+#  Birth: -
+
+Some of these metadata cannot be modified directly, but only indirectly, for example:
+- if we add additional content to a file, or "delete" from it, then the Size field (i.e., file length in bytes) will be updated accordingly;
+- if we "move" the file to a directory that is stored on another disk, or at least a partition other than the disk / partition that stores the directory where the file was originally located,
+  then the Device and Inode fields will be updated accordingly.
+
+Another part of these metadata we can modify them as desired, using specific commands:
+
+- the File field (i.e., filename): we can change it using the mv command (see the examples above)
+- the Links field (i.e., the number of hard links that file has): we can modify it using the ln and rm commands (see the examples above)
+  For example, we execute the command:
+  cd
+  rm d1/d2/hardlnk1  # the previously created alias will be deleted, and the value of the Links field will decrease from 2 to 1.
+- the first Access field (i.e., file access permissions): we can modify it using the chmod command
+  Illustration:
+  cd
+  chmod ug+x d1/15lines.txt   # add (+) the right x for the owner (u) and for the groupmates of the owner (g). All other 9-2=7 permissions remain unchanged!
+  chmod o-r  d1/15lines.txt   # the right r for the rest of the world (o) is eliminated (-). All other 9-1=8 permissions remain unchanged!
+  chmod 741  d1/15lines.txt   # all 9 permissions are completely modified, according to the meaning of the octal notation 741 = rwx(u),r--(g),--x(o) !
+- the fields Uid (i.e., owner ID) and Gid (i.e., owner group ID): we can change them using the chown and chgrp commands
+- the second Access field (i.e., the <i>last access time</i> of that file) and the Modify field (i.e., the <i>last modify time</i> of that file): we can modify them using the touch command
+</pre>
+</ol>
+</p>
+
+
+<li><!-- Problema: lab1_ex1 ---------------------------------------------------------------------------------------------->
+<p><big>[cut #1]</big>
+<br>
+Write the command that displays the usernames and the UIDs of all the system users.
+<br>
+<small>(Hint: <span class="stil_hint">use the "cut" command and the information found in the file <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab1_ex1')">Show / Hide some possible solutions</button>
+
+<pre id="lab1_ex1" style="display:none;" class="stil_solutie">
+cut -f1,3 -d: /etc/passwd
+
+Other solution - remark the spaces between each option and its associated value:
+
+cut -f 1,3 -d : /etc/passwd
+
+Another solutions - remark the order of the options and the arguments:
+
+cut -f1,3 /etc/passwd -d:
+cut -d: /etc/passwd -f1,3
+cut /etc/passwd -d: -f1,3
+
+More solutions - remark the use of options specified by the long format instead of the short one:
+
+cut --fields=1,3 --delimiter=: /etc/passwd
+cut --fields 1,3 --delimiter : /etc/passwd
+
+Note: if using long format for specifing the options, the command will give error if you omit the spaces and/or the equal sign between the name of the option and its associated value:
+cut --fields1,3 --delimiter: /etc/passwd
+</pre>
+
+<button onclick="myToggle('lab1_ex1_obs')">Show / Hide a general remark about possible solutions</button>
+
+<p id="lab1_ex1_obs" style="display:none;" class="stil_explicatie">
+<big>Important remark:</big>
+<br>
+Such combinations for specifying the options and the arguments for commands can be made also for solving the exercises which follows below or in the next labs' sets of exercises,
+even if only one possible solution was given in the solved exercises which will follow...
+</p>
+</li>
+
+
+<li><!-- Problema: lab1_ex2 ---------------------------------------------------------------------------------------------->
+<p><big>[grep #1]</big>
+<br>Write the command that selects from the file <tt>/etc/passwd</tt> only the information about the user specified as argument at the command line.
+<br>
+<small>(Hint: <span class="stil_hint">Use the "grep" command.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab1_ex2')">Show / Hide the solution</button>
+
+<pre id="lab1_ex2" style="display:none;" class="stil_solutie">
+
+grep <i>numeuser</i> /etc/passwd
+</pre>
+</br></br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exercises given for solving:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab1_ex5new ---------------------------------------------------------------------------------------------->
+<p><big>[making new folders &amp; manipulating them]</big>
+<br>Write the commands which do the following operations with directories:
+<ul>
+  <li>i) it creates a subdirectory named "programs", in your home directory;</li>
+  <li>ii) it creates two subdirectories named "homework1" and "homework2", in the directory created at step i);</li>
+  <li>iii) it creates a subdirectory named "subhomeworkA", in the directory "homework2" created at step ii);</li>
+  <li>iv) it renames the directory created at step iii) with the new name "homework2-subhomeworkA".</li>
+</ul>
+<br>
+<small>(Hint: <span class="stil_hint">Use the "mkdir" and "mv" commands.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab1_ex6new ---------------------------------------------------------------------------------------------->
+<p><big>[making new regular files &amp; manipulating them]</big>
+<br>Write the commands which do the following operations with files:
+<ul>
+  <li>i) it creates three files named "program1.c", "program2.c" and "program2.h" in the directory ~/programs which you created during the previous exercise;</li>
+  <li>ii) it creates two files named "hw1-1.c" and "hw1-2.c", in the directory ~/programs/homework1 which you created during the previous exercise;</li>
+  <li>iii) it creates two files named "sub-hwA1.c" și "sub-hwA2.cpp", in the directory ~/programs/homework2/sub-homeworkA which you created during the previous exercise;</li>
+  <li>iv) it creates two aliases, in the directory ~/programs/homework2/homework2-subhomeworkA, as follows:
+      a hard link, named "hw2-sub-hwA1.c", for the file "sub-hwA1.c", and a simbolic link, named "hw2-subhwA2.cpp", for the file "sub-hwA2.cpp";</li>
+  <li>v) it makes a copy of the file ~/programs/homework1/hw1-1.c into the directory ~/programs/homework2/, and also renames the copy as "hw2-1.c";</li>
+  <li>vi) it moves the file ~/programs/homework1/hk1-2.c into the directory ~/programs/homework2/, and also it renames the file as "hw2-2.c";</li>
+  <li>vii) it deletes one of those two names of the file identified by the alternative names "sub-hwA1.c" or "hw2-sub-hwA1.c".</li>
+  
+</ul>  
+<br>
+<small>(Hint: <span class="stil_hint">Use the "touch", "ln", "rm", "cp" and "mv" commands.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab1_ex3 ---------------------------------------------------------------------------------------------->
+<p><big>[cut #2]</big>
+<br>Write the command that displays the group names and the GIDs for all user groups of the system.
+<br>
+<i>Supplementary</i>: replace ":" with " - " in the results displayed.
+<br>
+<small>(Hint: <span class="stil_hint">Use the "cut" command and the information found in the file <tt>/etc/group</tt> ;
+search for the option of the "cut" command used for replacing the delimiter.
+</span>)</small>
+</p>
+</li>
+
+<!--
+comment: as of Feb 2010, this cannot be solved - the info1 group was removed from /etc/group by sysadmin 
+<p>
+4. Sa se scrie comanda care afiseaza lista tuturor utilizatorilor care sunt membri ai grupului info1.
+<br>
+<small>(Indicatie: <span class="stil_hint">folositi comanda grep si informatiile din fisierul /etc/group.</span>)</small>
+</p>
+-->
+
+<li><!-- Problema: lab1_ex4 ---------------------------------------------------------------------------------------------->
+<p><big>[grep #2]</big>
+<br>Write the command that displays the information related to all users which are members of the studs group.
+<br>
+<small>(Hint: <span class="stil_hint">Use the "grep" command and the information found in the <tt>/etc/passwd</tt> file.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

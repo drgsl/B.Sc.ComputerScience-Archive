@@ -1,0 +1,47 @@
+/*
+Input: alfabet A cu m caractere
+Output: penultima apariție a lui x în a
+*/
+
+// algoritm
+PenultimaApartitie(a,m, x){
+  contor = 0;
+  for(int i = m; i>=0; i++){
+    if( a[i] == x)
+      contor++;
+    if(contor == 2)
+      return i;
+  }
+  return false;
+}
+
+/*
+Testarea cu interpreterul Alk:
+PenultimaApartitie("test",4, t);
+PenultimaApartitie("tests",5,  s);
+PenultimaApartitie("test",4,  e);
+
+0
+2
+false
+*/
+
+/*
+  Calculul timpului mediu: 
+  ========================
+  Dimensiunea instanței: m
+  
+  Operații analizate:  comparatii intre x si elementele tabloului
+
+  Tipul de cost pentru operații:
+
+  Definiția variabilei indicator Xi pentru comparatia dintre x si a[i]:
+  ....
+  Probabilitatea ca Xi să aibă valoarea diferită de zero:
+  ...
+  Exprimarea numărului de comparații ca variabilă aleatoare, utilizând Xi:
+  ...
+  Calculul numărului mediu de comparații:
+  ....
+
+*/

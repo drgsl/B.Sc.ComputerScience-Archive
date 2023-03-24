@@ -1,0 +1,20 @@
+* PLAN
+** Resurse, organizare, notare
+** Rezolvam exercitii
+** Tema (Fisiere: Nume_Prenume_exercitiul_7.alk)
+
+Problema: sa se proiecteze un algoritm care determina primele n numere prime pentru un n dat;
+
+Perechi: < input , output >
+
+Versiunea 1:
+Input: n 
+Output: primele n numere prime
+
+Versiunea 2:
+Input: n - numar natural
+Output: primele n numere x care satisfac conditia: prim(x) : forall i. (i > 2) /\ (i < x - 1) -> x % i =/= 0.
+
+Versiunea 3 (optimizare):
+Input: n - numar natural
+Output: primele n numere x care satisfac conditia: prim(x) : forall i. (i > 2) /\ (i < sqrt(x)) -> x % i =/= 0.

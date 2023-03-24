@@ -1,0 +1,40 @@
+/*
+  Input: perechi a,b, n
+  Output: a[i],a[i+1]
+*/
+
+// algoritm
+for(i=0;i<n-1;i++)
+    if(a[i]<a[i+2]||(a[i]=a[i+2]&&a[i+1]<=a[i+3]
+        {
+            aux1=a[i];
+            aux2=a[i+1];
+            a[i]=a[i+2];
+            a[i+1]=a[i+3]
+            a[i+2]=aux1;
+            a[i+3]=aux2;
+}
+ok=0
+while(ok==0)
+{    do
+        if(a[i] * a[i]==xa[i+1] * a[i+1])
+        ok++;
+        if(ok==1)
+        {
+          print(a[i]);
+          print(",");
+          print(a[i+1]);
+        i=n;
+        }
+        i++;
+    while(i<n-1)
+}
+/*
+Testarea cu interpreterul Alk:
+alki -a .\Bobu_Dragos_Partial_Perechi.alk -i -n " i |-> 0  n |-> 10"
+Argumentarea corectitudinii:
+Numerele sunt ordonate, precum spune cerinta, in forma unui array
+acestea fiind ordonate dupa cerinta, numerele se vor afla in ordinea perechilor
+crescatoare, astfel incat prima pereche care va indeplini cerinta
+va fi si cea mai mica 
+*/

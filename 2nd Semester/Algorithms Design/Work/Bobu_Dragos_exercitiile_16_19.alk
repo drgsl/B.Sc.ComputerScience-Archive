@@ -1,0 +1,104 @@
+
+/*
+Scrieti in Alk algoritmul cautarii binare, care rezolva urmatoarea problema:
+Input: a - numar intreg si x - un vector de numere intregi, ordonat crescator
+Output: o pozitie i pe care se gaseste a in x sau −1, daca nu se gaseste
+si testati algoritmul pe cateva exemple.
+*/
+
+binarySearch(x, l, r, a) 
+{ 
+    if (r >= l) { 
+        middle = l + (r - l) / 2; 
+  
+        if (x[middle] == a) 
+            return middle; 
+        if (x[middle] > a) 
+            return binarySearch(x, l, middle - 1, a); 
+
+
+        return binarySearch(x, middle + 1, r, a); 
+    } 
+    return -1; 
+} 
+
+arr = [1, 4, 6, 7, 9, 10, 14, 200, 401, 550, 1001];
+
+print(binarySearch(arr,0,11,1));
+print(binarySearch(arr,0,11,2));
+print(binarySearch(arr,0,11,4));
+print(binarySearch(arr,0,11,200));
+print(binarySearch(arr,0,11,1002));
+print(binarySearch(arr,0,11,1001));
+
+
+/*
+Implementati in Alk algoritmul mergesort si scrieti un numar de teste relevante care sa arate
+ca algoritmul functioneaza conform descrierii problemei (cel putin pentru cazurile de test).
+*/
+
+merge(arr, l, m, r)
+{
+     n1 = m - l + 1;
+     n2 = r - m;
+
+    for ( i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for ( j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
+    i = 0;
+    j = 0;
+    k = l;
+ 
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+mergeSort( arr, l, r){
+    if(l>=r){
+        return;
+    }
+    m = l+ (r-l)/2;
+    mergeSort(arr,l,m);
+    mergeSort(arr,m+1,r);
+    merge(arr,l,m,r);
+}
+
+
+v1 = [ 12, 11, 13, 5, 6, 7 ];
+v2 = [ 5 , 4, 3, 2, 1, 0 ];
+v3 = [ -4, 2, -1, -6, 0, -4 ];
+v4 = [ 1, 2, 3, 4, 5, 6 ];
+v5 = [];
+
+mergeSort(v1, 0, 5);
+mergeSort(v2, 0, 5);
+mergeSort(v3, 0, 5);
+mergeSort(v4, 0, 5);
+mergeSort(v5, 0, 0);
+
+print(v1);
+print(v2);
+print(v3);
+print(v4);
+print(v5);

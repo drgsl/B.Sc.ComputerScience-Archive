@@ -1,0 +1,617 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #7</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+
+<body>
+
+<h2><font color="blue">Laborator #7, partea a II-a :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab7perf.html#sec_1">Exerciții de programare C cu prelucrări de fișiere, ce utilizează lacăte pentru acces exclusiv la ele</a></h4>
+<h4>II) <a href="lab7perf.html#sec_2">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">Exerciții de programare C cu prelucrări de fișiere, ce utilizează lacăte pentru acces exclusiv la ele:</span></p>
+
+<p>
+Lista cu aceste exerciții este disponibilă <a href="lab7.html">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+
+<ol>
+
+<li><!-- Problema: lab8_ex4.c+rtstats ------------------------------------------------------------------------------------>
+<p><big>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</big><!-- new ex:2019 -->
+<br>
+<b>Studiu experimental</b>: să se studieze eficiența (i.e., performanța exprimată prin prisma timpului de execuție necesar pentru sortarea secvenței de intrare)
+pentru programul de la exercițiul <b>[MyCritSec #2 : Parallel sorting]</b>, pe baza diverșilor factori ce influențează timpul de execuție a programului.
+<br>
+<br><i>Explicații detaliate</i>:
+<br>Timpul de execuție a programului de sortare concurentă amintit mai sus depinde atât de "dimensiunea problemei" (i.e., de secvența de numere ce trebuie sortată),
+cât și de mediul de execuție folosit pentru sortare, precum și de anumite caracteristici ale algoritmului de sortare implementat în programul amintit mai sus.
+Mai precis, factorii ce influențează timpul de execuție pot fi clasificați astfel:
+	<ul>
+	<li>i) <u>Factori ce descriu "dimensiunea problemei", i.e. secvența de numere ce trebuie sortată</u>:<br><br>
+		<ol>
+		<li><b>Dimensiunea secvenței</b>, notată cu <tt>N</tt>.
+<button onclick="myToggle('lab8perf_ex1_1')">Show / Hide the details</button>
+			<div id="lab8perf_ex1_1" style="display:none;" class="stil_explicatie">
+			<i>Metodologia de experimentare</i>: pentru relevanță statistică, <u>alegeți pentru <tt>N</tt> valorile pe o scară logaritmică: 10, 100, 1000, 10.000, 100.000, ...</u>
+			<i>Notă</i>: vă puteți opri cu creșterea lui <tt>N</tt> la 1.000.000, sau chiar și mai "departe", în funcție de ce "mărime" va avea timpul de execuție pe care-l veți măsura,
+			i.e. sigur nu veți avea răbdare să așteptați execuții care să dureze de ordinul orelor, sau chiar de ordinul mai multor zeci de minute.
+			Deci puteți opri mărirea graduală a dimensiunii <tt>N</tt> atunci când ajungeți la timpi de execuție de ordinul minutelor, sau câtorva zeci de minute.
+			<br>
+			Mai exact, opriți execuția programului de sortare concurentă în situațiile în care observați că durata execuției depășește un interval de timp, notat cu <tt>Timeout</tt>,
+			și ales de voi după preferințe, în funcție de cât de răbdători sunteți. Spre exemplu, puteți folosi un <tt>Timeout</tt> = 10 minute. Iar în tabelul în care veți colecta
+			timpii de execuție, tabel despre care vă voi vorbi mai jos, puteți trece în celulele corespunzătoare acestor situații textul "TIMEOUT".
+			</div><br><br>
+		</li>
+		<li><b>'Distribuția' numerelor în secvență, d.p.d.v. al ordinii inițiale dintre ele</b>, ceea ce va influența numărul de inversiuni ce trebuie realizate pentru a obține secvența sortată crescător.
+<button onclick="myToggle('lab8perf_ex1_2')">Show / Hide the details</button>
+			<div id="lab8perf_ex1_2" style="display:none;" class="stil_explicatie">
+			<i>Metodologia de experimentare</i>: pentru relevanță statistică, <u>trebuie să realizați o medie aritmetică a timpilor calculați pentru o serie de secvențe generate aleator</u>.
+			În acest scop, mai întâi fixați constanta <tt>NrSeries</tt>=5 {sau, în loc de 5, puteți alege 10, sau o valoare și mai mare, în funcție de <i>răbdarea pe care o veți dovedi în execuția experimentelor</i>;
+			evident, răbdarea vă va fi răsplătită printr-o relevanță cu atât mai bună a rezultatelor, cu cât alegeți o valoare mai mare pentru constanta <tt>NrSeries</tt>}.
+			<br>Iar apoi, pentru fiecare valoare a lui <tt>N</tt> aleasă la punctul anterior, generați un set de <tt>NrSeries</tt> fișiere de date care să conțină secvențe de lungime <tt>N</tt>,
+			de numere generate aleator, pe care salvați-le în format binar în fișiere cu nume create după șablonul: "file_<tt>N</tt>_random-<tt>Seria</tt>.dat", unde <tt>Seria</tt>=1,2,3,...,<tt>NrSeries</tt>.
+			<br>În scopul creării acestor fișiere de date, puteți folosi programul auxiliar "bin-write.c" de la exercițiul <b>[MyCritSec #2 : Parallel sorting]</b>, pe care trebuie să-l adaptați
+			să genereze pseudo-aleator <tt>N</tt> numere, în loc să le citească de la tastatură, și să salveze fișierul cu numele creat după șablonul indicat.
+			<i>Notă</i>: aveți grijă la folosirea funcțiilor C de generat numere pseudo-aleatoare, să nu obțineți aceeași secvență identică de <tt>NrSeries</tt> ori!
+			Pentru aceasta, trebuie să inițializați 'seed'-ul secvenței cu valori diferite, la fiecare generare de secvență, i.e. la fiecare execuție a programului auxiliar.
+			Astfel, puteți alege 'seed'-ul pe baza PID-ului procesului {a se vedea funcția getpid()} sau pe baza timpului curent {a se vedea funcția gettimeofday()}.
+			<br>În cele ce urmează, ne vom referi prin indicativul 'Average-case' la situația descrisă mai sus, de calcul a timpilor de execuție ca medie aritmetică a
+			timpilor de sortare a unor secvențe de numere aleatoare.
+			<br>De asemenea, mai putem studia timpii de execuție și <u>pentru cazurile extreme</u>, astfel:
+			a) 'Best-case': secvența inițială este deja sortată crescător. Pentru fiecare valoare a lui <tt>N</tt> aleasă la punctul anterior, generați secvența numerelor 1,2,3,...,<tt>N</tt>,
+			pe care salvați-o în format binar în fișierul cu numele creat după șablonul: "file_<tt>N</tt>_best-case.dat";
+			b) 'Worst-case': secvența inițială este deja sortată descrescător. Pentru fiecare valoare a lui <tt>N</tt> aleasă la punctul anterior, generați secvența numerelor <tt>N</tt>,...,3,2,1,
+			pe care salvați-o în format binar în fișierul cu numele creat după șablonul: "file_<tt>N</tt>_worst-case.dat".
+			</div><br><br>
+		</li>
+		<li>Un alt factor de influență ar putea fi și <b>tipul de numere 'întregi'</b> efectiv folosit în program, i.e. <u>dimensiunea în biți a acestuia</u>.
+<button onclick="myToggle('lab8perf_ex1_3')">Show / Hide the details</button>
+			<div id="lab8perf_ex1_3" style="display:none;" class="stil_explicatie">
+			Spre deosebire de ceilalți factori, acesta va avea un impact mai mic asupra timpului de execuție, dar care totuși s-ar putea să nu fie neglijabil (depinde însă și de precizia
+			măsurării timpului de execuție, despre care vă voi explica ceva mai jos).
+			Aceasta deoarece, pentru diversele arhitecturi hardware existente, de regulă instrucțiunile mașină ce operează pe dimensiunea nativă a cuvântului pentru acea arhitectură hardware
+			sunt executate cel mai eficient în ALU.
+			<i>Notă</i>: discuția referitoare la eficiența instrucțiunilor mașină se schimbă însă dacă vorbim de operații cu memoria, sau cu discul ce stochează fișierele.
+			<br>
+			<br><i>Metodologia de experimentare</i>: prin urmare, dacă doriți să luați în calcul și acest factor pentru studiul experimental pe care-l veți realiza, atunci puteți lua în calcul 4 tipuri de numere 'întregi':
+			pe 8 biți, pe 16 biți, pe 32 de biți și pe 64 biți. Altfel, limitați-vă la un singur tip de numere 'întregi', cel corespunzător dimensiunii native a cuvântului pentru CPU-ul
+			calculatorului pe care veți realiza experimentele. E.g., dacă aveți un procesor Intel/AMD x64, lucrați cu tipul de 'întregi' pe 64 de biți.
+			<br>
+			<br><i>Observație</i>: după cum știți deja, tipurile integrale din C/C++ au dimensiuni care depind de implementare, i.e. platformă {= arhitectura hardware + sistemul de operare},
+			a se vedea detalii <a href="https://en.wikipedia.org/wiki/Integer_(computer_science)">aici</a>
+			(extras: "The sizes of char, short, int, long and long long in C/C++ are dependent upon the implementation of the language."),
+			precum și <a href="https://en.wikipedia.org/wiki/C_data_types#Basic_types">aici</a>.
+			Prin urmare, fie alegeți un tip întreg de dimensiune fixată, i.e. <tt>int64_t</tt> sau <tt>uint64_t</tt> (introduse de standardul C99,
+			detalii <a href="https://en.wikipedia.org/wiki/C_data_types#Fixed-width_integer_types">aici</a>),
+			fie alegeți tipul prin experimentare (i.e., scrieți un mic program care să afișeze <tt>sizeof(<i>tip</i>)</tt> pentru fiecare <i>tip</i> de bază,
+			i.e. char, short, int, long and long long, și alegeți-l pe cel despre care se afișează dimensiunea dorită, e.g. 64, pe calculatorul pe care veți realiza experimentele.
+			<br>
+			<i>Altă observație</i>: tot la această categorie de factori, se poate extinde discuția, pentru doritori, în sensul de a lua în calcul pentru experimentări nu doar
+			cele 4 tipuri de numere 'întregi' amintite mai sus, ci și inclusiv alte tipuri de bază, e.g. numerele reale (cu diversele precizii ale reprezentării în virgulă mobilă: float, double, long double,
+			și celelalte extensii adăugate de standardul C99 -- a se vedea detalii <a href="https://en.wikipedia.org/wiki/C_data_types#Basic_types">aici</a>).
+			</div><br><br>
+		</li>		
+		</ol>
+	</li>
+	<li>ii) <u>Factori ce descriu mediul de execuție folosit pentru sortare</u>:<br><br>
+		<ul>
+		<li><b>'Parametrii de funcționare' ai platformei</b>, i.e. ai calculatorului pe care veți realiza experimentele.
+<button onclick="myToggle('lab8perf_ex1_4')">Show / Hide the details</button>
+			<div id="lab8perf_ex1_4" style="display:none;" class="stil_explicatie">
+			Aici discuția este mult mai amplă, sunt mulți factori ce vor influența timpul de execuție, fiecare având o variabilitate mai mare sau mai mică a plajei de valori posibile,
+			astfel că nu-i putem lua pe toți în calcul, cu toate valorile posibile pentru fiecare factor, ci <u>va trebui să facem o super-simplificare a studiului experimental</u>,
+			fixând anumite valori sau ignorând efectiv anumiți factori dintre aceștia. Dar trebuie să rămânem conștienți de următorul fapt: chiar dacă îi ignorăm, ei tot vor avea
+			un impact asupra timpului de execuție măsurat, doar că nu vom fi capabili să cuantificăm acest impact, ci doar să observăm efectul său !
+			<br>Astfel, dintre factorii ce intră în această categorie, fără a avea pretenția unei enumerări exhaustive, fac parte și următorii:
+			i) caracteristicile CPU-ului -- numărul de procesoare/core-uri fizice și respectiv logice (aka core-uri cu tehnologie <i>Hyper-Threading</i>),
+			frecvența de funcționare a acestora, nivelele de <i>cache</i> din CPU (dimensiunile memoriilor <i>cache</i>, timpii de acces, ratele de <i>hit</i> în <i>cache</i>, etc.), etc.;
+			ii) caracteristicile memoriei RAM (și a magistralei de memorie, i.e. magistrala de interconectare CPU&lt;-->RAM) -- timpul de acces fizic, timpul de acces logic (<small>care
+			depinde de rata erorilor de pagină, i.e. de gestiunea memoriei virtuale de către SO și de comportamentul aplicației noastre, după cum vom vedea în cursurile viitoare</small>), ș.a.;
+			iii) caracteristicile discului (și a magistralei de I/O ce conectează discul cu unitatea centrală, CPU+RAM) -- tehnologia fizică (HDD vs SDD) și timpul de acces fizic la disc,
+			timpul de acces logic la disc (<small>care depinde de 'eficiența' sistemului de fișiere utilizat de acel SO, eficiență ce depinde de mai mulți factori, după cum vom vedea în cursurile viitoare</small>),
+			numărul de conflicte la accesarea fișierului (<small>care depinde de comportamentul aplicației noastre de sortare, atunci când sunt rulate simultan mai multe instanțe ale ei</small>),
+			comportamentul <i>cache</i>-ului pentru <i>file-system</i> (<small>i.e., <i>cache</i>-ul gestionat de SO în RAM pentru blocurile de disc recent accesate</small>), etc.;
+			iv) gradul de ocupare a sistemului (<small>care depinde de câte procese rulează pe acea mașină, precum și câți utilizatori sunt conectați și rulează programe pe acea mașină</small>), ș.a.
+			<br>
+			<br><i>Metodologia de experimentare</i>: luați măcar două calculatoare personale diferite, e.g. un laptop și un desktop, care ar fi recomandat să aibă puteri de calcul
+			cât mai diferite este posibil (e.g. să aibă număr de core-uri diferite, cu frecvențe de lucru diferite, etc.)
+			și <u>realizați experimentele într-un mediu de lucru 'exclusiv', i.e. încercați să minimizați gradul de ocupare a sistemului</u>,
+			astfel: nu mai porniți și alte aplicații în timp ce rulați programul de sortare, respectiv opriți cât mai multe servicii și programe rulate în background (de exemplu,
+			deconectați-vă de la rețea pe parcursul execuției programului de sortare, astfel ca toate serviciile ce depind de rețea, când se vor 'trezi' periodic, se vor bloca rapid
+			(i.e. vor trece înapoi în starea de 'adormit') observând că nu-și pot efectua sarcinile datorită lipsei conexiunii la rețea.
+			<br><i>Notă</i>: în referatul pe care-l veți elabora cu descrierea rezultatelor experimentului, să adăugați o secțiune în care să descrieți pe scurt fiecare calculator folosit
+			(i.e. indicativul procesorului, numărul de core-uri fizice și logice, dimensiunea memoriei RAM și tipul ei (DDR3, DDR4, etc.), tipul de disc (HDD și viteza RPM a acestuia, vs. SSD),
+			și platforma software (distribuția de Linux și versiunea acesteia).
+			<br>Apoi încercați să <u>repetați experimentele într-un mediu de lucru 'concurențial', i.e. încercați să maximizați gradul de ocupare a sistemului</u>,
+			astfel: rulați programul de sortare pe un sistem folosit în același timp de mai mulți utilizatori, care să ruleze simultan cât mai multe programe și servicii de sistem.
+			De exemplu, pe serverul fenrir de la facultate. <i>Notă</i>: și în acest caz, să adăugați în referat o scurtă descriere a caracteristicilor serverului folosit.
+			<br>
+			<br><i>Recomandare</i>: o altă metodă de a micșora impactul asupra timpului de execuție, al factorilor pe care nu-i putem controla, este acela de a repeta de un anumit număr de ori
+			<b>un experiment</b>, i.e. <u>rularea programului cu aceleași valori de intrare, pe același calculator, etc.</u>, și apoi pe mulțimea de rezultate obținute, i.e. timpi de execuție
+			posibil diferiți obținuți pentru aceleași valori de intrare, se aplică o "medie" statistică, cum ar fi: media aritmetică, mediana, înlăturarea rezultatelor celor mai depărtate și
+			calculul mediei/medianei pe celelalte rămase, ș.a.
+			</div><br><br>
+		</li>
+		</ul>
+	</li>
+	<li>iii) <u>Factori ce caracterizează algoritmul folosit pentru rezolvarea problemei</u>:<br><br>
+		<ul>
+		<li><b>'Gradul de paralelism' al algoritmului folosit</b>.
+<button onclick="myToggle('lab8perf_ex1_5')">Show / Hide the details</button>
+			<div id="lab8perf_ex1_5" style="display:none;" class="stil_explicatie">
+			Prin <u>gradul de paralelism</u> al algoritmului de sortare, implementat în programul amintit mai sus, înțelegem, în acest caz, numărul de instanțe,
+			ale programului secvențial de sortare, ce vor fi rulate simultan (și concurent) pe fișierul pentru care doriți să cronometrați cât durează sortarea sa.
+			Este vorba despre programul <tt>sortare_cu-lacate.exe</tt> de la exercițiul <b>[MyCritSec #2 : Parallel sorting]</b>, pe care îl veți lansa în execuție paralelă
+			și concurentă cu numărul de instanțe dorit, folosind o linie de comanđă ce genul aceleia descrise în secțiunea 'ghid de utilizare' al programului respectiv.
+			<br>
+			<br><i>Metodologia de experimentare</i>: notăm cu <tt>NrPhysicalCores</tt>, respectiv cu <tt>NrLogicalCores</tt>, numărul de core-uri fizice, respectiv logice, ale procesorului
+			de pe calculatorul pe care veți realiza experimentele.
+			(<i>Notă</i>: veți avea fie <tt>NrLogicalCores</tt>=2*<tt>NrPhysicalCores</tt>, dacă procesorul respectiv este cu tehnologie <i>Hyper-Threading</i>,
+			fie <tt>NrLogicalCores</tt>=<tt>NrPhysicalCores</tt>, în caz contrar.)
+			<br>Mai notăm cu <tt>GP</tt> gradul de paralelism al algoritmului de sortare.
+			<br><b>Întrebare</b>: pentru ce plajă de valori ale parametrului <tt>GP</tt> să efectuăm experimentele?
+		 	<br><i>Răspuns</i>: pentru relevanță statistică, este suficient să <u>alegeți pentru <tt>GP</tt> toate valorile consecutive de la 1 la max(16,2*<tt>NrLogicalCores</tt>)</u>.
+			<br><br><i>Justificarea acestei alegeri</i>: teoretic, pentru <tt>GP</tt> ar trebui să acoperim toată plaja de valori consecutive de la 1 la infinit,
+			lucru imposibil practic, și atunci am putea proceda într-o manieră similară cu cea descrisă mai sus la alegerea dimensiunii secvenței de sortat, i.e.
+			să procedăm la o simplificare prin alegerea unei scări logaritmice pentru <tt>GP</tt> (i.e. plaja de valori 1,2,4,8,16,...), evident cu oprirea experimentelor
+			după depășirea acelui <tt>Timeout</tt> de către timpii de execuție.
+			Numai că, în acest caz, pierderea de informație datorită scării logaritmice va avea un impact foarte mare asupra relevanței statistice a rezultatelor obținute (cu mult
+			mai profund decât în cazul folosirii scării logaritmice pentru dimensiunea secvenței de sortat).
+			Pe de altă parte, limitarea plajei de valori pentru <tt>GP</tt> la intervalul 1,2,3,...,max(16,2*<tt>NrLogicalCores</tt>), va fi suficientă pentru a putea să observați
+			<u>un comportament asimptotic</u> al timpilor de execuție în funcție de parametrul <tt>GP</tt>, manifestat pe măsură ce <tt>GP</tt> ar "tinde" spre infinit.
+			</div><br><br>
+		</li>
+		</ul>
+	</li>
+	</ul>
+</p>
+
+<p>
+<i>Concluzie</i>: <u>timpul de execuție al programului de sortare paralelă este <b>o funcție de mai mulți parametri</b> (descriși în cele 5 categorii de factori din clasificarea de mai sus)</u>,
+dintre care o parte au ca domenii de valori mulțimi infinit-numărabile {factorii din categoriile i).1 și i).2 },
+o altă parte dintre acești parametri au ca domenii de valori mulțimi finite {factorii din categoriile i).3 și iii) },
+iar unii dintre acești parametri nu pot fi cuantificați (cel puțin, nu cu ușurință) {factorii din categoria ii) }.
+</p>
+
+<p>
+<b>Scopul urmărit</b>: pe noi ne interesează <u>performanța programului de sortare paralelă</u>, adică cu alte cuvinte trebuie să aflăm minimul global al acestei funcții. Sau, mai general,
+să aflăm toate punctele de minim ale funcției, căci poate avea mai multe minime locale. Iar fiecare punct de minim local, mai precis vecinătatea sa, ne va da câte o caracterizare
+a situațiilor în care programul se comportă eficient, i.e. are timp minim de execuție pentru acea 'regiune' a setului parametrilor de intrare corespunzătoare acelei caracterizări.
+</p>
+
+<p>
+<i>Notă</i>: Această funcție nu este una 'algoritmică' (<small>înțelegând prin funcție algoritmică o funcție pentru care există o formulă matematică calculabilă algoritmic
+ce ne dă valoarea funcției pentru orice set de valori posibile ale parametrilor de intrare</small>),
+ci este o funcție care trebuie calculată efectiv în fiecare punct al domeniului de definiție, i.e. trebuie să generăm <b>toate</b> seturile de valori posibile ale parametrilor de intrare
+și să măsurăm, pentru fiecare set de valori, timpul de execuție al programului de sortare paralelă parametrizat conform acelor valori ale parametrilor de intrare.
+Însă d.p.d.v. practic nu putem face acest lucru, deoarece domeniul de definiție este infinit, după cum am spus mai sus.
+</p>
+<p>
+<big><i>Și atunci, ce putem face?</i></big>
+<br>
+<i>Răspuns</i>: putem cel puțin să ne facem măcar o impresie despre "Oare cam cum arată graficul acestei funcții?", calculând funcția pentru
+o <u>submulțime reprezentativă a domeniului ei de definiție</u>, i.e. pentru seturile de valori ale parametrilor de intrare alese pentru relevanța lor statistică,
+conform celor descrise la fiecare categorie de parametri din clasificarea de mai sus.
+<br>
+Iar apoi, pe baza rezultatelor colectate în această manieră simplificatoare, i.e. pe baza impresiei făcute asupra "formei graficului funcției", am putea observa niște puncte 'aparente'
+de minim local ale funcției (spun 'aparente', pentru că, datorită simplificării domeniului de definiție, nu avem și certitudinea că sunt puncte de minim pentru întregul domeniu de definiție al funcției).
+<br>
+Ulterior, pe baza acestor puncte de minim observate, am putea să tragem <u>unele concluzii referitoare la performanța programului de sortare concurentă</u> de la exercițiul <b>[MyCritSec #2 : Parallel sorting]</b>,
+adică să ne atingem scopul propus prin acest exercițiu!
+</p>
+
+<p>
+O altă întrebare, apărută deja în textul de mai sus, este:
+<big><i>Cum măsurăm timpul de execuție a unui program?</i></big>
+<br>
+Sau, reformulat echivalent, cum măsurăm timpul de execuție a unei linii de comandă?
+<br>
+<i>Răspuns</i>: <u>există mai multe posibilități de măsurare a timpului de execuție, fiecare având un anumit grad de precizie a măsurătorilor.</u>
+</p>
+
+<p>Una dintre posibilități este folosirea comenzii <tt>/usr/bin/time</tt>.
+<button onclick="myToggle('lab8perf_ex1_6')">Show / Hide the details</button>
+<div id="lab8perf_ex1_6" style="display:none;" class="stil_explicatie">
+Comanda <tt>/usr/bin/time</tt> măsoară timpul de execuție al unei comenzi, precum și anumite statistici despre memoria folosită și operațiile I/O efectuate de acea comandă.
+Pentru mai multe detalii, citiți pagina ei de documentație, i.e. <tt>man 1 time</tt>.
+<br>Precizia (afișată) a timpilor măsurați este de ordinul secundelor, cu 2 zecimale, i.e. hours:minutes:seconds.centiseconds
+Sau, folosind opțiunea -p, se afișează timpii exprimați doar în secunde, tot cu 2 zecimale.
+De asemenea, folosind opțiunea -f FORMAT, se poate specifica formatul dorit referitor la informațiile statistice ce se vor afișa.
+<br>
+<br><i>Observație</i>: în anumite situații, pentru anumite comenzi, procentajul afișat (de specificatorul %P) poate depăși 100%!
+Oare o fi vreo greșeală de calcul, ce credeți?
+<br>Citiți definiția lui din pagina de documentație a comenzii <tt>/usr/bin/time</tt>
+și încercați să intuiți în ce situații poate apare un astfel de procentaj?
+<button onclick="myToggle('lab8perf_ex1_6a')">Show / Hide the answer</button>
+	<div id="lab8perf_ex1_6a" style="display:none;" class="stil_QandA">
+	<i>Răspuns</i>: pentru a putea observa procentaje mai mari de 100%, este necesar să fie îndeplinite următoarele condiții:
+	i) calculatorul respectiv să aibă cel puțin 2 procesoare/core-uri (fizice, nu doar logice);
+	ii) comanda respectivă să fie formată din măcar 2 procese secvențiale (ori fire de execuție), care să se execute în paralel;
+	iii) instanța de execuție a comenzii respective să fie executată de planificatorul SO-ului într-o manieră de paralelism real, nu aparent,
+	cu alte cuvinte cele 2 (sau mai multe) procese secvențiale ce compun acea comandă să ajungă să se execute, măcar parțial, în același timp pe procesoare/core-uri fizice diferite!
+	</div>
+<br>
+<br>
+Pe noi ne interesează timpul de execuție a unei comenzi măsurat ca "timp scurs pe ceas", adică durata de viață a procesului (și nu timpul petrecut doar rulând pe procesor,
+în user-mode și respectiv kernel-mode), prin urmare putem folosi comanda <tt>/usr/bin/time</tt> cu opțiunea -f "%e" în acest scop.
+<br>
+<br>Mai rămâne să ne gândim cum cronometrăm acest timp pentru programul nostru de sortare paralelă, i.e. cum specificăm ca argument la <tt>/usr/bin/time</tt> nu o simplă comandă,
+ci acea comandă compusă de execuție paralelă și ne-înlănțuită a unui număr de <tt>GP</tt> instanțe ale programului secvențial <tt>sortare_cu-lacate.exe</tt>
+(revedeți la exercițiul <b>[MyCritSec #2 : Parallel sorting]</b> linia de comandă descrisă în secțiunea 'ghid de utilizare' a programului respectiv, folosită
+pentru a-l lansa în execuție paralelă și concurentă, cu numărul de instanțe dorit).
+<br><i>Răspuns</i>: pentru simplitate, am putea scrie acea linie într-un script bash, și să apelăm comanda <tt>/usr/bin/time</tt> având ca argument acel script.
+<br>
+<br>Însă, mai trebuie rezolvată o problemă: prin acea linie de comandă, cele <tt>GP</tt> instanțe ale programului secvențial sunt lansate în execuție paralelă <u>în background</u>,
+adică nu se va aștepta terminarea execuției fiecăreia dintre ele, prin urmare nici timpul cronometrat nu va fi cel corect.
+<br>Prin urmare, avem nevoie de o modalitate de a aștepta, la finalul acelei linii de comandă (respectiv, în script), terminarea execuției tuturor celor <tt>GP</tt> instanțe.
+<br>Soluția la această problemă constă în a folosi comanda internă <tt>wait</tt> care, apelată fără niciun argument la finalul acelei linii de comandă (respectiv, în script),
+va produce exact așteptarea de care avem nevoie. Pentru a înțelege de ce, citiți cu atenție pagina ei de documentație, i.e. <tt>help wait</tt> (sau, alternativ,
+<tt>man 1 wait</tt> și navigați în jos până aproape de finalul acelei pagini).
+<br>
+<br>În concluzie, punând cap la cap informațiile de mai sus, putem scrie un script bash care va conține linia de comandă necesară pentru a lansa <tt>GP</tt> instanțe
+ale programului secvențial în execuție paralelă <u>în background</u>, și a aștepta terminarea execuției tuturor instanțelor.
+Scriptul va primi ca și parametri de intrare:
+numărul de instanțe <tt>GP</tt> {<small>care se va alege conform celor explicate mai sus la factorul de influență iii)</small>}
+și numele fișierului cu secvența de numere ce trebuie sortate {<small>fișier care se genera conform celor explicate mai sus la factorii de influență i).1 + i).2</small>}.
+<br>
+<button onclick="myToggle('lab8_ex1_6b')">Show / Hide the script</button>
+
+<pre id="lab8_ex1_6b" style="display:none;" class="stil_solutie">
+#!/bin/bash
+
+if [ $# -ne 2 ] ; then 1>&2 echo "Eroare, nu ati apelat scriptul $0 cu cei 2 parametri necesari!" ; exit 128 ; fi
+
+GP=$1        #numarul de instante
+datafile=$2  #fisierul cu secventa de sortat
+
+for ((i = 0; i < $GP; i++))
+do
+    ./sortare_cu-lacate.exe $datafile &
+done
+wait
+</pre>
+<br>
+Salvăm acest script într-un fișier cu numele <tt>run_1experiment.sh</tt> și îl vom apela cu ajutorul comenzii <tt>/usr/bin/time -f "%e"</tt> pentru a obține
+timpul de execuție al unui singur <b>experiment</b> (i.e., al rulării programului de sortare paralelă pe o anumită secvență de numere, și cu un anumit număr de instanțe paralele),
+în felul următor:
+<br>
+<pre class="stil_solutie">
+/usr/bin/time -f "%e" run_1experiment.sh <i>nr_instante</i> <i>datafile</i>
+</pre>
+</div>
+</p>
+
+<p>
+<i>Observație</i>: dacă precizia măsurătorilor de timp realizate cu comanda <tt>/usr/bin/time</tt>, precizie ce am văzut în explicațiile de mai sus că este de ordinul sutimi de secundă,
+se dovedește a fi prea mică pentru duratele pe care vrem să le măsurăm
+(<small>e.g., în cazul programului nostru de sortare paralelă, s-ar putea să constatăm acest fapt pentru secvențe de sortat de lungime prea mică, i.e. pentru <tt>N</tt>=10,
+și/sau secvențe "aproape" ordonate deja crescător</small>), avem și alte alternative de măsurare a timpului, cu precizie mai fină.
+<br>
+Astfel, dacă ne interesează o <u>precizie de măsurare a timpului de ordinul microsecundelor</u>, putem folosi apelul de sistem <tt>gettimeofday()</tt>.
+<button onclick="myToggle('lab8perf_ex1_7')">Show / Hide the details</button>
+<div id="lab8perf_ex1_7" style="display:none;" class="stil_explicatie">
+Pentru mai multe detalii despre apelul de sistem <tt>gettimeofday()</tt>, citiți pagina sa de documentație, i.e. <tt>man 2 gettimeofday</tt>.
+<br>
+<br>Se pune acum întrebarea, cum putem folosi acest apel de sistem pentru a măsura timpul de execuție al unui singur <b>experiment</b> (i.e., al rulării programului
+de sortare paralelă pe o anumită secvență de numere, și cu un anumit număr de instanțe paralele) ?
+<br>
+Ideea, pe scurt, este următoarea: veți scrie în C un program cu rol ajutător, cu numele <tt>run_1experiment.c</tt>,
+care va primi ca și parametri în linia de comandă: numărul de instanțe <tt>GP</tt> {<small>care se va alege conform celor explicate mai sus la factorul de influență iii)</small>}
+și numele fișierului cu secvența de numere ce trebuie sortate {<small>fișier care se genera conform celor explicate mai sus la factorii de influență i).1 + i).2</small>},
+și va face următoarele operații:
+întâi apelează <tt>gettimeofday()</tt> pentru a afla timpul de start al execuției sale,
+apoi creează <tt>GP</tt> procese fii și le așteaptă să se termine de executat {<small>Cum? Vom vedea în laboratorul #9 un program care face exact acest lucru!
+[L.E.] a se vedea exercițiul <b>[N childs]</b></small>},
+fiecare copil va rula programul <tt>sortare_cu-lacate.exe</tt> cu argumentul numele acelui fișier de date {<small>Cum? Vom vedea în laboratorul #10 cum folosim
+apelul de sistem exec() în acest scop! [L.E.] a se vedea exercițiul <b>['Supervisor-workers pattern' #4: Coordinated parallel sorting]</b></small>},
+iar procesul părinte, după ce finalizează așteptarea terminării tuturor copiilor, va apela din nou <tt>gettimeofday()</tt> pentru a afla timpul de sfârșit al execuției sale,
+după care va calcula diferența celor două momente, de start și de sfârșit, și o va afișa.
+<br>
+Compilați apoi programul <tt>run_1experiment.c</tt> și veți apela executabilul produs, pentru a obține timpul de execuție al unui singur <b>experiment</b>,
+în felul următor:
+<br>
+<pre class="stil_solutie">
+./run_1experiment.exe <i>nr_instante</i> <i>datafile</i>
+</pre>
+</div>
+
+Iar dacă ne interesează o <u>precizie de măsurare a timpului de ordinul nanosecundelor</u>, putem folosi apelul de sistem <tt>clock_gettime()</tt>,
+apelat pentru ceasul <tt>CLOCK_REALTIME</tt>.
+<button onclick="myToggle('lab8perf_ex1_8')">Show / Hide the details</button>
+<div id="lab8perf_ex1_8" style="display:none;" class="stil_explicatie">
+Pentru mai multe detalii despre apelul de sistem <tt>clock_gettime()</tt>, citiți pagina sa de documentație, i.e. <tt>man 2 clock_gettime</tt>.
+Vei găsi acolo informații despre diferitele ceasuri disponibile și modalitățile de măsurare a timpului scurs.
+<br>
+Iar legat de întrebarea "Cum putem folosi acest apel de sistem pentru a măsura timpul de execuție al unui singur <b>experiment</b> ?",
+răspunsul constă în a scrie un program ajutător similar ca cel de mai sus, folosit în cazul apelului <tt>gettimeofday()</tt>,
+adaptat însă pentru a folosi apelul <tt>clock_gettime(CLOCK_REALTIME, ...)</tt>.
+</div>
+</p>
+
+
+<p>
+<big><i>Metodologia generală de realizare a experimentelor</i></big>
+<br>I) prima etapă constă în colectarea datelor experimentale;
+<br>II) a doua etapă constă în interpretarea datelor experimentale.
+</p>
+
+
+<p>
+<big><u>I) Etapa de colectare a datelor experimentale</u></big>
+<br>Se vor parcurge pașii următori:
+<ol>
+<li><b>Alegerea tipului de numere întregi cu care se va lucra.</b>
+	În acest sens, a se reciti explicațiile date la factorul de influență i).3.
+    <br><i>Observația #1</i>: dacă alegeți alt tip decât tipul <tt>int</tt>, va trebui să adaptați în mod corespunzător atât programul <tt>sortare_cu-lacate.c</tt>,
+	cât și toate programele ajutătoare despre care am vorbit mai sus.
+    <br><i>Observația #2</i>: dacă alegeți să faceți experimente cu mai multe tipuri de 'întregi', va trebui să <u>repetați toți pașii următori pentru fiecare
+	tip de 'întregi' ales</u>
+	(<small>și, nu uitați, să adaptați în mod corespunzător atât programul <tt>sortare_cu-lacate.c</tt>, cât și toate programele ajutătoare,
+	pentru fiecare tip de 'întregi' ales</small>).
+	<br><br>
+</li>
+<li><b>Generarea fișierelor cu secvențe de numere pentru sortat.</b>
+	În acest sens, a se reciti explicațiile date la factorii de influență i).1 + i).2.
+    <br><i>Observația #1</i>: generarea seturilor de inițiale se va face o singură dată, și se pot folosi ulterior pe toate calculatoarele pe care veți rula experimentele,
+	dar cu păstrarea intactă a originalelor pentru a putea fi refolosite,
+	adică pe fiecare calculator se vor folosi copii ale lor pentru succesiunile de experimente ce se vor rula pe acel calculator.
+	<br>Cu alte cuvinte, vă recomand să salvați fișierele generate într-un subdirector numit <tt>InputData</tt>,
+	iar apoi când veți apela în mod repetat scriptul/programul de rulat un experiment pe același fișier de date, dar cu 'grade de paralelism' diferite,
+	lucrați pe câte o copie diferită a acelui fișier de date.
+	Iar la finalul execuției fiecărui experiment rulat pe acel calculator (identificat printr-un <i>ID-computer</i> ales de voi),
+	mutați fișierul rezultat într-un subdirector cu rezultatele colectate, numit <tt>OutputData_<i>ID-computer</i></tt>,
+	și redenumiți fișierul adăugându-i ca sufix valoarea 'gradului de paralelism' folosit.
+    <br><i>Observația #2</i>: evident, puteți scrie un script bash care să automatizeze operația de generare a tuturor fișierelor cu secvențe de numere pentru sortat.
+	Scriptul respectiv ar trebui să facă următoarele operații, într-o buclă repetitivă:
+	<tt>for N in 10 100 1000 10000 ... ;do</tt> apelează programul care generează (și stochează în folderul <tt>InputData</tt>)
+	cele <tt>NrSeries</tt> fișiere cu secvențe de numere aleatoare de lungime $<tt>N</tt>,
+	precum și cele două fișiere cu secvențele de lungime $<tt>N</tt> ordonate crescător și respectiv descrescător <tt>;done</tt> .
+	<br><br>
+</li>
+<li><b>Alegerea calculatoarelor pe care le veți folosi pentru a rula experimentele.</b>
+	În acest sens, a se reciti explicațiile date la factorul de influență ii), unde v-am recomandat să folosiți măcar două calculatoare, cu caracteristici cât mai diferite.
+	<br>
+	Ținând cont și de cele spuse mai sus, recomand ca pe fiecare calculator să creați un director de lucru, în care veți rula experimentele,
+	și care să aibă următoarea ierarhie de subdirectoare:
+	<br>\-- <tt>InputData</tt> : aici veți stoca originalele fișierelor generate la pasul anterior {vor fi aceleași fișiere de date pe toate calculatoarele};
+	<br>\-- <tt>src</tt> : aici veți stoca sursele programelor C utilizate, i.e. <tt>sortare_cu-lacate.c</tt> și toate celelalte programe ajutătoare amintite mai devreme
+		{conținutul <tt>src</tt> va fi același pe toate calculatoarele};
+	<br>\-- <tt>bin</tt> : aici veți stoca executabilele obținute prin compilarea, pe fiecare calculator în parte, a programelor sursă din subdirectorul <tt>src</tt>,
+		precum și toate scripturile bash ajutătoare amintite mai devreme {vor fi aceleași scripturi pe toate calculatoarele};
+	<br>\-- <tt>OutputData_<i>ID-computer</i></tt> : aici veți stoca fișierele sortate, produse pe acel calculator;
+	<br>\-- <tt>DataAnalysis</tt> : aici veți stoca fișierele cu interpretarea datelor experimentale colectate, despre care voi vorbi la etapa a II-a de mai jos.
+	<br>
+	<br>Toți pașii descriși în cele ce urmează (inclusiv la interpretarea datelor) <u>îi veți repeta pe fiecare calculator în parte</u>.
+	<br><br>
+</li>
+
+<li><b>Efectuarea experimentelor.</b>
+    <u>Pentru fiecare fișier de date generat</u> (i.e., pentru fiecare valoare a lui <tt>N</tt> {aleasă conform discuției de la factorul de influență i).1} și
+    pentru fiecare din cele <tt>NrSeries+2</tt> secvențe de lungime <tt>N</tt> folosite pentru a 'acoperi' cele 3 cazuri: best, average și worst {și alese conform discuției de la factorul de influență i).2}),
+    <u>și respectiv pentru fiecare valoare <tt>GP</tt> a 'gradului de paralelism' {aleasă conform discuției de la factorul de influență iii)}</u>, <b>se va rula câte un experiment</b>, i.e. se vor executa
+    în paralel <tt>GP</tt> instanțe ale programului de sortare cu lacăte, toate instanțele sortând același fișier de intrare (care va fi o copie a unuia dintre fișierele generate la început, precum spuneam
+    mai sus la pct.2) și se va măsura timpul de execuție, folosind una dintre metodele descrise mai sus.
+    <br>Evident, experimentele se vor rula unul după altul, nu în același timp (conform discuției de la factorul de influență i).3}).
+    <br>Prin urmare, puteți <u>automatiza execuția secvențială a experimentelor cu ajutorul unui script</u>, astfel:<br>
+    Scrieți un script care va genera 'spațiul valorilor de intrare' cu ajutorul a 3 bucle for, imbricate (<small>nu contează neapărat în ce ordine, ci după preferințe; de exemplu, putem folosi
+    ordinea <tt>N</tt> -> secvență de numere -> <tt>GP</tt> </small>), și pentru fiecare tripletă din 'spațiul valorilor de intrare' va efectua experimentul având acea tripletă ca și parametri de intrare.
+    <br>
+    <br><i>Observația #1</i>: pentru fiecare fișier de date generat, se mai poate efectua următorul experiment: <u>de rulat o singură instanță a programului de sortare fără lacăte</u>, pentru a compara
+    timpul său de execuție cu acela al experimentului în care se rulează o singură instanță a programului de sortare cu lacăte.
+    Astfel am putea trage vreo eventuală concluzie despre impactul folosirii (inutile a) lacătelor în cazul sortării 'secvențiale' (i.e., cu o singură instanță de 'bubble-sort') vs varianta fără lacăte.
+    <br>
+    De asemenea, se poate folosi outputul experimentului rulat cu programul de sortare fără lacăte pentru <u>verificarea corectitudinii</u> sortărilor concurente cu <tt>GP</tt> instanțe ale programului
+    de sortare cu lacăte, i.e. de verificat că nu apar fenomene de tip <i>data race</i> care să strice corectitudinea rezultatelor.
+    Pentru aceasta, se poate adăuga în scriptul de automatizare a execuției secvențiale a tuturor experimentelor, unul după altul, amintit mai sus, și un test adecvat pentru a compara outputul fiecărei
+    sortări concurente cu <tt>GP</tt> instanțe ale programului de sortare cu lacăte, cu outputul sortării cu o singură instanță a programului de sortare fără lacăte, pe același fișier de intrare.
+    <br>
+    <br><i>Observația #2</i>: o altă statistică ce ne-ar putea interesa ar fi: numărul de inversiuni, respectiv numărul de lacăte puse pe fișier, pe parcursul execuției unei sortări concurente cu <tt>GP</tt>
+    instanțe ale programului de sortare cu lacăte.
+    Vă rămâne ca temă să vă gândiți cum ar trebui modificat programul <tt>sortare_cu-lacate.c</tt> astfel încât să puteți colecta și astfel de informații statistice, pentru prelucrarea lor ulterioară. 
+</li>
+</ol>
+</p>
+
+
+<p>
+<big><u>II) Etapa de interpretare a datelor experimentale</u></big>
+<br>Se vor parcurge pașii următori, repetați pentru fiecare calculator în parte utilizat pentru a colecta date experimentale:
+<ol>
+<li><b>Colectăm toate datele într-o tabelă Excel, pentru prelucrări statistice ulterioare</b>.
+    <br>Pe baza outputului generat pe ecran și redirectat către un fișier, de către scriptul de automatizare a execuției tuturor experimentelor descris la pct.4 de mai sus,
+    obținem un fișier cu timpii de execuției pentru toate experimentele, pe care îl putem importa într-un program de calcul tabelar de genul LibreOffice (sau Microsoft Office),
+	prin conversie de la CSV, obținând o tabelă Excel precum cele de mai jos:<br>
+<button onclick="myToggle('lab8perf_ex1_9a')">Show / Hide the Excel sheet for a laptop</button>
+    <p id="lab8perf_ex1_9a" style="display:none;" class="stil_explicatie">
+    <table>
+    <tr><td><iframe src="data_analysis/Lab7_log_runtime_SG4_original.html" height="450" width="400"></iframe></td>
+        <td valign="top">
+        Această tabelă conține datele experimentale obținute folosind un laptop cu următoarele caracteristici:
+        <br>CPU: AMD C60 dual-core, RAM: 8GB DDR3, Stocare: SSD.
+        SO: Linux Mint 18.3, kernel: 4.15.0-47-generic #50~16.04.1-Ubuntu SMP Fri Mar 15 16:06:21 UTC 2019.
+        <br><br>
+        <i>Legendă</i>:
+        <br>Primele două coloane din tabel reflectă algoritmul de sortare utilizat pentru experimentul de pe fiecare linie:
+        'Seq sort, 1' înseamnă sortare folosind o singură instanță a programului de sortare fără lacăte,
+        iar 'Par sort, i' înseamnă sortare folosind i instanțe ale programului de sortare cu lacăte, cu i=1,2,3,...,<tt>GPmax</tt>.
+        <br>Coloanele 3 și 4 conțin dimensiunea secvenței de numere și fișierul cu acea secvență de numere, ce a fost sortată,
+        iar ultima coloană conține durata de execuție a sortării, calculată cu prima dintre metodele de măsurare a timpului descrise mai sus,
+        durata fiind exprimată în secunde, cu o precizie de doar 2 zecimale.
+        <br><br>
+        Limitele folosite: <tt>NrSeries=5</tt>, <tt>GPmax=16</tt>, nu am folosit timeout, însă m-am "oprit" din creșterea dimensiunii la <tt>Nmax=1000</tt>.
+        Tipul de numere întregi utilizat: <tt>int</tt>.
+        <br><br>
+        <i>Observație</i>: execuția scriptului de automatizare a rulării tuturor experimentelor, unul după altul, pe acest calculator,
+        a durat în total aproximativ 24 de minute și nu s-a depistat nicio eroare datorită <i>data race</i>-urilor
+        (lucru ce era de așteptat în cazul acestui program, <tt>sortare_cu-lacate.c</tt>).
+        </td>
+    </tr></table>    
+    </p>
+<button onclick="myToggle('lab8perf_ex1_9b')">Show / Hide the Excel sheet for a server</button>
+    <p id="lab8perf_ex1_9b" style="display:none;" class="stil_explicatie">
+    <table>
+    <tr><td><iframe src="data_analysis/Lab7_log_runtime_thor_original.html" height="500" width="400"></iframe></td>
+        <td valign="top">
+        Această tabelă conține datele experimentale obținute pe serverul profs, cu următoarele caracteristici:
+        <br>CPU: Intel Xeon E3-12xx v2 (Ivy Bridge) 8 CPUs, RAM: 8GB (probabil), Stocare: storage virtualizat.
+        <br>SO: CentOS Linux 7 (Core), kernel: 3.10.0-862.14.4.el7.x86_64 #1 SMP Wed Sep 26 15:12:11 UTC 2018.
+        <br><br>
+        <i>Legendă</i>:
+        <br>Primele două coloane din tabel reflectă algoritmul de sortare utilizat pentru experimentul de pe fiecare linie:
+        'Seq sort, 1' înseamnă sortare folosind o singură instanță a programului de sortare fără lacăte,
+        iar 'Par sort, i' înseamnă sortare folosind i instanțe ale programului de sortare cu lacăte, cu i=1,2,3,...,<tt>GPmax</tt>.
+        <br>Coloanele 3 și 4 conțin dimensiunea secvenței de numere și fișierul cu acea secvență de numere, ce a fost sortată,
+        iar ultima coloană conține durata de execuție a sortării, calculată cu prima dintre metodele de măsurare a timpului descrise mai sus,
+        durata fiind exprimată în secunde, cu o precizie de doar 2 zecimale.
+        <br><br>
+        Limitele folosite: <tt>NrSeries=5</tt>, <tt>GPmax=16</tt>, nu am folosit timeout, însă m-am "oprit" din creșterea dimensiunii la <tt>Nmax=10000</tt>.
+        Tipul de numere întregi utilizat: <tt>int</tt>.
+        <br><br>
+        <i>Observație</i>: execuția scriptului de automatizare a rulării tuturor experimentelor, unul după altul, pe acest calculator,
+        a durat în total aproximativ 26 de ore (!) și nu s-a depistat nicio eroare datorită <i>data race</i>-urilor
+        (lucru ce era de așteptat în cazul acestui program, <tt>sortare_cu-lacate.c</tt>).
+        </td>
+    </tr></table>    
+    </p>
+    <br><br>
+</li>
+
+<li><b>Calculăm media aritmetică a duratelor de execuție pentru secvențele de numere generate aleator</b>.
+    <br>A se revedea discuția de la factorul de influență i).2 !!!
+    <br>Pentru fiecare din cele <tt>NrSeries</tt> fișiere cu secvențe de aceeași lungime, de numere generate aleator, vom calcula media aritmetică a duratelor de execuție,
+	folosind operațiuni și funcții specifice din calculul tabelar.
+	Mai precis, sortăm tabela de mai sus după coloanele: mai intâi după prima coloană, apoi după a doua coloană.
+	Astfel, am grupat laolaltă cele <tt>NrSeries</tt> fișiere de aceeași dimensiune și cu același grad de paralelism, pentru a aplica mai ușor funcția AVERAGE din Excel pe
+	un interval contiguu de celule.
+    <br>În urma aplicării repetate a funcției AVERAGE pe intervalele corespunzătoare de celule, obținem mediile aritmetice dorite și le 'decorăm' cu semnificația lor:
+	average-case vs best/worst-case, obținând o tabelă Excel precum cele de mai jos:<br>
+<button onclick="myToggle('lab8perf_ex1_10a')">Show / Hide the Excel sheet for a laptop</button>
+    <p id="lab8perf_ex1_10a" style="display:none;" class="stil_explicatie">
+    <table>
+    <tr><td><iframe src="data_analysis/Lab7_log_runtime_SG4_sortatGP.html" height="450" width="500"></iframe></td>
+        <td valign="top">
+        Aceasta este tabela obținută din cea anterioară (i.e, tabela cu datele experimentale obținute folosind un laptop), prin prelucrările descrise mai sus.
+        </td>
+    </tr></table>    
+    </p>
+<button onclick="myToggle('lab8perf_ex1_10b')">Show / Hide the Excel sheet for a server</button>
+    <p id="lab8perf_ex1_10b" style="display:none;" class="stil_explicatie">
+    <table>
+    <tr><td><iframe src="data_analysis/Lab7_log_runtime_thor_sortatGP.html" height="500" width="500"></iframe></td>
+        <td valign="top">
+        Aceasta este tabela obținută din cea anterioară (i.e, tabela cu datele experimentale obținute folosind un server), prin prelucrările descrise mai sus.
+        </td>
+    </tr></table>    
+    </p>
+    <br><br>
+</li>
+
+<li><b>Analizăm datele din tabela Excel obținută mai sus, încercând să observăm eventuale corelații ce se pot face între date</b>.
+  <br><br>
+    <ul>
+      <li>O primă observație pe care o putem trage din cele două tabele de mai sus:
+        <br><u>Precizia aleasă pentru măsurarea timpului, i.e. sutimi de secundă, este <b>insuficientă</b>
+        pentru secvențe de numere de lungime mică și/sau cu puține inversiuni (i.e., care sunt de la început "aproape" ordonate crescător</u> (!)
+        <br>Astfel, în cazul datelor colectate pe acel laptop, am obținut durate nule, sau 'aproape' nule (i.e., 0.01s), pentru o parte dintre secvențele cu lungimea
+        <tt>N=10</tt>, și chiar și pentru câteva dintre secvențele cu lungimea <tt>N=100</tt> corespunzătoare cazului cel mai favorabil, i.e. zero inversiuni.
+        <br>Iar în cazul datelor colectate pe acel server, am obținut durate nule, sau 'aproape' nule (i.e., 0.01s), pentru TOATE secvențele cu lungimea
+        <tt>N=10</tt>, și chiar și pentru toate secvențele cu lungimea <tt>N=100</tt> și <tt>N=1000</tt> corespunzătoare cazului cel mai favorabil, i.e. zero inversiuni.
+        <br>
+        <br><i>Notă</i>: evident, această observație nu este deloc surprinzătoare, intuiția ne spunea că putem să ne așteptăm să aibă loc acest fenomen în
+        "colțul celor mai mici valori" din spațiul 3D al tripletelor de valori corespunzătoare parametrilor de intrare.
+        Pentru această 'regiune' din spațiul 3D al tripletelor de valori, cel puțin, ar trebui să refacem experimentele folosind pentru măsurarea timpului cea de-a doua metodă
+        dintre cele trei descrise mai sus, i.e. cea cu precizia de ordinul microsecundelor.
+        <br><br>
+      </li>
+      <li>Întrebare: există vreo corelație între gradul de paralelism și timpul de execuție?
+        <br>[...] //ToDo: analizați cele două tabele, sortate ca la pct.1: ... 
+        <!--Care este factorul de accelerare?-->
+        <br><br>
+      </li>
+      <li>Întrebare: există vreo corelație între lungimea secvenței și timpul de execuție?
+        <br>[...] //ToDo: analizați cele două tabele de la pct.2, sortate după N: ...
+        <br><br>
+      </li>
+      <li>Întrebare: există vreo corelație între ordonarea numerelor din secvență (i.e., numărul de inversiuni) și timpul de execuție?
+        <br>[...] //ToDo: analizați cele două tabele de la pct.2, sortate după 'case' (best/avg./worst): ...
+        <br><br>
+      </li>
+      <li>Întrebare: care este impactul (inutil, în lipsa paralelismului) al adăugării apelurilor de blocaj, asupra timpului de execuție?
+        <br>[...] //ToDo: analizați cele explicate în Observația #1 de la pct. 4: Efectuarea experimentelor, de mai sus: ...
+        <br><br>
+      </li>
+
+    </ul>
+    <br><br>
+</li>
+
+
+<!--
+</p>
+Pe baza studiului, concluzionați care metoda este cea mai eficientă (i.e. sortarea se termină mai repede)
+și pentru ce situații (i.e. pentru ce 'plajă de valori' ale factorilor numerici pomeniți la acel exercițiu experimental) se realizează această eficiență?
+
+[...]
+
+În referat, să specificați valorile folosite/alese pentru constantele amintite mai sus: <tt>Timeout</tt>, <tt>NrSeries</tt>.
+Respectiv valorile efective ale constantelor <tt>NrPhysicalCores</tt> și respectiv <tt>NrLogicalCores</tt>, pentru fiecare calculator pe care-l veți utiliza
+pentru a realiza experimentele, împreună cu specificarea celorlalte caracteristici fizice ale calculatorului, cerute mai sus în text la categoria de factori ii).1.
+</p>
+-->
+
+</ol>
+</p>
+
+</p>
+<br><br>
+</li>
+
+
+
+
+<li><!-- Problema: lab8_ex5.c+rtstats ------------------------------------------------------------------------------------>
+<p><big>[MyCritSec #2bis-rtstats : Runtime statistics of Parallel sorting II]</big><!-- new ex:2019 -->
+<br>
+<b>Studiu experimental</b>: 
+Suplimentar, puteți încerca să refaceți (i.e., să îmbunătățiți) studiul realizat la exercițiul experimental de mai sus</b>,
+pentru a lua în calcul și impactul celor 3 moduri de parcurgere descrise în exercițiul <b>[MyCritSec #2bis : Parallel sorting II]</b> asupra timpului de execuție
+necesar pentru sortare.
+<br>Pe baza studiului, concluzionați care combinație a celor trei moduri de parcurgere este cea mai eficientă (i.e., sortarea se termină mai repede)
+și pentru ce situații (i.e., pentru ce 'plajă de valori' ale factorilor numerici pomeniți la exercițiul experimental de mai sus) se realizează această eficiență?
+</p>
+</li>
+
+</ol>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

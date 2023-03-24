@@ -1,0 +1,506 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #10</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #10, partea a II-a :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab10.html#sec_0">Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile exec</a></h4>
+<h4>I) <a href="lab10.html#sec_1">Exerciții de programare C cu apeluri exec (execuția programatică a unor comenzi uzuale)</a></h4>
+<h4>II) <a href="lab10sync.html#sec_2">Exerciții de programare C cu mai multe procese secvențiale (partea a treia -- diverse procesări, folosind apeluri fork, wait și exec)</a></h4>
+<h5><a href="lab10sync.html#sec_2a">Exerciții rezolvate</a></h5>
+<h5><a href="lab10sync.html#sec_2b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab10sync.html#sec_2c">Exerciții suplimentare</a></h5>
+<h4>III) <a href="lab10perf.html#sec_3">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+<h4>IV) <a href="lab10.html#sec_4">Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat</a></h4>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile exec:</span></p>
+</a>
+
+<p>
+Lista cu aceste informații și programe demonstrative este disponibilă <a href="lab10.html#sec_0">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu apeluri exec (execuția programatică a unor comenzi uzuale):</span></p>
+</a>
+
+<p>
+Lista cu aceste exerciții este disponibilă <a href="lab10.html#sec_1">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu mai multe procese secvențiale (partea a treia -- diverse procesări, folosind apeluri fork, wait și exec) :</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab10_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #1N: <i>A coordinated distributed sum #1N</i> (<small>v1, using regular files for IPC</small>)]</big>
+<br>
+Să se scrie un program C care să implementeze șablonul de cooperare 'Supervisor-workers' în maniera următoare:
+un proces P<sub>0</sub> (cu rol de proces supervisor) citește numere de la tastatură și le trimite, împărțindu-le în mod egal,
+la <tt>N</tt> procese fii P<sub>1</sub>, P<sub>2</sub>, ..., și respectiv P<sub><tt>N</tt></sub> (cu rol de procese workers),
+acestea calculează sumele parțiale și le trimit înapoi la părintele P<sub>0</sub>,
+iar P<sub>0</sub> adună cele <tt>N</tt> sume parțiale și afișează rezultatul final.
+<br>
+Pentru comunicația între procese se vor folosi fișiere obișnuite - procesul P<sub>0</sub> scrie numerele citite în fișierele f1i, f2i, ..., și respectiv f<tt>N</tt>i,
+de unde sunt citite de procesele P<sub>1</sub>, P<sub>2</sub>, ..., și respectiv P<sub><tt>N</tt></sub>,
+care le adună și scriu sumele parțiale în fișierele f1o, f2o, ..., și respectiv f<tt>N</tt>o,
+de unde sunt citite de procesul P<sub>0</sub> și adunate.
+<br>
+<b><i>Cerință</i></b>: programul worker <u>să fie apelat printr-unul dintre apelurile exec</u> din fiul creat cu fork de procesul supervisor,
+iar numele fișierului de intrare (f{1,2,...,<tt>N</tt>}i) și respectiv a celui de ieșire (f{1,2,...,<tt>N</tt>}o)
+să-i fie trasferate ca argumente în linia de comandă.
+<br>
+<br><i>Observație</i>: va trebui să rezolvați și unele probleme de sincronizare ce apar la comunicațiile între procese,
+i.e. trebuie asigurat faptul că citirea unor numere din fișier se va face abia după ce acestea au fost scrise în acel fișier!
+<br>
+(Indicație: <span class="stil_hint2">pentru sincronizarea necesară la fișierele de intrare este suficient să creați procesele fii abia după ce s-au terminat
+de introdus numerele de la tastatură.
+&nbsp; Iar pentru sincronizarea necesară la fișierele de ieșire este suficient să folosiți apeluri wait în procesul supervisor pentru a aștepta terminarea proceselor workers,
+înainte de a citi sumele parțiale din fișierele de ieșire.</span>)
+</p>
+
+<button onclick="myToggle('lab10_demoSW1bis')">Show / Hide a possible solution</button>
+<div id="lab10_demoSW1bis" style="display:none;" class="stil_rezolvare">
+Prin urmare, se cere să implementăm calculul distribuit al sumei, coordonat folosind șablonul supervisor/workers. <!--master/slaves-->
+<br>
+Iată o posibilă rezolvare -- soluția este formată din două programe sursă C, și anume:
+<dl>
+<dt style="display:list-item; list-style-type:circle;"><tt>supervisor.c</tt> :</dt>
+<dd>este programul care citește numerele, creează procesele worker și le dă să calculeze sumele parțiale, iar în final calculează suma finală.
+    <br><i>Notă</i>: programul este scris astfel încât să creeze nu fix 3 procese worker, ci orice număr (citit la execuție) de procese worker!
+<pre class="stil_codC"><div w3-include-HTML="lab10_c/demoSW1_supervisor.c.html">See the code from <a target="_blank"
+href="lab10_c/demoSW1_supervisor.c.html">here</a>.</div></pre>
+</dd>
+<dt style="display:list-item; list-style-type:circle;"><tt>worker.c</tt> :</dt>
+<dd>este programul care este apelat în fiecare proces fiu creat de supervisor și care calculează o sumă parțială,
+    a numerelor citite din primul fișier primit ca parametru în linia de comandă, pe care o scrie în al doilea fișier primit ca parametru în linia de comandă.
+<pre class="stil_codC"><div w3-include-MyCode="lab10_c/demoSW1_worker.c">See the code from <a target="_blank"
+href="lab10_c/demoSW1_worker.c">here</a>.</div></pre>
+</dd>
+</dl>
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #3: <i>Coordinated distributed WordCount (wc)</i>]</big><!--master/slaves-->
+<br>
+Să se scrie două programe C, unul numit master_wc.c, iar celălalt slave_wc.c,
+care să realizeze coordonarea execuției simultane și concurente a <tt>N</tt> instanțe ale programului din
+exercițiul rezolvat <b>[MyWc]</b> prezentat în <a href="lab6.html#sec_2a">a doua parte din laboratorul #6</a>, în felul următor:
+<br>
+Supervisorul va "diviza" fișierul de intrare în <tt>N</tt> "părți" aprox. egale (unitatea de referință nefiind octetul/caracterul, ci "linia de text"),
+pe care le va transmite proceselor workeri,
+apoi fiecare worker, ce va rula o instanță adaptată a programului <b>[MyWc]</b>, va calcula statisticile solicitate DOAR pe "bucata" sa de
+fișier primit de la supervisor (deci nu pe întreg fișierul de intrare !) și le va transmite supervisorului.
+La final, supervisorul va "agrega" prin însumare statisticile primite de la workeri și va afișa rezultatele finale.
+<br>
+<i>Cerință</i>: pentru comunicațiile necesare între supervisor și workeri, folosiți mapări cu nume (sau fișiere obișnuite).
+<br>
+(Indicație: <span class="stil_hint2">Mai precis, programul master pe care trebuie să-l scrieți va crea <tt>N</tt> procese fii,
+iar în fiecare fiu va executa prin exec() programul slave; pe acesta îl veți adapta din programul [MyWc], pentru prelucrarea unei "bucăți" de fișier).</span>)
+</p>
+
+<button onclick="myToggle('lab10_setCV')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab10_setCV" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- programul pe care trebuie să-l scrieți cu rol de proces supervisor, va trebui să implementeze următoarele funcționalități:
+<ul>
+<li>1 -- faza de inițializare:<br>
+i) Supervisorul va primi la linia de comandă numărul de workeri <tt>N</tt>, numele fișierului de procesat și o serie de opțiuni,
+dintre cele 4 posibile: -c ,-w, -l, -L.
+Pentru procesarea opțiunilor specificate în linia de comandă refolosiți codul corespunzător din programul <b>[MyWc]</b>.
+ii) Apoi va crea <tt>N</tt> mapări cu nume, de dimensiuni adecvate
+<!-- (aflați dimensiunea fișierului cu un apel stat() și împărțiți-o la <tt>N</tt>)-->
+și va scrie opțiunile respective la începutul fiecăreia dintre cele <tt>N</tt> mapări cu nume, sau, alternativ, le poate transmite 
+workerilor prin argumentele apelului exec (descris mai jos).
+iii) Apoi va citi <u>linie cu linie</u> fișierul de intrare și va "distribui" <u>liniile</u> citite, în manieră circulară, către workeri,
+scriindu-le în cele <tt>N</tt> mapări cu nume (create așadar înaintea workerilor și "asignate" câte una pentru fiecare worker).
+</li>
+<li>2 -- faza de calcul distribuit coordonat:<br>
+iv) Abia apoi procesul supervisor va crea <tt>N</tt> procese fii (a se revedea în acest sens
+exercițiul rezolvat <b>[N childs]</b> prezentat în <a href="lab9.html#sec_1a">Laboratorul #9</a>),
+iar în fiecare proces fiu se va apela prin exec o instanță a programului worker, părintele așteptând apoi terminarea tuturor fiilor.
+<br>
+v) Programul pe care trebuie să-l scrieți cu rol de proces worker, va citi opțiunile comenzii wc (fie din maparea cu nume "asignată" lui,
+fie din parametrii primiți în lnia de comandă prin exec), precum și celelalte date de intrare necesare (i.e.,
+poziția/lungimea, în cadrul mapării cu nume "asignate" lui, a "bucății" lui de fișier -- adică "colecția" liniilor de text din fișierul original
+ce i-au fost distribuite lui pentru procesare). Aceste informații sunt deja în memorie (sincronizarea necesară este realizată prin faptul că
+procesele fii sunt startate abia după scrierea în memorie a acestor date, de către supervisor).
+vi) Apoi workerul va calcula statisticile corespunzătoare opțiunilor respective.
+Pentru aceasta, puteți refolosi codul corespunzător din programul <b>[MyWc]</b>, pe care însă trebuie să-l adaptați pentru procesarea "fișierului"
+aflat în memorie, în maparea cu nume (<i>Notă</i>: dacă ați rezolvat cumva exercițiul <b>[MyWc_mmap]</b> propus spre rezolvare
+în <a href="lab8.html#sec_1c">laboratorul #8</a>, atunci efortul de adaptare al codului pe care trebuie să-l faceți va fi considerabil diminuat).
+vii) La final, fiecare proces worker va transmite statisticile calculate către părinte, scriindu-le în maparea cu nume "asignată" lui.
+</li>
+<li>3 -- faza de finalizare, i.e. de detecție a terminării calculului distribuit:<br>
+viii) Procesul supervisor va folosi apeluri wait pentru a aștepta terminarea tuturor proceselor workers,
+care vor indica prin codul de terminare dacă au finalizat calculul cu succes, sau nu.
+Dacă nu este vreo eroare la niciun worker, atunci se poate face "agregarea" rezultatelor parțiale pentru a obtine rezultatele totale:
+<br>Pe măsură ce se termină fiecare worker, supervisorul va citi statisticile parțiale raportate/scrise de acel worker în maparea cu nume asociată acestuia,
+și le va "agrega" în statisticile totale. "Agregarea" înseamnă operația de adunare pentru statisticile corespunzătoare opțiunilor  -c ,-w și -l,
+iar pentru opțiunea -L se va folosi operația de maxim pentru "agregare". Iar în cazul în care acel worker raportează că s-a terminat cu eroare,
+atunci supervizorul poate abandona așteptarea celorlalți workeri încă activi și "agregarea"rezultatelor de la aceștia, trecând la pasul final 4).
+</li>
+<li>4 -- faza de afișare a rezultatelor:<br>
+Supervisorul va afișa pe ecran statisticile totale, dacă nu au fost erori la workeri, sau, în caz contrar, ne va informa asupra erorilor survenite.
+</li>
+</ul>
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+testați corectitudinea programului pe care-l veți scrie, comparând outputul său cu outputul afișat de comanda <tt>wc</tt>.
+Repetați testele pentru diverse fișiere de intrare.
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab10_ex1.c -------------------------------------------------------------------------------------------->
+<!-- CV: enunț reformulat în 2020, cu wait asincron, rezultat transmis prin fișier mapat, 4 operatori în loc de doar 2, etc. -->
+<p><big>['Client/Server' pattern #1: <small><i>A supervisor which spawns a new worker for every task received</i></small>]</big>
+<br>
+Să se scrie două programe C, unul numit master.c, iar celălalt slave.c.
+Programul master va executa o buclă în care va afișa un prompter și va citi de la tastatură două numere întregi
+și unul dintre caracterele '+' , '-' , '*' sau '/'.
+Informațiile citite vor fi transmise, cu ajutorul apelului de sistem execl(), unui proces fiu nou creat, care va executa codul programului slave.
+<!-- Totodată tatăl va reține într-un tabel numerele și operatorul, plus PID-ul fiului creat pentru acel calcul. -->
+<br>
+Programul slave va face operația corespunzătoare și va transmite, după o pauză de durată (pseudo-)aleatoare de maxim 5 secunde,
+rezultatul calculat către procesul părinte (master), cu ajutorul <!-- apelului de sistem exit().-->
+unui fișier mapat în memorie.
+<br>
+Procesul master va AȘTEPTA terminarea workerului și apoi va afișa rezultatul pe ecran,
+însoțit de informațiile despre acea operație<!-- memorate în tabelul propriu-->, în formatul următor:
+<br>
+<span class="stil_black_BGcolor">NR_1: <i>primul operand</i>, OP: <i>operatorul</i>, NR_2: <i>al doilea operand</i>, Result: <i>rezultatul primit</i></span>
+<br>
+<!--, iar apoi va putea "elibera" acea intrare din tabel și va reafișa prompterul pentru o nouă citire.-->
+iar apoi va reafișa prompterul pentru o nouă citire, reluând bucla pomenită mai sus.
+<br><br>
+<i>Observație</i>: funcționalitatea descrisă mai sus caracterizează șablonul <u>'Client/Server de tip secvențial'</u> (i.e.,
+serverul poate servi un singur client la un moment dat).
+</p>
+</li>
+</ol>
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_enunt_propus">
+3. Not yet!
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_enunt_propus">
+4. Not yet!
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Enunț nou, 2020, propus de AG, formulat prin analogie cu problema de la setulCV --------------------------------->
+<p><big>['Supervisor-workers' pattern #4: <i>Coordinated distributed alphanumeric characters count in a binary file</i>]</big><!--master/slaves-->
+<br>
+Să se scrie două programe C, unul numit master.c, iar celălalt slave.c, care să realizeze următoarele:
+primul, master.c, cu rolul de supervizor, va realiza coordonarea execuției simultane și concurente a <tt>N</tt> instanțe ale programului slave.c,
+iar acesta din urmă va avea rolul de a număra caracterele alfanumerice aflate într-un anumit "segment" dintr-un fișier specificat.
+<br>
+Supervisorul va primi de la linia de comandă un fișier binar de procesat și un număr ce va reprezenta numărul de instanțe ale programului worker ce vor fi rulate.
+Supervisorul va "diviza" fișierul de intrare în <tt>N</tt> "părți" aprox. egale (unitatea de referință fiind octetul/caracterul; astfel fișierul poate fi
+împărțit în funcție de dimensiunea fișierului respectiv).
+<br>
+Fiecare "parte" astfel obținută prin divizare este practic o porțiune din acel fișier, caracterizată printr-un "punct de start" (i.e., offset-ul de început
+al porțiunii) și o dimensiune a ei, pe care supervisorul le va transmite către procesul worker ce va procesa acea porțiune, ca argumente în apelul exec folosit
+de fiul supervisorului ce se va reacoperi cu workerul respectiv.
+<br>
+Așadar, fiecare worker va primi 3 argumente în linia de comandă (transmise prin exec).
+Primul argument va fi o cale către un fișier de procesat (i.e., aceiași cale primită de master și transmisă workerului),
+iar următoarele două argumente vor reprezenta offset-ul de început și dimensiunea porțiunii din acel fișier, pe care workerul o va procesa,
+calculând numărul total de caractere alfanumerice din acea porțiune de fișier primită de la supervisor (deci nu pe întreg fișierul de intrare !)
+și va transmite rezultatul supervisorului (prin scrierea acestuia fie într-o mapare cu nume, fie într-un fișier obișnuit).
+<br>
+La final, supervisorul va "agrega" prin însumare rezultatele primite de la workeri și va afișa rezultatul final.
+<br>
+<i>Cerință</i>: pentru comunicațiile necesare de la workeri spre supervisor, folosiți mapări cu nume (sau fișiere obișnuite).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li>
+<!-- Enunț nou, 2020, propus de VU, formulat prin analogie cu problema de la setulRB -->
+<p><big>['Client/Server' pattern #2: <small><i>A supervisor which spawns a new worker for every task received</i></small>]</big>
+<br>
+Să se scrie două programe C, unul numit master.c, iar celălalt slave.c.
+Programul master <!-- primește de la linia de comandă un <i>text de căutat</i> și-->
+va executa o buclă în care va afișa un prompter și va citi de la tastatură
+câte un <i>text de căutat</i> și un <i>path</i> (o cale absolută sau relativă) către un fișier text.
+Informațiile respective, i.e. <i>text de căutat</i> și <i>path</i>, vor fi transmise, cu ajutorul apelului de sistem execv(),
+unui proces fiu nou creat, care va executa codul programului slave.
+<br>
+Programul slave va prelua cei doi parametri primiți la linia de comandă (prin apelul execv)
+și va calcula numărul de apariții ale <i>textului de căutat</i> în fișierul text specificat prin acel <i>path</i>.
+Rezultatul, i.e. numărul de apariții calculat, va fi transmis către procesul părinte (master), printr-un fișier mapat în memorie.
+<br>
+Procesul master va AȘTEPTA terminarea workerului și apoi va afișa rezultatul pe ecran,
+însoțit de informațiile despre acea operație<!-- memorate în tabelul propriu-->, în formatul următor:
+<br>
+<span class="stil_black_BGcolor">PATH: <i>calea către acel fișier text</i> , SEARCH: <i>textul de căutat</i> , FOUND: <i>numărul de apariții primit</i> instances.</span>
+<br>
+<!--, iar apoi va putea "elibera" acea intrare din tabel și va reafișa prompterul pentru o nouă citire.-->
+iar apoi va reafișa prompterul pentru o nouă citire a unui <i>path</i>, reluând bucla pomenită mai sus.
+<br>
+(Indicație: <span class="stil_hint2">vă reamintesc faptul că lungimea unui fișier o puteți afla cu un apel stat.</span>)
+<br><br>
+<i>Observație</i>: funcționalitatea descrisă mai sus caracterizează șablonul <u>'Client/Server de tip secvențial'</u> (i.e.,
+serverul poate servi un singur client la un moment dat).
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu mai multe procese, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab10_ex6.c -------------------------------------------------------------------------------------------->
+<p><big>[MyShell v1]</big>
+<br>
+Să se scrie un program C care să ofere funcționalitatea minimă, de bază, a unui shell Unix:
+într-o buclă va afișa un prompter și va prelua de la tastatură numele unei comenzi Unix simple, cu sau fără parametri, pe care o va executa,
+fie în <i>foreground</i> (caz în care va aștepta terminarea execuției ei înainte de a reafișa prompterul),
+fie în <i>background</i> (caz în care nu mai așteaptă terminarea ei),
+apoi va relua bucla de citire și execuție de comenzi simple, până la citirea comenzilor exit sau logout.
+<br>
+<b><i>Cerințe</i></b>: se va folosi primitiva execlp() și nu funcția system() !
+La așteptarea introducerii unei comenzi, programul va afișa ca prompter textul "<tt>MyShell&gt;</tt>".
+</p>
+</li>
+
+
+<li><!-- Problema: lab10_ex9.c -------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #5: <i>Coordinated parallel sorting</i>]</big><!--master/slaves-->
+<br>
+Să se scrie un program C care să realizeze coordonarea execuției simultane și concurente a <tt>N</tt> instanțe ale programului de sortare cu lacăte
+(i.e., exercițiul <b>[MyCritSec #2 : Parallel sorting]</b>) din <a href="lab7.html#sec_1a">Laboratorul #7</a>).
+<br>
+(Indicație: <span class="stil_hint2">Mai precis, programul pe care trebuie să-l scrieți va crea <tt>N</tt> procese fii,
+iar în fiecare fiu va executa programul de sortare cu lacăte.</span>)
+</p>
+
+<button onclick="myToggle('lab10_ex9')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab10_ex9" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- programul pe care trebuie să-l scrieți va trebui să implementeze următoarele funcționalități (cu rol de proces supervisor):
+<br><br>
+<ul>
+<li>1 -- faza de inițializare:
+i) numărul de instanțe <tt>N</tt> se va prelua ca parametru în linia de comandă, sau se va citi de la tastatură, în caz contrar;
+ii) pregătirea secvenței de numere ce urmează a fi sortată, fie prin citirea ei de la tastatură, fie prin generarea de numere aleatoare,
+și scrierea ei într-un fișier "secventa.bin", în format binar, apelând în acest scop programul
+<!--... ajutător <tt>bin-write.c</tt> de la exercițiul rezolvat <b>[MyCritSec #2 : Parallel sorting]</b> prezentat în <a href="lab7.html#sec_1a">Laboratorul #7</a>;-->
+demonstrativ <tt>txt2bin_write-file.c</tt> prezentat în <a href="lab7.html#sec_0">preambulul din Laboratorul #7</a> ;
+pentru simplificare puteți recurge la apelarea cu <tt>system(<i>comandă</i>);</tt> .
+</li>
+<li>2 -- faza de sortare concurentă coordonată:
+se vor porni cele <tt>N</tt> instanțe ale programului worker (i.e. programul <tt>sortare_cu-lacate.c</tt> de la exercițiul rezolvat
+<b>[MyCritSec #2 : Parallel sorting]</b> prezentat în <a href="lab7.html#sec_1a">Laboratorul #7</a>),
+astfel:
+procesul supervisor va crea <tt>N</tt> procese fii
+(a se revedea în acest sens exercițiul rezolvat <b>[N childs]</b> prezentat în <a href="lab9.html#sec_1a">Laboratorul #9</a>),
+iar în fiecare proces fiu se va apela prin exec o instanță a programului worker, numele fișierului de sortat (i.e. "secventa.bin") fiindu-i
+transferat ca argument în linia de comandă.
+</li>
+<li>3 -- faza de finalizare, i.e. de detecție a terminării calculului distribuit:
+se vor folosi apeluri wait în procesul supervisor pentru a aștepta terminarea tuturor proceselor workers, care vor indica prin codul de terminare
+dacă au finalizat sortarea cu succes, sau nu (recitiți programul <tt>sortare_cu-lacate.c</tt> pentru a vedea care este codul de terminare folosit
+pentru a indica finalizarea cu succes a sortării).
+<br><u>În cazul acestei probleme</u>, în clipa în care procesul supervisor detectează "terminarea calculului distribuit" prin
+<u>primirea <b>primului</b> cod de terminare</u> ce indică finalizarea cu succes a sortării de către un worker oarecare,
+aceasta semnifică faptul că <u>fișierul a devenit sortat</u>,
+și prin urmare supervisorul poate opri forțat toate celelalte procese worker care mai sunt încă active, pentru a nu mai continua degeaba,
+căci oricum nu vor mai găsi nicio inversiune de efectuat (în acest scop, puteți folosi apelul de sistem <tt>kill(<i>pid_worker_activ</i>,SIGTERM);</tt>&nbsp;).
+</li>
+<li>4 -- faza de afișare a rezultatelor:
+se va afișa pe ecran conținutul sortat din fișierul "secventa.bin", apelând în acest scop programul
+<!--... ajutător <tt>bin-read.c</tt> de la exercițiul rezolvat <b>[MyCritSec #2 : Parallel sorting]</b> prezentat în <a href="lab7.html#sec_1a">Laboratorul #7</a>;-->
+demonstrativ <tt>bin2txt_read-file.c</tt> prezentat în <a href="lab7.html#sec_0">preambulul din Laboratorul #7</a> ;
+pentru simplificare puteți recurge la apelarea cu <tt>system(<i>comandă</i>);</tt> .
+</li>
+</ul>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab10_ex1.c -------------------------------------------------------------------------------------------->
+<!-- CV: enunț reformulat în 2020, cu wait asincron, rezultat transmis prin fișier mapat, 4 operatori în loc de doar 2, etc. -->
+<p><big>['Client/Server' pattern #1bis: <small><i>A supervisor which spawns a new worker for every task received</i></small>]</big>
+<br>
+Referitor la programul pe care l-ați scris pentru a rezolva exercițiul
+<b>['Client/Server' pattern #1bis: <small><i>A supervisor which spawns a new worker for every task received</i></small>]</b>
+propus <a href="lab10sync.html#sec_2b">mai sus în setul RB</a>, și care reprezenta un exemplu de implementare a șablonului 'Client/Server de tip secvențial' (i.e.,
+serverul poate servi un singur client la un moment dat).
+<br>
+Se cere să se modifice programul respectiv, astfel încât să se implementeze șablonul <u>'Client/Server de tip paralel/concurent'</u> (i.e.,
+serverul poate servi mai mulți clienți în același timp).
+<br>
+(Indicație: <span class="stil_hint2">renunțați la așteptarea terminării workerului curent și, în schimb,
+folosiți o buclă de <u>așteptare ocupată</u>, în care să verificați încontinuu apariția oricăruia dintre cele două tipuri de evenimente care ne interesează:
+o nouă cerere de calcul de la tastatură, respectiv terminarea unuia dintre workerii activi.
+Pentru a "aștepta ocupat" (i.e., prin testare repetitivă), în bucla de care pomeneam, apariția acestor două tipuri de evenimente,
+folosiți apeluri asincrone/neblocante, în loc de apelurile uzuale, read/scanf și respectiv wait, care sunt blocante.</span>)
+</p>
+
+<button onclick="myToggle('lab10_ex10')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab10_ex10" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- pentru a implementa un server concurent, trebuie să renunțați, în programul master.c,
+la AȘTEPTAREA terminării workerului curent, astfel ca, în timp ce acesta lucrează,
+masterul să fie gata de a prelua imediat un nou client (i.e., să poată prelua imediat o nouă cerere de la tastatură).
+<br>
+De asemenea, acest șablon mai înseamnă și că este posibil să avem mai mulți workeri activi simultan în anumite intervale de timp, plus
+faptul că ordinea de terminare a workerilor nu coincide neapărat cu ordinea în care au fost startați -- aceasta deoarece, în general,
+durata procesării cererii primite de la un client poate fi variabilă, nu constantă (situație "modelată" în enunț prin
+cerința acelui sleep de o durată (pseudo-)aleatoare de maxim 5 secunde).
+Ca urmare, și formatul de afișare a rezultatelor trebuie adaptat la acest context, i.e. se va folosi formatul următor de afișare:
+<br>
+<span class="stil_black_BGcolor">ID_operație: <i>PID-ul fiului de la care a primit rezultatul</i>,
+NR_1: <i>primul operand</i>, OP: <i>operatorul</i>, NR_2: <i>al doilea operand</i>, Result: <i>rezultatul primit</i></span>
+<br>
+<br>
+Pentru implementarea ideilor descrise mai sus, trebuie să folosiți un apel <u>waitpid asincron</u> (i.e., cu opțiunea <tt>WNOHANG</tt>) pentru așteptarea vreunui rezultat de la oricare worker,
+<b>în paralel</b> cu <u>citirea asincronă de la tastatură</u> a datelor unei noi operații de efectuat.
+Iar pentru <u>citirea asincronă de la tastatură</u>, trebuie să interogați în manieră neblocantă dacă există date deja sosite pe descriptorul 0,
+asociat fluxului stdin. Acest tip de interogare o puteți realiza folosind oricare dintre primitivele <tt>select</tt> sau <tt>poll</tt>, cu un timeout 'zero'
+și cu setul de descriptori interogați format numai din descriptorul 0.
+<br>
+De asemenea, va trebui ca masterul să rețină într-un tabel/vector informațiile despre fiecare calcul solicitat
+(i.e., numerele și operatorul, plus PID-ul fiului creat pentru acel calcul),
+pentru a putea regăsi aceste informații atunci când va detecta terminarea unuia dintre workerii activi simultan,
+în scopul afișării mesajului specificat în enunț la momentul terminării acelui calcul.
+Iar după ce face afișarea rezultatului, masterul va putea "elibera" din tabel/vector intrarea ce stoca informațiile referitoare la acel calcul.
+</div>
+</li>
+
+
+<li>
+<!-- CV: enunț formulat pe baza problemei propuse de VU -->
+<p><big>['Client/Server' pattern #2bis: <small><i>A supervisor which spawns a new worker for every task received</i></small>]</big>
+<br>
+Referitor la programul pe care l-ați scris pentru a rezolva exercițiul
+<b>['Client/Server' pattern #2bis: <small><i>A supervisor which spawns a new worker for every task received</i></small>]</b>
+propus <a href="lab10sync.html#sec_2b">mai sus în setul VU</a>, și care reprezenta un exemplu de implementare a șablonului 'Client/Server de tip secvențial' (i.e.,
+serverul poate servi un singur client la un moment dat).
+<br>
+Se cere să se modifice programul respectiv, astfel încât să se implementeze șablonul <u>'Client/Server de tip paralel/concurent'</u> (i.e.,
+serverul poate servi mai mulți clienți în același timp).
+</p>
+
+<button onclick="myToggle('lab10_ex11')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab10_ex11" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- este similară cu cea descrisă în sugestiile de rezolvare date la problema precedentă!
+<div>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">III) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab10perf.html#sec_3">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr><td align="center" valign="center">
+    <form><input type="button" name="lastUpdButton" value="Last Update"
+            onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);"></form>
+</td></tr>
+</table>
+
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<script>includeHTML();</script>
+</body>
+</html>

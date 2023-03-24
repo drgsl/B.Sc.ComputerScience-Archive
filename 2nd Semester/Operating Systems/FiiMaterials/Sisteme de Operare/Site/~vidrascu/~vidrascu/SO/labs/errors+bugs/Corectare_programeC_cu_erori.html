@@ -1,0 +1,337 @@
+<!--
+<head>
+    <title>Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat</title>
+    <base href = "https://profs.info.uaic.ro/~vidrascu/SO/labs/" />
+</head>
+<!------------------------------------------------------------------------------------------------------------------------ NO>
+
+<h4>IV) <a href="#sec_4">Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat</a></h4>
+<h5><a href="#sec_4a">Exerciții rezolvate</a></h5>
+<h5><a href="#sec_4b">Exerciții propuse spre rezolvare</a></h5>
+
+
+<!------------------------------------------------------------------------------------------------------------------------ No>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------ NO>
+<a name="sec_4">
+<p><span class="stil_set_exercitii">IV) Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat:</span></p>
+</a>
+
+-->
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_4a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!--  CV: enunț nou, 2020  ------------------------------------------------------------------------------------------->
+<p><big>[Exemplul #1 cu erori sintactice și semantice]</big>
+<br>
+Se dă programul C de mai jos, ce conține (măcar) trei erori sintactice și o greșeală logică:
+<br><br>
+<button onclick="myToggle('errors_ex1-src')">Show / Hide the program</button>
+<pre id="errors_ex1-src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="errors+bugs/ex1_cu_erori.c">See the code from <a target="_blank" href="ex1_cu_erori.c">here</a>.</div>
+</pre>
+i) Explicați ce se dorește a se afișa pe ecran în urma execuției programului.
+<br>
+ii) Corectați eventualele erori existente astfel încât programul să poată fi executat și să producă la execuție
+afișarea pe ecran a unui output IDENTIC cu comanda <tt class="stil_cmdBash">ls -l -A <i>dirname</i></tt>,
+urmat de mesajele proprii ce prelucrează statusul execuției comenzii ls.
+</p>
+
+<button onclick="myToggle('errors_ex1')">Show / Hide the solution</button>
+<div id="errors_ex1" style="display:none;" class="stil_rezolvare">
+Iată cum trebuie abordată rezolvarea pct. ii):
+<p>
+1. Compilați fișierul sursă dat, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall program.c -o program.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de compilator.
+</p>
+
+<p>
+În acest moment, lista de erori și avertismente afișată de compilator, este următoarea:
+<pre class="stil_output">
+prompt> gcc -Wall program.c -o program.exe
+program.c: In function ‘main’:
+program.c:52:38: error: expected ‘;’ before ‘if’
+   52 |  dirname = (argc < 2) ? "." : argv[1]
+      |                                      ^
+      |                                      ;
+......
+   55 |  if( pid=fork() == -1 )
+      |  ~~                                   
+lab10_ex1.c:50:8: warning: variable ‘dirname’ set but not used [-Wunused-but-set-variable]
+   50 |  char* dirname;
+      |        ^~~~~~~
+lab10_ex1.c:48:8: warning: unused variable ‘pid’ [-Wunused-variable]
+   48 |  pid_t pid;
+      |        ^~~
+</pre>
+Ne uităm la prima eroare din lista afișată și observăm că am uitat să punem un ';' la finalul instrucțiunii de atribuire pentru variabila dirname de la linia 52.
+</p>
+
+<p>
+2. Edităm fișierul sursă program.c și facem corecția respectivă, după care repetăm pasul 1 (i.e., recompilăm programul).
+</p>
+
+<p>
+Astfel, de data aceasta, lista de erori și avertismente afișată de compilator, este următoarea:
+<pre class="stil_output">
+prompt> gcc -Wall program.c -o program.exe
+program.c: In function ‘main’:
+program.c:41:6: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+   41 |  if( pid=fork() == -1 )
+      |      ^~~
+program.c:49:3: warning: missing sentinel in function call [-Wformat=]
+   49 |   execlp("ls","-l","-A",dirname);
+      |   ^~~~~~
+program.c:56:2: warning: implicit declaration of function ‘wait’ [-Wimplicit-function-declaration]
+   56 |  wait(&cod_term);
+      |  ^~~~
+</pre>
+Ne uităm la primul <i>warning</i> din lista afișată.
+Nu este eroare sintactică, programul poate fi compilat și să obținem un executabil,
+numai că ordinea de evaluare a operatorilor este mai întâi testul de egalitate (i.e., "<tt>fork() == -1</tt>")
+și abia apoi operatorul de atribuire (i.e., pid primește ca valoare rezultatul testului de egalitate).
+Compilatorul își dă seama că, totuși, probabil aici e cazul unei greșeli frecvent făcute de programatori,
+respectiv că ar dori evaluarea în ordine inversată (i.e., întâi atribuirea si apoi testul de egalitate) și atunci ne avertizează
+să punem un rând de paranteze în jurul atribuirii, dacă dorim această ordine de evaluare).
+</p>
+
+<p>
+Repetăm pasul 2: edităm fișierul sursă program.c și facem corecția sugerată, respectiv
+<tt class="stil_instrC">if( ( pid=fork() ) == -1 )</tt> în loc de <tt class="stil_instrC">if( pid=fork() == -1 )</tt>,
+după care repetăm pasul 1 (i.e., recompilăm programul).
+</p>
+
+<p>
+Astfel, de data aceasta, lista de erori și avertismente afișată de compilator, este următoarea:
+<pre class="stil_output">
+prompt> gcc -Wall program.c -o program.exe
+program.c: In function ‘main’:
+program.c:49:3: warning: missing sentinel in function call [-Wformat=]
+   49 |   execlp("ls","-l","-A",dirname);
+      |   ^~~~~~
+program.c:56:2: warning: implicit declaration of function ‘wait’ [-Wimplicit-function-declaration]
+   56 |  wait(&cod_term);
+      |  ^~~~
+</pre>
+Ne uităm la primul <i>warning</i> din lista afișată.
+Nu este eroare sintactică, programul poate fi compilat și să obținem un executabil,
+numai că nu respectă standardul de transmitere a parametrilor pentru apelurile din familia exec().
+Și anume, mesajul "<tt style="color: red;">warning: missing sentinel</tt>" se referă la faptul că lipsește valoarea <tt>NULL</tt> care trebuie să indice
+sfârșitul listei, de lungime varabilă, a parametrilor din apelul execlp().
+</p>
+
+<p>
+Repetăm pasul 2: edităm fișierul sursă program.c și facem corecția sugerată, respectiv
+adăugăm <tt>NULL</tt> la finalul listei parametrilor din apelul execlp(),
+adică <tt class="stil_instrC">execlp("ls","-l","-A",dirname,NULL);</tt> în loc de <tt class="stil_instrC">execlp("ls","-l","-A",dirname);</tt>,
+după care repetăm pasul 1 (i.e., recompilăm programul).
+</p>
+
+<p>
+Astfel, de această dată, lista de erori și avertismente afișată de compilator, este următoarea:
+<pre class="stil_output">
+prompt> gcc -Wall program.c -o program.exe
+program.c: In function ‘main’:
+program.c:56:2: warning: implicit declaration of function ‘wait’ [-Wimplicit-function-declaration]
+   56 |  wait(&cod_term);
+      |  ^~~~
+</pre>
+Ne uităm la singurul <i>warning</i> din lista afișată.
+Nu este eroare sintactică, programul poate fi compilat și să obținem un executabil,
+numai că este foarte posibil sa nu funcționeze corect, deoarece nu am specificat biblioteca ce definește funcția wait().
+Și anume, mesajul "<tt style="color: red;">warning: implicit declaration of function ‘...’</tt>" se referă la faptul că
+nu ați inclus fișierul (sau fișierele) <i>header</i> necesare pentru acea funcție.
+<p>
+
+<p>
+Repetăm pasul 2: edităm fișierul sursă program.c și facem corecția sugerată, respectiv
+adăugăm fișierul (sau fișierele) <i>header</i> necesare pentru funcția <tt>wait</tt>
+(pe care le aflăm cu ajutorul documentației, i.e. cu comanda <tt class="stil_cmdBash">man 2 wait</tt>).
+Așadar, adăugăm  linia <tt class="stil_instrC">#include &lt;sys/wait.h></tt> la începutul programului,
+după care repetăm pasul 1 (i.e., recompilăm programul).
+</p>
+
+<p>
+În sfârșit, de această dată, lista de erori și avertismente afișată de compilator, este vidă (i.e., compilatorul nu mai afișează nimic pe ecran),
+ceea ce înseamnă că <b>am găsit și corectat cele 4 erori sintactice pe care le conținea programul original (!)</b>.
+</p>
+
+<p class="stil_QandA">
+Aceasta înseamnă că am terminat? Adică, am rezolvat problema dată?
+<br><br>
+<i>Răspuns</i>: nu, nu chiar. Deocamdată doar am obținut un program corect sintactic.
+<br><br>
+Este el, însă, corect și din punct de vedere semantic? Adică, face ceea ce se cerea să facă?
+<br><br>
+<i>Răspuns</i>: nu, nu face!
+</p>
+
+<p>
+Și anume, dacă veți rula programul, veți putea observa, analizând outputul afișat de el, 
+că execută cu succes comanda ls, numai că outputul produs de ea NU COINCIDE cu outputul produs de comanda specificată în enunț (i.e.,
+<tt class="stil_cmdBash">ls -l -A <i>dirname</i></tt>) atunci când este rulată direct la prompterul <i>shell</i>-ului de comandă.
+<br>
+Practic, analizând outputul afișat de programul nostru, constatăm că, de fapt, el execută comanda <tt class="stil_cmdBash">ls -A <i>dirname</i></tt>,
+adică se ignoră opțiunea <tt>-l</tt> a comenzii ls respective.
+</p>
+
+<p>
+<i>Concluzie</i>: <b>am găsit o greșeală logică (i.e., un <i>bug</i>) în programul nostru</b>, i.e. faptul că ignoră opțiunea <tt>-l</tt> a comenzii ls respective.
+</p>
+<p class="stil_QandA">
+Cum "reparăm" acest <i>bug</i> din programul nostru? Adică, cum să modificăm programul astfel încât să nu mai ignore opțiunea <tt>-l</tt> a comenzii ls respective?
+<br><br>
+<i>Răspuns</i>: (re)citind cu atenție documentația funcției execlp (i.e., cu comanda <tt class="stil_cmdBash">man 3 exec</tt>),
+observăm că semnificația parametrului al doilea al apelului
+<tt class="stil_instrC">execlp("ls","-l","-A",dirname,NULL);</tt> din programul nostru,
+este acela de: "numele procesului prin care este identificat în sistem acest program atunci când este executat".
+Abia de la poziția a treia din lista de parametri ai apelului execlp, încep parametrii care vor fi "transmiși" ca și opțiuni în linia de comandă
+pentru execuția programului specificat pe prima poziție în lista de parametri ai apelului execlp().
+<p>
+
+<p>
+Prin urmare, acum este ușor să ne dăm seama cum putem "repara" acest <i>bug</i> din programul nostru: inserăm un nume pentru procesul ls,
+pe poziția a doua în lista de parametri ai apelului execlp, astfel:
+<br>
+înlocuim linia <tt class="stil_instrC">execlp("ls","-l","-A",dirname,NULL);</tt> din program
+cu linia <tt class="stil_instrC">execlp("ls","numele procesului ls","-l","-A",dirname,NULL);</tt> .
+<br>
+Sau, pentru a păstra convențiile de denumire a proceselor,
+o înlocuim cu linia <tt class="stil_instrC">execlp("ls","ls","-l","-A",dirname,NULL);</tt> .
+</p>
+
+<p class="stil_QandA">
+Înseamnă că acum am terminat? Adică, am rezolvat problema dată?
+<br><br>
+<i>Răspuns</i>: da!
+
+<p>
+Într-adevăr, dacă veți rula programul astfel corectat, veți putea observa, analizând outputul afișat de el, 
+că execută cu succes comanda ls, iar outputul produs de ea COINCIDE cu outputul produs de comanda specificată în enunț (i.e.,
+<tt class="stil_cmdBash">ls -l -A <i>dirname</i></tt>) atunci când este rulată direct la prompterul <i>shell</i>-ului de comandă.
+</p>
+</div>
+<br><br>
+</li>
+
+<!-- TODO alta idee: un open rdonly si apoi un write -->
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_4b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li><!-- CV: enunț nou, 2020, adaptat pe baza problemei 2017T2var2p2 ----------------------------------------------------->
+<p><big>[Exemplul #2 cu erori sintactice și semantice]</big>
+<br>
+Se dă programul C de mai jos, ce conține (măcar) trei erori sintactice și o greșeală logică:
+<br><br>
+<button onclick="myToggle('errors_ex2-src')">Show / Hide the program</button>
+<pre id="errors_ex2-src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="errors+bugs/ex2_cu_erori.c">See the code from <a target="_blank" href="ex2_cu_erori.c">here</a>.</div>
+</pre>
+i) Explicați ce se dorește a se afișa pe ecran în urma execuției programului.
+<br>
+ii) Corectați eventualele erori existente astfel încât programul să poată fi executat și
+să ofere la execuție EXACT funcționalitatea descrisă în comentariul de la începutul programului.
+</p>
+
+<button onclick="myToggle('errors_ex2')">Show / Hide some suggestions for solving the problem</button>
+<div id="errors_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<br>
+i) Compilați programul, identificați eventualele mesaje de eroare (sau avertismente) ce apar pe ecran și încercați
+să identificați cauzele care le produc, corectând în mod adecvat programul!
+Repetați acești pași până când nu se mai afișează nicio eroare (sau avertisment) la compilare.
+<br>
+<i>Tip</i>: prin această manieră ar trebui să găsiți și să corectați (măcar) trei erori sintactice.
+<br>
+<br>ii) Apoi încercați să identificați și eventualele erori semantice (i.e., <i>bug</i>-uri în cod),
+adică greșeli logice strecurate în program care nu cauzează mesaje de eroare la compilarea lui,
+dar datorită cărora programul nu face exact ceea ce este specificat în enunț că ar trebui să facă!
+</div>
+<br><br>
+</li>
+
+<li><!-- CV: enunț nou, 2020, adaptat pe baza problemei 2017T2var3p2 ----------------------------------------------------->
+<p><big>[Exemplul #3 cu erori sintactice și semantice]</big>
+<br>
+Se dă programul C de mai jos, ce conține (măcar) trei erori sintactice și o greșeală logică:
+<br><br>
+<button onclick="myToggle('errors_ex3-src')">Show / Hide the program</button>
+<pre id="errors_ex3-src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="errors+bugs/ex3_cu_erori.c">See the code from <a target="_blank" href="ex3_cu_erori.c">here</a>.</div>
+</pre>
+i) Explicați ce se dorește a se afișa pe ecran în urma execuției programului.
+<br>
+ii) Corectați eventualele erori existente astfel încât programul să poată fi executat și
+să ofere la execuție EXACT funcționalitatea descrisă în comentariul de la începutul programului.
+</p>
+
+<button onclick="myToggle('errors_ex3')">Show / Hide some suggestions for solving the problem</button>
+<div id="errors_ex3" style="display:none;" class="stil_sugestie_de_rezolvare">
+<br>
+i) Compilați programul, identificați eventualele mesaje de eroare (sau avertismente) ce apar pe ecran și încercați
+să identificați cauzele care le produc, corectând în mod adecvat programul!
+Repetați acești pași până când nu se mai afișează nicio eroare (sau avertisment) la compilare.
+<br>
+<i>Tip</i>: prin această manieră ar trebui să găsiți și să corectați (măcar) trei erori sintactice.
+<br>
+<br>ii) Apoi încercați să identificați și eventualele erori semantice (i.e., <i>bug</i>-uri în cod),
+adică greșeli logice strecurate în program care nu cauzează mesaje de eroare la compilarea lui,
+dar datorită cărora programul nu face exact ceea ce este specificat în enunț că ar trebui să facă!
+</div>
+<br><br>
+</li>
+
+
+<li><!-- CV: enunț vechi, din anii precedenți ---------------------------------------------------------------------------->
+<p><big>[Exemplul #4 cu erori sintactice și semantice]</big>
+<br>
+Se dă programul C de mai jos, ce conține (măcar) trei erori sintactice și o greșeală logică:
+<br><br>
+<button onclick="myToggle('errors_ex4-src')">Show / Hide the program</button>
+<pre id="errors_ex4-src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="errors+bugs/ex4_cu_erori.c">See the code from <a target="_blank" href="ex4_cu_erori.c">here</a>.</div>
+</pre>
+i) Explicați ce se dorește a se afișa pe ecran în urma execuției programului.
+<br>
+ii) Corectați eventualele erori existente astfel încât programul să poată fi executat și să producă la execuție
+afișarea pe ecran de către procesul fiu a textului primit de la părinte.
+<br>
+(Recomandare: <span class="stil_hint2">abordați acest exercițiu după ce învățați lecția despre canale de comunicație anonime.</span>)
+</p>
+
+<button onclick="myToggle('errors_ex4')">Show / Hide some suggestions for solving the problem</button>
+<div id="errors_ex4" style="display:none;" class="stil_sugestie_de_rezolvare">
+<br>
+i) Compilați programul, identificați eventualele mesaje de eroare (sau avertismente) ce apar pe ecran și încercați
+să identificați cauzele care le produc, corectând în mod adecvat programul!
+Repetați acești pași până când nu se mai afișează nicio eroare (sau avertisment) la compilare.
+<br>
+<i>Tip</i>: prin această manieră ar trebui să găsiți și să corectați (măcar) trei erori sintactice.
+<br>
+<br>ii) Apoi încercați să identificați și eventualele erori semantice (i.e., <i>bug</i>-uri în cod),
+adică greșeli logice strecurate în program care nu cauzează mesaje de eroare la compilarea lui,
+dar datorită cărora programul nu face exact ceea ce este specificat în enunț că ar trebui să facă!
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------ No>
+<hr size="3" width="100%" noshade>
+-->

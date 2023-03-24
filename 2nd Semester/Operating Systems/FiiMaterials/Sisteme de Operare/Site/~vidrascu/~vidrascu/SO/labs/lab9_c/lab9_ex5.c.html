@@ -1,0 +1,79 @@
+<pre>
+#include &lt;unistd.h>
+#include &lt;stdio.h>
+#include &lt;sys/types.h>
+#include &lt;sys/wait.h>
+
+void calcul_tata()
+{
+	// <font color="red">TODO: de implementat calculul efectuat de către supervisor, conform indicațiilor cuprinse în diagramă!</font>
+	...
+}
+
+void generare_fiu1()
+{
+	// <font color="red">TODO: de implementat generarea operanzilor de către workerul #1, conform indicațiilor cuprinse în diagramă!</font>
+	...
+}
+
+void generare_fiu2()
+{
+	// <font color="red">TODO: de implementat generarea operatorilor de către workerul #2, conform indicațiilor cuprinse în diagramă!</font>
+	...
+}
+
+int N=0;
+
+int main()
+{
+	pid_t pid_fiu1, pid_fiu2;
+
+	printf("Dati numarul intreg N:");
+	scanf("%d", &N); // <font color="red">TODO: tratați excepțiile de citire a unui număr întreg</font>
+
+
+	/* Crearea procesului fiu #1. */
+	if(-1 == (pid_fiu1=fork()) )
+	{
+		perror("Eroare la fork #1");  return 1;
+	}
+
+	/* Ramificarea execuției după primul apel fork. */
+	if(pid_fiu1 == 0)
+	{   /* Zona de cod executată doar de către fiul #1. */
+		printf("\n[P1] Procesul fiu 1, cu PID-ul: %d.\n", getpid());
+
+		generare_fiu1();
+		return 0;
+	}
+	else
+	{   /* Zona de cod executată doar de către părinte. */
+		printf("\n[P0] Procesul tata, cu PID-ul: %d.\n", getpid());
+
+		/* Crearea procesului fiu #2. */
+		if(-1 == (pid_fiu2=fork()) )
+		{
+			perror("Eroare la fork #2");  return 2;
+		}
+		
+		/* Ramificarea execuției după al doilea apel fork. */
+		if(pid_fiu2 == 0)
+		{   /* Zona de cod executată doar de către fiul #2. */
+			printf("\n[P2] Procesul fiu 2, cu PID-ul: %d.\n", getpid());
+
+			generare_fiu2();
+			return 0;
+		}
+		else
+		{   /* Zona de cod executată doar de către părinte. */
+
+			wait(NULL);
+			wait(NULL);
+			// Mai întâi aștept terminarea ambilor fii, iar apoi fac calculul.
+
+			calcul_tata();
+			return 0;
+		}
+	}
+}
+</pre>

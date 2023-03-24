@@ -1,0 +1,498 @@
+<html>
+<head>
+  <title>Disciplina SO - Laborator #1</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+
+<body>
+
+<h2><font color="blue">Laborator #1 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab1.html#sec_1">Exerciții cu comenzi simple (partea întâia)</a></h4>
+<h5><a href="lab1.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab1.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții cu comenzi simple (partea întâia):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab1_ex0.1-new ---------------------------------------------------------------------------------------->
+<p><big>[Basic file operations #1]</big><!-- Operații de bază cu fișiere #1 -->
+<br>
+<ol>
+  <li><b>Exemplificare creare diferite tipuri de fișiere</b>.
+   Scrieți comenzile care creează următoarele:
+   <ul>
+    <li>i) un subdirector numit <tt>d1</tt>, în directorul dvs. acasă; două subdirectoare <tt>d2</tt> și <tt>d3</tt>, în <tt>d1</tt> creat anterior; un subdirector <tt>d4</tt>, în <tt>d2</tt> creat anterior.</li>
+    <li>ii) mai multe fișiere obișnuite, astfel: <tt>p1.c</tt> și <tt>p2.c</tt>, în subdirectorul <tt>d1</tt> creat anterior; <tt>p3.c</tt> și <tt>p4.cpp</tt>, în subdirectorul <tt>d2</tt> creat anterior; <tt>p5.c</tt> și <tt>p6.h</tt>, în subdirectorul <tt>d4</tt> creat anterior.</li>
+    <li>iii) folosind oricare dintre editoarele de texte amintite în lecție, creați un fișier obișnuit numit <tt>15lines.txt</tt>, în subdirectorul d1</tt> creat anterior, și al cărui conținut să fie secvența numerelor de la 1 la 15, scrise fiecare separat, pe câte o linie de text.</li>
+    <li>iv) în subdirectorul <tt>d2</tt> creat anterior, creați un link hard, numit <tt>hardlnk1</tt>, către fișierul <tt>15lines.txt</tt> creat anterior, precum și un link simbolic, numit <tt>symlnk2</tt>, către același fișier.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-1a')">Show / Hide some possible solutions</button>
+
+<div id="lab1_ex0-1a" style="display:none;" class="stil_solutie">
+<b>i)</b> O posibilă soluție ar fi secvența de comenzi următoare -- observați schimbarea repetată a directorului curent de lucru:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă (E necesar doar dacă ați schimbat anterior, în sesiunea curentă, directorul curent de lucru.)
+mkdir d1
+cd d1
+mkdir d2 d3
+cd d2
+mkdir d4
+cd
+ls -R d1  # pentru vizualizarea rezultatului operațiilor de creare
+</pre>
+Altă soluție posibilă -- fără schimbarea repetată a directorului curent de lucru:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+mkdir d1 d1/d2 d1/d3 d1/d2/d4
+ls -R d1/  # pentru vizualizarea rezultatului operațiilor de creare
+</pre>
+Altă soluție posibilă - observați folosirea opțiunii -p a comenzii mkdir:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+mkdir -p d1/d3
+mkdir --parents d1/d2/d4
+ls -R d1  # pentru vizualizarea rezultatului operațiilor de creare
+</pre>
+
+<b>ii)</b> O posibilă soluție ar fi secvența de comenzi următoare:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+touch d1/p1.c d1/p2.c d1/d2/p3.c d1/d2/p4.cpp d1/d2/d4/p5.c d1/d2/d4/p6.h
+ls -lR d1/  # pentru vizualizarea rezultatului operațiilor de creare
+</pre>
+O altă soluție posibilă este cu schimbarea repetată a directorului curent de lucru, similar ca mai sus. Încercați să o scrieți singuri!
+<br>
+<br>
+<b>iii)</b> O posibilă soluție ar fi (în loc de mcedit puteți folosi orice alt editor de texte):
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+mcedit d1/15lines.txt
+</pre>
+<i>Notă</i>: în cadrul ferestreice apare pe ecran, a editorului mcedit, introduceți secvența de numere specificată și apoi salvați (F2) și ieșiți din editor (F10).
+<pre>
+cat d1/15lines.txt # pentru vizualizarea rezultatului
+</pre>
+
+<b>iv)</b> O posibilă soluție ar fi:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+ln d1/15lines.txt d1/d2/hardlnk1
+ln -s ../15lines.txt d1/d2/symlnk2
+</pre>
+<i>Notă</i>: observați că, în cazul link-urilor simbolice, calea relativă a target-ului trebuie specificată în raport cu directorul în care se va crea acel link simbolic!
+<pre>
+ls -lR d1  # pentru vizualizarea rezultatului operațiilor de creare
+</pre>
+<i>Notă</i>: acum ne putem referi la fișierul 15lines.txt prin oricare dintre cele 3 nume (alias-uri) ale sale, spre exemplu:
+<pre>
+cat d1/15lines.txt
+cat d1/d2/hardlnk1
+cat d1/d2/symlnk2
+</pre>
+</div>
+<br><br>
+
+  <li><b>Exemplificare copiere, mutare și ștergere diferite tipuri de fișiere</b>.
+   Scrieți comenzile care realizează următoarele operații cu fișiere:
+   <ul>
+    <li>i) copiați subdirectorul <tt>d4</tt>, creat anterior, în subdirectorul <tt>d3</tt> creat anterior; copiați fișierul <tt>p4.cpp</tt>, creat anterior, în subdirectorul <tt>d3</tt> creat anterior, astfel încât copia creată să se numească <tt>p4bis.cpp</tt>.</li>
+    <li>ii) mutați fișierul <tt>d1/d3/p4bis.cpp</tt>, creat la pasul anterior, în subdirectorul <tt>d1/d3/d4</tt>, păstrându-i numele nemodificat;
+        redenumiți fișierul <tt>d1/d3/d4/p5.c</tt>, creat la pasul anterior, în <tt>p5.cpp</tt>, fără a-i schimba locația (i.e., directorul în care se află);
+	mutați fișierul <tt>d1/d3/d4/p6.h</tt>, creat la pasul anterior, în subdirectorul <tt>d1/d2</tt>, schimbându-i și numele în <tt>p6bis.h</tt>.</li>
+    <li>iii) ștergeți subdirectorul <tt>d1/d3/d4</tt> creat anterior, inclusiv tot conținutul său.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-1b')">Show / Hide some possible solutions</button>
+
+<div id="lab1_ex0-1b" style="display:none;" class="stil_solutie">
+<b>i)</b> O posibilă soluție ar fi:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+cp -R d1/d2/d4 d1/d3                 # -R: copiere recursivă, i.e. cu tot cu conținutul directorului
+cp -i d1/d2/p4.cpp d1/d3/p4bis.cpp   # -i: cere confirmare în caz de suprascriere
+ls -lR d1/  # pentru vizualizarea rezultatului operațiilor de copiere
+</pre>
+
+<b>ii)</b> O posibilă soluție ar fi:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+mv -i d1/d3/p4bis.cpp d1/d3/d4/      # -i: cere confirmare în caz de suprascriere
+mv -i d1/d3/d4/p5.c d1/d3/d4/p5.cpp
+mv -i d1/d3/d4/p6.h d1/d2/p6bis.h
+ls -lR d1/  # pentru vizualizarea rezultatului operațiilor de mutare/redenumire
+</pre>
+
+<b>iii)</b> O primă soluție ar fi:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+rmdir d1/d3/d4
+</pre>
+<i>Notă</i>: comanda rmdir va da eroare, spunând că directorul nu este gol.
+<pre>
+ls -R d1/d3/d4   # ne uităm ce fișiere conține el, și le ștergem mai întâi pe acestea...
+rm d1/d3/d4/p5.cpp
+rm d1/d3/d4/...  # repetați acest pas și pentru celelalte fișiere care mai există, eventual, în acel director!
+rmdir d1/d3/d4   # după ce-am golit directorul, îl putem șterge cu rmdir.
+</pre>
+
+O altă soluție posibilă este folosind ștergerea recursivă:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+rm -R -i d1/d3/d4/  # -R: ștergere recursivă, -i: cere confirmare pentru fiecare fișier ce va fi șters
+</pre>
+</div>
+</ol>
+</p>
+
+
+<li><!-- Problema: lab1_ex0.2-new ---------------------------------------------------------------------------------------->
+<p><big>[Basic file operations #2]</big><!-- Operații de bază cu fișiere #2 -->
+<br>
+<ol>
+
+  <li><b>Exemplificare vizualizarea conținutului fișierelor text cu diverse comenzi</b>.
+   Scrieți comenzile care realizează următoarele operații cu fișiere:
+   <ul>
+    <li>i) vizualizați conținutul fișierului <tt>d1/15lines.txt</tt>, creat anterior, afișat în ordinea naturală a liniilor de text și, respectiv, în ordine inversată.</li>
+    <li>ii) vizualizați fișierul <tt>/etc/passwd</tt>, ce conține informații despre conturile de utilizatori de pe sistemul pe care lucrați,
+		astfel încât afișarea să se facă cu pauză "la trecerea de la un ecran la altul"; repetați această operație, cu posibilitatea de a "naviga" în ambele sensuri.</li>
+	<li>iii) similar, studiați informațiile despre grupurile de utilizatori de pe sistemul pe care lucrați, consultând fișierul <tt>/etc/group</tt>.</li>
+    <li>iv) vizualizați conținutul fișierului <tt>d1/15lines.txt</tt>, creat anterior, afișând doar primele, respectiv ultimele, N linii din el, valoarea N fiind specificată ca argument al comenzii.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-2a')">Show / Hide some possible solutions</button>
+
+<div id="lab1_ex0-2a" style="display:none;" class="stil_solutie">
+<b>i)</b> O posibilă soluție ar fi:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+cat d1/15lines.txt  # pentru ordinea naturală a liniilor de text din fișier
+tac d1/15lines.txt  # pentru ordinea inversată
+</pre>
+O altă soluție:
+<pre>
+cat -n d1/15lines.txt   # liniile de text afișate sunt precedate de numărul de ordine al fiecăreia în fișier
+</pre>
+
+<b>ii)</b> O posibilă soluție ar fi:
+<pre>
+more /etc/passwd
+   # Navigarea, într-o singură direcție, se face apăsând tasta SPACE pentru a trece la ecranul următor.
+
+less /etc/passwd
+   # Navigarea, în ambele direcții, se face apăsând fie tastele Săgeată sus/jos (pentru a trece
+   # la linia următoare), fie tastele PgUp/PgDn (pentru a trece la ecranul următor).
+</pre>
+<p>
+<i>Observație</i>: "baza de date" despre conturile de utilizatori, i.e. fișierul <tt>/etc/passwd</tt>, conține linii de text conforme cu următorul șablon:
+<div class="stil_output"><i>username</i>:x:<i>UID</i>-ul utilizatorului:<i>GID</i>-ul grupului primar de care aparține:<i>datele personale</i> ale utilizatorului:<i>home directory</i>:<i>login shell</i></div>
+</p>
+
+<b>iii)</b> Similar ca la punctul anterior:
+<pre>
+more /etc/group
+less /etc/group
+</pre>
+<i>Observație</i>: "baza de date" despre grupurile de utilizatori, i.e. fișierul <tt>/etc/group</tt>, conține linii de text conforme cu următorul șablon:
+<div class="stil_output"><i>groupname</i>:x:<i>GID</i>-ul grupului:o eventuală <i>listă de username</i>-uri, ce descrie astfel apartenența utilizatorilor la grupuri secundare</div>
+<br>
+
+<b>iv)</b> O posibilă soluție ar fi:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+
+head d1/15lines.txt
+   # Se afișează primele 10 linii de text (N=10 în acest caz)
+head -n 5 d1/15lines.txt
+   # Se afișează primele 5 linii de text
+head -n -5 d1/15lines.txt
+   # Se afișează toate liniile (de la începutul fișierului), exceptând ultimele 5 linii de text
+
+tail d1/15lines.txt
+   # Se afișează ultimele 10 linii de text (N=10 în acest caz), în ordinea naturală,
+   # nu cea inversată precum la comanda tac!
+tail -n 5 d1/15lines.txt
+   # Se afișează ultimele 5 linii de text, în ordinea naturală
+tail -n +5 d1/15lines.txt
+   # Se afișează toate liniile, începând de la a 5-a linie, în ordinea naturală
+   # (practic, afișează tot fișierul, exceptând primele 4 linii de text)
+</pre>
+</div>
+<br><br>
+
+  <li><b>Exemplificare obținere informații despre fișiere, cu diverse comenzi</b>.
+   Scrieți comenzile care ne oferă următoarele informații despre fișiere:
+   <ul>
+    <li>i) aflați ce fel de conținut au următoarele fișiere (fără să le vizualizați explicit conținutul cu comenzile exemplificate mai sus):<br>
+		<tt>/etc/passwd</tt> , <tt>/usr/bin/write</tt> , <tt>/usr/share/man/man1/write.1.gz</tt> , <tt>/usr/include/fcntl.h</tt> .</li>
+    <li>ii) vizualizați metadatele (i.e., proprietățile) asociate fișierului <tt>/etc/passwd</tt>;
+		apoi afișați doar următoarele metadate asociate acestuia: permisiunile în notație simbolică, dimensiunea în octeți, data ultimei modificări și numele lui.</li>
+	<li>iii) similar, studiați informațiile despre metadatele asociate fișierului <tt>/etc/group</tt>.</li>
+	<li>iv) modificați diverse metadate dintre cele asociate fișierului <tt>d1/15lines.txt</tt>, creat anterior.</li>
+   </ul>
+  </li>
+
+<button onclick="myToggle('lab1_ex0-2b-a')">Show / Hide some possible solutions for i) -- iii)</button>
+
+<div id="lab1_ex0-2b-a" style="display:none;" class="stil_solutie">
+<b>i)</b> O posibilă rezolvare ar fi:
+<pre>
+file /etc/passwd
+file [-L] /usr/bin/write   # -L : opțiunea pentru dereferențiere (i.e., "urmărirea" legăturilor simbolice)
+file [-L] /usr/share/man/man1/write.1.gz
+file /usr/include/fcntl.h
+file /etc	               # comanda file "recunoaște" și directoare!
+</pre>
+
+<b>ii)</b> O posibilă rezolvare ar fi:
+<pre>
+stat /etc/passwd
+stat -c "%A %s %y %n" /etc/passwd
+sau:
+stat --format="%A %s %y %n" /etc/passwd
+</pre>
+
+<b>iii)</b> O posibilă rezolvare ar fi:
+<pre>
+stat /etc/group
+</pre>
+</div>
+
+<button onclick="myToggle('lab1_ex0-2b-b')">Show / Hide some examples for iv)</button>
+
+<div id="lab1_ex0-2b-b" style="display:none;" class="stil_explicatie">
+<b>iv)</b> Mai întâi, consultăm valoarea actuală a metadatelor asociate fișierului <tt>d1/15lines.txt</tt>, pe care l-am creat anterior:
+<pre>
+cd   # pentru reîntoarcerea în propriul director acasă
+
+stat d1/15lines.txt
+# Un exemplu posibil de rezultat afișat de comanda stat ar putea fi următorul:
+#
+#   File: ‘d1/15lines.txt’
+#   Size: 35              Blocks: 8          IO Block: 4096   regular file
+# Device: fd05h/64773d    Inode: 12692988    Links: 2
+# Access: (0644/-rw-r--r--)  Uid: ( 1019/vidrascu)   Gid: (  503/   profs)
+# Access: 2020-02-21 13:14:54.414890033 +0200
+# Modify: 2020-02-21 13:12:38.780513539 +0200
+# Change: 2020-02-21 13:14:03.775005209 +0200
+#  Birth: -
+</pre>
+
+<p>
+O parte dintre aceste metadate nu le putem noi modifica în mod direct, ci doar în mod indirect, spre exemplu:
+<ul>
+  <li>dacă adăugăm conținut suplimentar într-un fișier, sau "ștergem" din conținutul lui, atunci se va actualiza în mod corespunzător și câmpul Size (i.e., lungimea fișierului în octeți);
+  <li>dacă "mutăm" fișierul într-un director ce este stocat pe un alt disc, sau măcar altă partiție decât discul/partiția ce stochează directorul unde se afla inițial fișierul,
+  atunci se vor actualiza în mod corespunzător și câmpurile Device și Inode.
+</ul
+</p>
+
+<p>
+O altă parte dintre aceste metadate le putem modifica noi după dorință, folosind comenzi specifice:
+<ul>
+  <li>câmpul File (i.e., numele fișierului): îl putem modifica folosind comanda mv (revedeți exemplele de mai sus);
+  <li>câmpul Links (i.e., numărul de link-uri hard pe care le are acel fișier): îl putem modifica folosind comenzile ln și rm (revedeți exemplele de mai sus).
+  Spre exemplu, executăm comanda:
+<pre>
+  cd   # pentru reîntoarcerea în propriul director acasă
+  rm d1/d2/hardlnk1  # se va șterge acel alias creat anterior, și astfel valoarea câmpului Links va scădea de la 2 la 1.
+</pre>
+  <li>primul câmp Acces (i.e., permisiunile de acces la fișier): îl putem modifica folosind comanda chmod.
+  Exemplificare:
+<pre>
+  cd   # pentru reîntoarcerea în propriul director acasă
+
+  chmod ug+x d1/15lines.txt
+    # Se adaugă (+) dreptul x pentru proprietar (u) și pentru colegii de grup
+    # ai proprietarului (g). Toate celelalte 9-2=7 permisiuni rămân neschimbate!
+
+  chmod o-r  d1/15lines.txt
+    # Se elimină (-) dreptul r pentru restul lumii (o). Toate celelalte 9-1=8 permisiuni rămân neschimbate!
+
+  chmod 741  d1/15lines.txt
+    # Se modifică complet toate cele 9 permisiuni, în conformitate cu
+    # semnificația notației octale: 741 = rwx(u),r--(g),--x(o) !
+</pre>
+  <li>câmpurile Uid (i.e., ID-ul proprietarului) și Gid (i.e., ID-ul grupului proprietar): le putem modifica folosind comenzile chown și chgrp;
+  <li>al doilea câmp Acces (i.e., <i>timestamp</i>-ul <i>acces time</i> al acelui fișier) și câmpul Modify (i.e., <i>timestamp</i>-ul <i>modify time</i> al acelui fișier):
+  le putem modifica folosind comanda touch.
+</ul>
+</p>
+</div>
+</ol>
+</p>
+
+
+<li><!-- Problema: lab1_ex1 ---------------------------------------------------------------------------------------------->
+<p><big>[cut #1]</big>
+<br>
+Să se scrie comanda care afișează numele de cont și UID-urile tuturor utilizatorilor sistemului.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda cut și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab1_ex1')">Show / Hide some possible solutions</button>
+
+<div id="lab1_ex1" style="display:none;" class="stil_solutie">
+<pre>
+cut -f1,3 -d: /etc/passwd
+</pre>
+
+Altă soluție -- observați spațiile dintre opțiuni și valorile acestora:
+<pre>
+cut -f 1,3 -d : /etc/passwd
+</pre>
+
+Alte soluții -- observați ordinea opțiunilor și argumentelor:
+<pre>
+cut -f1,3 /etc/passwd -d:
+cut -d: /etc/passwd -f1,3
+cut /etc/passwd -d: -f1,3
+</pre>
+
+Și mai multe soluții -- observați folosirea opțiunilor specificate în formatul lung în locul celui scurt:
+<pre>
+cut --fields=1,3 --delimiter=: /etc/passwd
+cut --fields 1,3 --delimiter : /etc/passwd
+</pre>
+
+<i>Notă</i>: când folosiți formatul lung de specificare a opțiunilor, comanda va da eroare dacă omiteți semnul egal
+sau spațiul ce desparte numele opțiunii de valoarea asociată:
+<pre>
+cut --fields1,3 --delimiter: /etc/passwd
+</pre>
+</div>
+
+<button onclick="myToggle('lab1_ex1_obs')">Show / Hide a general remark about possible solutions</button>
+
+<p id="lab1_ex1_obs" style="display:none;" class="stil_explicatie">
+<big>Observație importantă:</big>
+<br>
+Astfel de combinații de specificare a opțiunilor și argumentelor se pot face și pentru exercițiile ce urmează în cele de mai jos sau în laboratoarele următoare,
+chiar dacă în exercițiile respective ce sunt însoțite de rezolvări am specificat uneori doar câte una dintre combinațiile posibile pentru rezolvarea exercițiului respectiv...
+</p>
+</li>
+
+
+<li><!-- Problema: lab1_ex2 ---------------------------------------------------------------------------------------------->
+<p><big>[grep #1]</big>
+<br>Să se scrie comanda care selectează din fișierul <tt>/etc/passwd</tt> doar informațiile despre un utilizator specificat ca argument al comenzii.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda grep.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab1_ex2')">Show / Hide the solution</button>
+
+<pre id="lab1_ex2" style="display:none;" class="stil_solutie">
+
+grep <i>numeuser</i> /etc/passwd
+</pre>
+</br></br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab1_ex5new ---------------------------------------------------------------------------------------------->
+<p><big>[Creare și manipulare directoare]</big>
+<br>Să se scrie comenzile care realizează următoarele operații cu directoare:
+<ul>
+  <li>i) creează un subdirector cu numele "programe", în directorul dvs. acasă;</li>
+  <li>ii) creează două subdirectoare cu numele "tema1" și, respectiv, "tema2", în directorul creat la pct. i);</li>
+  <li>iii) creează un subdirector cu numele "subtemaA", în directorul "tema2" creat la pct. ii);</li>
+  <li>iv) redenumește directorul creat la pct. iii) cu numele "tema2-subtemaA".</li>
+</ul>
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comenzile mkdir și mv.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab1_ex6new ---------------------------------------------------------------------------------------------->
+<p><big>[Creare și manipulare fișiere normale]</big>
+<br>Să se scrie comenzile care realizează următoarele operații cu fișiere:
+<ul>
+  <li>i) creează trei fișiere cu numele "program1.c", "program2.c" și "program2.h" în directorul ~/programe pe care l-ați creat la exercițiul precedent;</li>
+  <li>ii) creează două fișiere cu numele "tema1-1.c" și, respectiv, "tema1-2.c", în directorul ~/programe/tema1 pe care l-ați creat la exercițiul precedent;</li>
+  <li>iii) creează două fișiere cu numele "subtemaA1.c" și "subtemaA2.cpp", în directorul ~/programe/tema2/tema2-subtemaA creat la exercițiul precedent;</li>
+  <li>iv) creează două alias-uri, în directorul ~/programe/tema2/tema2-subtemaA, după cum urmează:
+      unul hard, cu numele "tema2-subtemaA1.c", pentru fișierul "subtemaA1.c", și al doilea simbolic, cu numele "tema2-subtemaA2.cpp", pentru fișierul "subtemaA2.cpp";</li>
+  <li>v) copie fișierul ~/programe/tema1/tema1-1.c în directorul ~/programe/tema2/, schimbând numele copiei în "tema2-1.c";</li>
+  <li>vi) mută fișierul ~/programe/tema1/tema1-2.c în directorul ~/programe/tema2/, schimbându-i totodată și numele în "tema2-2.c";</li>
+  <li>vii) șterge unul dintre cele două nume ale fișierului identificat prin numele alternative "subtemaA1.c" sau "tema2-subtemaA1.c".</li>
+</ul>
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comenzile touch, ln, rm, cp și mv.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab1_ex3 ---------------------------------------------------------------------------------------------->
+<p><big>[cut #2]</big>
+<br>Să se scrie comanda care afișează numele și GID-urile tuturor grupurilor de utilizatori ai sistemului.
+<br>
+<i>Suplimentar</i>: înlocuiți ":" cu " - " în rezultatele afișate de comandă.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda cut și informațiile din fișierul <tt>/etc/group</tt> ;
+căutați opțiunea comenzii cut pentru înlocuirea delimitatorului.</span>)</small>
+</p>
+</li>
+
+<!--
+comment: as of Feb 2010, this cannot be solved - the info1 group was removed from /etc/group by sysadmin 
+<p>
+4. Sa se scrie comanda care afiseaza lista tuturor utilizatorilor care sunt membri ai grupului info1.
+<br>
+<small>(Indicatie: <span class="stil_hint">folositi comanda grep si informatiile din fisierul /etc/group.</span>)</small>
+</p>
+-->
+
+<li><!-- Problema: lab1_ex4 ---------------------------------------------------------------------------------------------->
+<p><big>[grep #2]</big>
+<br>Să se scrie comanda care afișează informațiile asociate tuturor utilizatorilor care sunt membri ai grupului studs.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda grep și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

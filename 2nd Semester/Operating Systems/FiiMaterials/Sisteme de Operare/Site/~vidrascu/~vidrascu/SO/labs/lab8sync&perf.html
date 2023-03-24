@@ -1,0 +1,737 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #8</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #8, partea a II-a :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab8sync&perf.html#sec_1">Exerciții de programare C cu fișiere mapate în memorie (prima parte -- prelucrări diverse de fișiere, operate direct în memorie)</a></h4>
+<h4>II) <a href="lab8sync&perf.html#sec_2">Exerciții de programare C cu fișiere mapate în memorie (a doua parte -- sincronizare și cooperare între procese multiple, prin memorie partajată)</a></h4>
+<h5><a href="lab8sync&perf.html#sec_2z">Programe demonstrative</a></h5>
+<!--h5><a href="#sec_2a">Exerciții rezolvate</a></h5-->
+<h5><a href="lab8sync&perf.html#sec_2b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab8sync&perf.html#sec_2c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>III) <a href="lab8sync&perf.html#sec_3">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu fișiere mapate în memorie (prima parte -- prelucrări diverse de fișiere, operate direct în memorie):</span></p>
+</a>
+
+<p>
+Lista cu aceste exerciții este disponibilă <a href="lab8.html">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu fișiere mapate în memorie (a doua parte -- sincronizare și cooperare între procese multiple, prin memorie partajată):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2z">
+<p class="stil_ex_rezolvate">Programe demonstrative:</p>
+</a>
+
+<ol>
+<li>
+<p><big>[Demo 'data race'_shmem #1 : <i>A custom example of the 'Producer-Consumer' pattern</i> <font color="red">(non-syncronized !!!)</font> (<small>v1, using mmap-file for IPC</small>)]
+</big>
+<br>
+Să considerăm următoarele două programe C, unul cu rol de producător, și altul cu rol de consumator,
+care vor transmite o serie de mesaje, de la producător spre celălalt, prin intermediul unui fișier mapat în memorie,
+ce asigură astfel o zonă de memorie partajată între cele două procese.
+<br>
+În această variantă demonstrativă, nu am folosit niciun mecanism de sincronizare,
+pentru a ilustra ce se întâmplă când executăm în paralel cele două programe, și anume rezultatul final va fi imprevizibil.
+<br>
+<i>Concluzie</i>: din acest exemplu veți putea deduce astfel necesitatea de folosire a unor mecanisme de sincronizare,
+pentru a obține, întotdeauna, rezultatul așteptat.
+</p>
+
+<button onclick="myToggle('lab8-2_demo1')">Show / Hide this demo example</button>
+
+<div id="lab8-2_demo1" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți cele două programe de mai jos,
+apoi salvați-le în două fișiere cu numele <tt>demo_data-race1_prod.c</tt> și, respectiv, <tt>demo_data-race1_cons.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8-2_demo1-p_src')">Show / Hide the producer's program</button>
+<pre id="lab8-2_demo1-p_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab8_c/demo_data-race1_prod.c">See the code from <a target="_blank"
+href="lab8_c/demo_data-race1_prod.c">here</a>.</div>
+</pre>
+
+<button onclick="myToggle('lab8-2_demo1-c_src')">Show / Hide the consumer's program</button>
+<pre id="lab8-2_demo1-c_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab8_c/demo_data-race1_cons.c">See the code from <a target="_blank"
+href="lab8_c/demo_data-race1_cons.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați cele două fișiere sursă pentru a obține programele executabile (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>)
+asociate celor două programe, utilizând următoarele comenzi:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall demo_data-race1_prod.c -o demo_data-race1_prod.exe</tt>
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall demo_data-race1_cons.c -o demo_data-race1_cons.exe</tt>
+</p>
+
+<p>
+3. Pentru început, vom testa individual cele două programe.
+</p>
+<p>
+Rulăm mai întâi programul producător, de unul singur:
+<br>prompt> <tt class="stil_cmdBash"> ./demo_data-race1_prod.exe</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție individuală a programului producător, va fi următorul:
+<pre class="stil_output">
+[Producer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Producer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Producer] Notification: I wrote the 0th text, "Textul  0", in the mapping.
+[Producer] Notification: I wrote the 1th text, "Textul  1", in the mapping.
+[Producer] Notification: I wrote the 2th text, "Textul  2", in the mapping.
+[Producer] Notification: I wrote the 3th text, "Textul  3", in the mapping.
+[Producer] Notification: I wrote the 4th text, "Textul  4", in the mapping.
+[Producer] Notification: I wrote the 5th text, "Textul  5", in the mapping.
+[Producer] Notification: I wrote the 6th text, "Textul  6", in the mapping.
+[Producer] Notification: I wrote the 7th text, "Textul  7", in the mapping.
+[Producer] Notification: I wrote the 8th text, "Textul  8", in the mapping.
+[Producer] Notification: I wrote the 9th text, "Textul  9", in the mapping.
+[Producer] Notification: I wrote the 10th text, "Textul 10", in the mapping.
+[Producer] Notification: I wrote the 11th text, "Textul 11", in the mapping.
+[Producer] Notification: I wrote the 12th text, "Textul 12", in the mapping.
+[Producer] Notification: I wrote the 13th text, "Textul 13", in the mapping.
+[Producer] Notification: I wrote the 14th text, "Textul 14", in the mapping.
+[Producer] Notification: I wrote the 15th text, "Textul 15", in the mapping.
+[Producer] Notification: I wrote the 16th text, "Textul 16", in the mapping.
+[Producer] Notification: I wrote the 17th text, "Textul 17", in the mapping.
+[Producer] Notification: I wrote the 18th text, "Textul 18", in the mapping.
+[Producer] Notification: I wrote the 19th text, "Textul 19", in the mapping.
+[Producer] Notification: I finished my job! 
+</pre>
+Rulând comanda  <tt class="stil_cmdBash"> cat data.txt </tt> la final, vom observa că fișierul a fost creat și conține cele 20 de texte,
+în urma execuției acestei instanțe a programului producător.
+</p>
+<p>
+Rulăm apoi consumatorul, tot de unul singur:
+<br>prompt> <tt class="stil_cmdBash"> ./demo_data-race1_cons.exe</tt>
+<br>
+<i>Notă</i>: rețineți însă faptul că <b>fișierul <tt>data.txt</tt> este deja creat și are cei <tt>20*10</tt> octeți de informație</b>,
+prin faptul că am rulat mai întâi producătorul (!). Altfel, consumatorul ar eșua, căci nu am mai tratat în el astfel de excepții.
+<br>
+Outputul afișat pe ecran de această instanță de execuție individuală a programului consumator, va fi următorul:
+<pre class="stil_output"></p>
+[Consumer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Consumer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "Textul  8", from the mapping.
+[Consumer] Notification: I read the 9th text, "Textul  9", from the mapping.
+[Consumer] Notification: I read the 10th text, "Textul 10", from the mapping.
+[Consumer] Notification: I read the 11th text, "Textul 11", from the mapping.
+[Consumer] Notification: I read the 12th text, "Textul 12", from the mapping.
+[Consumer] Notification: I read the 13th text, "Textul 13", from the mapping.
+[Consumer] Notification: I read the 14th text, "Textul 14", from the mapping.
+[Consumer] Notification: I read the 15th text, "Textul 15", from the mapping.
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Consumer] Notification: I finished my job!
+</pre>
+</p>
+<p>
+În concluzie, <u>dacă rulăm secvențial cele două programe</u>,
+i.e. <tt class="stil_cmdBash"> ./demo_data-race1_prod.exe ; ./demo_data-race1_cons.exe</tt>,
+de oridecâte ori dorim, atunci vom observa faptul că
+<u>informația va fi transmisă de la producător la consumator, de fiecare dată, în mod <b>corect și complet</b></u>
+(i.e., adică în sensul dorit de noi în acest exercițiu demonstrativ).
+</p>
+
+
+<p>
+4. Și acum, să vedem ce se întâmplă când <u>rulăm în paralel cele două programe</u>, printr-o comandă de forma:
+<br>prompt> <tt class="stil_cmdBash"> ./demo_data-race1_prod.exe & ./demo_data-race1_cons.exe &</tt>
+<br>
+Cu alte cuvinte, cele două programe se vor executa simultan, i.e. în același timp, și concurent, i.e. vor "concura" pentru accesarea
+resursei partajate, reprezentată în acest exemplu de maparea în memorie a acelui fișier.
+</p>
+<p>
+<b><i>Atenție</i>:</b> trebuie să ne asigurăm că, la execuția paralelă a celor două programe,
+<u>procesul consumator "citește" de fiecare dată "conținutul" re-creat de procesul producător în cadrul acelei execuții paralele</u>,
+și nu o versiune mai veche a acestui conținut (!), i.e. a fișierului <tt>data.txt</tt>.
+<br>
+Această garanție se poate obține în mai multe moduri (e.g., putem șterge fișierul de date înaintea fiecărei execuții paralele,
+sau putem întârzia puțin startul consumatorului, la fiecare execuție paralelă, pentru ca producătorul să apuce să re-inițializeze cu zero-uri fișierul de date,
+supra-scriind astfel vechiul conținut de la o rulare anterioară),
+moduri pe care le putem implementa atât prin program, cât și de la linia de comandă.
+<br>
+Spre exemplu, pentru a implementa, de la linia de comandă, ideea de ștergere a fișierului de date înaintea fiecărei execuții paralele, 
+putem să apelăm programele în paralel astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> rm data.txt ; ./demo_data-race1_prod.exe & ./demo_data-race1_cons.exe &</tt>
+<br>
+Iar pentru a implementa, de la linia de comandă, cealaltă idee, de pornire puțin întârziată, e.g. cu 1 secundă, a consumatorului față de producător,
+putem să apelăm programele în paralel astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./demo_data-race1_prod.exe & sleep 1 ; ./demo_data-race1_cons.exe &</tt>
+<br>
+Outputul afișat pe ecran de o instanță de execuție în paralel a programelor (cu oricare din cele două linii de comandă de mai sus),
+ar putea fi următorul:
+<pre class="stil_output">
+[Producer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Producer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Producer] Notification: I wrote the 0th text, "Textul  0", in the mapping.
+[Producer] Notification: I wrote the 1th text, "Textul  1", in the mapping.
+[Producer] Notification: I wrote the 2th text, "Textul  2", in the mapping.
+[Consumer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Consumer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Producer] Notification: I wrote the 3th text, "Textul  3", in the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Producer] Notification: I wrote the 4th text, "Textul  4", in the mapping.
+[Producer] Notification: I wrote the 5th text, "Textul  5", in the mapping.
+[Producer] Notification: I wrote the 6th text, "Textul  6", in the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Producer] Notification: I wrote the 7th text, "Textul  7", in the mapping.
+[Producer] Notification: I wrote the 8th text, "Textul  8", in the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Producer] Notification: I wrote the 9th text, "Textul  9", in the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "Textul  8", from the mapping.
+[Consumer] Notification: I read the 9th text, "Textul  9", from the mapping.
+[Consumer] Notification: I read the 10th text, "", from the mapping.
+[Consumer] Notification: I read the 11th text, "", from the mapping.
+[Consumer] Notification: I read the 12th text, "", from the mapping.
+[Producer] Notification: I wrote the 10th text, "Textul 10", in the mapping.
+[Consumer] Notification: I read the 13th text, "", from the mapping.
+[Producer] Notification: I wrote the 11th text, "Textul 11", in the mapping.
+[Consumer] Notification: I read the 14th text, "", from the mapping.
+[Consumer] Notification: I read the 15th text, "", from the mapping.
+[Producer] Notification: I wrote the 12th text, "Textul 12", in the mapping.
+[Producer] Notification: I wrote the 13th text, "Textul 13", in the mapping.
+[Producer] Notification: I wrote the 14th text, "Textul 14", in the mapping.
+[Producer] Notification: I wrote the 15th text, "Textul 15", in the mapping.
+[Producer] Notification: I wrote the 16th text, "Textul 16", in the mapping.
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Producer] Notification: I wrote the 17th text, "Textul 17", in the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Producer] Notification: I wrote the 18th text, "Textul 18", in the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Producer] Notification: I wrote the 19th text, "Textul 19", in the mapping.
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Producer] Notification: I finished my job!
+[Consumer] Notification: I finished my job!
+</pre>
+Deși liniile cu mesajele de notificare afișate de către cele două programe sunt "amestecate" între ele,
+se poate totuși observa că procesul consumator nu reușeste să citească corect toate mesajele.
+Astfel, în output-ul de mai sus, vedem că în cazul textulelor al 10-lea, al 11-lea, al 12-lea, al 13-lea, al 14-lea și al 15-lea,
+acestea sunt citite "incorect", în sensul că procesul consumator afișează că a citit textul "" în acele cazuri.
+(De fapt, în acele cazuri, a citit string-ul format din 10 zero-uri, însă caracterul cu codul ASCII zero este "invizibil" la afișarea pe ecran...)
+<br>
+Pentru verificare, executați o comandă de genul <tt>grep Producer</tt> pe output-ul de mai sus, și veți obține  următorul rezultat:
+<pre class="stil_output">
+[Consumer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Consumer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "Textul  8", from the mapping.
+[Consumer] Notification: I read the 9th text, "Textul  9", from the mapping.
+[Consumer] Notification: I read the 10th text, "", from the mapping.
+[Consumer] Notification: I read the 11th text, "", from the mapping.
+[Consumer] Notification: I read the 12th text, "", from the mapping.
+[Consumer] Notification: I read the 13th text, "", from the mapping.
+[Consumer] Notification: I read the 14th text, "", from the mapping.
+[Consumer] Notification: I read the 15th text, "", from the mapping.
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Consumer] Notification: I finished my job!
+</pre>
+<br>
+Prin urmare, se naște următoarea întrebare: <b>Oare de ce eșuează consumatorul să citească informația "corectă" în acele cazuri?</b>
+<br>
+Pentru a ne putea da seama, ar fi util să repetăm experimentul și să observăm noul rezultat obținut.
+Eventual, să-l repetăm chiar de mai multe ori...
+</p>
+
+<p>
+<i>Recomandare</i>: pentru a vedea mai ușor mesajele afișate de cele două programe, porniți execuția lor paralelă astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./demo_data-race1_prod.exe 2> notificari_prod.txt & sleep 1 ; ./demo_data-race1_cons.exe 2> notificari_cons.txt</tt>
+<br>
+În acest fel, mesajele de notificare afișate de cele două programe nu vor mai apare într-o ordine "amestecată" pe ecran, ci vor fi salvate
+în cele două fișiere text către care am redirectat streamurile <tt>stderr</tt> ale celor două programe.
+Bineînțeles, astfel vom pierde posibilitatea de "a observa" ordinea "amestecului" mesajelor de la producător cu cele de la consumator,
+dar în schimb, vom vedea mai ușor rezultatul final al fiecărei execuții,
+inspectând la finalul ei fișierul <tt>notificari_cons.txt</tt> și observând care dintre cele 20 de texte au fost citite "incorect" de către consumator.
+</p>
+
+<p>
+<i>Alte exemple de rezultate finale posibil de obținut</i>: repetând de alte două ori experimentul de mai sus,
+i.e. comanda de execuție paralelă a celor două programe (cu consumatorul pornit întârziat cu 1s),
+am obținut și următoarele două rezultate finale (i.e., output-uri ale notificărilor afișate de consumator):
+<pre class="stil_output">
+[Consumer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Consumer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "", from the mapping.
+[Consumer] Notification: I read the 4th text, "", from the mapping.
+[Consumer] Notification: I read the 5th text, "", from the mapping.
+[Consumer] Notification: I read the 6th text, "", from the mapping.
+[Consumer] Notification: I read the 7th text, "", from the mapping.
+[Consumer] Notification: I read the 8th text, "", from the mapping.
+[Consumer] Notification: I read the 9th text, "", from the mapping.
+[Consumer] Notification: I read the 10th text, "", from the mapping.
+[Consumer] Notification: I read the 11th text, "", from the mapping.
+[Consumer] Notification: I read the 12th text, "", from the mapping.
+[Consumer] Notification: I read the 13th text, "", from the mapping.
+[Consumer] Notification: I read the 14th text, "", from the mapping.
+[Consumer] Notification: I read the 15th text, "", from the mapping.
+[Consumer] Notification: I read the 16th text, "", from the mapping.
+[Consumer] Notification: I read the 17th text, "", from the mapping.
+[Consumer] Notification: I read the 18th text, "", from the mapping.
+[Consumer] Notification: I read the 19th text, "", from the mapping.
+[Consumer] Notification: I finished my job!
+</pre>
+și respectiv:
+<pre class="stil_output">
+[Consumer] Notification: A shared file mapping in memory was created, for the file: data.txt
+[Consumer] Notification:   the mapping corresponds to the file's content starting at offset: 0, and with the length: 200
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "", from the mapping.
+[Consumer] Notification: I read the 6th text, "", from the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "Textul  8", from the mapping.
+[Consumer] Notification: I read the 9th text, "", from the mapping.
+[Consumer] Notification: I read the 10th text, "", from the mapping.
+[Consumer] Notification: I read the 11th text, "", from the mapping.
+[Consumer] Notification: I read the 12th text, "", from the mapping.
+[Consumer] Notification: I read the 13th text, "", from the mapping.
+[Consumer] Notification: I read the 14th text, "Textul 14", from the mapping.
+[Consumer] Notification: I read the 15th text, "", from the mapping.
+[Consumer] Notification: I read the 16th text, "", from the mapping.
+[Consumer] Notification: I read the 17th text, "", from the mapping.
+[Consumer] Notification: I read the 18th text, "", from the mapping.
+[Consumer] Notification: I read the 19th text, "", from the mapping.
+[Consumer] Notification: I finished my job!
+</pre>
+</p>
+
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+repetați experimentul de mai sus, rulând, pe rând, mai multe instanțe de execuție paralelă ale celor două programe,
+pentru a înțelege mai bine cum funcționează acest exemplu demonstrativ,
+i.e. pentru a observa ceea ce spuneam mai sus, în enunțul problemei, despre faptul că <u>rezultatul final va fi imprevizibil</u> (!)
+</p>
+
+<p>
+<i>Explicație</i>: în contextul acestui exemplu demonstrativ, prin <u>rezultatul final</u> mă refer la informația "recepționată" de consumator,
+și anume la cele 20 de texte citite de el din memoria partajată cu producătorul.
+<u>O parte dintre cele 20 de texte vor fi citite "incorect"</u> (i.e., drept zero-uri) !!!
+În plus, <u>care anume dintre cele 20 de texte sunt citite "incorect", variază de la o execuție la alta (!)</u>,
+și la acest lucru m-am referit când am spus mai sus că rezultatul final este imprevizibil.
+</p>
+
+<p>
+Prin urmare, interpretând datele experimentale pe care le veți obține prin îndeplinirea sarcinii trasate mai sus,
+veți putea trage următoarea concluzie:
+<br>
+<div class="stil_explicatie_detaliata"></b>Oricare dintre cele 20 de texte ar putea fi citit "incorect" de către consumator,
+iar distribuția citirilor "incorecte" în cadrul celor 20 de texte ce trebuie citite, este "aleatoare" (i.e., imprevizibilă).</b></div>
+</p>
+
+<p>
+<b><i>Explicitarea acestei afirmații</i>:</b>
+<br>
+Am putea reprezenta rezultatul final al unei execuții paralele a celor două programe
+printr-un vector cu 20 de valori booleene, ce codifică prin 0 (false) și, respectiv, 1 (true) faptul că
+citirea textului corespunzător acelei poziții din vector a fost "incorectă" (i.e., s-au citit zero-uri), respectiv a fost "corectă".
+<br>
+Repetând experimentul <b>de un număr mare de ori (pentru a fi relevant statistic)</b>,
+vom putea obține ca și rezultat al experimentului oricare dintre cele <tt>2<sup>20</sup> = 1.048.576‬</tt> valori posibile ale acestui vector de codificare,
+fiecare valoare posibilă a vectorului fiind "observată" cu o anumită frecvență, nu neapărat aceeași pentru toate valorile posibile (!).
+</p>
+
+<p>
+<i>Explicație suplimentară</i>, despre "probabilitățile" valorilor posibile pentru vectorul de codificare descris mai sus:
+<button onclick="myToggle('lab8-2_demo1_explicatie')">Show / Hide the explanation</button>
+<div id="lab8-2_demo1_explicatie" style="display:none;" class="stil_explicatie_detaliata">
+Frecvențele de "observare" a valorilor posibile pentru vectorul de codificare depind (și) de acele apeluri <tt>sleep()</tt>,
+de durate random, puse în cele două programe. Le-am pus doar pentru a obține o variabilitate mai "rapidă" a rezultatelor obținute.
+</p>
+
+<p>
+Chiar dacă ați elimina acele apeluri <tt>sleep()</tt> din cele două programe, cele descrise mai sus rămân valabile,
+doar că probabilitatea de a observa mai "rapid" (adică, printr-un număr mai mic de repetiții ale experimentului) o variabilitate a rezultatelor obținute,
+va fi mai mică (!).
+<br>
+Aceasta deoarece unele valori posibile ale vectorului descris mai sus vor avea, fără acele apeluri <tt>sleep()</tt> de durate random,
+frecvențe de "observare" mult mai mari decât celelalte valori posibile,
+și atunci ar trebui să repetați experimentul <b>de un număr MULT MAI MARE de ori</b> decât
+numărul de repetiții necesar de efectuat în cazul folosirii în cele două programe a acelor <tt>sleep()</tt>-uri de durate random,
+<u>pentru a observa un grad "asemănător" de variabilitate a rezultatelor obținute</u>.
+</p>
+
+<p>
+Dar totuși <u>variabilitatea rezultatelor obținute există intrinsec</u>, cu sau fără acele <tt>sleep()</tt>-uri în programe, <u>datorită
+modului de execuție paralelă a celor două programe, prin "paralelism aparent"</u> (i.e., se execută prin planificarea de tip <i>time-slicing</i> explicată la curs,
+<small>și aceasta indiferent de faptul că CPU-ul calculatorului dvs. are 2, 4 sau mai multe core-uri, căci de regulă numărul de procese "ready" depășește
+numărul de core-uri în cea mai mare parte a timpului de folosire a calculatorului...</small>),
+iar noi <b>nu putem controla</b>, prin program, <u>momentele de timp la care planificatorul va aloca câte o nouă cuantă</u> (i.e., <i>time-slice</i>)
+celor două programe, respectiv <u>momentele de timp la care planificatorul va preempta de pe procesor</u> pe fiecare dintre cele două programe.
+Și astfel, secvențele de instrucțiuni executate de cele două programe se vor "amesteca" în orice ordine posibilă,
+cu observația că unele "amestecuri" au o probabilitate de manifestare mai mare decât altele...
+</div>
+</p>
+
+<p>
+<b><i>Demonstrația afirmației de mai sus</i>:</b>
+<br>
+Pe parcursul unei instanțe de execuție paralelă a celor două programe, există nu unul, ci 20 de <i>data race</i>-uri distincte,
+și anume avem câte un <i>data race</i> pentru fiecare dintre cele 20 de texte.
+<br>
+Mai exact, pentru oricare dintre cele 20 de texte,
+<b>avem un "race" între momentul când producătorul va scrie, în memoria partajată, acel text
+și momentul când consumator va citi, din memoria partajată, acel text</b>.
+<!-- "race"-ul constă în cine execută mai repede citirea sau scrierea acelui text: producătorul sau consumatorul ? -->
+<br>
+Rezultatul fiecărui "race" de acest tip nu-l putem controla prin program, el fiind imprevizibil,
+adică, dacă facem un număr mare de experimente (i.e., execuții paralele ale celor două programe),
+atunci vom obține ambele rezultate posibile ale "race"-ului, fiecare cu o anumită frecvență:
+<br>
+1) dacă "race"-ul este "câștigat" de producător (i.e., momentul scrierii textului respectiv în memorie, de către producător,
+precede momentul citirii acelui text, de către consumator),
+atunci rezultatul final al "race"-ului va fi că procesul consumator va citi "corect" acel text;
+<br> 
+2) iar dacă "race"-ul este "câștigat" de consumator (i.e.,  momentul scrierii textului respectiv în memorie, de către producător,
+succede momentulului citirii acelui text, de către consumator),
+atunci rezultatul final al "race"-ului va fi că procesul consumator va citi "incorect" acel text.
+<br>
+Rezultatul celor 20 de "race"-uri ale unei singure instanțe de execuție paralelă a celor două programe,
+poate fi codificat printr-un vector cu 20 de valori booleene, ce codifică prin 0 (false) și, respectiv, 1 (true) faptul că
+"race"-ul corespunzător acelei poziții din vector a fost a fost câștigat de către consumator, respectiv de către producător.
+Iar acestă codificare corespunde bijectiv cu cea de mai sus.
+Astfel că toată discuția de mai sus despre frecvențele de "observare" a valorilor posibile pentru vectorul de codificare,
+se pot transpune într-un limbaj ce face referire la cele 20 de "race"-uri, în loc de cele 20 de citiri incorecte/corecte făcute de consumator.
+<br><br>
+În consecință, <u>singura situație în care consumatorul va citi "corect" toate cele 20 de texte</u>, conform așteptărilor noastre,
+este cea în care <b>toate cele 20 de "race"-uri sunt câștigate de producător</b>
+(adică situația codificată prin vectorul având ca valoare tuplul format din 20 de 1/true).
+</p>
+
+<p>
+<b>CONCLUZIE</b>: avem nevoie de mecanisme de sincronizare a celor două procese,
+în acest exemplu simplificat al șablonului de cooperare "Producător-Consumator" prezentat la curs,
+mecanisme care să ne permită să influențăm rezultatele celor 20 de "race"-uri,
+adică mecanisme prin care să putem forța producătorul să câștige toate cele 20 de "întreceri" în fața consumatorului...
+</p>
+
+<p>
+<b>Comentariu final</b>: toată discuția de mai sus este o simplificare a realității,
+pentru că se bazează pe ipoteza nerostită/nescrisă cum că citirea din memorie și respectiv scrierea în memorie a fiecăruia din cele 20 de texte
+ar fi o operație atomică.
+<br>
+Dar, în realitate, acestea nu sunt operații atomice (!)
+Pentru arhitecturile hardware uzuale, utilizate de calculatoarele dvs.,
+putem presupune doar că <u>citirea unui octet din memorie</u>, și respectiv <u>scrierea unui octet în memorie</u>, sunt <b>operații atomice</b>,
+nu și citirea/scrierea unor texte formate din 10 octeți!
+<br>
+Practic, pentru fiecare din cele 20 de texte, formate din câte 10 octeți, vom avea câte 10 "întreceri" între producător și consumator,
+adică în total vom avea 200 de "race"-uri, și nu doar 20 de "race"-uri, precum am calculat mai sus, într-o "versiune simplificată" a realității.
+<br>
+Prin urmare, avem nevoie de mecanisme de sincronizare prin care să putem forța producătorul să câștige toate cele 200 de "întreceri" în fața consumatorului,
+pentru fiecare octet din cei 200 de octeți ai informației transmise de la unul la altul în maniera descrisă prin cele două programe...
+</p>
+
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+proiectați (și implementați) un mecanism de sincronizare în sensul explicat mai sus, care să fie și cât mai simplu cu putință,
+și potrivit pentru acest exemplu simplificat al șablonului producător-consumator (!)
+</p>
+</div>
+
+<p>
+<b><i style="color: red;">Concluzie</i>:</b> acest exemplu a ilustrat un program care "suferă" de
+<u>fenomenul de <i>race-conditions</i> (aka <i>data race</i>, sau <i>Heisenbugs</i>)</u>,
+descris la începutul cursului teoretic #5.
+<br>
+De asemenea, acest exemplu are rolul de <u>a vă atrage atenția asupra nevoii de folosire a unor tehnici specifice
+pentru sincronizarea execuției programelor</u>, în scopul "reparării" programelor ca să nu (mai) "sufere" de acest fenomen nedorit.
+<br>
+<i>Notă</i>: printre diversele tehnici de sincronizare folosite în practică, cele mai des utilizate sunt cele descrise
+în cursurile teoretice #5 și #6, pe care vă recomand să le (re)citiți cu foarte mare atenție!
+</p>
+
+<p>
+<i>Atenție</i>: aceste trei denumiri alternative, folosite mai sus pentru a referi un același fenomen,
+se referă de fapt la o <u>categorie specifică de <i>bug</i>-uri</u>,
+ce este caracteristică doar programării paralele și concurente, nu și celei secvențiale,
+categorie caracterizată prin faptul că un astfel de <i>bug</i> prezent într-un program <u>se manifestă în mod imprevizibil</u> (!).
+<br>
+<div class="stil_QandA">
+Ce înseamnă că un astfel de <i>bug</i> se manifestă în mod imprevizibil?
+<br><br>
+<i>Răspuns</i>: poți face 100, 1000, sau 10000 de teste (i.e., execuții ale programului cu diverse valori pentru datele de intrare)
+și să obții de fiecare dată rezultatele corecte "așteptate" (i.e., se obține ceea ce trebuia să calculeze programul respectiv),
+deci să nu "observi" rezultate calculate eronat în niciunul din cele 100, 1000, sau 10000 de teste,
+și abia când vei face și al 101-lea, al 1001-lea sau al 10001-lea test,
+să obții un rezultat calculat eronat și astfel să conștientizezi faptul că programul tău "suferă" de un astfel de <i>Heisen-bug</i>.
+<br><br>
+Din acest motiv, al imprevizibilității "observării" manifestării lui,
+un astfel de <i>bug</i> este mult mai dificil, dacă nu chiar imposibil practic, să fie detectat prin tehnicile folosite de obicei
+la programarea secvențială (e.g., testarea execuției programului și depanarea sa) pentru detecția <i>bug</i>-urilor obșinuite.
+</div>
+</p>
+
+<div class="stil_QandA">
+Care este impactul existenței acestei categorii de <i>bug</i>-uri, ce se manifestă în mod imprevizibil,
+pentru activitatea dezvoltatorilor de aplicații software?
+<br><br>
+<i>Răspuns</i>:
+un astfel de <i>bug</i> manifestându-se într-un mod imprevizibil,
+<u>poate să treacă nedetectat prin etapa de dezvoltare a unei aplicații</u>,
+indiferent de numărul, mai mare sau mai mic, de teste efectuate în acea fază
+(i.e., există posibilitatea ca acel <i>bug</i> să nu se manifeste la niciuna dintre execuțiile programului
+efectuate, în scop de testare, în faza de <i>development</i> a aplicației)
+<u>și să se manifeste abia în etapa de folosire în "producție"</u>,
+adică după ce se face <i>deployment</i>-ul la clienții beneficiari și începe utilizarea ei efectivă
+(<i>deployment</i> = livrarea aplicației către clienți, însoțită de instalarea și configurarea ei pe sistemele de calcul ale acestora).
+<br><br>
+Cu alte cuvinte, un astfel de <i>bug</i> ar putea fi "observat" (detectat) abia în etapa în care clienții au început deja să folosească acea aplicație
+în "producție", în scopuri <i>mission-critical</i> conforme cu <i>business</i>-ul derulat de fiecare în parte,
+situație în care efectele manifestării unui asemenea <i>bug</i> pot fi catastrofale pentru <i>business</i>-ul respectiv
+(e.g., dacă manifestarea <i>bug</i>-ului va cauza distrugerea integrității datelor sau informațiilor prelucrate/gestionate de acea aplicație).
+</div>
+</li>
+
+
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------ >
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li>
+<p><big>[BinarySemaphoreFor2Processes_shmem]</big>
+<br>Să se scrie un program C care să implementeze soluția software pentru problema secțiunii critice pentru cazul a 2 procese
+(despre care ați învățat în cursul teoretic #5),
+și să se ilustreze execuția mutual-exclusivă a secțiunilor critice când se rulează două instanțe ale programului.
+<br>
+Cerință: se va folosi interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.),
+pentru a asigura memorie comună, partajată de cele două instanțe ale programului.
+</p>
+</li>
+
+
+<li>
+<p><big>[BinarySemaphoreForNProcesses_shmem]</big>
+<br>Să se scrie un program C care să implementeze soluția software pentru problema secțiunii critice pentru cazul a N>2 procese
+(despre care ați învățat în cursul teoretic #5),
+și să se ilustreze execuția mutual-exclusivă a secțiunilor critice când se rulează N instanțe ale programului.
+<br>
+Cerință: se va folosi interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.),
+pentru a asigura memorie comună, partajată de cele N instanțe ale programului.
+</p>
+</li>
+
+
+<li>
+<p><big>[Producer-Consumer_shmem]</big>
+<br>Să se scrie un program C care să implementeze soluția pentru problema producător-consumator, pentru cazul cu buffer limitat
+(despre care ați învățat în cursul teoretic #6),
+și să se ilustreze execuția mutual-exclusivă a secțiunilor critice când se rulează două sau mai multe instanțe ale programului.
+<br>
+Cerință: se va folosi interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.),
+pentru a asigura memorie comună, partajată de instanțele programului.
+</p>
+</li>
+
+<li>
+<p><big>[CREW{1,2,3}_shmem]</big>
+<br>Să se scrie un program C care să implementeze soluția pentru problema CREW, pentru fiecare din cele 3 cazuri de prioritate
+(despre care ați învățat în cursul teoretic #6),
+și să se ilustreze execuția mutual-exclusivă a secțiunilor critice când se rulează două sau mai multe instanțe ale programului.
+<br>
+Cerință: se va folosi interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.),
+pentru a asigura memorie comună, partajată de instanțele programului.
+</p>
+</li>
+
+<li><!-- Problema: lab14_ex9.c din lab13/2019 ----------------------------------------------------------------------------->
+<p><big>['Sleeping barber'_shmem]</big>
+<br>
+Să se scrie un program C care simulează desfășurarea activității într-un cabinet de stomatologie.
+Procesul inițial va genera un prim proces fiu, cu rol de asistent: acesta se va ocupa de intrarea pacienților în sala de așteptare,
+generându-i la intervale de timp fixe sau aleatoare.
+Pentru fiecare pacient intrat în sala de așteptare, procesul asistent va genera un proces fiu separat, care va reprezenta pacientul respectiv.
+Pacientul își va anunța cumva PID-ul procesului principal.
+<br>Procesul principal (ce reprezintă doctorul stomatolog) se va ocupa cu tratarea pacienților, într-o buclă repetitivă, semnalându-le pacienților
+intrarea în cabinet (din sala de așteptare) și apoi ieșirea din cabinet după terminarea tratamentului.
+Durata tratamentului poate fi aleatoare sau fixă.
+<br>Procesele create pentru fiecare pacient în parte vor afișa schimbarea stării pacientului, conform tranzițiilor:
+"intrat în sala de așteptare --&gt; în cabinetul doctorului --&gt; ieșire".
+<br>Pentru comunicarea stomatologului cu pacienții se va folosi un fișier mapat în memorie,
+pentru a asigura memorie comună, partajată de toate procesele.
+</p>
+</li>
+   
+<li>
+<p><big>[MyCS_shmem #1]</big>
+<br>Să se rescrie programul din exercițiul rezolvat [MyCritSec #1] din laboratorul #7,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie, plus mecanisme de sincronizare bazate pe memorie partajată,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.)
+și a sincronizării bazate pe blocaje pe fișiere.
+<br>
+<i>Întrebare</i>: chiar avem nevoie de mecanisme de sincronizare bazate pe memorie partajată, pentru accesele de citire și/sau scriere în memorie,
+a acelui număr de tip <tt>float</tt> mapat în memorie din fișierul binar "peco.bin" ?
+Pentru a răspunde, gândiți-vă dacă puteți realiza în manieră atomică citirile și scrierile acelui număr real din memorie...
+ </p>
+</li>
+
+<li>
+<p><big>[MyCS_shmem #2 : Parallel sorting]</big>
+<br>Să se rescrie programul de sortare paralelă din exercițiul rezolvat [MyCritSec #2 : Parallel sorting] din laboratorul #7,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie, plus mecanisme de sincronizare bazate pe memorie partajată,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.)
+și a sincronizării bazate pe blocaje pe fișiere.
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu fișiere mapate în memorie, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+<li>
+<p><big>[MyCREW_shmem #1]</big>
+<br>Să se rescrie programul din exercițiul suplimentar [MyCREW #1] propus spre rezolvare în din laboratorul #7,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie, plus mecanisme de sincronizare bazate pe memorie partajată,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.) și a sincronizării bazate pe blocaje pe fișiere.
+ </p>
+</li>
+
+<li>
+<p><big>[MyCS_shmem #2bis : Parallel sorting II]</big>
+<br>Să se rescrie programul de sortare paralelă din exercițiul suplimentar [MyCritSec #2bis : Parallel sorting II], propus spre rezolvare în laboratorul #7,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie, plus mecanisme de sincronizare bazate pe memorie partajată,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.) și a sincronizării bazate pe blocaje pe fișiere.
+</p>
+</li>
+
+<li>
+<p><big>[MyCS_shmem #2game : Parallel sorting III]</big>
+<br>Să se rescrie programul de sortare paralelă din exercițiul suplimentar [MyCritSec #2game : Parallel sorting III], propus spre rezolvare în laboratorul #7,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie, plus mecanisme de sincronizare bazate pe memorie partajată,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.) și a sincronizării bazate pe blocaje pe fișiere.
+</p>
+</li>
+</ol>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+</a>
+
+<ol>
+
+<li>
+<p><big>[MyCS_shmem #2-rtstats : Runtime statistics of Parallel sorting]</big>
+<br>Refaceți studiul experimental descris în exercițiul [MyCritSec #2-rtstats : Runtime statistics of Parallel sorting] din laboratorul #7-perf,
+utilizând versiunea bazată pe memorie partajată, i.e. [MyCS_shmem #2 : Parallel sorting], a programului implicat în acel studiu experimental.
+</p>
+</li>
+
+<li>
+<p><big>[MyCS_shmem #2bis-rtstats : Runtime statistics of Parallel sorting II]</big>
+<br>Refaceți studiul experimental descris în exercițiul [MyCritSec #2bis-rtstats : Runtime statistics of Parallel sorting II] din laboratorul #7-perf,
+utilizând versiunea bazată pe memorie partajată, i.e. [MyCS_shmem #2bis : Parallel sorting II], a programului implicat în acel studiu experimental.
+</p>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr><td align="center" valign="center">
+    <form><input type="button" name="lastUpdButton" value="Last Update"
+            onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);"></form>
+</td></tr>
+</table>
+
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<!--script>includeHTML();</script-->
+</body>
+</html>

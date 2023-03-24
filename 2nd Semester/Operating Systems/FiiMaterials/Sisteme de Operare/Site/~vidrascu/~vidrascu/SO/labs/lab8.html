@@ -1,0 +1,1461 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #8</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #8, partea I :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab8.html#sec_1">Exerciții de programare C cu fișiere mapate în memorie (prima parte -- prelucrări diverse de fișiere, operate direct în memorie)</a></h4>
+<h5><a href="lab8.html#sec_1z">Programe demonstrative</a></h5>
+<h5><a href="lab8.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab8.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab8.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>II) <a href="lab8.html#sec_2">Exerciții de programare C cu fișiere mapate în memorie (a doua parte -- sincronizare și cooperare între procese multiple, prin memorie partajată)</a></h4>
+<h4>III) <a href="lab8.html#sec_3">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu fișiere mapate în memorie (prima parte -- prelucrări diverse de fișiere, operate direct în memorie):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1z">
+<p class="stil_ex_rezolvate">Programe demonstrative:</p>
+</a>
+
+<ol>
+
+<li><!-- Enunț nou, 2020  -------------------------------------------------------------------------------------------->
+<p><big>[FirstDemo -- mmap_ex1]</big>
+<br>Prima exemplificare a lucrului cu fișiere mapate în memorie, pe platforma Linux, este un program C 
+care ilustează modul de mapare în memorie a unei porțiuni specificate dintr-un fișier specificat,
+în scopul citirii, direct din memorie, a conținutului acelei porțiuni de fișier,
+urmată de afișarea pe ecran a informațiilor citite.
+<br>
+<small>(Observație: <span class="stil_hint2">se va ilustra apelul mmap() pentru maparea privată, cu drept doar de citire, a unei porțiuni de fișier.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab8_demo1')">Show / Hide the 1st demo example</button>
+
+<div id="lab8_demo1" style="display:none;" class="stil_rezolvare">
+<p>
+<b>1)</b> Prima variantă a acestui program demonstrativ, care dorește să mapeze în memorie o anumită porțiune
+(specificată de utilizator printr-un offset oarecare și o lungime oarecare) dintr-un fișier specificat de utilizator, este următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex1a.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo1_src1a')">Show / Hide the source</button>
+<pre id="lab8_demo1_src1a" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex1a.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex1a.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>), cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall mmap_ex1a.c -o mmap_ex1a.exe</tt>
+</p>
+
+<p>
+3. Pregătiți un fișier de date, cu un conținut oarecare. Spre exemplu, creați un fișier numit <tt>data.txt</tt>, cu textul următor:
+<!--br><tt class="stil_black_BGcolor">012345678<br>aaaaaaaaa<br>123456789</tt-->
+<pre class="stil_output">
+012345678
+aaaaaaaaa
+123456789
+</pre>
+fie folosind un editor de texte, fie cu ajutorul comenzii:
+<tt class="stil_cmdBash">echo -e "012345678\naaaaaaaaa\n123456789" > data.txt</tt> .
+Iar apoi creați o copie de rezervă, e.g. cu comanda  <tt class="stil_cmdBash">cp data.txt data_txt.bak</tt>,
+pe care o veți putea folosi în exemplele ulterioare pentru a reface conținutul original de mai sus, al fișierului <tt>data.txt</tt>,
+după fiecare execuție a unui program demo care va modifica acest fișier.
+</p>
+<p>
+<i>Observație</i>: rețineți faptul că fișierul creat mai sus are lungimea de 30 de octeți, el conținând cele 9x3=27 de caractere vizibile în editor
+(stocate fiecare prin octetul corespunzător codului ASCII asociat caracterului respectiv),
+plus încă 3 caractere "invizibile" pe ecran/în editor, și anume cele 3 <i>newline</i>-uri ce termină fiecare linie de text (stocate fiecare prin octetul
+cu valoarea 10, corespunzător caracterului LF prin care se reprezintă un <i>newline</i> în SO-urile din familia UNIX).
+</p>
+
+<p>
+4. Lansați în execuție programul executabil obținut la pasul anterior, variind după dorință parametrii pe care-i așteaptă în linia de comandă.
+<br>
+Spre exemplu, să apelăm programul astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex1a.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the specified offset is not page-aligned! As such, the following mmap() call will fail!
+Error at mmap: Invalid argument
+</pre>
+Prin urmare, observăm că această instanță de execuție a programului a eșuat la apelul mmap(),
+motivul fiind că valoarea specificată de utilizator, 5, folosită pentru parametrul offset al apelului mmap(),
+nu este validă, nefiind un multiplu de dimensiunea paginii hardware, precum se specifică în documentația apelului
+(i.e., recitiți pagina <tt>man 2 mmap</tt>).
+</p>
+
+<p class="stil_QandA">
+Cum corectăm acest <i>bug</i> al programului?
+<br><br>
+<i>Răspuns</i>: vom face modificările necesare pentru a trata acest tip de excepție, a valorilor introduse de utilizator.
+Spre exemplu, am putea rezolva excepția foarte simplu, afișând un mesaj informativ de eroare și terminând execuția programului,
+precum am mai făcut și în alte exerciții rezolvate din laboratoarele precedente.
+<br>
+Totuși, aici am ales să ilustrez o altă idee de tratare a acestui tip de excepție (i.e., valori incorecte introduse de utilizator).
+<br>
+Și anume, vom trata excepția prin <u>corectarea automată a valorii/valorilor incorecte introduse de utilizator, și continuarea
+execuției programului cu valorile corectate (!)</u>.
+<br>
+Mai precis, dacă offsetul introdus de utilizator este incorect, în sensul că nu este un multiplu de dimensiunea paginii hardware,
+atunci îl vom corecta, alegând drept offset corect acea valoare maximă care este multiplu de dimensiunea paginii hardware
+și este, totodată, mai mică sau egală cu valoarea introdusă de utilizator.
+<br>
+Iar dacă lungimea introdusă de utilizator este incorectă, în sensul că porțiunea din fișier determinată de offsetul introdus și de acea lungime,
+ar depăși finalul fișierului, atunci o corectăm astfel încât porțiunea de fișier să se termine exact la finalul fișierului.
+Similar, dacă utilizatorul nu specifică nicio lungime (permitem acest lucru).
+În plus, dacă offsetul a trebuit corectat, conform celor spuse mai sus, atunci vom corecta în mod corespunzător și lungimea, în sensul că
+finalul porțiunii de fișier ce se va mapa în memorie să rămână neschimbat, chiar dacă începutul porțiunii ce se va mapa, se extinde spre
+începutul fișierului, prin corectarea descrisă mai sus a unui offset incorect.
+</p>
+
+<p>
+<b>2)</b> A doua variantă a acestui program demonstrativ, este corecția primei variante, în sensul explicat mai sus:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex1b.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo1_src1b')">Show / Hide the source</button>
+<pre id="lab8_demo1_src1b" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex1b.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex1b.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, printr-o serie de mai multe modificări/adăugiri,
+ce implementează corecțiile descrise mai sus.
+<!-- todo diff color highlighted -->
+</p>
+
+<p>
+Pentru această nouă variantă, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la varianta anterioară.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex1b.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+5678
+aaaaaaaaa
+123456789
+
+TODO: verificati continutul fisierului la final (i.e. dupa 'distrugerea' maparii), cu ajutorul comenzii urmatoare:
+cat data.txt
+</pre>
+Rulând comanda  <tt class="stil_cmdBash"> cat data.txt </tt> la final, vom observa că fișierul a rămas nemodificat în urma execuției acestei instanțe a programului.
+</p>
+
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+repetați experimentul de mai sus, rulând, pe rând, mai multe instanțe de execuție ale programului,
+cu diverse valori pentru parametrii transmiși în linia de comandă,
+pentru a înțelege mai bine cum funcționează acest prim exemplu de program demonstrativ.
+</p>
+</div>
+<p>
+<b><i style="color: red;">Concluzie</i>:</b> acest exemplu a ilustrat
+<u>modul de lucru pentru accesarea doar pentru citire (aka <i>read-only</i>), a conținutului unui fișier, prin maparea acestuia în memorie</u>,
+în locul utilizării interfeței clasice de acces I/O la disc (i.e., modul de lucru despre care ați învățat în laboratoarele precedente #6 și #7),
+adică fără a folosi apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio.
+<br>
+Iar un alt exemplu care ilustrează același lucru este prezentat în al doilea exercițiu din secțiunea de exerciții rezolvate de mai jos.
+</p>
+</li>
+
+
+
+
+<li><!-- Enunț nou, 2020  -------------------------------------------------------------------------------------------->
+<p><big>[SecondDemo -- mmap_ex2]</big>
+<br>A doua exemplificare a lucrului cu fișiere mapate în memorie, pe platforma Linux, este un program C 
+care ilustează modul de mapare în memorie a unei porțiuni specificate dintr-un fișier specificat,
+în scopul citirii direct din memorie, și apoi modificării direct în memorie, a conținutului acelei porțiuni de fișier:
+întâi afișăm pe ecran informațiile citite, iar apoi modificăm, parțial, conținutul acelei mapări,
+iar la final observăm actualizarea modificărilor în fișierul de pe disc.
+<br>
+<small>(Observație: <span class="stil_hint2">se va ilustra apelul mmap() pentru maparea unei porțiuni de fișier,
+și se va modifica conținutul mapării în memorie, iar la final se vor observa modificările salvate în fișier, pe disc.</span>)</small>
+<br><br>
+<b><i>Atenție</i>:</b> voi ilustra activitatea iterativă de modificare a primului program demonstrativ
+(mai precis, versiunea finală a acelui program, i.e. <a target="_blank" href="../cursuri/C-programs/mmap/mmap_ex1b.c">mmap_ex1b.c</a>),
+pentru a obține programul dorit aici.
+Cu alte cuvinte, voi prezenta un ciclu iterativ de modificare a variantei curente a programului,
+pentru eliminarea <i>bug</i>-urilor introduse pe parcursul adăugării funcționalității suplimentare dorite pentru acest al doilea program demonstrativ.
+</p>
+
+<button onclick="myToggle('lab8_demo2')">Show / Hide the 2nd demo example</button>
+
+<div id="lab8_demo2" style="display:none;" class="stil_rezolvare">
+<p>
+Conform celor spuse mai sus, vă voi prezenta, în cele ce urmează, o serie de variante succesive ale programului,
+obținute una din alta prin modificări și/sau adăugiri de cod, pentru corecții de <i>bug</i>-uri și pentru adăugarea funcționalității dorite.
+</p>
+<p>
+<b>1)</b> Prima variantă a acestui program demonstrativ, este următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex2a.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo2_src2a')">Show / Hide the source</button>
+<pre id="lab8_demo2_src2a" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex2a.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex2a.c">here</a>.</div>
+</pre>
+<p>
+Practic, acest program este obținut din cel anterior, printr-o singură adăugire: instrucțiunea <tt class="stil_instrC">*map_addr = 'A';</tt> de la linia 113,
+care supra-scrie, în memorie, primul octet al mapării.
+Plus, am mai adăugat afișarea unui mesaj informativ, și niște comentarii, în dreptul acestei instrucțiuni adăugate în programul anterior.
+</p>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, i.e.
+<tt class="stil_cmdBash"> gcc -Wall mmap_ex2a.c -o mmap_ex2a.exe</tt>
+</p>
+
+<p>
+3. Pregătiți fișierul de date, cu același conținut ca mai sus, fie cu ajutorul comenzii:
+<tt class="stil_cmdBash">echo -e "012345678\naaaaaaaaa\n123456789" > data.txt</tt> ,
+fie cu ajutorul copiei de backup realizate anterior, i.e. rulați comanda  <tt class="stil_cmdBash">cp data_txt.bak data.txt</tt>.
+</p>
+
+<p>
+4. Lansați în execuție programul executabil obținut la pasul anterior, variind după dorință parametrii pe care-i așteaptă în linia de comandă.
+<br>
+Spre exemplu, dacă apelăm programul cu aceeași parametri ca la primul program demonstrativ:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex2a.exe data.txt 5</tt>
+<br>
+atunci outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+5678
+aaaaaaaaa
+123456789
+
+Notification: now, I will try to write at some address in the mapping! Please, observe what will happen:
+
+Segmentation fault (core dumped)
+</pre>
+Prin urmare, observăm că această variantă de program "crapă" la execuție, cu mesajul de eroare "Segmentation fault (core dumped)". 
+Motivul fiind acela că scrierea la adresa de memorie realizată de instrucțiunea adăugată provoacă o excepție de tipul 'access violation',
+cauzată de faptul că acea adresă de memorie face parte dintr-o pagină în care nu avem drept de scriere.
+Practic, excepția respectivă generează semnalul SIGSEGV ce este livrat procesului nostru, iar tratarea implicită a acestui semnal
+(i.e., a acestui tip de excepție) de către SO constă în terminarea forțată a execuției programului și afișarea acelui mesaj de eroare.
+<br>
+Evident, vom mai putea observa și faptul că fișierul de pe disc a rămas nemodificat în urma execuției acestei instanțe a programului.
+</p>
+
+<p class="stil_QandA">
+Cum corectăm acest <i>bug</i> al programului?
+<br><br>
+<i>Răspuns</i>: vom face modificările necesare pentru a nu mai apare acea excepție,
+i.e. ne vom asigura că pagina respectivă din memorie, în care am mapat fișierul de pe disc, are drept (și) de scriere, nu numai de citire.
+<br>
+Iar pentru a obține acest lucru, trebuie să apelăm funcția mmap() fie cu valoarea <tt>PROT_READ | PROT_WRITE</tt>,
+fie cu valoarea <tt>PROT_WRITE</tt>, în loc de doar <tt>PROT_READ</tt>, în argumentul al 3-lea, care descrie tipul de protecție a mapării.
+Astfel, paginile mapării vor permite accese în citire și în scriere!
+</p>
+
+<p>
+<b>2)</b> A doua variantă a acestui program demonstrativ, este corecția primei variante, în sensul explicat mai sus:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex2b.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo2_src2b')">Show / Hide the source</button>
+<pre id="lab8_demo2_src2b" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex2b.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex2b.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, printr-o singură modificare:
+am schimbat valoarea <tt>PROT_READ</tt> cu valoarea <tt>PROT_WRITE</tt> în argumentul al 3-lea al apelului mmap() de la liniile 80-86.
+</p>
+
+<p>
+Pentru această nouă variantă, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la varianta anterioară.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex2b.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+5678
+aaaaaaaaa
+123456789
+
+Notification: now, I will try to write at some address in the mapping! Please, observe what will happen:
+
+
+TODO: verificati continutul fisierului la final (i.e. dupa 'distrugerea' maparii), cu ajutorul comenzii urmatoare:
+cat data.txt
+</pre>
+Deci, de data aceasta nu a mai dat nicio eroare, ceea ce înseamnă că scrierea aceea a primului octet al mapării a reușit.
+Însă, mai observăm și faptul că fișierul de pe disc a rămas nemodificat în urma execuției acestei instanțe a programului.
+</p>
+
+<p>
+<b>3)</b> A treia variantă a acestui program demonstrativ, ce conține două modificări:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex2c.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo2_src2c')">Show / Hide the source</button>
+<pre id="lab8_demo2_src2c" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex2c.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex2c.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, prin următoarea modificare:
+am schimbat valoarea <tt>PROT_WRITE</tt> cu valoarea <tt>PROT_READ | PROT_WRITE</tt> în argumentul al 3-lea al apelului mmap() de la liniile 80-86,
+pentru portabilitatea codului, deoarece cele două valori sunt echivalente pe arhitectura x86/x64, însă există și alte arhitecturi hardware,
+pentru care dreptul <tt>PROT_WRITE</tt> nu implică și dreptul <tt>PROT_READ</tt>, cum se întâmplă în cazul arhitecturii x86/x64.
+<br>În plus, am mai făcut o modificare, i.e. am înlocuit instrucțiunea care supra-scria doar primul octet al mapării,
+cu o secvență de cod care supra-scrie primii 9 octeți ai mapării (a se vedea liniile 114-119),
+precum și o adăugire, i.e. am adăugat o secvență de cod care va afișa conținutul modificat al mapării, obținut în urma scrierii din modificarea descrisă.
+</p>
+
+<p>
+Pentru această nouă variantă, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la variantele anterioare.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex2c.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+5678
+aaaaaaaaa
+123456789
+
+The modified content of the mapping, started from the original, non-aligned, offset, is the following:
+FGHI
+aaaaaaaaa
+123456789
+
+TODO: verificati continutul fisierului la final (i.e. dupa 'distrugerea' maparii), cu ajutorul comenzii urmatoare:
+cat data.txt
+</pre>
+Rulând comanda  <tt class="stil_cmdBash"> cat data.txt </tt> la final,
+vom observa că fișierul de pe disc a rămas nemodificat în urma execuției acestei instanțe a programului,
+deși noi ne <b>așteptam</b> să observăm că s-a modificat și conținutul de pe disc al fișierului,
+în urma modificărilor operate în memorie asupra mapării.
+</p>
+
+<p class="stil_QandA">
+Oare care ar putea fi cauza acestui comportament al programului?
+<br><br>
+<i>Răspuns</i>: recitind cu atenție documentația despre apelul mmap(), i.e. <tt class="stil_cmdBash"> man 2 mmap </tt>,
+observăm o referință către apelul înrudit msync(). Citind documentația despre acest apel, i.e. <tt class="stil_cmdBash"> man 2 msync </tt>,
+înțelegem că ar trebui să apelăm acest msync() înainte de a apela munmap() în programul nostru,
+pentru a rezolva un potențial <i>bug</i> de tip <i>data race</i>, adică un <i>bug</i> care se manifestă imprevizibil
+(i.e., nu apare la orice instanță de execuție a programului, ci doar uneori, în mod imprevizibil).
+<br>
+Mai exact, în programul nostru, după ce am modificat în memorie primii 9 octeți ai mapării, <u>pagina respectivă devine "dirty",
+iar administratorul memoriei din cadrul SO-ului va salva pe disc acel conținut "dirty"</u>,
+deci practic se va actualiza și conținutul de pe disc al fișierului conform modificărilor operate de noi în memorie.
+(Acest comportament al administratorului memoriei din cadrul SO-ului este motivul <b>așteptării</b> formulate mai sus!)
+<br>
+Însă, <u>salvarea pe disc efectuată de administratorul memoriei din cadrul SO-ului este întârziată (i.e., nu se execută imediat ce pagina devine "dirty")</u>,
+conform politicii de gestiune utilizate de SO pentru administrarea memoriei prin paginare la cerere (despre care veți învăța la cursurile teoretice).
+<br>
+Practic, salvarea modificărilor pe disc se va face la un moment ulterior momentului când am efectuat noi, prin program, acele modificări în memorie,
+iar acest memont ulterior este imprevizibil, i.e. nu putem să-l anticipăm prin program.
+<br>
+Și astfel apare "scenariul" pentru un <i>bug</i> de tip <i>data race</i>, i.e. <b>avem un "race" între momentul când SO-ul va salva conținutul "dirty" pe disc,
+și momentul când apelăm prin program funcția munmap()</b>, apel care "distruge" maparea, dar fără să comande actualizarea pe disc a conținutului "dirty" din memorie
+(conform documentației acestei funcții, i.e. <tt class="stil_cmdBash"> man 2 mmap </tt>).
+<br>
+Rezultatul acestui "race" nu-l putem controla prin program, este imprevizibil, adică, dacă facem un număr mare de execuții ale programului,
+cu aceleași date de intrare, vom obține ambele rezultate posibile, fiecare cu o anumită frecvență:
+<br>
+1) dacă "race"-ul este "câștigat" de programul nostru (i.e., momentul apelului munmap() precede momentul când SO-ul scrie conținutul "dirty" pe disc),
+atunci rezultatul final va fi că fișierul de pe disc rămâne nemodificat (situație pe care am observat-o și noi, în urma execuției făcute mai sus);
+<br> 
+2) iar dacă "race"-ul este "câștigat" de SO (i.e., momentul apelului munmap() succede momentului când SO-ul scrie conținutul "dirty" pe disc),
+atunci rezultatul final va fi că fișierul de pe disc va fi actualizat, cu modificările operate de program în memorie.
+<br><br>
+Și atunci, ideea de corecție este imediată: conform documentației, trebuie să folosim apelul msync() înainte de munmap(),
+pentru a fi siguri că administratorul memoriei din cadrul SO-ului va reuși să scrie pe disc conținutul modificat al paginilor "dirty" din memorie,
+corespunzătoare acelei mapări, ÎNAINTE de a "șterge/distruge" acea mapare prin apelul munmap().
+</p>
+
+<p>
+<b>4)</b> A patra variantă a acestui program demonstrativ, este corecția celei de a treia variante, în sensul explicat mai sus:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex2d.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo2_src2d')">Show / Hide the source</button>
+<pre id="lab8_demo2_src2d" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex2d.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex2d.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, prin următoarea adăugire:
+am adăugat un apel al funcției msync(), cu parametrii adecvați (i.e., de tip sincron !!!), înaintea apelului munmap(),
+a se vedea codul de la liniile 131-135.
+<br>Practic, apelul msync() fiind de tip sincron, garantăm astfel că ÎNTOTDEAUNA "race"-ul descris mai sus
+va fi "câștigat" de programul nostru, și nu de SO.
+Și astfel, ne asigurăm că ÎNTOTDEAUNA fișierul de pe disc va fi actualizat, cu modificările operate de program în memorie.
+</p>
+
+<p>
+Pentru această nouă variantă, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la variantele anterioare.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex2d.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+5678
+aaaaaaaaa
+123456789
+
+The modified content of the mapping, started from the original, non-aligned, offset, is the following:
+FGHI
+aaaaaaaaa
+123456789
+
+TODO: verificati continutul fisierului la final (i.e. dupa 'distrugerea' maparii), cu ajutorul comenzii urmatoare:
+cat data.txt
+</pre>
+adică, outputul acestei variante este identic cu cel afișat de varianta anterioară.
+<br>
+Rulând comanda  <tt class="stil_cmdBash"> cat data.txt </tt> la final,
+vom observa că fișierul de pe disc a rămas tot nemodificat în urma execuției acestei instanțe a programului,
+deși noi ne <b>așteptam</b> ca, de această dată, să observăm că s-a modificat și conținutul de pe disc al fișierului,
+în urma modificărilor operate în memorie asupra mapării.
+</p>
+
+<p class="stil_QandA">
+Deci, deși am detectat un <i>bug</i> de tip <i>data-race</i>, și l-am și corectat,
+programul tot nu se comportă în maniera așteptată de noi.
+<br>
+Oare care ar putea fi cauza?
+<br><br>
+<i>Răspuns</i>: evident, aceasta înseamnă că programul mai are și un alt <i>bug</i>, pe care încă nu l-am descoperit și corectat.
+<br>
+Ne întoarcem la documentație și recitim din nou, cu atenție, pagina de manual despre apelul mmap(), i.e. <tt class="stil_cmdBash"> man 2 mmap </tt>.
+Acordăm atenție în special descrierii celor două tipuri de mapări, i.e. <tt>MAP_PRIVATE</tt> și <tt>MAP_SHARED</tt>.
+Noi am folosit în program o mapare de tipul private, deoarece nu intenționam să partajăm conținutul mapat în memorie al fișierului cu vreun alt program
+(sau, cu vreo altă instanță de execuție simultană a programului nostru).
+<br>
+Însă observăm că, <u>în cazul unei mapări private, paginile alocate pentru mapare, au atributul COW (Copy-on-Write)</u>,
+ceea ce înseamnă că, modificările în memorie pe care le-am făcut prin program, s-au făcut NU pe "originalul din memorie" al fișierului,
+ci într-o pagină nouă, clonată, privată procesului (creată la primul acces în scriere realziat în acea pagină).
+<br>
+Și astfel, apelul msync(), care salvează pe disc conținutul "dirty" din maparea noastră (adică din "originalul din memorie", și nu din clona privată),
+nu a avut, practic, nimic de salvat înapoi pe disc (deoarece maparea noastră rămăsese nemodificată față de conținutul de pe disc).
+<br>
+De asemenea, mai observăm în documentație că, <u>în cazul unei mapări partajate, paginile alocate pentru mapare, pe lângă faptul că sunt partajabile
+între mai multe procese (care realizează aceeași mapare), sunt și actualizabile pe disc, când devin "dirty"</u>
+(de către administratorul de memorie al SO-ului, care se ocupă cu această actualizare pe disc a conținutului "dirty", în maniera descrisă mai sus).
+<br><br>
+Și atunci, ideea de corecție este imediată: deși, pentru exemplul nostru, nu avem nevoie să  partajăm conținutul mapat în memorie al fișierului de date
+cu vreun alt program, vom folosi totuși o mapare de tip partajat, în locul uneia de tip privat.
+</p>
+
+<p>
+<b>5)</b> A cincea variantă a acestui program demonstrativ, este corecția celei de a patra variante, în sensul explicat mai sus:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex2e.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo2_src2e')">Show / Hide the source</button>
+<pre id="lab8_demo2_src2e" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex2e.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex2e.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, prin următoarea modificare:
+am schimbat valoarea <tt>MAP_PRIVATE</tt> cu valoarea <tt>MAP_SHARED</tt> în argumentul al 4-lea al apelului mmap() de la liniile 80-86.
+În plus, am mai făcut o modificare, neesențială, i.e. am actualizat în mod corespunzător comentariul explicativ de la liniile 137-143.
+</p>
+
+<p>
+Pentru această nouă variantă, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la variantele anterioare.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex2e.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Error at mmap: Permission denied
+</pre>
+</p>
+
+<p class="stil_QandA">
+Oare care ar putea fi cauza acestei erori la apelul mmap() ?
+<br><br>
+<i>Răspuns</i>: evident, aceasta înseamnă că programul mai are încă un <i>bug</i> nedescoperit și necorectat,
+pe lângă celelalte pe care le-am descoperit și corectat în variantele succesive de mai sus.
+<br>
+Ne întoarcem la documentație și recitim din nou, cu atenție, pagina de manual despre apelul mmap(), i.e. <tt class="stil_cmdBash"> man 2 mmap </tt>.
+Acordăm atenție în special secțiunii care descrie diversele cauze de eroare ale apelului.
+<br>
+Astfel, observăm că, în cazul primei erori descrise în acea secțiune, și anume <u>eroarea de tip EACCES</u>,
+descrierea sa spune așa: "<i>A file descriptor refers to a non-regular file.
+Or a file mapping was requested, but fd is not open for reading.
+Or MAP_SHARED was requested and PROT_WRITE is set, but fd is not open in read/write (O_RDWR) mode.
+Or PROT_WRITE is set, but the file is append-only"</i>.
+Și constatăm că varianta actuală a programului satisface a treia cauză din descrierea acestei erori:
+maparea făcută de noi este de tip partajat, însă descriptorul de fișier obținut cu apelul open() este de tip <i>read-only</i>,
+nu de tip <i>read-write</i>.
+<br><br>
+Și atunci, ideea de corecție este imediată: vom schimba valoarea <tt>O_RDONLY</tt> cu valoarea <tt>O_RDWR</tt> în apelul open().
+</p>
+
+
+<p>
+<b>6)</b> A șasea variantă a acestui program demonstrativ, este corecția celei de a cincea variante, în sensul explicat mai sus:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex2f.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo2_src2f')">Show / Hide the source</button>
+<pre id="lab8_demo2_src2f" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex2f.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex2f.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, prin următoarea modificare:
+am schimbat valoarea <tt>O_RDONLY</tt> cu valoarea <tt>O_RDWR</tt> în argumentul al 2-lea al apelului open() de la linia 35.
+</p>
+
+<p>
+Pentru această nouă variantă, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la variantele anterioare.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex2f.exe data.txt 5</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 5
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 25
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+5678
+aaaaaaaaa
+123456789
+
+The modified content of the mapping, started from the original, non-aligned, offset, is the following:
+FGHI
+aaaaaaaaa
+123456789
+
+TODO: verificati continutul fisierului la final (i.e. dupa 'distrugerea' maparii), cu ajutorul comenzii urmatoare:
+cat data.txt
+</pre>
+iar dacă rulăm comanda  <tt class="stil_cmdBash"> cat data.txt </tt> la final, vom observa următorul output afișat pe ecran:
+<pre class="stil_output">
+ABCDEFGHI
+aaaaaaaaa
+123456789
+</pre>
+ceea ce ne demonstrează faptul că, de această dată, fișierul de date de pe disc va fi modificat în urma execuției acestei instanțe a programului,
+în sensul așteptat de noi.
+</p>
+
+<p>
+Așadar, astfel am încheiat procesul iterativ de dezvoltare a programului dorit în cadrul acestui exercițiu,
+varianta aceasta, <a target="_blank" href="../cursuri/C-programs/mmap/mmap_ex2f.c">mmap_ex2f.c</a>, fiind versiunea finală,
+care oferă funcționalitatea cerută în cadrul acestui exercițiu demonstrativ.
+</p>
+
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+repetați experimentul de mai sus, rulând, pe rând, mai multe instanțe de execuție ale versiunii finale a programului,
+cu diverse valori pentru parametrii transmiși în linia de comandă,
+pentru a înțelege mai bine cum funcționează acest al doilea exemplu de program demonstrativ.
+</p>
+</div>
+
+
+<p>
+<b><i style="color: red;">Concluzie</i>:</b> acest exemplu a ilustrat
+<u>modul de lucru pentru accesarea pentru citire și modificare (aka <i>read-write</i>), a conținutului unui fișier, prin maparea acestuia în memorie</u>,
+în locul utilizării interfeței clasice de acces I/O la disc (i.e., modul de lucru despre care ați învățat în laboratoarele precedente #6 și #7),
+adică fără a folosi apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio.
+</p>
+
+
+<p class="stil_explicatie">
+<!-- Comparație colorată între sursele versiunilor finale mmap_ex1b.c și mmap_ex2f.c -->
+<i>Notă</i>: practic, am elaborat acest al doilea exemplu prin extinderea funcționalității oferite de primul exemplu;
+ca să vedeți mai ușor ce am adăugat/modificat în codul primului program demonstrativ,
+iată codul celui de-al doilea program demonstrativ, în care <font color="blue">am "subliniat" prin culoare albastră</font>
+adăugirile făcute, respectiv <font color="blue">am "subliniat" prin culoare roșie</font>
+modificările unor valori și comentarii, efectuate în codul primului program demonstrativ.
+<br><br>
+<button onclick="myToggle('lab8_demo3_diffs')">Show / Hide the highlighted differences between the 2nd demo program & the 1st demo program</button>
+<div id="lab8_demo3_diffs" style="display:none;" class="stil_codC" w3-include-HTML="../cursuri/C-programs/mmap/diff_ex2f-vs-ex1b.c.html">See
+the page from <a target="_blank" href="../cursuri/C-programs/mmap/diff_ex2f-vs-ex1b.c.html">here</a>.
+</div>
+</p>
+
+</li>
+
+
+
+<li><!-- Enunț nou, 2020  -------------------------------------------------------------------------------------------->
+<p><big>[ThirdDemo -- mmap_ex3]</big>
+<br>A treia exemplificare a lucrului cu fișiere mapate în memorie, pe platforma Linux, este un program C 
+care extinde funcționalitatea ilustrată în exemplul demonstrativ anterior
+(mai precis, în versiunea finală a acelui program, i.e. <a target="_blank" href="../cursuri/C-programs/mmap/mmap_ex2f.c">mmap_ex2f.c</a>)
+adăugând, în plus față de acesta, ilustrarea situației în care <u>se scrie la adrese din mapare "de după" sfârșitul porțiunii de fișier mapate</u>.
+<br>
+Cu alte cuvinte, în plus față de programul demonstrativ anterior,
+se va modifica și conținutul mapării de la niște adrese de memorie situate "după" sfârșitul porțiunii de fișier mapate,
+iar la finalul execuției programului se va observa dacă are loc actualizarea modificărilor în fișierul de pe disc sau nu?
+<br>
+<small>(Observație: <span class="stil_hint2">se va ilustra apelul mmap() pentru maparea unei porțiuni de fișier,
+și se va modifica conținutul mapării în memorie, inclusiv "peste" poziția EOF din fișier,
+iar la final se vor observa modificările salvate în fișier, pe disc.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab8_demo3')">Show / Hide the 3rd demo example</button>
+
+<div id="lab8_demo3" style="display:none;" class="stil_rezolvare">
+<p>
+<b>1)</b> Prima variantă a acestui program demonstrativ, ar putea fi următoarea:
+
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex3a.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo3_src3a')">Show / Hide the source</button>
+<pre id="lab8_demo3_src3a" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex3a.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex3a.c">here</a>.</div>
+</pre>
+<p>
+Practic, acest program este obținut din cel anterior (i.e., <a target="_blank" href="../cursuri/C-programs/mmap/mmap_ex2f.c">mmap_ex2f.c</a>),
+printr-o singură adăugire: secvența de cod de la liniile 129-158,
+care supra-scrie, în memorie, 9 octeți ai mapării, începând de la poziția corespunzătoare EOF-ului fișierului mapat, plus încă 5 poziții
+(octeții de pe cele 5 poziții intermediare, vor rămâne nemodificați, i.e. zero-uri, precum au fost inițializați la crearea mapării).
+<br>
+În plus, am mai adăugat un parametru la macro-definiția <tt>#define handle_error(msg,cod)</tt>, pentru a-i putea pasa ca argument diverse coduri de terminare.
+</p>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, i.e.
+<tt class="stil_cmdBash"> gcc -Wall mmap_ex3a.c -o mmap_ex3a.exe</tt>
+</p>
+
+<p>
+3. Pregătiți fișierul de date, cu același conținut ca la exemplele anterioare, fie cu ajutorul comenzii:
+<tt class="stil_cmdBash">echo -e "012345678\naaaaaaaaa\n123456789" > data.txt</tt> ,
+fie cu ajutorul copiei de backup realizate anterior, i.e. rulați comanda  <tt class="stil_cmdBash">cp data_txt.bak data.txt</tt>.
+</p>
+
+<p>
+4. Lansați în execuție programul executabil obținut la pasul anterior, variind după dorință parametrii pe care-i așteaptă în linia de comandă.
+<br>
+Spre exemplu, dacă apelăm programul cu următorii parametri:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex3a.exe data.txt 3</tt>
+<br>
+atunci outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 3
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 27
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+345678
+aaaaaaaaa
+123456789
+
+The modified content of the mapping, started from the page-aligned offset, is the following:
+ABCDEFGHI
+aaaaaaaaa
+123456789
+
+Notification: now, we will try a second write in memory, past the end of mapped region of file, but inside the last allocated page.
+
+The 2nd modified content of the mapping, started from the aligned offset, is the following:
+ABCDEFGHI
+aaaaaaaaa
+123456789
+\00\00\00\00\00XXXYYYZZZ
+
+
+TODO: verificati continutul fisierului la final (i.e. dupa 'distrugerea' maparii), cu ajutorul comenzii urmatoare:
+cat data.txt
+</pre>
+iar dacă rulăm comanda  <tt class="stil_cmdBash"> cat data.txt </tt> la final, vom observa următorul output afișat pe ecran:
+<pre class="stil_output">
+ABCDEFGHI
+aaaaaaaaa
+123456789
+</pre>
+ceea ce ne demonstrează faptul că, și de această dată, fișierul de date de pe disc va fi modificat în urma execuției acestei instanțe a programului,
+în sensul așteptat de noi.
+Mai precis, pe disc se vor salva doar informațiile "dirty" din porțiunea de fișier mapată în memorie,
+nu și cele din restul paginii de memorie, "de după" poziția corespunzătoare finalului porțiunii de fișier mapată în memorie.
+</p>
+
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+repetați experimentul de mai sus, rulând, pe rând, mai multe instanțe de execuție ale programului,
+cu diverse valori pentru parametrii transmiși în linia de comandă,
+pentru a înțelege mai bine cum funcționează acest program demonstrativ.
+</p>
+
+<p>
+<b>2)</b> O altă variantă, alternativă, a acestui program demonstrativ, este următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex3b.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo3_src3b')">Show / Hide the source</button>
+<pre id="lab8_demo3_src3b" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex3b.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex3b.c">here</a>.</div>
+</pre>
+<p>
+Practic, acest program este obținut din cel anterior (i.e., <a target="_blank" href="../cursuri/C-programs/mmap/mmap_ex2f.c">mmap_ex2f.c</a>),
+printr-o singură adăugire: secvența de cod de la liniile 129-154,
+care supra-scrie, în memorie, 9 octeți ai mapării, începând de la poziția corespunzătoare finalului ultimei pagini alocate mapării,
+plus încă 5 poziții. Și, în plus, am mai adăugat un parametru la macro-definiția <tt>#define handle_error(msg,cod)</tt>,
+pentru a-i putea pasa ca argument diverse coduri de terminare.
+<br>
+Reformulat, această variantă a programului este obținută din prima variantă, modificând codul astfel încât ultima scriere
+să se facă nu în ultima pagină alocată mapării (și anume, în restul rămas nefolosit, dar alocat ei),
+ci să se facă "dincolo" de ultima pagină alocată mapării.
+</p>
+
+<p>
+Pentru această a doua versiune a programului, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la prima variantă.
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex3b.exe data.txt 3</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: the page size on your hardware system is: 4096 bytes.
+Notification: the specified offset was: 3
+Notification: the page-aligned ajusted offset is: 0
+Notification: the corrected length (taking EOF into account) is: 27
+Notification: the adjusted length (to the page-aligned offset) is: 30
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at aligned offset: 0, and with the length: 30
+Notification: 	the length/size of the mapping in memory is: 1 page(s).
+
+The initial content of the mapping (read from the file), started from the original, non-aligned, offset, is the following:
+345678
+aaaaaaaaa
+123456789
+
+The modified content of the mapping, started from the page-aligned offset, is the following:
+ABCDEFGHI
+aaaaaaaaa
+123456789
+
+Notification: now, we will try a second write in memory, past the end of mapped region of file, and outside the last allocated page.
+
+Segmentation fault (core dumped)
+</pre>
+Prin urmare, observăm că această variantă de program "crapă" la execuție, cu mesajul de eroare "Segmentation fault (core dumped)". 
+Motivul fiind acela că scrierea la adresele de memorie realizată de secvența de cod adăugată provoacă o excepție de tipul 'access violation',
+cauzată de faptul că acele adrese de memorie fac parte dintr-o pagină în care nu avem drept de scriere (practic, este o pagină
+din afara spațiului rezervat pentru maparea fișierului).
+Precum am mai explicat și la al doilea exemplu demonstrativ,
+excepția respectivă generează semnalul SIGSEGV ce este livrat procesului nostru, iar tratarea implicită a acestui semnal
+(i.e., a acestui tip de excepție) de către SO constă în terminarea forțată a execuției programului și afișarea acelui mesaj de eroare.
+</p>
+
+<p>
+<b><i>Concluzie</i>:</b> puteți să scrieți, fără eroare, la adrese de memorie situate "dincolo" de finalul porțiunii de fisier mapate în memorie,
+numai dacă acele adrese fac parte din ultima pagină alocată mapării (și anume, din intervalul de adrese alocate ei, dar rămase nefolosite de mapare)
+și, suplimentar, rețineți faptul că acele scrieri în memorie nu vor fi "propagate" în fișierul de pe disc.
+În schimb, dacă scrieți la adrese situate "dincolo" de ultima pagină alocată mapării, atunci programul va "crăpa" la execuție cu eroarea "Segmentation fault".
+</p>
+
+<br><br>
+<p>
+<i>Observație finală</i>: lucruri similare se întâmplă și în cazul când, în loc de scriere, se va încerca să se citească conținutul de la
+adrese de memorie situate după cea corespunzătoare sfârșitului porțiunii de fișier mapate în memorie, cu cele două sub-cazuri:
+când adresele citite sunt în interiorul ultimei pagini alocate acelei mapări, respectiv când sunt în afara ei.
+<br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+experimentați, pentru a testa validitatea afirmației de mai sus, astfel -- modificați cele două variante de programe de mai sus,
+adaptându-le pentru a face citiri de la, în loc de scrieri la, adresele de memorie situate după cea corespunzătoare sfârșitului porțiunii
+de fișier mapate în memorie, în cele două sub-cazuri amintite mai sus (și ilustrate, pentru scriere, în cele două variante de program).
+</p>
+</div>
+<p>
+<b><i style="color: red;">Concluzie</i>:</b> acest exemplu a ilustrat tot 
+<u>modul de lucru pentru accesarea pentru citire și modificare (aka <i>read-write</i>), a conținutului unui fișier, prin maparea acestuia în memorie</u>,
+în locul utilizării interfeței clasice de acces I/O la disc, la fel ca și exemplul anterior, dar mai arată, în plus, și
+<u>ce se întâmplă când se scrie la (sau se citește de la) adrese de memorie situate după cea corespunzătoare sfârșitului porțiunii de fișier mapate în memorie</u>.
+</p>
+
+<p class="stil_explicatie">
+<!-- TODO: Comparație colorată între sursele versiunilor finale mmap_ex2f.c și mmap_ex3{a,b}.c -->
+<i>Notă</i>: practic, am elaborat acest al treilea exemplu prin extinderea funcționalității oferite de al doilea exemplu;
+mai precis, am adăugat a doua secvență de cod care scrie/modifică maparea din memorie, cu observația că această scriere se face la
+adrese de memorie situate după cea corespunzătoare sfârșitului porțiunii de fișier mapate în memorie.
+</p>
+</li>
+
+
+
+<li><!-- Enunț nou, 2020  -------------------------------------------------------------------------------------------->
+<p><big>[FourthDemo -- mmap_ex4]</big>
+<br>A patra exemplificare a lucrului cu fișiere mapate în memorie, pe platforma Linux, este un program C 
+care ilustează modul de mapare în memorie a unui fișier specificat prin nume,
+în scopul doar a scrierii (fără citire prealabilă), direct în memorie, a conținutului nou pentru acel fișier,
+urmată de observarea salvării în fișierul de pe disc a informațiilor scrise în memorie.
+<br>
+Practic, urmărim să creăm fișierul, cu un anumit conținut (nou).
+Nu ne interesează conținutul vechi, în caz că acel fișier exista cumva dinainte.
+<br>
+<small>(Observație: <span class="stil_hint2">se va ilustra apelul mmap() pentru maparea în memorie, în scop doar de supra-scriere/creare a unui fișier,
+NU și de citire a vechiului conținut al acestuia, în caz ca exista.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab8_demo4')">Show / Hide the 4th demo example</button>
+
+<div id="lab8_demo4" style="display:none;" class="stil_rezolvare">
+<p>
+<b>1)</b> Prima variantă a acestui program demonstrativ, care dorește să mapeze în memorie o anumită porțiune
+(specificată de utilizator printr-un offset oarecare și o lungime oarecare) dintr-un fișier specificat de utilizator,
+pentru acces doar în scriere (aka <i>write-only</i>), ar putea fi următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex4a.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo4_src4a')">Show / Hide the source</button>
+<pre id="lab8_demo4_src4a" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex4a.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex4a.c">here</a>.</div>
+</pre>
+
+<p>
+<!--Pentru această a doua versiune a programului, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la prima variantă.-->
+2. După compilare, rulați programul astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex4a.exe data.txt</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Error at mmap: Permission denied
+</pre>
+</p>
+<p class="stil_QandA">
+Oare care ar putea fi cauza acestei erori la apelul mmap() ?
+<br><br>
+<i>Răspuns</i>: pe baza experienței căpătate la dezvoltarea celui de-al doilea program demonstrativ de mai sus,
+am știut că trebuie folosit tipul de mapare <tt>MAP_SHARED</tt>, și nu <tt>MAP_PRIVATE</tt>, pentru această problemă,
+căci vrem să se salveze modificările pe disc.
+Și oricum, chiar dacă foloseam <tt>MAP_PRIVATE</tt>, aceasta nu putea fi cauza eșecului apelului mmap().
+Deci alta trebuie să fie cauza, oare care o fi?
+<br>
+Tot pe baza experienței căpătate la dezvoltarea celui de-al doilea program demonstrativ de mai sus,
+am putea înlocui valoarea <tt>PROT_WRITE</tt> cu valoarea <tt>PROT_READ | PROT_WRITE</tt> în argumentul al 3-lea al apelului mmap() din program,
+dar aceasta este doar o modificare pentru portabilitatea codului,
+după cum am explicat și la varianta a treia a celui de-al doilea program demonstrativ de mai sus
+(i.e., deoarece cele două valori sunt echivalente pe arhitectura x86/x64, însă există și alte arhitecturi hardware,
+pentru care dreptul <tt>PROT_WRITE</tt> nu implică și dreptul <tt>PROT_READ</tt>, cum se întâmplă în cazul arhitecturii x86/x64).
+Este însă clar că nici aceasta nu poate fi cauza eșecului apelului mmap(), căci execuția de mai sus am realizat-o pe un PC cu arhitectură x64.
+<br><br>
+Nu reușim să ne dăm seama de cauza eșecului apelului mmap(), dar pentru a ne ușura sarcina, am mai putea face o modificare:
+să explicităm apelul creat() din program, înlocuindu-l cu apelul open() echivalent ca și funcționalitate cu acel apel creat(),
+i.e. înlocuim apelul <tt class="stil_instrC">creat("data.txt", 0600);</tt>
+cu apelul echivalent <tt class="stil_instrC">open("data.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);</tt>.
+</p>
+
+
+<p>
+<b>2)</b> A doua variantă a acestui program demonstrativ, conține cele două modificări aduse primei variante, descrise mai sus:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex4b.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo4_src4b')">Show / Hide the source</button>
+<pre id="lab8_demo4_src4b" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex4b.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex4b.c">here</a>.</div>
+</pre>
+
+<p>
+<!--Pentru această a doua versiune a programului, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la prima variantă.-->
+2. După compilare, rulați programul astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex4.exe data.txt</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi același, căci de fapt nu am corectat efectiv nicio greșeală,
+după cum am explicat mai sus:
+<pre class="stil_output">
+Error at mmap: Permission denied
+</pre>
+</p>
+<div class="stil_QandA">
+Prin urmare, oare care ar putea fi cauza acestei erori la apelul mmap() ?
+<br><br>
+<i>Răspuns</i>: pentru a reuși să ne dăm seama care ar putea fi <i>bug</i>-ul din program ce cauzează acest eșec al apelului mmap(),
+să ne concentrăm atenția asupra apelului open(), mai precis asupra argumentelor sale:
+<br><tt class="stil_instrC"> open("data.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600); </tt>
+<!--, apel ce este echivalent cu apelul <tt>creat()</tt> folosit în prima variantă.-->
+<br>
+<br>
+Astfel, în primul rând, ne atrage atenția valoarea <tt>O_WRONLY</tt> din acel apel.
+Pe baza experienței căpătate la dezvoltarea celui de-al doilea program demonstrativ de mai sus,
+ne dăm seama că eșecul apelului mmap() se datorează acestei valori, care este în contradicție cu tipul de mapare partajată pe care dorim s-o creăm.
+<br>
+<i>Notă</i>: pentru a vă reaminti despre ce este vorba, citiți explicația următoare:
+<button onclick="myToggle('lab8_demo4_src4b_details')">Show / Hide the details</button>
+<span id="lab8_demo4_src4b_details" style="display:none;" class="stil_explicatie_detaliata">
+Dacă recitiți, cu atenție, secțiunea care descrie diversele cauze de eroare din pagina de manual despre apelul mmap(),
+i.e. <tt class="stil_cmdBash"> man 2 mmap </tt>,
+puteți observa că apelul mmap() va eșua din cauza primei erori descrise în acea secțiune,
+și anume <u>eroarea de tip EACCES</u>, a cărei descriere spune așa:
+"<i>A file descriptor refers to a non-regular file.
+Or a file mapping was requested, but fd is not open for reading.
+Or MAP_SHARED was requested and PROT_WRITE is set, but fd is not open in read/write (O_RDWR) mode.
+Or PROT_WRITE is set, but the file is append-only"</i>.
+Și astfel puteți constata că varianta actuală a programului satisface a treia cauză din descrierea acestei erori:
+maparea făcută de noi este de tip partajat, însă descriptorul de fișier obținut cu apelul open() este de tip <i>write-only</i>,
+nu de tip <i>read-write</i>.
+</span>
+Și atunci, ideea de corecție este imediată: vom schimba valoarea <tt>O_WRONLY</tt> cu valoarea <tt>O_RDWR</tt> în apelul open().
+<br>
+<br>
+Apoi, în al doilea rând, ne atrage atenția valoarea <tt>O_TRUNC</tt> din acel apel open(),
+care are ca efect faptul că lungimea fișierului devine zero, în urma apelului (i.e.,
+dacă fișierul deja exista, conținutul său se "trunchiază la zero").
+Astfel, pe baza experienței căpătate la dezvoltarea celui de-al treilea program demonstrativ de mai sus,
+ne dăm seama că programul va rula acum fără să dea vreo eroare, însă
+scrierea acelui text în maparea din memorie nu va fi salvată și în fișierul de pe disc,
+deoarece porțiunea de fișier mapată în memorie va avea lungimea zero.
+<br>
+<br>
+Cum putem rezolva acest neajuns al programului?
+<br>
+<i>Răspuns</i>: trebuie să "modificăm" lungimea fișierului (practic, să realocăm spațiul de pe disc rezervat pentru a stoca conținutul său)
+la o valoare adecvată pentru a putea "primi" textul scris de noi prin program.
+Cu alte cuvinte, trebuie să-i "asignăm" fișierului o lungime mai mare sau egală cu lungimea textului pe care-l vom scrie.
+Iar această operațiune poate fi realizată prn intermediul apelului de sistem <tt>truncate()</tt>, sau a perechii acestuia <tt>ftruncate()</tt>
+(despre aceste apeluri puteți obține informații consultând pagina de manual <tt class="stil_cmdBash"> man 2 truncate</tt>).
+</div>
+
+
+<p>
+<b>3)</b> A treia variantă a acestui program demonstrativ, conține cele două corecții explicate mai sus, aplicate variantei anterioare:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mmap_ex4c.c</tt>:
+</p>
+
+<button onclick="myToggle('lab8_demo4_src4c')">Show / Hide the source</button>
+<pre id="lab8_demo4_src4c" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/mmap/mmap_ex4c.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/mmap/mmap_ex4c.c">here</a>.</div>
+</pre>
+<p>
+Practic, această variantă a programului este obținută din varianta anterioară, prin următoarele două modificări:
+am schimbat valoarea <tt>O_WRONLY</tt> cu valoarea <tt>O_RDWR</tt> în argumentul al 2-lea al apelului <tt>open()</tt>
+și, respectiv, am adăugat un apel <tt>ftruncate()</tt>.
+</p>
+
+<p>
+<!--Pentru această a doua versiune a programului, repetați pașii 2., 3. și 4. de mai sus, într-o manieră similară ca la prima variantă.-->
+2. După compilare, rulați programul astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mmap_ex4.exe data.txt</tt>
+<br>
+Outputul afișat pe ecran de această instanță de execuție a programului, va fi următorul:
+<pre class="stil_output">
+Notification: A file mapping in memory was created, for the file: data.txt
+Notification: 	the mapping corresponds to the file's content starting at offset: 0, and with the length: 53
+</pre>
+Apoi, cu ajutorul comenzii  <tt class="stil_cmdBash"> cat data.txt</tt>, puteți verifica faptul că acel fișier, nou creat sau pre-existent,
+are la final noul conținut scris prin program: <span class="stil_black_BGcolor">Acest mesaj se va scrie in fisierul mapat in memorie.</span> .
+</p>
+
+</div>
+<p>
+<b><i style="color: red;">Concluzie</i>:</b> acest exemplu a ilustrat
+<u>modul de lucru pentru accesarea doar pentru scriere (aka <i>write-only</i>), a conținutului unui fișier, prin maparea acestuia în memorie</u>,
+în locul utilizării interfeței clasice de acces I/O la disc (i.e., modul de lucru despre care ați învățat în laboratoarele precedente #6 și #7),
+adică fără a folosi apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio.
+<br>
+Iar un alt exemplu care ilustrează același lucru este prezentat în primul exercițiu din secțiunea de exerciții rezolvate care urmează mai jos.
+</p>
+</li>
+
+<!--
+TODO, alte demo-uri:
+- exemplificare acces simultan prin mapare si prin descriptor... exemplificare intarziere flush pagini dirty... ce se intampla cand scriem si in memorie si cu write?
+- exemplificare mapari ne-pesistente (!) : anonime sau cu shm_open
+-->
+<li>
+//TODO: Exemplificare <b>mapări ne-persistente</b> (!), ce sunt utile când vrem doar memorie comună între procese cooperante,
+nu și persistența rezultatelor pe disc. Ele sunt de două feluri:
+i) mapări ne-persistente anonime (cele obținute cu un apel mmap() cu flagul MAP_ANONYMOUS);
+ii) mapări ne-persistente cu nume (cele create cu un apel shm_open() și inițializate cu un apel mmap() cu descriptorul returnat de primul apel).
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li>
+<p><big>[txt2bin_write-mapped-file]</big>
+<br>Să se rescrie programul <a target="_blank" href="lab7_c/txt2bin_write-file.c">txt2bin_write-file.c</a> din laboratorul precedent,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., folosind apelurile open(), read(), write(), etc.).
+</p>
+
+<button onclick="myToggle('lab8_ex1')">Show / Hide a possible solution</button>
+
+<div id="lab8_ex1" style="display:none;" class="stil_rezolvare">
+<p>
+Iată mai jos o posibilă soluție, completă (i.e., se tratează și toate erorile posibile).
+</p>
+<pre class="stil_codC">
+<div w3-include-MyCode="lab8_c/txt2bin_write-mapped-file.c">See the code from <a target="_blank" href="lab8_c/txt2bin_write-mapped-file.c">here</a>.</div>
+</pre>
+</div>
+<br><br>
+</li>
+
+
+<li>
+<p><big>[bin2txt_read-mapped-file]</big>
+<br>Să se rescrie programul <a target="_blank" href="lab7_c/bin2txt_read-file.c">bin2txt_read-file.c</a> din laboratorul precedent,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., folosind apelurile open(), read(), write(), etc.).
+</p>
+
+<button onclick="myToggle('lab8_ex2')">Show / Hide a possible solution</button>
+
+<div id="lab8_ex2" style="display:none;" class="stil_rezolvare">
+<p>
+Iată mai jos o posibilă soluție, completă (i.e., se tratează și toate erorile posibile).
+</p>
+<pre class="stil_codC">
+<div w3-include-MyCode="lab8_c/bin2txt_read-mapped-file.c">See the code from <a target="_blank" href="lab8_c/bin2txt_read-mapped-file.c">here</a>.</div>
+</pre>
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+
+<p><!--big>[2 exerciții]</big-->
+Să se rescrie <b>cele două programe propuse, în laboratorul #6, în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+<br>
+Mai precis, este vorba despre următoarele exerciții:
+</p>
+<!--p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p--> 
+
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab8_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[ToUpperCase_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#1: The filter ToUpperCase], propus în <a href="lab6.html#sec_1b">prima parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: lab8_setCV_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[MyTac_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#2: The command MyTac], propus în <a href="lab6.html#sec_2b">a doua parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab8_setRB_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[MyTr_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#1: The filter MyTr], propus în <a href="lab6.html#sec_1b">prima parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: lab8_setRB_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[MyTail_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#2: The command MyTail], propus în <a href="lab6.html#sec_2b">a doua parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_enunt_propus">
+<ol>
+<!-- (BP le-a cerut să rezolve problema de la setCV1) -->
+<li><!-- Problema: lab8_setBP_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[ToLowerCase_mmap]</big><!-- CV: enunț nou, 2020, adaptat după cel similar de la setul CV -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#1: The filter ToLowerCase], propus în <a href="lab6.html#sec_1b">prima parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: lab8_setBP_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[MyRev_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#2: The command MyRev], propus în <a href="lab6.html#sec_2b">a doua parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab8_setDA_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[Base64_mmap]</big><!-- enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#1: The filter Base64], propus în <a href="lab6.html#sec_1b">prima parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: lab8_setDA_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[MyHead_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#2: The command MyHead], propus în <a href="lab6.html#sec_2b">a doua parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab8_setAG_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[NoVocals_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#1: The filter NoVocals], propus în <a href="lab6.html#sec_1b">prima parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: lab8_setAG_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[MyCut_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#2: The command MyCut], propus în <a href="lab6.html#sec_2b">a doua parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab8_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[ROT13_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#1: The filter ROT13], propus în <a href="lab6.html#sec_1b">prima parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: lab8_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[MyGrep_mmap]</big><!-- CV: enunț nou, 2020 -->
+<br>Să se rescrie <b>programul cerut în exercițiul [#2: The command MyGrep], propus în <a href="lab6.html#sec_2b">a doua parte din laboratorul #6</a>,
+în setul corespunzător profesorului dvs. de laborator</b>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<p>
+Iată și câteva sugestii de rezolvare a acestor probleme propuse mai sus:
+</p>
+<button onclick="myToggle('lab8_sec-1b_general_remarks')">Show / Hide some suggestions for solving these problems</button>
+<div id="lab8_sec-1b_general_remarks" style="display:none;" class="stil_sugestie_de_rezolvare">
+<p>
+<b>1)</b> Pentru primul exercițiu (i.e., cel prin care se cere rescrierea unui program de tip filtru) din fiecare din cele 6 seturi de probleme de mai sus,
+<b>ideea de rezolvare</b> constă în următoarele:
+<br>
+Se vor considera cele două cazuri prevăzute în enunțul inițial, din laboratorul #6, al problemei respective, și anume:
+<dl>
+<dt style="display: list-item;">i) cazul general, când fișierul de ieșire este diferit de fișierul de intrare.</dt>
+<dd>Acest caz se soluționează astfel:
+fișierul de intrare se mapează în memorie pentru acces <i>read-only</i>, similar ca la primul exemplu demonstrativ de mai sus,
+iar fișierul de ieșire se mapează în memorie pentru acces <i>write-only</i>, similar ca la al patrulea exemplu demonstrativ de mai sus.
+Apoi, conținutul mapării fișierului de intrare se "copie", aplicând transformarea de filtrare specificată în problema respectivă,
+în maparea din memorie a fișierului de ieșire.
+La final, nu uitați să faceți "sincronizarea" conținutului mapării fișierului de ieșire, pe disc.
+</dd>
+<dt style="display: list-item;">ii) cazul particular, când fișierul de ieșire coincide cu fișierul de intrare.</dt>
+<dd>Acest caz se soluționează astfel:
+unicul fișier (care are rolul și de intrare, și de ieșire, în acest caz)
+se mapează în memorie pentru acces <i>read-write</i>, similar ca la al doilea exemplu demonstrativ de mai sus.
+Apoi, conținutul mapării fișierului este modificat "<i>in-place</i>", aplicându-i transformarea de filtrare specificată în problema respectivă.
+La final, nu uitați să faceți "sincronizarea" conținutului mapării, pe disc.
+</dd>
+</dl>
+</p>
+
+<p>
+<b>2)</b> Pentru al doilea exercițiu (i.e., cel prin care se cere rescrierea unui program ce simulează o comandă uzuală) din fiecare din cele 6 seturi de
+probleme de mai sus, <b>ideea de rezolvare</b> constă în următoarele:
+<br>
+Fișierul de prelucrat se mapează în memorie pentru acces <i>read-only</i>, similar ca la primul exemplu demonstrativ de mai sus.
+Apoi, conținutul mapării fișierului este "prelucrat", în conformitate cu comportamentul comenzii simulate, specificată în problema respectivă,
+iar rezultatul prelucrării va fi afișat pe ecran (i.e., pe fluxul de ieșire <tt>stdout</tt>, întocmai precum se comportă și comanda simulată).
+</p>
+</div>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu fișiere mapate în memorie, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+<!--
+<p>[2 exerciții] Să se rescrie programele din exercițiile rezolvate [MyWc] și [MyCp] din laboratorul #6,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+-->
+<li><!-- Problema: de rescris cu mmap exercițiul [MyWc] ------------------------------------------------------------------->
+<p><big>[MyWc_mmap]</big>
+<br>Să se rescrie programul ilustrat în exercițiul rezolvat [MyWc] prezentat în <a href="lab6.html#sec_2a">a doua parte din laboratorul #6</a>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<li><!-- Problema: de rescris cu mmap exercițiul [MyCp] ------------------------------------------------------------------->
+<p><big>[MyCp_mmap]</big>
+<br>Să se rescrie programul ilustrat în exercițiul rezolvat [MyCp] prezentat în <a href="lab6.html#sec_2a">a doua parte din laboratorul #6</a>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio).
+</p>
+</li>
+
+<!--
+<p>[3 exerciții] Să se rescrie programele din exercițiile suplimentare [MyMv], [MyLs] și [MyRm] propuse în laboratorul #6,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile de sistem read() și write(), sau cele din biblioteci de genul stdio
+</p>
+Notă: am eliminat aceste exerciții, căci niciunul dintre ele nu presupune citirea sau prelucrarea CONȚINUTULUI unui fișier,
+prin urmare nu se pretează pentru acest gen de exerciții: rescrierea programului folosind mapare în memorie, în loc de apeluri I/O clasice !!!
+
+În schimb, am adăugat altele noi, cele de mai jos...
+Și aș mai putea adauga și următoarele exerciții din lab #6: [AsciiStatistics] și [Filter programs: dos2unix & unix2dos] , cerându-le să le rescrie folosind mmap.
+-->
+
+
+<li><!-- Problema: de rescris cu mmap exercițiul [ArithmeticMean] ------------------------------------------------------------------->
+<p><big>[ArithmeticMean_mmap]</big>
+<br>Să se rescrie programul ilustrat în exercițiul rezolvat [ArithmeticMean] prezentat în <a href="lab6.html#sec_1a">prima parte din laboratorul #6</a>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile fscanf() și fprintf() din biblioteca stdio).
+În schimb, pentru conversia datelor din memorie, între reprezentarea 'textuală' și cea 'binară', puteți apela funcțiile sscanf() și sprintf() din biblioteca stdio).
+</p>
+</li>
+
+<li><!-- Problema: de rescris cu mmap exercițiul [MyExpr] ------------------------------------------------------------------->
+<p><big>[MyExpr_mmap]</big>
+<br>Să se rescrie programul ilustrat în exercițiul rezolvat [MyExpr] prezentat în <a href="lab6.html#sec_1a">prima parte din laboratorul #6</a>,
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie,
+în locul interfeței clasice de acces I/O la disc (i.e., nu folosiți apelurile fscanf() și fprintf() din biblioteca stdio).
+În schimb, pentru conversia datelor din memorie, între reprezentarea 'textuală' și cea 'binară', puteți apela funcțiile sscanf() și sprintf() din biblioteca stdio).
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu fișiere mapate în memorie (a doua parte -- sincronizare și cooperare între procese multiple, prin memorie partajată):</span></p>
+</a>
+
+
+<p>
+Lista cu exemplele demonstrative și exercițiile de acest gen este disponibilă <a href="lab8sync&perf.html#sec_2">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab8sync&perf.html#sec_3">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr><td align="center" valign="center">
+    <form><input type="button" name="lastUpdButton" value="Last Update"
+            onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);"></form>
+</td></tr>
+</table>
+
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<script>includeHTML();</script>
+</body>
+</html>

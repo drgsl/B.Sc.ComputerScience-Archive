@@ -1,0 +1,793 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #11</title>
+  <link rel="stylesheet" type="text/css" href="../stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="../script_include.js"></script>
+
+<body>
+<a name="top">
+<h2><font color="blue">Laborator #11, partea I :</font> IPC folosind canale de comunicație anonime</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="../lab11.html#sec_0" class="button_href">Recapitularea unor cunoștințe dobândite în lecția practică despre canale de comunicație</a></h4>
+<h4>I) <a href="lab11_pipe.html#sec_1" class="button_href">Exerciții de programare C cu comunicații între procese (prima parte, folosind canale de comunicație anonime)</a></h4>
+<h5><a href="lab11_pipe.html#sec_1a" class="button_href">Exerciții rezolvate</a></h5>
+<h5><a href="lab11_pipe.html#sec_1b" class="button_href">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab11_pipe.html#sec_1c" class="button_href">Exerciții suplimentare</a></h5>
+<h4>II) <a href="lab11_fifo.html#sec_2" class="button_href">Exerciții de programare C cu comunicații între procese (partea a doua, folosind canale de comunicație fifo)</a></h4>
+<h4>III) <a href="../prg_perf/lab11perf.html#sec_3" class="button_href">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_exercitii">I) Exerciții de programare C cu comunicații între procese (prima parte, folosind canale de comunicație anonime) :</span></p>
+</a>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab11_ex3.c -------------------------------------------------------------------------------------------->
+<p><big>[A pipe's capacity]</big>
+<br>
+Să se scrie un program C care să determine capacitatea unui canal anonim.
+<br>
+(Indicație: <span class="stil_hint">setați caracterul neblocant pentru capătul de scriere în canal și apoi scrieți în el până se umple,
+în același timp numărând câți octeți au fost scriși.</span>)
+</p>
+
+<button onclick="myToggle('lab11_ex3')">Show / Hide a possible solution</button>
+
+<div id="lab11_ex3" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-MyCode="pipe_capacity.c">See the code from <a target="_blank" href="pipe_capacity.c">here</a>.</div></pre>
+
+<p>
+<i>Observație</i>: outputul afișat pe ecran de o instanță de execuție a acestui program, ar putea arăta în felul următor:
+<br>
+<pre class="stil_output">
+Începem să scriem în canal, până la umplerea sa!
+
+Progresul scrierii:  1 Ko ...,  2 Ko ...,  3 Ko ...,  4 Ko ...,  5 Ko ...,  6 Ko ...,  7 Ko ...,  8 Ko ...,  9 Ko ...,  10 Ko ...,  11 Ko ...,  12 Ko ...,  13 Ko ...,  14 Ko ...,
+  15 Ko ...,  16 Ko ...,  17 Ko ...,  18 Ko ...,  19 Ko ...,  20 Ko ...,  21 Ko ...,  22 Ko ...,  23 Ko ...,  24 Ko ...,  25 Ko ...,  26 Ko ...,  27 Ko ...,  28 Ko ...,  29 Ko ...,
+  30 Ko ...,  31 Ko ...,  32 Ko ...,  33 Ko ...,  34 Ko ...,  35 Ko ...,  36 Ko ...,  37 Ko ...,  38 Ko ...,  39 Ko ...,  40 Ko ...,  41 Ko ...,  42 Ko ...,  43 Ko ...,  44 Ko ...,
+  45 Ko ...,  46 Ko ...,  47 Ko ...,  48 Ko ...,  49 Ko ...,  50 Ko ...,  51 Ko ...,  52 Ko ...,  53 Ko ...,  54 Ko ...,  55 Ko ...,  56 Ko ...,  57 Ko ...,  58 Ko ...,  59 Ko ...,
+  60 Ko ...,  61 Ko ...,  62 Ko ...,  63 Ko ...,  64 Ko ...,
+Eroare (posibil umplere pipe ?). Cauza erorii: Resource temporarily unavailable
+errno = 11
+Intr-adevar, cauza erorii este umplerea canalului!
+
+Capacitatea, calculată, a canalului anonim este de 65536 octeti.
+
+Capacitatea, aflată cu fcntl(), a canalului anonim este de 65536 octeti.
+
+Maximum configurable pipe size for unprivileged user is (in bytes): 1048576
+
+Minimum configurable pipe size for unprivileged user is the page size, i.e. 4096 bytes.
+
+Încercăm să reconfigurăm capacitatea canalului la o valoare, e.g. 20480 octeți, mai mică decât cea curentă.
+Eroare la prima reconfigurare a capacitatii canalului: Device or resource busy
+Încercarea a eșuat, cu eroarea EBUSY, deoarece canalul era deja plin cu 64 KB, i.e. 65536 octeți, de informații !!!
+
+Încercăm să reconfigurăm capacitatea canalului la o valoare, e.g. 81920 octeți, mai mare decât cea curentă.
+Noua capacitate a canalului anonim, dupa reconfigurarea reusita, este de 131072 octeti.
+</pre>
+</p>
+
+<div class="stil_QandA">
+Din ce motiv credeți că noua capacitate configurată, de 131072 octeți, nu coincide cu valoarea solicitată, i.e. 81920 octeți?
+<br><br>
+<i>Răspuns</i>: pentru a vedea ce se întâmplă, să recitim cu atenție documentația <tt>man 2 fcntl</tt>,
+în special partea despre operația <tt>F_SETPIPE_SZ</tt>, unde spune următoarele:
+<pre>
+When allocating the buffer for the pipe, the kernel may use a capacity larger than arg, if that is convenient for the implementation.
+(In the current implementation, the allocation is the next higher power-of-two page-size multiple of the requested size.)
+The actual capacity (in bytes) that is set is returned as the function result.
+</pre>
+Prin urmare, deoarece în apelul respectiv am solicitat multiplul <tt>20 * PageSize</tt>,
+s-a redimensionat la multiplul <tt>32 * PageSize</tt>, deoarece 32 este următoarea putere a lui 2, mai mare sau egală cu 20 !!!
+</div>
+
+<p>
+<b><i>Concluzie</i>:</b> utilizatorii neprivilegiați ai sistemului își pot reconfigura capacitatea canalelor de ambele tipuri (anonime sau cu nume)
+doar la valorile din seria următoare: <tt>2<sup>k</sup> * PageSize</tt>, unde k=0,1,2,...,8.
+<br>
+Valoarea minimă a acestei serii fiind <tt>2<sup>0</sup> * PageSize = 4096</tt> octeți,
+iar valoarea maximă fiind <tt>2<sup>8</sup> * PageSize = 256*4096 = 1048576</tt> octeți.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab11_ex5.c -------------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #1]<!--Lanțuri de comenzi #1--></big>
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<!--
+prompt> <font color="blue">finger -lp | grep -B1 studs/2008</font>
+-->
+<tt>UNIX&gt; <font color="blue">grep /bin/bash /etc/passwd | cut -d: -f1,3-5</font></tt>
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem de tip exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint">folosiți două procese, unul care să apeleze cu exec() comanda grep, iar celălalt comanda cut.
+Înainte de apelurile exec(), va trebui să folosiți un canal anonim și modul de obținere a redirectării I/O standard folosind primitivele dup() sau dup2(),
+pentru a conecta ieșirea standard de la primul proces la intrarea standard a celui de-al doilea proces.</span>)
+</p>
+
+<button onclick="myToggle('lab11_ex1')">Show / Hide a possible solution</button>
+<div id="lab11_ex1" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-MyCode="pipe_cmds_ex1.c">See the code from <a target="_blank" href="pipe_cmds_ex1.c">here</a>.</div></pre>
+
+<p>
+<i>Observație</i> (valabilă atât pentru această problemă, cât și pentru problemele similare đintre cele ce urmează mai jos) :
+<br>
+După lansarea programului în execuție, interpretorul bash va reafișa prompterul imediat după terminarea execuției
+procesului inițial (cel aflat în foreground), chiar dacă execuțiile proceselor fii posibil să nu se fi încheiat.
+<br>
+Ca urmare, pentru a garanta afișarea prompterului întotdeauna la sfârșitul execuției întregului program, este
+suficient ca procesul inițial (cel care creează procesele fii necesare pentru comenzile din lanț) să fie responsabil
+cu execuția (prin apelul <tt>execlp()</tt>) a ultimei comenzi din lanțul de comenzi specificat în enunțul problemei.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab11_ex6-part1.c -------------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #2 (<small>v1, using pipes</small>)]<!--Lanțuri de comenzi #2--></big>
+<br>
+Generalizarea exercițiului [Pipe commands #1]<!--Lanțuri de comenzi #1--> de mai sus:
+<br>
+Să se scrie un program C care "simulează", folosind apeluri exec() și nu system(), comanda înlănțuită:
+<br>
+<!--
+prompt> <font color="blue">finger -lp | grep -B1 studs/2008 | grep Login</font>
+-->
+<tt>UNIX&gt; <font color="blue">grep /bin/bash /etc/passwd | cut -d: -f1,3-5 | sort -t: -k 2,2 -n</font></tt>
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem de tip exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint">rezolvare similară ca la exercițiul anterior,
+doar că va fi nevoie de 3 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 2 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+
+<button onclick="myToggle('lab11_ex2')">Show / Hide a possible solution</button>
+<div id="lab11_ex2" style="display:none;" class="stil_rezolvare">
+<p>
+<b>1)</b> Iată o primă soluție:
+</p>
+<button onclick="myToggle('lab11_ex2a')">Show / Hide the 1st solution</button>
+<pre id="lab11_ex2a" style="display:none;" class="stil_codC"><div w3-include-MyCode="pipe_cmds_ex2a.c">See the code from <a target="_blank"
+href="pipe_cmds_ex2a.c">here</a>.</div></pre>
+
+<p>
+<i>Observație</i>: pentru rezolvarea corectă a problemei, nu este esențială ierarhia exactă a celor trei procese,
+e.g. un părinte cu doi fii (precum în soluția de mai sus)
+sau un părinte cu un copil și un nepot, precum în soluția ce urmează imediat mai jos.
+Esențial este doar să "asignați", <u>fiecărei comenzi din lanț, câte un proces distinct care să fie responsabil cu execuția ei</u>,
+iar această "asignare" o puteți face <u>în orice ordine doriți, cu o singură restricție</u> (a se revedea observația de la problema precedentă):
+procesul părinte al ierarhiei să se ocupe cu execuția ultimei comenzi din lanț, pentru ca shell-ul să
+reafișeze prompterul abia după ce s-au terminat de executat toate comenzile din lanț, iar acestea, chiar dacă rulează în paralel,
+se termină întotdeauna (când nu sunt erori) într-o ordine prestabilită: unul după altul, de la stânga spre dreapta lanțului
+(//TODO: încercați să vă gândiți singuri la justificarea acestei afirmații!).
+<br>
+Iar al doilea lucru esențial este <u>să gestionați corect închiderea capetelor nenecesare în fiecare proces, ale fiecărui canal folosit în program (!)</u>.
+Pentru că, dacă nu sunteți atenți la gestionarea corectă a capetelor, este foarte ușor să faceți vreo greșeală, e.g.
+este suficient să uitați să închideți vreun capăt de scriere într-unul dintre procese,
+pentru ca vreuna dintre comenzi să nu se mai termine, deoarece rămâne blocată în bucla de citire pentru procesarea "fișierului de intrare"
+(aka capătul de citire a acelui canal), întrucât nu mai reușește să "citească" EOF din acel canal (!).
+Și apoi vor suferi același tip de blocaj toate comenzile dinspre dreapta ei în lanț...
+<br>
+Mai mult, afirmațiile de mai sus rămân valabile și pentru cazul general,
+i.e. pentru lanțuri de comenzi de lungime <tt>N</tt>, cu <tt>N</tt> un număr natural oarecare, mai mare decât 2.
+Doar că, pe măsură ce crește valoarea <tt>N</tt>,
+vom avea un număr din ce în ce mai mare de ierarhii posibile, cuprinse între cele două cazuri extreme:
+ierarhia <a href="../lab9.html#sec_1a">[N childs]</a> și, respectiv, ierarhia <a href="../lab9.html#sec_1a">[A list of processes]</a>.
+În plus, se va mări exponențial numărul de apeluri close explicite pe care nu trebuie să uităm să le scriem în program,
+căci altfel execuția lanțului nu se va termina, rămânând blocată (!).
+</p>
+
+<p>
+<b>2)</b> Iată o a doua soluție:
+</p>
+<button onclick="myToggle('lab11_ex2b')">Show / Hide the 2nd solution</button>
+<pre id="lab11_ex2b" style="display:none;" class="stil_codC"><div w3-include-MyCode="pipe_cmds_ex2b.c">See the code from <a target="_blank"
+href="pipe_cmds_ex2b.c">here</a>.</div></pre>
+
+<p>
+<i>Observație</i>: în această soluție am ilustrat cealaltă ierarhie posibilă pentru cazul acestui lanț de 3 comenzi,
+și anume un părinte cu un copil și un nepot.
+În plus, un lucru esențial este faptul că <u>nu am mai creat toate canalele anonime de la început, ci doar câte unul înaintea fiecărui apel fork</u>.
+Astfel, se observă că s-a micșorat numărul de apeluri close explicite pe care nu trebuie să uităm să le scriem în program,
+căci altfel execuția lanțului nu se va termina, rămânând blocată precum am explicat în observația de la prima soluție.
+<br>
+Mai exact, pentru cazul general, i.e. pentru lanțuri de comenzi de lungime <tt>N</tt>, cu <tt>N</tt> un număr natural oarecare, mai mare decât 2:
+doar dacă gestionăm foarte atent procesele și canalele (conform ideilor ilustrate în această a doua soluție), și anume:
+<br>
+i) folosirea ierarhiei <a href="../lab9.html#sec_1a">[A list of processes]</a>,
+ii) crearea câte unui canal anonim pe rând, înaintea fiecărui apel fork, doar pe ramura executată de fiul precedentului apel fork,
+iii) plus, "asignarea" fiecărei comenzi din lanț, a câte unui proces distinct care să fie responsabil cu execuția ei,
+trebuie făcută în ordinea "de la dreapta la stânga lanțului de comenzi", i.e.
+părintele inițial va fi responsabil cu execuția ultimei comenzi din lanț,
+fiul acestuia va fi responsabil cu execuția penultimei comenzi din lanț,
+nepotul acestuia va fi responsabil cu execuția antepenultimei comenzi din lanț, ș.a.m.d.
+<br>
+Așadar, <u>doar în aceste condiții i)--iii), este suficient să închidem explicit doar un singur capăt de canal în fiecare proces</u>,
+și anume trebuie închis capătul de scriere al canalului din care va citi comanda executată de acel proces.
+<br>
+<i>Justificarea acestei afirmații</i>:
+pentru fiecare proces (responsabil cu execuția uneia dintre comenzile din lanțul de comenzi),
+capătul de scriere în canalul din care citește acea comandă este deținut deschis, datorită pct. ii),
+doar în procesul respectiv și în toate procesele ce urmează după/sub procesul respectiv în ierarhia lanț a proceselor (i.e.,
+<a href="../lab9.html#sec_1a">[A list of processes]</a>),
+procese cărora le corespund comenzile anterioare (i.e., aflate în stânga, în lanțul de comenzi) comenzii executate de procesul respectiv, datorită pct. iii).
+Astfel, acest capăt va fi închis, rând pe rând, în procesele ce-l dețin deschis, pe măsură ce se termină de executat comenzile din lanț
+(practic, terminarea execuției fiecărei comenzi individuale din lanț se "propagă" de la stânga spre dreapta lanțului de comenzi;
+mai precis, chiar dacă toate comenzile rulează în paralel, de terminat se termină pe rând, în ordinea: de la stânga spre dreapta lanțului de comenzi).
+</p>
+
+<p>
+<b><i>Concluzie</i>:</b> precum am argumentat mai sus, este relativ dificil de generalizat ideea de rezolvare de la prima soluție 
+<u>pentru lanțuri de comenzi de lungime din ce în ce mai mare (!)</u>,
+d.p.d.v. al scrierii programului fără a face greșeli din neatenție (i.e., în sensul explicat în cele de mai sus).
+Mult mai simplu de generalizat este ideea de rezolvare de la a doua soluție, dacă țineți cont de condițiile i)--iii) când faceți generalizarea.
+</p>
+
+<p>
+De asemenea, pentru a micșora această "dificultate" de scriere a programului pentru execuția unui lanț de comenzi de lungime din ce în ce mai mare,
+putem folosi și o altă abordare: utilizarea canalelor fifo, în locul canalelor anonime,
+deoarece astfel vom profita de faptul că nu se deschid automat ambele capete atunci când este creat canalul anonim.
+Practic, în fiecare proces responsabil cu execuție uneia dintre comenzile din lanț, vom deschide doar unul sau două capete de canale,
+i.e. strictul necesar pentru a se putea desfășura comunicațiile de tipul unul-la-unul între comenzile din lanț.
+<br>
+Această abordare este ilustrată în exercițiul rezolvat <b>[Pipe commands #2 (<small>v2, using fifos</small>)]</b>
+din <a href="lab11_fifo.html#sec_2a">partea a doua laboratorului</a>.
+</p>
+
+<p>
+În sfârșit, o altă idee pentru micșorarea "dificultății" de scriere a codului descrisă mai sus,
+bazată tot pe canale anonime, constă în a "asambla" lanțul de comenzi din mai multe instanțe customizate
+ale unui program generic ce realizează execuția a două comenzi simple în paralel și înlănțuite!,
+idee ce va fi demonstrată pentru această problemă în a treia soluție a ei, ce urmează mai jos.
+Această abordare, chiar dacă multiplică numărul de fișiere sursă necesare,
+are avantajul că este mult mai simplă pentru generalizarea la cazul lanțurilor de oricâte comenzi,
+fără a fi afectată de dezavantajul major (acela al "dificultății" de scriere a codului descrisă mai sus)
+pe care îl au rezolvarile ce constau într-un singur program sursă, generalizate pe baza primei soluții ilustrate mai sus.
+</p>
+
+<p>
+<b>3)</b> Iată deci o a treia rezolvare pentru această problemă, ce implementează ideea descrisă în paragraful anterior
+-- soluția aceasta este formată din două programe sursă C, și anume:
+</p>
+<dl>
+<dt style="display:list-item; list-style-type:circle;">Programul #1: lant-3cmds_cmd1--restul-lantului.c</dt>
+<dd>Este programul generic ce execută <u>un lanț de <b>două</b> comenzi</u> (i.e. un program similar cu cel de la problema anterioară), particularizat
+    aici pentru lanțul format din comanda grep și din comanda reprezentată de lanțul restului comenzilor (practic, este ca un apel 'recursiv'):
+<br><br>	
+<button onclick="myToggle('lab11_ex2c_src1')">Show / Hide the 1st part of the 3rd solution</button>
+<pre id="lab11_ex2c_src1" style="display:none;" class="stil_codC"><div w3-include-MyCode="pipe_cmds_ex2c_p1.c">See the code from <a target="_blank"
+href="pipe_cmds_ex2c_p1.c">here</a>.</div></pre>
+</dd>
+<br>
+<dt style="display:list-item; list-style-type:circle;">Programul #2: lant-3cmds_cmd2--cmd3.c</dt>
+<dd>Este programul generic ce execută <u>un lanț de <b>două</b> comenzi</u> (i.e. un program similar cu cel de la problema anterioară), particularizat
+    aici pentru lanțul format din comanda cut și din comanda sort (practic, este sfârșitul 'recursiei'):
+<br><br>	
+<button onclick="myToggle('lab11_ex2c_src2')">Show / Hide the 2nd part of the 3rd solution</button>
+<pre id="lab11_ex2c_src2" style="display:none;" class="stil_codC"><div w3-include-MyCode="pipe_cmds_ex2c_p2.c">See the code from <a target="_blank"
+href="pipe_cmds_ex2c_p2.c">here</a>.</div></pre>
+</dd>
+</dl>
+
+<p>
+<i>Observație</i>: după cum spuneam și mai sus, această a treia soluție, 'recursivă', are avantajul că poate fi extinsă foarte simplu pentru
+orice lanț de comenzi, de lungime oricât de mare:
+<br>
+Pentru un lanț de <tt>N</tt> comenzi, trebuie scrise <tt>N-1</tt> instanțe ale programului generic de la problema precedentă,
+cu fiecare instanță particularizată în mod corespunzător prin modificarea doar a celor două linii de cod ce conțin apelurile <tt>execl()</tt> / <tt>execlp()</tt> !!!
+<p>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab11_ex6-part2.c -------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #3]<!--Lanțuri de comenzi #3--></big>
+<br>
+Generalizarea exercițiilor [Pipe commands #1, #2]<!--Lanțuri de comenzi #1, #2--> de mai sus:
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<!--
+prompt> <font color="blue">finger -lp | grep -B1 studs/2008 | grep Login | sort</font>
+prompt> <font color="blue">grep /bin/bash /etc/passwd | cut -d, -f1 | sort -t: -k 3,3 -n | cut -d: -f1,3,5 --output-delimiter=" - "</font>
+-->
+<tt>UNIX&gt; <font color="blue">grep /bin/bash /etc/passwd | cut -d: -f1,3-5 | sort -t: -k 2,2 -n | cut -d, -f1</font></tt>
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem din familia exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint2">rezolvare similară ca la exercițiile amintite mai sus,
+doar că va fi nevoie de 4 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 3 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+</li>
+
+
+<li><!-- Problema: lab11_ex1.c -------------------------------------------------------------------------------------------->
+<p><big>['Supervisor &amp; cooperating workers' pattern #1 (<small>v1, using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se scrie un program C ce creează două procese fii și care va avea comportamentul descris în continuare:
+<br> - procesul părinte citește dintr-un fișier cu numele <i>date.txt</i> un șir de caractere, până la sfârșitul fișierului,
+și le trimite printr-un canal anonim primului fiu;
+<br> - primul proces fiu primește caracterele de la procesul părinte, le selectează doar pe acelea care sunt litere mici
+și le trimite printr-un alt canal anonim către cel de-al doilea fiu;
+<br> - al doilea proces fiu creează un fișier numit <i>statistica.txt</i> în care va scrie, pe câte o linie, fiecare literă distinctă
+și numărul de apariții ale acesteia în fluxul de date primit. În plus, la final va trimite părintelui, printr-un canal anonim suplimentar,
+numărul de litere distincte întâlnite în fluxul primit;
+<br> - procesul părinte afișează pe ecran rezultatul primit de la al doilea proces fiu.
+<br>
+<i>Cerință</i>: pentru comunicarea între procese se vor folosi canale anonime.
+</p>
+
+<button onclick="myToggle('lab11_ex4')">Show / Hide some suggestions for solving the problem</button>
+<pre id="lab11_ex4" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Ideea de rezolvare</i></b> -- următoarea schiță descrie pașii ce trebuie implementați:
+
+- Procesul inițial P0 va crea mai întâi trei canale anonime, canal_P0toP1, canal_P1toP2 și canal_P2toP0.
+
+- Apoi P0 va crea cele două procese fii, P1 și P2 (astfel, acestea vor 'moșteni' descriptorii pentru cele trei canale);
+  <i>Notă</i>: evident, al doilea apel fork() pentru crearea fiului P2 se va pune pe ramificația tatălui de la primul apel fork().
+
+- După crearea fiilor (moment începând de la care toate cele trei procese se vor executa în paralel !!!),
+  procesul P0 va continua astfel:
+  1. citește conținutul fișierului date.txt și-l scrie în canal_P0toP1;
+  2. apoi (practic, la final), P0 va aștepta, prin apelul read(), să citească numărul transmis pe canal_P2toP0 și-l va afișa.
+
+- După creare, fiul P1 va executa următoarea buclă:
+  1. citește câte 1 octet din canal_P0toP1 și ...;
+  2. ..., numai dacă este literă mică, scrie acel octet în canal_P1toP2.
+  <i>Notă</i>: terminarea buclei se va face când P1 "citește" EOF din canal_P0toP1.
+
+- După creare, fiul P2 va executa următoarea buclă:
+  1. citește 1 octet (o literă mică) din canal_P1toP2;
+  2. actualizează vectorul de apariții și totalul specificat în enunț, conform cu litera citită;
+  <i>Notă</i>: terminarea buclei se va face când P2 "citește" EOF din canal_P1toP2.
+  3. la finalul buclei, scrie totalul (un număr întreg) în canal_P2toP0.
+
+  <i>Notă</i>: terminarea buclelor din P1 și P2 implică faptul ca P1, respectiv P2, să "citească" EOF din canalul corespunzător,
+  i.e. faptul că nu mai există "scriitori" pentru canalul respectiv.
+  Așadar, asigurați-vă de acest lucru!
+  Cea mai simplă modalitate de a realiza acest lucru: fiecare din cele 3 procese să închida fiecare din cele 6 capete ale celor 3 canale,
+  <u>cât mai devreme posibil</u> (i.e., din momentul când nu va mai avea nevoie în viitor de acel capăt).
+
+</pre>
+</li>
+
+</ol>
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab11_ex6bis.c ---------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #4]<!--Lanțuri de comenzi #3bis--></big>
+<br>
+Generalizarea exercițiilor [Pipe commands #1, #2] de mai sus:
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<!--tt>UNIX&gt; <font color="blue">w -h | tr -s " " | cut -d" " -f1,8</font></tt-->
+<tt>UNIX&gt; <font color="blue">w -h | tr -s " " | cut -d" " -f1,8 | sort -t " " -k 1</font></tt>
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem din familia exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint2">rezolvare similară ca la exercițiile amintite mai sus,
+doar că va fi nevoie de 4 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 3 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 (2019TP2v7p3) ------------------------------------------------------------------------------->
+<p><big>['Supervisor &amp; cooperating workers' pattern #2 (<small>using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se scrie un program C ce creează două procese fii și care va implementa următoarea funcționalitate:
+<br> - procesul părinte citește de la tastatură o propoziție, pe care o va transmite primului fiu;
+<br> - primul fiu va elimina toate vocalele din textul primit și va transmite textul astfel obținut către fiul al doilea;
+<br> - al doilea fiu va procesa textul primit transformând toate literele mici în litere mari, iar rezultatul îl va trimite către tată;
+<br> - la final, tatăl va afișa pe ecran textul prelucrat primit de la al doilea fiu.
+<br>
+<i>Cerință</i>: pentru comunicarea între procese se vor folosi canale anonime.
+</p>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #5]</big>
+<br>
+Generalizarea exercițiilor [Pipe commands #1, #2] de mai sus:
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<tt>UNIX&gt; <font color="blue">head -n 25 /etc/passwd | grep :/bin/sh | cut -f1 -d: | grep ^[m-z]</font></tt>
+<!-- rezolvarea problemei #1 setRB din Lab.3, ușor modificată -->
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem din familia exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint2">rezolvare similară ca la exercițiile amintite mai sus,
+doar că va fi nevoie de 4 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 3 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 (2019TP2v8p3) ------------------------------------------------------------------------------->
+<p><big>['Supervisor &amp; cooperating workers' pattern #3 (<small>using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se scrie un program C ce creează două procese fii și care va implementa următoarea funcționalitate:
+<br> - procesul părinte citește de la tastatură numele a două fișiere și va trimite fiecărui fiu câte unul dintre ele;
+<br> - fiecare proces fiu va selecta doar liniile care conțin "pipe" din fișierul indicat de părinte (în acest scop, puteți
+apela prin exec comanda grep) și le va trimite tatălui;
+<br> - la final, tatăl va afișa pidul procesului fiu de la care a primit cel mai mult text.
+<br>
+<i>Cerință</i>: pentru comunicarea între procese se vor folosi canale anonime.
+</p>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #6]</big>
+<br>
+Generalizarea exercițiilor [Pipe commands #1, #2] de mai sus:
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<tt>UNIX&gt; <font color="blue">grep -v ^$ /etc/passwd | grep -v -w 202 | cut -f1 -d: | sort -o lista\ non-studs.txt</font></tt>
+<!-- rezolvarea problemei #1 setAG din Lab.3, ușor modificată -->
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem din familia exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint2">rezolvare similară ca la exercițiile amintite mai sus,
+doar că va fi nevoie de 4 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 3 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 (2019TP2v1p3) ------------------------------------------------------------------------------->
+<p><big>['Supervisor &amp; cooperating workers' pattern #4 (<small>using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se scrie un program C ce creează două procese fii și care va implementa următoarea funcționalitate:
+<br> - procesul părinte citește de la tastatură o serie de numere întregi pozitive, până la întâlnirea numărului 0,
+și va transmite aceste numere primului proces copil, pe rând (i.e., câte un număr o dată, apoi așteaptă răspunsul de la fiu);
+<br> - primul fiu va determina dacă numărul primit este prim și va întoarce acest rezultat procesului părinte;
+<br> - în cazul în care numărul este prim, procesul părinte va scrie într-un fișier "rezultat.txt" acest lucru.
+Iar în cazul contrar, părintele va trimite acel număr la al doilea proces copil;
+<br> - al doilea fiu va determina lista divizorilor numărului respectiv și o va furniza ca rezultat înapoi către părinte;
+<br> - la final, tatăl va scrie lista divizorilor tot în fișierul "rezultat.txt".
+<br>
+<i>Cerință</i>: pentru comunicarea între procese se vor folosi canale anonime.
+<br>
+Exemplu: pentru inputul "7 16 9 7 13 36 0", fișierul "rezultat.txt" produs va avea următorul conținut:
+<pre class="stil_output">
+Numarul 7 este prim.
+Numarul 16 are divizorii: 1, 2, 4, 8, 16.
+Numarul 9 are divizorii: 1, 3, 9.
+Numarul 7 este prim.
+Numarul 13 este prim.
+Numarul 36 are divizorii: 1, 2, 3, 4, 6, 9, 12, 18, 36.
+</pre>
+</p>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #7]</big>
+<br>
+Generalizarea exercițiilor [Pipe commands #1, #2] de mai sus:
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<tt>UNIX&gt; <font color="blue">grep sudo: /etc/group | cut -f4 -d: | tr "," "\n" | wc -l</font></tt>
+<!-- rezolvarea problemei #1 setAG din Lab.3, ușor modificată -->
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem din familia exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint2">rezolvare similară ca la exercițiile amintite mai sus,
+doar că va fi nevoie de 4 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 3 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 (2017TP2v2p3) ------------------------------------------------------------------------------->
+<p><big>['Supervisor &amp; cooperating workers' pattern #5 (<small>using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se scrie un program C ce creează două procese fii și care va implementa următoarea funcționalitate:
+<br> - procesul părinte citește de la tastatură o secvență de N cuvinte și va trimite fiecărui fiu câte (aprox.) jumătate din
+secvența de cuvinte citită, cuvintele fiind separate prin caracterul spatiu;
+<br> - fiecare proces fiu va calcula lungimea fiecărui cuvânt primit și va trimite tatălui lungimile astfel calculate;
+<br> - la final, tatăl va calcula media aritmetică a valorilor primite de la cele două procese fii și o va afișa.
+<br>
+<i>Cerință</i>: pentru comunicarea între procese se vor folosi canale anonime.
+</p>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Pipe commands #8]</big>
+<br>
+Generalizarea exercițiilor [Pipe commands #1, #2] de mai sus:
+<br>
+Să se scrie un program C care "simulează" comanda înlănțuită:
+<br>
+<tt>UNIX&gt; <font color="blue">grep ext4 /etc/fstab | grep nosuid | cut -f1 -d" " | cut -f2 -d"="</font></tt>
+<!-- rezolvarea problemei #1 setVU din Lab.3 -->
+<br>
+<b><i>Cerință</i></b>: pentru executarea comenzilor simple din lanț se vor utiliza apeluri de sistem din familia exec() și nu apelul system().
+<br>
+(Indicație: <span class="stil_hint2">rezolvare similară ca la exercițiile amintite mai sus,
+doar că va fi nevoie de 4 procese, câte unul pentru fiecare comandă simplă din comanda înlănțuită din enunț,
+și respectiv de 3 canale anonime pentru realizarea înlănțuirilor.</span>)
+</p>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 (2017TP2v4p3) ------------------------------------------------------------------------------->
+<p><big>['Supervisor &amp; cooperating workers' pattern #6 (<small>using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se scrie un program C ce creează două procese fii și care va implementa următoarea funcționalitate:
+<br> - procesul părinte citește de la tastatură o secvență de caractere și notăm în continuare prin ch, primul caracter din secvența citită;
+<br> - procesul părinte va transmite fiecărui proces fiu atât caracterul ch, cât și (aprox.) jumătate din secvența de caractere citită, astfel:
+caracterele de pe pozițiile pare în secvență vor fi transmise primului proces fiu, iar celelalte caractere vor fi transmise celui de al doilea proces fiu;
+<br> - fiecare proces fiu va afișa secvența de caractere primită (prefixată cu propriul PID), apoi va calcula numărul de apariții ale caracterului ch
+în secvența de caractere primită și va transmite valoarea calculată tatălui;
+<br> - la final, tatăl va calcula suma valorilor primite de la cele două procese fii și o va afișa.
+<br>
+<i>Cerință</i>: pentru comunicarea între procese se vor folosi canale anonime.
+</p>
+</li>
+
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<p>
+Iată și o sugestie generală de rezolvare a primei probleme propuse în seturile de mai sus:
+
+<button onclick="myToggle('lab11_pipe_cmds__general_remarks')">Show / Hide some suggestions for solving these problems</button>
+<div id="lab11_pipe_cmds__general_remarks" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Ideea generală de rezolvare</i></b> <!--, a acestor exerciții propuse spre rezolvare,-->
+se poate desprinde ușor recitind, cu atenție, fie observația referitoare la a treia soluție prezentată mai sus la exercițiul rezolvat <b>[Pipe commands #2]</b>,
+fie observația referitoare la a doua soluție prezentată în același exercițiu.
+</div>
+</p>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu comunicații prin canale anonime, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab11_ex7.c -------------------------------------------------------------------------------------------->
+<p><big>[MyShell v2, with pipe commands<!--cu lanțuri de comenzi-->]</big>
+<br>
+Incorporați în programul realizat la exercițiul <b>[MyShell v1]</b> din <a href="../lab10sync.html#sec_2c">laboratorul #10</a>
+ideea generalizată de la exercițiile <b>[Pipe commands #1, #2 și #3]</b> de mai sus:
+<br><br>
+Să se scrie un program C care, într-o buclă, preia de la tastatură numele a <tt>m</tt> comenzi simple înlănțuite prin simbolul <tt>pipe</tt>,
+i.e. o linie de forma următoare:
+<br>
+<tt>UNIX&gt; <font color="blue">comanda<sub>1</sub> arg<sub>1,1</sub> ... arg<sub>1,N1</sub> | comanda<sub>2</sub> arg<sub>2,1</sub> ... arg<sub>2,N2</sub> |
+ ... ... | comanda<sub>m</sub> arg<sub>m,1</sub> ... arg<sub>m,Nm</sub></font></tt>
+<br>
+și le execută în manieră înlănțuită, similar interpretoarelor clasice de comenzi din UNIX/Linux.
+<br>
+La așteptarea introducerii unei noi comenzi înlănțuite, programul va afișa prompterul "<tt>UNIX&gt;</tt>".
+Pentru executarea comenzilor se vor utiliza apeluri de sistem de tip exec(), nu apelul system().
+</p>
+
+<button onclick="myToggle('lab11_ex8')">Show / Hide some suggestions for solving this problem</button>
+
+<div id="lab11_ex8" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Ideea de rezolvare</i></b> se poate desprinde ușor recitind observația referitoare la a doua soluție
+prezentată mai sus la exercițiul rezolvat <b>[Pipe commands #2]</b>.
+</div>
+</li>
+
+
+<li><!-- Problema: lab11_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #6: <i>A coordinated distributed sum #1N</i> (<small>v2, using anonymous pipes for IPC</small>)]</big>
+<br>
+Să se modifice programul din exercițiul
+<b>['Supervisor-workers' pattern #1N: <i>A coordinated distributed sum #1N</i> (<small>v1, using regular files for IPC</small>)]</b>
+prezentat în <a href="../lab10sync.html#sec_2a">laboratorul #10</a>
+astfel încât comunicațiile între procese să se realizeze prin canale anonime, în loc de fișiere obișnuite.
+<br>
+În plus, citirea numerelor de la tastatură se va muta în cod după apelurile fork(), lucru posibil deoarece sincronizările ce erau necesare
+în varianta cu fișiere obișnuite, se vor realiza acum în mod automat (prin faptul că citirea din canale este, în mod implicit, blocantă).
+<br>
+(Indicație: <span class="stil_hint">sunt suficiente doar 3+1 canale anonime, în locul celor 3+3 fișiere de intrare și de ieșire.</span>)
+</p>
+
+<button onclick="myToggle('lab11_ex7')">Show / Hide some suggestions for solving this problem</button>
+<div id="lab11_ex7" style="display:none;" class="stil_sugestie_de_rezolvare">
+Încercați să rezolvați singuri problema, iar dacă nu reușiți, puteți consulta <!--rezolvarea disponibilă la adresa-->
+programul demonstrativ <a target="_blank" href="../../cursuri/C-programs/pipe/suma_pipes.c">suma_pipes.c</a>,
+cu observația că în acel program se folosesc doar două procese worker,
+deci trebuie să-l adaptați pentru cazul cu un număr variabil de procese worker, corespunzător acestei probleme.
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab11_ex2.c -------------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #4 (<small>v1, using anonymous pipes for IPC</small>)]</big>
+<br>
+Se presupune că în două fișiere, <i>nume.txt</i> și <i>prenume.txt</i>, sunt scrise, pe câte o linie, numele și respectiv prenumele unor persoane
+<!--, existând o corespondență la nivel de linie între cele două fișiere.-->
+(se va trata și cazul de excepție când nu există o corespondență bijectivă la nivel de linie între cele două fișiere).
+<br>
+Să se scrie un program C care va crea două procese fii:
+primul proces fiu va citi, într-o buclă, câte o linie din fișierul <i>nume.txt</i>,
+iar al doilea proces fiu va citi, într-o buclă, câte o linie din fișierul <i>prenume.txt</i>.
+Ambele procese fii vor scrie șirul de caractere citit, la fiecare iterație, în fișierul <i>persoane.txt</i>.
+Cele două procese trebuie să-și sincronizeze execuția (utilizând canale anonime de comunicație),
+astfel încât în fișierul <i>persoane.txt</i> să apară pe fiecare linie numele și prenumele corespunzătoare unei aceleiași persoane.
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul meu --> acum e rândul tău --> acum e rândul meu --> acum e rândul tău --> ... ș.a.m.d.</small>",
+folosind comunicații prin intermediul canalelor anonime de comunicație, în locul unui fișier obișnuit.
+<br>
+<i>Notă</i>: după cum spuneam în preambulul <a href="../lab9sync.html#sec_0">laboratorului #9</a>,
+șablonul 'ping-pong' este de fapt o instanță cu <tt>p=2</tt> procese,
+pentru un șablon mai general de sincronizare între <tt>p</tt> procese,
+cunoscut în literatura de specialitate sub denumirea de șablonul de sincronizare <i>token ring</i>.</span>)
+</p>
+
+<button onclick="myToggle('lab11_ex5')">Show / Hide some suggestions for solving the problem</button>
+<pre id="lab11_ex5" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Ideea de rezolvare</i></b> se poate desprinde din următoarea diagramă:
+<br>
+<div align="center"><img src="diagrams/Lab11_ex2__IMG_20190502_182813_cr.jpg" width="50%" class="stil_image_frame"></div>
+<br>
+Explicitând diagrama în cuvinte, iată care sunt 'operațiile' pe care trebuie să le implementați:
+
+- Procesul inițial P0 va crea mai întâi două canale anonime, canal_P1toP2 și canal_P2toP1, și va scrie 1 octet (oarecare) în canal_P2toP1.
+
+- Apoi P0 va crea cele două procese fii, P1 și P2 (astfel, acestea vor 'moșteni' descriptorii pentru cele două canale).
+
+- După crearea fiilor, P0 face sleep(1) și apoi închide toate capetele către cele două canale;
+- Apoi, P0 poate aștepta terminarea celor doi fii, din motive estetice (pentru a se afișa prompterul abia după terminarea lor).
+
+- După creare, fiul P1 va executa următoarea buclă:
+  1. citește 1 octet (oarecare) din canal_P2toP1 (aici va aștepta, prin apelul read(), până va primi 1 octet prin canal);
+  2. citește o nouă linie din fișierul nume.txt și o afișează pe ecran (respectiv, o adaugă la fișierul persoane.txt);
+  3. scrie 1 octet (oarecare) în canal_P1toP2.
+  <i>Notă</i>: terminarea buclei se va face când P1 ajunge la EOF în fișierul nume.txt, sau când octetul citit din canal_P2toP1 are
+  o valoare specială ce indică faptul că P2 a terminat de parcurs fișierul lui.
+
+- După creare, fiul P2 va executa următoarea buclă:
+  1. citește 1 octet (oarecare) din canal_P1toP2 (aici va aștepta, prin apelul read(), până va primi 1 octet prin canal);
+  2. citește o nouă linie din fișierul prenume.txt și o afișează pe ecran (respectiv, o adaugă la fișierul persoane.txt);
+  3. scrie 1 octet (oarecare) în canal_P2toP1.
+  <i>Notă</i>: terminarea buclei se va face când P2 ajunge la EOF în fișierul prenume.txt, sau când octetul citit din canal_P1toP2 are
+  o valoare specială ce indică faptul că P1 a terminat de parcurs fișierul lui.
+
+  <i>Notă</i>: terminarea buclelor din P1 și P2 implică faptul ca P1, respectiv P2, să "citească" EOF din canalul corespunzător,
+  i.e. faptul că nu mai există "scriitori" pentru canalul respectiv.
+  Așadar, asigurați-vă de acest lucru!
+  Cea mai simplă modalitate de a realiza acest lucru: fiecare din cele 3 procese să închida fiecare din cele 6 capete ale celor 3 canale,
+  <u>cât mai devreme posibil</u> (i.e., din momentul când nu va mai avea nevoie în viitor de acel capăt).
+  
+</pre>
+<br><br>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr>
+<!--td align="center" valign="center" width="35%">
+<a href="#top" class="button_href">Înapoi la sumar / Back to local index</a>
+</td-->
+<td align="right" valign="center" width="30%">
+<button onClick="javascript: window.location='#top';">Back to top of page</button>
+</td>
+<td align="center" valign="center">
+<button name="lastUpdButton" onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);">Last Update</button>
+</td>
+<!--td align="center" valign="center" width="35%">
+<a href="../lab11.html" class="button_href">Înapoi la Lab#11 / Back to main page</a>
+</td-->
+<td align="left" valign="center" width="30%">
+<button onClick="javascript: window.location='../lab11.html';">Back to main page</button>
+</td>
+</tr>
+</table>
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<script src="../script.js"></script>
+<script>includeMyCode();</script>
+<!--script>includeHTML();</script-->
+</body>
+</html>

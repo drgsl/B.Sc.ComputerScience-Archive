@@ -1,0 +1,400 @@
+﻿<html>
+<head>
+    <title>Operating Systems course</title>
+    <meta name="author"      content="Cristian Vidrașcu">
+
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta name="pragma"      content="no-cache">
+
+    <!-- pentru diacritice -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+
+<body bgcolor="white" text="black" link="blue" vlink="blue" alink="blue">
+
+
+<a name="top">
+
+<h3 align="center"><font color="red">"Operating Systems" course - 2020</font></h3>
+
+<p><hr size="3" width="100%" noshade></p>
+<!------------------------------------------------------------------------------------->
+<a name="news">
+
+<h3><font color="blue">News</font> (<i>in romanian</i>):</h3>
+
+<p>
+<iframe src="../SO/index_news.html" height="250" width="100%"></iframe>
+</p>
+
+<p><hr size="3" width="100%" noshade></p>
+<!------------------------------------------------------------------------------------->
+<a name="despre">
+
+<h3><font color="blue">About the course</font></h3>
+
+<p>
+<big>Objectives:</big>
+<br>
+The students who will attend this course will obtain knowledge about operating systems, regarding the techniques used for the design and the implementation of them.
+Also, they will obtain the skills to use the UNIX/Linux operating system and to write parallel processing programs on Linux.
+</p>
+
+<p>For additional details, please read the OS course's <a href="overview.pdf">overview</a>.</p>
+
+<p><hr size="3" width="100%" noshade></p>
+<!------------------------------------------------------------------------------------->
+<a name="curs">
+
+<h3><font color="blue">Curriculum</font></h3>
+
+<p>
+<big>General thematics:</big>
+<br>
+<li>Basic concepts about operating systems. Architecture, components, services. System kernel. 
+<li>Process management. Concurrency. Scheduling. Parallel processing. Process coordination. Interprocess communication.
+<li>Main memory management. Memory hierarchy. Allocation methods. Segmentation and paging. Virtual memory. Cache memory.
+<li>Secondary-storage management. File systems. Disk management.
+<li>Distributed systems. Distributed coordination. Types of distributed operating systems. Distributed file systems.
+</p>
+
+<p>
+<big>Bibliography:</big>
+<br>
+<li>The book "Operating System Concepts" (10th edition), by Avi Silberschatz, Peter Baer Galvin and Greg Gagne, Publishing House John Wiley & Sons, Inc., 2018, ISBN 978-1-118-06333-0.
+{<small>An electronic copy of this book can be downloaded from <a href="books/OSC10.pdf">here</a> (<i>local link</i>).</small>}
+</li>
+</p>
+
+<p>
+<big>Weekly presentations</big> {can be downloaded from <a href="OSC10-slides/OSC10-slides.html">here</a> (<i>local link</i>), or from <a href="http://www.os-book.com/OS10/slide-dir/index.html">here</a> (<i>on the web</i>)}:
+</p>
+
+<p>
+<table border="1" cellpadding="1">
+<tr>
+	<th>Week</th>
+	<th>Course subject</th>
+	<th>References</th>
+	<th>Supplements</th>
+</tr>
+<tr>
+	<td align="center">1-2</td>
+	<td>Overview of operating systems. Architecture, components, services.</td>
+	<td><a href="OSC10-slides/ch1.pdf">ch1</a>, <a href="OSC10-slides/ch2.pdf">ch2</a></td>
+	<td>(*) <a href="../SO/cursuri/P1a_intro.pdf">About Linux</a>(ro) and <a href="../SO/cursuri/Install_guide.pdf">Linux installation guide</a>(ro)</td>
+</tr>
+<tr>
+	<td align="center">3-4</td>
+	<td>Process management. Processes and threads. Scheduling and dispatch.</td>
+	<td><a href="OSC10-slides/ch3.pdf">ch3 <small>(1st part)</small></a>, <a href="OSC10-slides/ch5.pdf">ch5</a></td>
+	<td><small>See the animations from: <a href="../SO/simulatoare/simulator3/index.html">TutorSO</a>,
+            <a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL - animația #1</a>
+            and <a href="../SO/simulatoare/simulator2/index.html">Planificator procese</a> (ro)</small>
+    </td>
+</tr>
+<tr>
+	<td align="center">5-6</td>
+	<td>Process coordination. Concurrency, critical sections, semaphores.</td>
+	<td><a href="OSC10-slides/ch6.pdf">ch6</a>, <a href="OSC10-slides/ch7.pdf">ch7</a></td>
+	<td><small>See the animations from: <a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL - animația #2</a> and
+			<a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL - animațiile #3</a> (ro)</small>
+            <br>(*) <a href="../SO/cursuri/P12_X-Window.pdf">About X-Window</a>, <small>i.e the GUI for UNIX family of OSes</small> (ro)<!--<br> + demo animații 3D în Compiz-->
+            <br>(*) <a href="../SO/cursuri/P13_WSL.pdf">About WSL</a>, <small>i.e. running Linux distributions on Windows 10</small> (ro)			
+        </td>
+</tr>
+<tr>
+	<td align="center">7</td>
+	<td>Interprocess communication. Message-passing systems. Deadlocks.</td>
+	<td><a href="OSC10-slides/ch3.pdf">ch3 <small>(2nd part)</small></a>, <a href="OSC10-slides/ch8.pdf">ch8</a></td>
+	<td><small>See the animations from: <a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL - animația #4</a> (ro)</small>            
+	</td>
+</tr>
+<!--tr>
+  <td align="center">8</td>
+  <td colspan="4" align="center" bgcolor="#AAAAAA"><del>Exams (I) week</del> ???</td>
+</tr-->
+<tr>
+	<td align="center">8-9</td>
+	<td>Memory Management. Allocation methods. Segmentation and paging. Virtual memory.</td>
+	<td><a href="OSC10-slides/ch9.pdf">ch9</a>, <a href="OSC10-slides/ch10.pdf">ch10</a></td>
+	<td><small>See the animations from: <a href="../SO/simulatoare/simulator3/index.html">TutorSO</a>
+        and <a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL - animația #5</a> (ro)</small>
+    </td>
+</tr>
+<tr>
+  <td colspan="5" align="center" bgcolor="#AAAAAA">Easter holiday (April 20-26, 2020)</td>
+</tr>
+<tr>
+	<td align="center">10</td>
+	<td>Disk management.</td>
+	<td><a href="OSC10-slides/ch11.pdf">ch11</a></td>
+	<td><small>See the animations from: <a href="../SO/simulatoare/simulator3/index.html">TutorSO</a>
+	      and <a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL - animația #6</a> (ro)</small>
+	</td>
+</tr>
+<tr>
+	<td align="center">11</td>
+	<td>File systems. Design and implementation.</td>
+	<td><a href="OSC10-slides/ch13.pdf">ch13</a>, <a href="OSC10-slides/ch14.pdf">ch14</a>, <a href="OSC10-slides/ch15.pdf">ch15</a></td>
+	<td><small>See the animations from: <a href="../SO/simulatoare/simulator3/index.html">TutorSO</a></small> (ro)</td>
+</tr>
+<tr>
+	<td align="center">12</td>
+	<td>(*) Network and distributed systems. An introduction.</td>
+	<td><a href="OSC10-slides/ch19.pdf">ch19</a></td>
+	<td>&nbsp;</td>
+</tr>
+<tr>
+  <td align="center">13</td>
+  <td colspan="3" align="center">Recap of theoretical courses</td>
+</tr>
+<tr>
+  <td align="center">14-16</td>
+  <td colspan="3" align="center" bgcolor="#AAAAAA">Exams weeks</td>
+</tr>
+</table>
+(*) <small><i>Remark</i>: the presentations marked with an asterisk contain various supplementary subjects, which you are not required to learn for the final theoretic examination (i.e. written test).</small>
+</p>
+
+<!--br><br>[... old schedule ...]
+
+<tr>
+	<td align="center">12</font></td>
+	<td>(*) Principles of I/O systems. Device management.</td>
+	<td><a href="OSC10-slides/ch12.pdf">ch12</a></td>
+<!-- or --no>
+	<td>The security Problem. Program and system threats. Access control mechanisms.  ch16+ch17</td-- >
+	<td>&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">13</td>
+	<td>(*) Network and distributed systems. An introduction.</td>
+	<td><a href="OSC10-slides/ch19.pdf">ch19</a></td>
+<!-- or --no>
+	<td>Virtual machines. ch18</td-- >
+	<td>&nbsp;</td>
+</tr>
+<tr>
+  <td align="center">14-16</td>
+  <td colspan="4" align="center" bgcolor="#AAAAAA">Exams (II) weeks</td>
+</tr>
+</table-->
+
+<p>
+<b>Some remarks</b> (in romanian):
+<small>
+<ul>
+<li>În coloana Suplimente din tabel găsiți unele materiale suplimentare, precum ar fi:
+  diverse exemple de simulare, cu ajutorul simulatorului <a href="../SO/simulatoare/simulator1/OSCAL.html">OSCAL</a>, pentru o parte dintre subiectele abordate la cursul respectiv.
+</li>
+<li><a href="../SO/simulatoare/simulator2/index.html">Planificator procese</a>: este un alt simulator util de folosit pentru subiectul "Planificarea proceselor",
+  ce a fost realizat de studenți în cadrul competiției FIICompetition din 2009.
+</li>
+<li><a href="../SO/simulatoare/simulator3/index.html">TutorSO</a>: este un al treilea simulator util de folosit pentru ilustrarea unora dintre subiectele abordate la cursul de Sisteme de operare,
+  ce a fost realizat în 2010 de un student pentru lucrarea sa de licență.
+</li>
+<li>O listă cu mai multe simulatoare online pentru ilustrarea unora dintre subiectele abordate la cursul de Sisteme de operare o puteți accesa în pagina autorului unei alte cărți despre sisteme de operare,
+  W. Stallings, <a href="http://williamstallings.com/OS-Animation/Animations.html">aici</a>.
+</li>
+</ul>
+</small>
+</p>
+
+
+<br><br>
+
+<p><hr size="3" width="100%" noshade></p>
+<!------------------------------------------------------------------------------------->
+<a name="labs">
+
+<h3><font color="blue">Laboratories</font></h3>
+
+<p>
+<big>Laboratory thematics:</big>
+<br>
+<li><font color="red">Part I</font>: Overview of the UNIX/Linux operating system. Structure and general features. Guide of usage. Commands. Shells. Bash scripting language.
+<li><font color="red">Part II</font>: Concurrent programming in C language under Linux. Working with files. Exclusive/concurrent access to files. Process management. Creation, synchronization and executable loading. UNIX signals. Interprocess communication. Pipes. Fifos. Other communication mechanisms.
+</p>
+
+<p>
+<big>Bibliography:</big>
+<br>
+<li>The book "Advanced Programming in the UNIX Environment" (3rd edition), by W. Richard Stevens, Stephen A. Rago, Publishing House Addison-Wesley Professional, 2013, ISBN 978-0321637734.
+</p>
+
+<!--p>
+Note: the links for every practical course will be available starting with the weekend before the course ifself.
+</p-->
+<p>
+Note: the OS laboratory will be taught by Mr. <a href="http://profs.info.uaic.ro/~rbenchea/">Răzvan Benchea</a> and Mr. Vlad Ursu.
+</p>
+
+<!--p><i>Observație</i>: link-urile către laboratoarele individuale din tabelul de mai jos vor deveni disponibile pe parcursul semestrului...</p-->
+<p><i>Note</i>: the links for every practical lab will become available starting with the weekend before the lab ifself...</p>
+
+<p>
+<table border="1" cellpadding="2">
+<tr>
+  <th>Week</th><th>Lab subject</th><!--th>PPT slides</th--><th>Lab exercises</th>
+</tr>
+<tr>
+  <td align="center">1</td>
+  <td rowspan="2">- Overview of the UNIX/Linux OS<br>- Commands. The file-system</td>
+  <!--td rowspan="2"><a href="slides/P1_intro_web-en.pdf">P1_intro</a><br><a href="slides/P2_command+filesys_web-en.pdf">P2_command+filesys</a></td-->
+  <td><a href="labs/lab1_en.html">Lab 1</a></td>
+</tr>
+<tr>
+  <td align="center">2</td>
+  <!--td>- Commands. The file-system</td-->
+  <!--td><a href="slides/P2_command+filesys_web-en.pdf">P2_command+filesys</a></td-->
+  <td><a href="labs/lab2_en.html">Lab 2</a></td>
+</tr>
+<tr>
+  <td align="center">3</td>
+  <td rowspan="3">- Shells. Bash scripting language (I)<br>- Shells. Bash scripting language (II)</td>
+  <!--td><a href="slides/P3_shell_web-en.pdf">P3_shell</a></td-->
+  <td><a href="labs/lab3_en.html">Lab 3</a> | <a href="../SO/labs/lab3.html">(ro)</a></td>
+</tr>
+<tr>
+  <td align="center">4</td>
+  <!--td>- Shells. Bash scripting language (II)</td-->
+  <!--td><a href="slides/P4_shellprg_web-en.pdf">P4_shellprg</a></td-->
+  <td><a href="../SO/labs/lab4.html">Lab 4</a> (ro)</td>
+</tr>
+<tr>
+  <td align="center">5</td>
+  <!--td>- Shells. Bash scripting language (II)</td-->
+  <!--td><a href="slides/P4_shellprg_web-en.pdf">P4_shellprg</a></td-->
+  <td><a href="../SO/labs/lab5.html">Lab 5</a> (ro)</td>
+</tr>
+<tr>
+  <td align="center">6</td>
+  <td>- Programming: working with files, using POSIX API and stdio library</td>
+  <!--td rowspan="2"><a href="slides/P5_file_web-en.pdf">P5_file</a></td-->
+  <td><a href="../SO/labs/lab6.html">Lab 6</a> (ro)</td>
+</tr>
+<tr>
+  <td align="center">7</td>
+  <td>- Programming: locks on files</td>
+  <!--td><a href="slides/P6_locks_web-en.pdf">P6_locks</a></td-->
+  <td><a href="../SO/labs/lab7.html">Lab 7</a> (ro)</td>
+</tr>
+<!--tr>
+  <td align="center">7</td>
+  <td colspan="3" align="center"><del>First practical test</del> ???</td>
+</tr>
+<tr>
+  <td align="center">8</td>
+  <td colspan="3" align="center" bgcolor="#AAAAAA"><del>Exams (I) week</del> ???</td>
+</tr-->
+<tr>
+  <td align="center">8</td>
+  <td>- Programming: memory mapped files</td>
+  <!--td><a href="slides/P14_mmap_web-en.pdf">P14_mmap</a></td-->
+  <td><a href="../SO/labs/lab8.html">Lab 8</a> (ro)</td>
+</tr>
+<tr>
+  <td align="center">9</td>
+  <td>- Programming: fork &amp; wait syscalls</td>
+  <!--td><a href="slides/P7_fork+wait_web-en.pdf">P7_fork+wait</a></td-->
+  <td><a href="../SO/labs/lab9.html">Lab 9</a> (ro)</td>
+</tr>
+<tr>
+  <td colspan="5" align="center" bgcolor="#AAAAAA">Easter holiday (April 20-26, 2020)</td>
+</tr>
+<tr>
+  <td align="center">10</td>
+  <td>- Programming: exec syscalls</td>
+  <!--td><a href="slides/P8_exec_web-en.pdf">P8_exec</a></td-->
+  <td><a href="../SO/labs/lab10.html">Lab 10</a> (ro)</td>
+</tr>
+<tr>
+  <td align="center">11</td>
+  <td>- Programming: IPC - anonymous and named communication channels</td>
+  <!--td><a href="slides/P9_pipe_web-en.pdf">P9_pipe</a> | <a href="slides/P10_fifo_web-en.pdf">P10_fifo</a></td-->
+  <td><a href="../SO/labs/lab11.html">Lab 11</a> (ro)</td>
+</tr>
+
+</table>
+<!--(*) <small><i>Remark</i>: the asterisk sign marks some supplementary subjects, which are optionally (you can study them on your own, during the summer holiday...)</small-->
+</p>
+
+<!--br><br>[... old schedule ...]
+<tr>
+  <td rowspan="2" align="center">14</td>
+  <td colspan="3" align="center">Second practical test</td>
+</tr>
+<tr>
+  <!--td align="center">13</td-- >
+  <td>- Programming: (*) UNIX signals, useful for asyncronous programming and exceptions handling
+	<br>- Programming: (*) Text-mode UI, using ncurses library
+  </td>
+  <!--td>(*) <a href="cursuri/P10_signal.pdf">P10_signal</a><br>(*) <a href="cursuri/P11_ncurses.pdf">P11_ncurses</a></td-- >
+  <td>(*) <a href="../SO/labs/lab13.html">Lab 13</a> (ro)</td>
+</tr>
+</table>
+
+
+
+
+<p><hr size="3" width="100%" noshade></p>
+<!------------------------------------------------------------------------------------->
+<a name="examinare">
+
+<h3><font color="blue">Administratives:</font></h3>
+
+
+<p>OS Laboratory consists of practice labs and some practical examinations, spanning over the all 13 weeks as follows:
+<ul>
+<li><font color="red">Part I</font>: weeks 1-5. Practice labs about:
+  Overview of the UNIX/Linux operating system. Structure and general features. Guide of usage. Commands. Shells. Bash scripting language.
+  <br>Points for minimum presence and activity during these practice labs: 5 pts
+  <br>During some of these labs - one (or more) practical examination(s): 25 pts
+</li>
+<li><font color="red">Part II</font>: weeks 6-13. Practice labs about:
+  Concurrent programming in C language under Linux. Working with files. Exclusive/concurrent access to files. Process management. Creation, synchronization and executable loading. UNIX   signals. Interprocess communication. Pipes. Fifos. Other communication mechanisms.
+  <br>Points for minimum presence and activity during these practice labs: 5 pts
+  <br>During some of these labs - one (or more) practical examination(s): 25 pts
+</li>
+</ul>
+</p>
+
+<p>At the end of the semester, there will be also a theoretic examination (i.e. written test) : 40 pts</p>
+
+<p>Summarizing the above, the final mark is computed as follows:
+<ul>
+<li>Points for minimum presence and activity during the practice labs for both parts: 10 pts
+<li>1st part practical examination(s): 25 pts
+<li>2nd part practical examination(s): 25 pts
+<li>Final theoretic examination: 40 pts
+</ul>
+</p>
+
+<!--p>For additional details / exceptional cases, please discuss with the course-teacher.</p-->
+
+<p>Minimum requirements for the passing of the course:
+<br>
+<ul>
+<li>at least 20 points for all practical examinations
+<li><font color="red">and</font> at least 15 points at the final theoretic exam
+</ul>
+</p>
+
+<p>For additional details, please read the OS course's <a href="overview.pdf">overview</a>.</p>
+
+<p>
+<font color="red"><b>Updated info</b> (during the corona virus crisys)</font>: please read <a href="../SO/news/pinned-msg_evaluare.html">here</a> (in romanian).
+</p>
+
+
+<p><hr size="3" width="100%" noshade></p>
+<!--------------------------------------------------------------------->
+<center>
+<table border="0" cellpadding="3" width="95%">
+<tr><td align="center" valign="center"><button onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);">Last Update</button></td></tr>
+</table>
+</center>
+</body>
+</html>

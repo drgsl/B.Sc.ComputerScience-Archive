@@ -1,0 +1,40 @@
+// Input: n - numar natural 
+// Output: primele n numere x care satisfac conditia: prim(x) : forall i. (i > 2) /\ (i < sqrt(x)) -> x % i =/= 0.
+
+// T_firstNPrimes = 1 + 1 + x * (T_size + 1 + 1 + T_isPrime + 1 + 1 + 3)
+//               = 2 + x * (T_size + 7 + T_isPrime)
+//               in O(x * sqrt(x)) ???
+firstNPrimes(n) {
+    x = 2;
+    l = emptyList;
+    while (l.size() < n) {
+        if (isPrime(x)) {
+            l.pushBack(x); // x is a prime
+        }
+        x++;
+    }
+    return l;
+}
+
+// T_isPrime = 4 + 1 + (int(sqrt(x)) - 1) * (1 + T_sqrt + 1 + 6) + 1
+//          = 6 + (int(sqrt(x)) - 1) * (8 + T_sqrt)
+//          in O(sqrt(x)) 
+isPrime(x) {
+    if (x < 2) {
+        return false;
+    }
+    for (i = 2; i <= int(sqrt(x)); i++) {
+        if (x % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// print(firstNPrimes(0));
+// print(firstNPrimes(1));
+// print(firstNPrimes(10));
+// print(firstNPrimes(100));
+
+// print(firstNPrimes(-1));
+print(firstNPrimes(5000));

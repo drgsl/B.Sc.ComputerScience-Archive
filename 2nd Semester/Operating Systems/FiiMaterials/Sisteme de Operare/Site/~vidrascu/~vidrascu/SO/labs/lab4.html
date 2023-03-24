@@ -1,0 +1,1654 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #4</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+
+<body>
+
+<h2><font color="blue">Laborator #4 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab4.html#sec_1">Exerciții cu fișiere de comenzi (partea întâia -- calcule matematice iterative)</a></h4>
+<h5><a href="lab4.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab4.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab4.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>II) <a href="lab4.html#sec_2">Exerciții cu fișiere de comenzi (partea a doua -- calcule matematice recursive)</a></h4>
+<h5><a href="lab4.html#sec_2a">Exerciții rezolvate</a></h5>
+<h5><a href="lab4.html#sec_2b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab4.html#sec_2c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>III) <a href="lab4.html#sec_3">Exerciții ce presupun corectarea unor greșeli ``strecurate'' într-un script dat</a></h4>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții cu fișiere de comenzi (partea întâia -- calcule matematice iterative):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: exemplul-1.sh ----------------------------------------------------------------------------------------->
+<p><big>[FirstScript]</big>
+<br>
+Să se scrie un script care să listeze toți parametrii din linia de apel sub forma:
+param_i = valoarea parametrului al i-lea ,
+cu i luând valori de la 1 la numărul total de parametri.
+</p>
+
+<button onclick="myToggle('lab4_exemplul1')">Show / Hide the solutions</button>
+
+<div id="lab4_exemplul1" style="display:none;" class="stil_explicatie">
+<p>
+Ideea de rezolvare este să parcurgem lista de parametri cu care este apelat scriptul nostru și să-i afișăm în formatul cerut.
+Parcurgerea o putem face în mai multe moduri, și anume:
+</p>
+
+<p>
+<b>i)</b> Prima soluție -- folosim o structură for pentru a parcurge lista de parametri, ce este stocată în variabila dinamică $@ :
+</p>
+<button onclick="myToggle('lab4_exemplul1_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_exemplul1_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișează lista parametrilor cu care este apelat. ###
+
+i=0
+for parametru in $@
+do
+  let i=i+1
+  echo "param_$i = $parametru"
+done
+</pre>
+
+<p>
+<b>ii)</b> A doua soluție, ce este o variație minoră a primei soluții -- folosim cealaltă variabilă dinamică $* și, în plus, operația de incrementare este scrisă altfel :
+</p>
+<button onclick="myToggle('lab4_exemplul1_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_exemplul1_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișează lista parametrilor cu care este apelat. ###
+
+i=0
+for parametru in $*
+do
+  let i++
+  echo "param_$i = $parametru"
+done
+</pre>
+
+<p>
+<b>iii)</b> A treia soluție -- folosim o idee diferită: comanda internă shift, care deplasează spre stânga cu o poziție toți parametrii poziționali $1 $2 ... $9,
+și actualizează în mod corespunzător și variabilele $#, $@ și $* .
+<br>Practic, la fiecare iterație facem câte o shift-are și afișăm parametrul curent $1, care va fi pe rând parametrul 1, apoi al 2-lea, apoi al 3-lea, ș.a.m.d.
+din linia de apel inițială.
+<br>În plus, vom folosi o structură while în loc de for :
+</p>
+<button onclick="myToggle('lab4_exemplul1_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_exemplul1_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișează lista parametrilor cu care este apelat. ###
+
+i=0
+while test ! $# -eq 0
+do
+  let i+=1
+  echo param_$i = $1
+  shift
+done
+</pre>
+
+<p>
+<b>iv)</b> A patra soluție -- încercăm o altă idee: putem oare să scriem ceva de forma $$i ?
+Adică ceva care să producă o dublă substituție ?
+<br>
+Răspunsul este afirmativ, se poate folosi comanda internă eval (a se vedea exemplul din prezentarea de la curs), în felul următor:
+</p>
+<button onclick="myToggle('lab4_exemplul1_4')">Show / Hide the 4th script</button>
+
+<pre id="lab4_exemplul1_4" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișează lista parametrilor cu care este apelat. ###
+
+i=0
+while test $i -lt $#
+do
+  let i+=1
+  eval p_i=\$$i
+  echo param_$i = $p_i
+done
+</pre>
+
+<p>
+<b>v)</b> A cincea soluție -- tot cu efect de dublă substituție se poate folosi o altă formă specială de <i>parameter expansion</i> a interpretorului bash,
+și anume forma sintactică <tt>{!variabila}</tt> :
+</p>
+<button onclick="myToggle('lab4_exemplul1_5')">Show / Hide the 5th script</button>
+
+<pre id="lab4_exemplul1_5" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișează lista parametrilor cu care este apelat. ###
+
+i=0
+while test $i -lt $#
+do
+  let i+=1
+  echo param_$i = ${!i}
+done
+</pre>
+<p>
+<i>Explicație</i>: observați mai sus folosirea construcției ${!i} care are ca efect o dublă substituție:
+întâi se substituie {!i} cu valoarea variabilei i, rezultând un număr k (cuprins între 1 și numărul total de parametri de la apelul scriptului),
+iar apoi se substituie $k cu valoarea celui de-al k-lea parametru de la apelul scriptului.
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab5_ex3.sh ------------------------------------------------------------------------------------------->
+<p><big>[MyExpr]</big>
+<br>
+Să se scrie un script care să efectueze într-o buclă pașii următori:
+<ol>
+<li> citește de la tastatură două numere și un operator + , - , * sau / </li>
+<li> efectuează operația respectivă </li>
+<li> scrie rezultatul, pe o nouă linie, în cadrul unui fișier, sub forma: &nbsp; <i> nr_operatie: operand1 operator operand2 = rezultat </i></li>
+<li> reia bucla </li>
+</ol>
+Din bucla respectivă se va ieși la introducerea caracterului 'q' pe poziția operatorului.
+Înainte de terminare, se va scrie în fișier și numărul total de operații efectuate.
+Numele fișierului în care se face scrierea se primește ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+</p>
+
+<button onclick="myToggle('lab5_ex3')">Show / Hide a possible solution</button>
+
+<pre id="lab5_ex3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculator aritmetic ###
+
+if [ $# -eq 1 ] ; then
+    fisier=$1
+else
+    echo -n "Dati numele fisierului: " ; read fisier
+fi
+
+nr_op=0
+
+echo > $fisier
+
+until false
+do
+    read -p "Dati primul numar: " nr1
+    read -p "Dati al doilea numar: " nr2
+    echo -n "Dati operatorul: " ; read op
+
+    case "$op" in
+        "+" ) let rez=nr1+nr2 ;;
+        "-" ) let rez=nr1-nr2 ;;
+        "*" ) let rez=nr1*nr2 ;;
+        "/" ) rez=$(echo "scale=5; $nr1 / $nr2" | bc -l) ;;
+        "q" ) break
+    esac
+    let nr_op++
+    echo "$nr_op:  $nr1 $op $nr2 = $rez" >> $fisier
+done
+
+echo "Numarul total de operatii efectuate: $nr_op" >> $fisier
+</pre>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex4.sh ------------------------------------------------------------------------------------------->
+<p><big>[Iterative math #1]</big>
+<br>1) Să se scrie un script care să efectueze calculul produsului n * m prin adunări repetate (i.e. n * m = n + n + ... + n, de m ori).
+<br>
+<small>(Indicație: <span class="stil_hint">valorile pentru n și m se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi cu comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+<br>
+2) Să se scrie un script care să efectueze calculul puterii n la m prin înmulțiri repetate.
+<br>
+<small>(Indicație: <span class="stil_hint">valorile pentru n și m se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi cu comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex4')">Show / Hide the solutions</button>
+
+<div id="lab4_ex4" style="display:none;" class="stil_explicatie">
+<p>
+<b>1)</b> Ideea de rezolvare este să folosim o structură de control iterativă pentru a face adunări repetate.
+Aceasta o putem face în mai multe moduri, și anume:
+</p>
+
+<p>
+<b>1.i)</b> Prima soluție -- folosim o structură repetitivă for și comanda let pentru calcule aritmetice:
+</p>
+<button onclick="myToggle('lab4_ex4_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex4_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calcul iterativ demonstrativ: adunări repetate. ###
+
+if [ $# -lt 1 ]
+then
+    echo -n "Introduceti primul numar: "
+    read n
+else
+    n=$1
+fi
+
+if [ $# -lt 2 ]
+then
+    read -p "Introduceti al doilea numar: " m
+else
+    m=$2
+fi
+
+prod=0
+for i in `seq 1 $m`
+do
+    let prod=prod+$n
+done
+
+echo "Rezultatul operatiei $n * $m este: $prod"
+</pre>
+
+<p>
+<b>1.ii)</b> A doua soluție, este o rescriere echivalentă a primei soluții, folosind o structură repetitivă while în loc de for și alte mici diferențe sintactice:
+</p>
+<button onclick="myToggle('lab4_ex4_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex4_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calcul iterativ demonstrativ: adunări repetate. ###
+
+if test $# -lt 1
+then
+    read -p "Introduceti primul numar: " n
+else
+    n=$1
+fi
+
+if test $# -lt 2 ; then read -p "Introduceti al doilea numar: " m ; else  m=$2 ; fi
+
+prod=0
+k=$m
+while test $k -gt 0
+do
+    let prod=prod+n
+    let k=k-1
+done
+
+echo "Rezultatul operatiei $n * $m este: $prod"
+</pre>
+
+<p>
+<b>1.iii)</b> A treia soluție, este o rescriere echivalentă a soluției anterioare, cu unele mici diferențe sintactice --
+observați forma scurt-circuitată a operatorilor aritmetici de la comenzile let:
+</p>
+<button onclick="myToggle('lab4_ex4_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_ex4_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calcul iterativ demonstrativ: adunări repetate. ###
+
+if [ $# -lt 1 ] ; then echo -n "Introduceti primul numar: " ; read n ; else n=$1 ; fi
+
+if [ $# -lt 2 ] ; then read -p "Introduceti al doilea numar: " m ; else m=$2 ; fi
+
+prod=0
+k=$m
+while [ $k -gt 0 ]
+do
+    let prod+=n
+    let k--
+done
+
+echo "Rezultatul operatiei $n * $m este: $prod"
+</pre>
+
+<p>
+<b>1.iv)</b> A patra soluție, este o rescriere echivalentă a soluțiilor anterioare, cu unele mici diferențe sintactice --
+observați scrierea directă a operațiilor aritmetice, fără comenzi let, posibilă datorită declarațiilor de tip întreg pentru variabilele respective:
+</p>
+<button onclick="myToggle('lab4_ex4_4')">Show / Hide the 4th script</button>
+
+<pre id="lab4_ex4_4" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calcul iterativ demonstrativ: adunări repetate. ###
+
+if test $# -lt 1
+then
+    read -p "Introduceti primul numar: " n
+else
+    n=$1
+fi
+
+if [ $# -lt 2 ]
+then
+    read -p "Introduceti al doilea numar: " m
+else
+    m=$2
+fi
+
+declare -i prod
+declare -i k
+
+prod=0
+k=0
+
+while [ $k -lt $m ]
+do
+    prod=prod+n
+    k=k+1
+done
+
+echo "Rezultatul operatiei $n * $m este: $prod"
+</pre>
+
+<p>
+<i>Observație</i>: cele de mai sus sunt doar 4 soluții posibile, se pot scrie multe alte variante de rezolvare, e.g. folosind bucla for(( sau bucla until,
+respectiv folosind și celelalte comenzi pentru calcule cu expresii aritmetice.
+</p>
+
+<p>
+<b>2)</b> Ideea de rezolvare este similară cu cea de la pct.1), i.e. folosirea unei structuri de control iterative pentru a face înmulțiri repetate.
+Aceasta o putem face în mai multe moduri, la fel ca la pct.1).
+Voi ilustra doar una dintre soluții:
+</p>
+
+<button onclick="myToggle('lab4_ex4_5')">Show / Hide the script</button>
+
+<pre id="lab4_ex4_5" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calcul iterativ demonstrativ: înmulțiri repetate. ###
+
+if [ $# -lt 1 ]
+then
+    read -p "Introduceti baza: " n
+else
+    n=$1
+fi
+
+if [ $# -lt 2 ]
+then
+    read -p "Introduceti exponentul (un numar pozitiv): " m
+else
+    m=$2
+fi
+
+putere=1
+for i in $(seq 1 $m)
+do
+    let putere=putere*n
+done
+
+echo "Rezultatul operatiei $n ^ $m este: $putere"
+</pre>
+
+<p>
+<i>Observație</i>: puteți scrie singuri celelalte soluții echivalente, prin simpla înlocuire a operatorului + cu operatorul * și
+a inițializării cu 1 în loc de 0 în celelalte variante de rezolvare a pct.i) pe care le-am discutat mai sus.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<p>
+<big>Iată alte câteva exerciții similare cu exercițiul [Iterative math #1], i.e. scripturi ce efectuează diverse calcule matematice, într-o manieră iterativă.</big>
+<br>
+<i>Notă</i>: voi prezenta, uneori, doar câte o singură soluție pentru fiecare dintre aceste exerciții, cu observația că puteți scrie diverse alte
+soluții echivalente, făcând diverse modificări logice și/sau sintactice ca în exemplele de soluții date mai sus la exercițiul [Iterative math #1].
+</p> 
+
+
+
+<li><!-- Problema: lab4_ex5.sh ------------------------------------------------------------------------------------------->
+<p><big>[Iterative math #2]</big>
+<br>Să se scrie un script care să calculeze media aritmetică a n numere.
+<br>
+<small>(Indicație: <span class="stil_hint">valorile pentru n și pentru cele n numere vor fi preluate ca argumente la linia de comandă prin care se lansează scriptul,
+sau se vor citi cu comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex5')">Show / Hide the solution</button>
+
+<div id="lab4_ex5" style="display:none;" class="stil_explicatie">
+<p>
+<b>i)</b> Prima soluție, incorectă -- folosim comanda let, dar <u>calculul nu este exact!</u>
+(deoarece comanda let lucrează doar cu numere întregi și operatorul / face doar împărțire întreagă):
+</p>
+<button onclick="myToggle('lab4_ex5_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex5_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează media artimetică a unei secvențe de numere. ###
+
+if test $# -eq 0 ; then
+  echo "Eroare: nu ati specificat nici macar un numar" ; exit 1
+fi
+
+ma=0
+
+for i in $*
+do
+    let ma=ma+i
+done
+
+let ma=ma/$#
+
+echo "Media aritmetica (rotunjita la parte intreaga) a numerelor date este: $ma."
+</pre>
+
+<p>
+<b>ii)</b> A doua soluție, incompletă -- folosim comanda bc cu opțiunea -l pentru calcule în virgulă mobilă:
+</p>
+<button onclick="myToggle('lab4_ex5_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex5_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează media artimetică a unei secvențe de numere. ###
+
+if test $# -eq 0 ; then
+  echo "Eroare: nu ati specificat nici macar un numar" ; exit 1
+fi
+
+ma=0
+
+for i in $*
+do
+    let ma+=i
+done
+
+echo -n "Media aritmetica a numerelor date este: "
+echo "scale=5 ; $ma/$#" | bc -l
+</pre>
+<p>
+<i>Observație</i>: scale=5 (re)definește variabila scale, utilizată de comanda bc pentru a lucra, în acest exemplu, cu numere cu 5 cifre zecimale după virgulă.
+</p>
+
+<p>
+<b>iii)</b> A treia soluție, completă -- adăugăm la soluția anterioară și citirea numerelor de la tastatură, pentru situațiile în care acestea nu se dau în linia de comandă:
+</p>
+<button onclick="myToggle('lab4_ex5_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_ex5_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează media artimetică a unei secvențe de numere. ###
+
+ma=0
+
+if test $# -eq 0
+then
+    read -p "Dati lungimea secventei de numere: " n
+    for i in $(seq 1 $n)
+    do
+        read -p "Dati al $i-lea numar: " nr
+        ma=$(echo $ma+$nr | bc)
+    done
+else
+    n=$#
+    for p in $@
+    do
+        ma=$(echo $ma+$p | bc)
+    done
+fi
+
+echo -n "Media aritmetica a numerelor date este: "
+echo "scale=5 ; $ma/$n" | bc -l
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex6.sh ------------------------------------------------------------------------------------------->
+<p><big>[Iterative math #3]</big>
+<br>Să se scrie un script care să calculeze valorile minimă și maximă ce apar într-o secvență de numere specificată,
+fie ca argumente în linia de comandă, fie de la tastatură.
+<br>
+<small>(Indicație: <span class="stil_hint">valorile numerice se vor citi prin comanda read, dacă nu sunt date în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex6')">Show / Hide the solution</button>
+
+<div id="lab4_ex6" style="display:none;" class="stil_explicatie">
+<p>
+<b>i)</b> Prima soluție, incompletă -- minimul și maximul se calculează printr-o singură parcurgere a secvenței de numere, dată în linia de comandă:
+</p>
+<button onclick="myToggle('lab4_ex6_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex6_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează minimul și maximul unei secvențe de numere. ###
+
+if test $# -eq 0
+then
+    echo "Eroare: nu ati specificat nici macar un numar."
+    exit 1
+fi
+
+min=$1
+max=$1
+
+shift
+
+for p in $@
+do
+    if [ $p -lt $min ] ; then min=$p ; fi
+
+    if [ $p -gt $max ] ; then max=$p ; fi
+done
+
+echo "Minimul secventei de numere date este: $min , iar maximul ei este: $max ."
+</pre>
+
+<p>
+<b>ii)</b> A doua soluție, completă -- adăugăm la soluția anterioară și citirea numerelor de la tastatură, în cazul în care acestea nu se dau în linia de comandă:
+</p>
+<button onclick="myToggle('lab4_ex6_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex6_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează minimul și maximul unei secvențe de numere. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati lungimea secventei de numere: " n
+    read -p "Dati primul numar din secventa: " k
+    max=$k
+    min=$k
+
+    i=2
+    while [ $i -le $n ]
+    do
+        read -p "Dati al $i-lea numar din secventa: " k
+        if [ $k -lt $min ] ; then min=$k ; fi
+        if [ $k -gt $max ] ; then max=$k ; fi
+
+        let i++
+    done
+else
+    min=$1
+    max=$1
+
+    shift
+    for p in $@
+    do
+        if [ $p -lt $min ] ; then min=$p ; fi
+        if [ $p -gt $max ] ; then max=$p ; fi
+    done
+fi
+
+echo "Minimul secventei de numere date este: $min , iar maximul ei este: $max ."
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex8.sh ------------------------------------------------------------------------------------------->
+<p><big>[Iterative math #4]</big>
+<br>Să se scrie un script care să calculeze valoarea numerică ce apare de cele mai multe ori, precum și numărul ei de apariții,
+în șirul de valori numerice date ca argumente în linia de comandă.
+<br>
+<small>(Indicație: <span class="stil_hint">valorile numerice se vor citi prin comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex8')">Show / Hide a possible solution</button>
+
+<div id="lab4_ex8" style="display:none;" class="stil_explicatie">
+<p>
+Iată o posibilă soluție -- observați folosirea <b>variabilelor de tip tablou</b> (i.e., modul de declarare și de referire la valoarea unui element din tablou)
+în scriptul de mai jos:
+</p>
+<pre class="stil_solutie">
+#!/bin/bash
+### Cele mai multe apariții într-o secvență de numere dată. ###
+
+declare -a v   # declara v ca fiind un array
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati numarul de numere: "  nr
+    for i in `seq 1 $nr`
+    do
+	    read -p "Dati v[$i]: "  v[$i]
+    done
+else
+    nr=$#
+    for i in $(seq 1 $nr)
+    do
+	    v[$i]=$1
+	    shift
+    done
+fi
+
+declare -a ap    # declara ap ca fiind un array
+
+for i in `seq 1 $nr`
+do
+    ap[$i]=0
+done
+
+for i in $(seq 1 $nr)
+do
+    for j in `seq 1 $nr`
+    do
+	if [ ${v[i]} -eq ${v[j]} ]
+	then
+	    let ap[$i]+=1
+	fi
+    done
+done
+
+max=${ap[1]}
+index=1
+
+for i in `seq 2 $nr`
+do
+    if [ $max -lt ${ap[$i]} ]
+    then
+	    max=${ap[$i]}
+	    index=$i
+    fi
+done
+
+echo "Numarul cu cele mai multe aparitii este ${v[$index]} si are ${ap[$index]} aparitii."
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex9.sh ------------------------------------------------------------------------------------------->
+<p><big>[Iterative math #5]</big>
+<br>Să se scrie un script care să calculeze C(n,k) (i.e. combinări de n luate câte k).
+<br>
+<small>(Indicație: <span class="stil_hint">valorile n și k se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi prin comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex9')">Show / Hide the solutions</button>
+
+<div id="lab4_ex9" style="display:none;" class="stil_explicatie">
+<p>
+<b>i)</b> Prima soluție -- folosim o funcție auxiliară, care va calcula n!,
+iar calculul combinărilor se va face pe baza formulei <span class="stil_black_BGcolor"><tt>&nbsp; C(n,k) = n! / (k!*(n-k)!) &nbsp;</tt></span> :
+</p>
+<button onclick="myToggle('lab4_ex9_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex9_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează combinări de n luate câte k. ###
+
+if [ $# -lt 1 ]
+then
+    echo -n "Dati numarul n: " ; read n
+else
+    n=$1
+fi
+
+if [ $# -lt 2 ]
+then
+    read -p "Dati numarul k: " k
+else
+    k=$2
+fi
+
+if [ $n -lt $k ]
+then
+    echo "Eroare: $n este mai mic decat $k. Calcul imposibil!"
+    exit 1
+fi
+
+
+function fact ()
+{
+    prod=1
+    for i in $(seq 1 $1)
+    do
+        let prod=prod*i
+    done
+    echo $prod
+}
+
+# Urmeaza calculul pe baza formulei C(n,k) = n! / (k!*(n-k)!)
+
+#calcul factorial $n
+nfact=$(fact $n)
+echo "factorial de $n este $nfact" 1>&2         # mesaj de depanare, afisat pe stderr
+
+#calcul factorial $k
+kfact=`fact $k`
+echo "factorial de $k este $kfact" 1>&2         # mesaj de depanare, afisat pe stderr
+
+let n_k=$n-$k
+echo "$n-$k este $n_k" 1>&2                     # mesaj de depanare, afisat pe stderr
+
+#calcul factorial $n_k
+n_kfact=`fact $n_k`
+echo "factorial de $n_k este $n_kfact" 1>&2     # mesaj de depanare, afisat pe stderr
+
+numitor=$(expr $kfact \* $n_kfact)
+combinatorial=`expr $nfact / $numitor`
+echo "Rezultatul este C($n,$k)=$combinatorial"
+</pre>
+<p>
+<i>Observație</i>: pentru a inhiba afișarea pe ecran a mesajelor de depanare (i.e. cele ce afișează rezultatele intermediare),
+puteți fie să comentați/ștergeți liniile respective din script,
+fie puteți să lansați scriptul în execuție cu fluxul standard pentru ieșirea de eroare redirectat către fișierul null, adică astfel:
+<br>
+<tt>UNIX> ./lab4_ex7a.sh  N  K  2> /dev/null</tt>
+</p>
+
+<p>
+<b>ii)</b> A doua soluție -- este similară cu prima, doar că am făcut "inline" calculul efectuat de funcția fact() în soluția anterioară:
+</p>
+<button onclick="myToggle('lab4_ex9_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex9_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează combinări de n luate câte k. ###
+
+if [ $# -lt 1 ]
+then
+    read -p "Dati numarul n: " n
+else
+    n=$1
+fi
+
+if [ $# -lt 2 ]
+then
+    read -p "Dati numarul k: " k
+else
+    k=$2
+fi
+
+if [ $n -lt $k ]
+then
+    echo "Eroare: $n este mai mic decat $k. Calcul imposibil!"
+    exit 1
+fi
+
+# Urmeaza calculul pe baza formulei C(n,k) = n! / (k!*(n-k)!)
+
+#calcul factorial $n
+nfact=1
+for i in `seq 2 $n`; do let nfact*=i ; done
+echo "factorial de $n este $nfact" 1>&2          # mesaj de depanare, afisat pe stderr
+
+#calcul factorial $k
+kfact=1
+for i in $(seq 2 $k); do let kfact*=i ; done
+echo "factorial de $k este $kfact" 1>&2         # mesaj de depanare, afisat pe stderr
+
+let n_k=$n-$k
+echo "$n-$k este $n_k" 1>&2                     # mesaj de depanare, afisat pe stderr
+
+#calcul factorial $n_k
+n_kfact=1
+for i in `seq 2 $n_k`; do let n_kfact*=$i ; done
+echo "factorial de $n_k este $n_kfact" 1>&2    # mesaj de depanare, afisat pe stderr
+
+numitor=$(expr $kfact \* $n_kfact)
+combinatorial=`expr $nfact / $numitor`
+echo "Rezultatul este C($n,$k)=$combinatorial"
+</pre>
+
+<p>
+<b>iii)</b> A treia soluție -- calculul se face cu o singură buclă iterativă, pe baza formulei simplificate
+<span class="stil_black_BGcolor"><tt>&nbsp; C(n,k) = n! / (k!*(n-k)!) = ( (n-k+1)*(n-k+2)*...*n ) / ( 1*2*3*...*k ) &nbsp;</tt></span>:
+</p>
+<button onclick="myToggle('lab4_ex9_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_ex9_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează combinări de n luate câte k. ###
+
+if [ $# -lt 1 ]
+then
+    read -p "Dati numarul n: " n
+else
+    n=$1
+fi
+
+if [ $# -lt 2 ]
+then
+    read -p "Dati numarul k: " k
+else
+    k=$2
+fi
+
+if [ $n -lt $k ]
+then
+    echo "Eroare: $n este mai mic decat $k. Calcul imposibil!"
+    exit 1
+fi
+
+# Urmeaza calculul pe baza formulei simplificate C(n,k) = ( (n-k+1)*(n-k+2)*...*n ) / ( 1*2*3*...*k )
+
+declare -i i=1
+declare -i comb=1
+declare -i aux
+
+while test $i -le $k
+do
+    aux=$n-$i+1
+    comb=$comb*$aux/$i
+    i=$i+1
+done
+
+echo "Rezultatul este C($n,$k)=$comb"
+</pre>
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+
+<button onclick="mySetToggle2('setCV','1')">Setul CV</button>
+<button onclick="mySetToggle2('setRB','1')">Setul RB</button>
+<button onclick="mySetToggle2('setBP','1')">Setul BP</button>
+<button onclick="mySetToggle2('setDA','1')">Setul DA</button>
+<button onclick="mySetToggle2('setAG','1')">Setul AG</button>
+<button onclick="mySetToggle2('setVU','1')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV1" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Iterative math]</big>
+<br>Să se scrie un script care să efectueze calculul iterativ al sumei pătratelor primelor n numere naturale,
+i.e. S<sub>n</sub> = 1<sup>2</sup> + 2<sup>2</sup> + 3<sup>2</sup> + ... + n<sup>2</sup>, pentru n > 0.
+<br>
+<small>(Indicație: <span class="stil_hint2">valoarea pentru n se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB1" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setRB_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Iterative math]</big>
+<br>Să se scrie un script care să efectueze calculul iterativ al sumei cuburilor primelor k numere naturale,
+i.e. S<sub>k</sub> = 1<sup>3</sup> + 2<sup>3</sup> + 3<sup>3</sup> + ... + k<sup>3</sup>, pentru k > 0.
+<br>
+<small>(Indicație: <span class="stil_hint2">valoarea pentru k se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP1" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setBP_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Iterative math]</big>
+<br>Să se scrie un script care să efectueze calculul iterativ al sumei doar a acelor numere, din secvența de numere date ca parametri de intrare,
+care sunt mai mari decat 10.
+<br>
+<small>Exemplu: dacă se lansează ./suma.sh 10 30 54 20 5, se va afișa 104 (deoarece 30+54+20=104).</small>
+<br>
+<small>(Indicație: <span class="stil_hint2">secvența de numere se va prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA1" style="display:none;" class="stil_explicatie">
+Not yet!
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG1" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setAG_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Iterative math]</big>
+<br>Să se scrie un script care primește o secvență de n numere, plus un număr p citit de la tastatură, și efectuează
+calculul iterativ al sumei pătratelor acelor numere din secvența primită, ce sunt mai mici sau egale cu p.
+<br>
+<small>(Indicație: <span class="stil_hint2">secvența de n numere se va prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU1" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Iterative math]</big>
+<br>Să se scrie un script care primește două numere, k și d, și efectuează
+calculul iterativ al sumei primelor k numere naturale divizibile cu d.
+<br>
+<small>(Indicație: <span class="stil_hint2">valorile pentru k și d se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi cu comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții cu scripturi, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab4_ex7.sh ------------------------------------------------------------------------------------------->
+<p><big>[Iterative math #6]</big>
+<br>Să se scrie un script care să calculeze valoarea de rang n din șirul lui Fibonacci.
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n va fi preluată ca argument la linia de comandă prin care se lansează scriptul,
+sau se va citi prin comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab4_ex9bis.sh ---------------------------------------------------------------------------------------->
+<p><big>[Iterative math #7]</big>
+<br>Să se scrie un script care să calculeze A(n,k) (i.e. aranjamente de n luate câte k).
+<br>
+<small>(Indicație: <span class="stil_hint">valorile n și k se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi prin comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab4_ex10.sh ------------------------------------------------------------------------------------------>
+<p><big>[Iterative math #8]</big>
+<br>Să se scrie un script care va fi lansat cu 1+N*k+p argumente, unde k și p sunt variabile și necunoscute apriori.
+Scriptul preia primul argument într-o variabilă N și calculează suma următoarelor argumente luate câte N
+(deci suma primelor N argumente, apoi a următoarelor N numere ș.a.m.d.,
+iar dacă la sfârșit rămâne un număr mai mic decât N de argumente, va calcula doar suma acestora),
+afișând valorile sumelor pe ecran și scriindu-le în același timp într-un fișier output.txt.
+<br>
+Dacă este lansat fără nici un parametru, atunci va cere introducerea unei valori numerice N și apoi a altor N valori numerice
+(presupunem numere întregi), afișând ca rezultat doar această primă sumă.
+<br>
+<small>(Indicație: <span class="stil_hint">man expr și help shift.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab4_ex13.sh ------------------------------------------------------------------------------------------>
+<p><big>[Iterative math #9]</big>
+<br>Să se scrie un script care să efectueze calculul iterativ al factorialului (i.e. n! = 1 * 2 * ... * n, pentru n > 0).
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții cu fișiere de comenzi (partea a doua -- calcule matematice recursive):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab4_ex14.sh ------------------------------------------------------------------------------------------>
+<p><big>[Recursive math #1]</big>
+<br>Să se scrie un script care să efectueze calculul recursiv al factorialului (i.e. n! = n * (n-1)!, pentru n > 0, respectiv 0! = 1).
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex14')">Show / Hide the solutions</button>
+
+<div id="lab4_ex14" style="display:none;" class="stil_explicatie">
+<p>
+Ideea de rezolvare -- avem următoarele posibilități de implementare:
+<ul>
+<li><b>Recursia</b> se poate implementa în două maniere diferite, exemplificate în soluțiile ce urmează a fi prezentate mai jos:
+<br>a) fie prin <i>apel recursiv de funcție</i> (a se vedea primele 4 soluții de mai jos),
+<br>b) fie prin <i>apel recursiv de procedură/script</i> (a se vedea celelalte soluții de mai jos),
+iar în acest caz trebuie să ținem cont și de modul de apel, i.e.
+dacă vor fi executate toate apelurile de aceeași instanță de shell, caz în care avem "memorie comună" între apeluri,
+sau fiecare apel va fi executat de o nouă instanță a shell-ului, caz în care NU mai avem variabile partajate între apeluri.
+<br><br>
+</li>
+<li><b>Valoarea intermediară</b> a calculului efectuat în manieră recursivă se poate transmite de la un apel la altul prin mai multe modalități;
+în cele de mai jos sunt ilustrate patru dintre acestea:
+<br>i) fie prin codul de terminare a procesului (a se vedea prima soluție de mai jos),
+<br>ii) fie prin "preluarea", în linia de comandă a apelantului, a valorii afișate pe ecran de apelat (a se vedea a doua soluție de mai jos),
+<br>iii) fie printr-o variabilă globală (a se vedea a patra soluție de mai jos),
+<br>iv) fie printr-un al doilea parametru de apel al funcției/scriptului (a se vedea a treia soluție de mai jos).
+<br>  
+<i>Notă</i>: varianta i) este foarte limitată, căci permite transmiterea unei singure valori, iar aceasta este restricționată la un octet fără semn.
+Celelalte variante pot fi folosite și atunci când avem de transmis mai multe valori de la un apel la altul (e.g.,
+pentru calculul unei relații de recurență de ordinul 2, sau mai mare).
+</li>
+</ul>
+</p>
+
+
+<p>
+<b>1)</b> Prima soluție -- scriem o funcție recursivă și returnăm rezultatul calculat de un apel al funcției prin codul de terminare a procesului:
+</p>
+<button onclick="myToggle('lab4_ex14_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex14_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează recursiv factorial de n. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati n: " n
+else
+    n=$1
+fi
+
+function factorial()
+{
+    if [ $1 -le 1 ]
+    then
+        return 1
+    else
+        let n_1=$1-1
+        factorial $n_1
+        let rez=$1*$?
+        return $rez
+    fi
+}
+
+factorial $n
+echo "Factorial($n)=$?"
+</pre>
+
+<p>
+<i>Observație</i>: comanda <tt>return nr</tt> provoacă terminarea execuției funcției, cu <tt>nr</tt> drept cod de terminare.
+Iar cu variabila specială $? putem afla codul de terminare al ultimei comenzi/funcții executate anterior.
+</p>
+
+<p>
+<i>Atenție</i>: un apel de funcție în bash nu are aceeași semnificație ca în limbajul C,
+i.e. nu poate apare ca operand într-o expresie,
+ci poate apare doar în pozițiile în care sunt permise nume de comenzi în cadrul unei linii de comandă, sau al unei linii dintr-un fișier de comenzi.
+<i>Practic, numele funcției este ca un "alias" pentru lista de comenzi din corpul funcției</i>!
+</p>
+
+<p>
+<i>Observație importantă</i>: codul de terminare a procesului se reprezintă pe un singur octet, fără semn,
+și ca atare această soluție nu afișează valorile corecte ale factorialului pentru n > 5 (fiindcă apare depășire la octet)!!!
+</p>
+
+
+<p>
+<b>2)</b> A doua soluție -- folosim ideea cu funcția recursivă de mai sus, dar rezultatul calculat de un apel al funcției îl afișăm pe ecran
+în corpul funcției și îl recuperăm în afara ei prin substituția specială comandă:
+</p>
+<button onclick="myToggle('lab4_ex14_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex14_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează recursiv factorial de n. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati n: " n
+else
+    n=$1
+fi
+
+function factorial()
+{
+    if [ $1 -le 1 ]
+    then
+        echo 1
+    else
+        let n_1=$1-1
+        rez=$(factorial $n_1)
+        expr $1 \* $rez
+    fi
+}
+
+echo -n "Factorial($n)="
+factorial $n
+</pre>
+
+
+<p>
+<b>3)</b> A treia soluție -- folosim tot o funcție recursivă ca mai sus, dar rezultatul calculat de un apel al funcției
+îl transmitem la apelul următor prin intermediul unui al doilea parametru al funcției:
+</p>
+<button onclick="myToggle('lab4_ex14_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_ex14_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează recursiv factorial de n. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati n: " n
+else
+    n=$1
+fi
+
+function factorial()
+{
+    if [ $1 -le 1 ]
+    then
+        echo $2
+    else
+        let n_1=$1-1
+        let prod=$1*$2
+        factorial $n_1 $prod
+    fi
+}
+
+echo -n "Factorial($n)="
+factorial $n 1
+</pre>
+
+
+<p>
+<b>4)</b> A patra soluție -- folosim tot o funcție recursivă ca mai sus, dar rezultatul intermediar calculat de un apel al funcției
+îl transmitem la apelul următor prin intermediul unei variabile (variabila cu numele rez de mai jos):
+</p>
+<button onclick="myToggle('lab4_ex14_4')">Show / Hide the 4th script</button>
+
+<pre id="lab4_ex14_4" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează recursiv factorial de n. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati n: " n
+else
+    n=$1
+fi
+
+function factorial()
+{
+echo "----- Begin call : arg fact = $1 -----" 1>&2               # mesaj informativ, afisat pe stderr
+
+    if [ $1 -le 1 ]
+    then
+        rez=1
+    else
+        let n_1=$1-1
+        factorial $n_1
+        let rez=$1*rez
+    fi
+
+echo "----- End call : arg fact = $1 , rez=$rez -----"  1>&2     # mesaj informativ, afisat pe stderr
+}
+
+factorial $n
+echo "Factorial($n)=$rez"
+</pre>
+
+<p>
+<i>Observație</i>: cele două comenzi echo "----- ... -----" ce afișează mesaje pe stderr au doar un rol ajutător,
+pentru a putea observa ordinea "în stivă" a apelurilor succesive.
+<br>
+Pentru a inhiba apariția acestor mesaje, este suficient să rulați acest script cu ieșirea de eroare standard redirectată către fișierul null, adică:
+<br>UNIX><tt> ./lab4_factorial.sh  nr  2> /dev/null</tt>
+<br>
+Similar, puteți adăuga astfel de mesaje ajutătoare și la soluțiile anterioare.
+</p>
+
+
+<p>
+<i>Observație importantă</i>: Cele patru soluții de mai sus folosesc o funcție recursivă, i.e. care se re-apelează.
+Aplicând varianta b) de implementare a recursiei, se pot scrie 4 soluții similare d.p.d.v. al transmiterii valorilor intermediare,
+dar fără a utiliza funcții recursive, ci însuși scriptul fiind cel care se re-apelează.
+</p>
+
+<p>
+<b>5)</b> A cincea soluție -- spre exemplificare, iată o rescriere a primei soluții, folosind un apel recursiv al scriptului:
+</p>
+<button onclick="myToggle('lab4_ex14_5')">Show / Hide the 5th script</button>
+
+<pre id="lab4_ex14_5" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează recursiv factorial de n. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati n: " n
+else
+    n=$1
+fi
+
+if [ $n -le 1 ]
+then
+    exit 1
+else
+    let n_1=$n-1
+    bash $0 $n_1  # apelul recursiv al scriptului
+    let rez=$n*$?
+    echo "Factorial($n)=$rez"
+    exit $rez
+fi
+
+# Observație: apelul inițial nu apare explicit aici (precum la variantele de implementare folosind funcții recursive),
+# ci este cel prin care apelați de fapt acest script de la linia de comandă!
+</pre>
+
+<p>
+<i>Observație</i>: aceasta are același dezavantaj ca și prima soluție -- codul de terminare a procesului se reprezintă pe un octet, fără semn,
+și ca atare aceasta soluție nu afișează valorile corecte ale factorialului pentru n > 5 (fiindcă apare depășire la octet)!!!
+</p>
+
+
+<p>
+<b>6)</b> A șasea soluție -- spre exemplificare, iată și o rescriere a celei de a doua soluții, folosind un apel recursiv al scriptului:
+</p>
+<button onclick="myToggle('lab4_ex14_6')">Show / Hide the 6th script</button>
+
+<pre id="lab4_ex14_6" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculează recursiv factorial de n. ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati n: " n
+else
+    n=$1
+fi
+
+if [ $# -ne 2 ]
+then
+    echo -n "Factorial($n)="
+fi
+
+if [ $n -le 1 ]
+then
+    echo 1
+else
+    let n_1=$n-1
+    expr $n \* $(bash $0 $n_1 'rec')   # apelul recursiv al scriptului, in cadrul unei expresii substitutie speciala comanda
+fi
+
+# Observatie: parametrul al doilea 'rec' (poate fi orice) are rolul sa ne indice ca suntem intr-un apel recursiv, pentru a nu afisa si textul "Factorial()="
+</pre>
+
+<p>
+<i>Observație</i>: similar se pot rescrie și soluțiile 3 și 4 de mai sus cu funcții recursive, modificându-le în script-uri care se re-apelează recursiv.
+&nbsp; Ca și exercițiu, încercați să faceți singuri aceste modificări!
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab4_ex-new1.sh --------------------------------------------------------------------------------------->
+<p><big>[Recursive math #2]</big>
+<br>Să se scrie un script care primește două valori de intrare, n și m, și verifică în manieră recursivă dacă numărul n este o 
+putere a numărului m, afișând la final 'Adevărat' sau, respectiv, 'Fals', după caz.
+<br>
+<small>(Indicație: <span class="stil_hint">valorile pentru n și m se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi cu comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex-new1')">Show / Hide the solution</button>
+
+<div id="lab4_ex-new1" style="display:none;" class="stil_explicatie">
+<p>
+Ideea de rezolvare -- împărțim pe n la m în mod repetat (recursiv) până fie obținem un rest nenul, fie obținem câtul 1.
+<br>
+La fel ca la exercițiul precedent, putem combina după dorință cele 2x4 posibilități de implementare. Spre exemplificare, iată
+o soluție ce folosește o functie recursivă și cu transmiterea valorilor printr-o variabilă globală (pentru rezultatul final)
+combinat cu transmiterea prin parametrii de apel ai funcției (pentru valoarea intermediară a n-ului):
+
+<pre class="stil_solutie">
+#!/bin/bash
+
+if [ $# -ge 1 ]; then
+    n=$1
+else
+    read -p "Introduceti n: " n
+fi
+
+if [ $# -ge 2 ]; then
+    m=$2
+else
+    read -p "Introduceti m: " m
+fi
+
+eputere="Adevarat"
+
+function putere()
+{
+    if [ $1 -gt 1 ]
+    then
+        let rest=$1%$2
+        if [ $rest -gt 0 ]; then
+            eputere="Fals"
+        fi
+        let div=$1/$2
+        putere $div $2
+    fi
+}
+
+putere $n $m
+echo Rezultat final: $eputere
+</pre>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+
+<button onclick="mySetToggle2('setCV','2')">Setul CV</button>
+<button onclick="mySetToggle2('setRB','2')">Setul RB</button>
+<button onclick="mySetToggle2('setBP','2')">Setul BP</button>
+<button onclick="mySetToggle2('setDA','2')">Setul DA</button>
+<button onclick="mySetToggle2('setAG','2')">Setul AG</button>
+<button onclick="mySetToggle2('setVU','2')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV2" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setCV_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Recursive math]</big>
+<br>
+Să se scrie un script care să efectueze calculul recursiv al sumei pătratelor primelor n numere naturale,
+<!--(i.e. S<sub>n</sub> = 1<sup>2</sup> + 2<sup>2</sup> + 3<sup>2</sup> + ... + n<sup>2</sup>, pentru n > 0).-->
+pe baza relației de recurență:
+S<sub>1</sub> = 1 și S<sub>n</sub> = S<sub>n-1</sub> + n<sup>2</sup>, pentru n > 1.
+<br>
+<small>(Indicație: <span class="stil_hint2">valoarea pentru n se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB2" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setRB_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Recursive math]</big>
+<br>Să se scrie un script care să efectueze calculul recursiv al sumei cuburilor primelor k numere naturale,
+<!--(i.e. S<sub>k</sub> = 1<sup>3</sup> + 2<sup>3</sup> + 3<sup>3</sup> + ... + k<sup>3</sup>, pentru k > 0).-->
+pe baza relației de recurență:
+S<sub>1</sub> = 1 și S<sub>k</sub> = S<sub>k-1</sub> + k<sup>3</sup>, pentru k > 1.
+<br>
+<small>(Indicație: <span class="stil_hint2">valoarea pentru k se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP2" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setBP_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Recursive math]</big>
+<br>Să se scrie un script care să efectueze calculul recursiv al celui mai mare divizor comun pentru două numere date a și b.
+Se va folosi algoritmul lui Euclid cu scăderi, sub forma unei funcții recursive.
+<br>
+<small>(Indicație: <span class="stil_hint2">valorile pentru a și b se vor prelua ca argumente din linia de comandă prin care se lansează scriptul,
+sau se vor citi cu comanda read, în caz că nu sunt date în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA2" style="display:none;" class="stil_explicatie">
+Not yet!
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG2" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setAG_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Recursive math]</big>
+<br>Să se scrie un script care primește un număr n și calculează recursiv, afișând pe stderr, puterile succesive ale lui 2,
+de la 2<sup>0</sup> până la 2<sup>n</sup>, pe baza relației de recurență: 2<sup>k</sup> = 2 * 2<sup>k-1</sup>, pentru orice k>0.
+<br>
+<small>(Indicație: <span class="stil_hint2">valoarea pentru n se va prelua ca argument din linia de comandă prin care se lansează scriptul,
+sau se va citi cu comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU2" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab4_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Recursive math]</big>
+<br>Să se scrie un script care să calculeze în mod recursiv valoarea de rang n din șirul lui Fibonacci.
+<br>
+<small>(Indicație: <span class="stil_hint2">valoarea pentru n va fi preluată ca argument la linia de comandă prin care se lansează scriptul,
+sau se va citi prin comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții cu scripturi, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab4_ex-new2.sh --------------------------------------------------------------------------------------->
+<p><big>[Recursive math #3]</big>
+<br>Să se scrie un script care primește o valoare n ca parametru de intrare (verificați că n > 0)
+și calculează în manieră recursivă suma cifrelor lui, ce sunt numere prime, iar la finalul calculului va afișa valoarea sumei.
+<br>
+<small>Exemplul #1: n=1235 --> rezultat:2+3+5=10;
+<br>Exemplul #2: n=6274 --> rezultat:2+7=9.</small>
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n va fi preluată ca argument la linia de comandă prin care se lansează scriptul,
+sau se va citi prin comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab4_ex-new3.sh --------------------------------------------------------------------------------------->
+<p><big>[Recursive math #4]</big>
+<br>Să se scrie un script care primește o valoare n ca parametru de intrare (verificați că n > 0)
+și calculează în manieră recursivă inversul numărului obținut prin complementarierea tuturor cifrelor față de 9,
+iar la finalul calculului va afișa noul număr astfel calculat.
+<br>
+<small>Exemplul #1: n=13950 --> rezultat:94068, deoarece 9-0=9, 9-5=4, 9-9=0, 9-3=6, 9-1=8;
+<br>Exemplul #2: n=349 --> rezultat:56, deoarece 9-9=0, 9-4=5, 9-3=6.</small>
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n va fi preluată ca argument la linia de comandă prin care se lansează scriptul,
+sau se va citi prin comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab4_ex-new4.sh --------------------------------------------------------------------------------------->
+<p><big>[Recursive math #5]</big>
+<br>Să se scrie un script care primește o valoare n ca parametru de intrare (verificați că n > 0) 
+și calculează în manieră recursivă termenul x<sub>n</sub> al șirului {x<sub>m</sub>}<sub>m>=0</sub> , definit astfel:
+<br>
+<span class="stil_black_BGcolor"><tt>&nbsp; x<sub>0</sub> = 1, x<sub>1</sub> = 2,</tt>
+respectiv <tt>x<sub>m</sub> = x<sub>m-1</sub> + 4*x<sub>m-2</sub> + m</tt> , pentru orice <tt>m>=2</tt> </span>.
+<br>La final se va afișa valoarea termenului cerut x<sub>n</sub>.
+Se vor trata toate cazurile de excepție ce pot apare.
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n va fi preluată ca argument la linia de comandă prin care se lansează scriptul,
+sau se va citi prin comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab4_ex-new5.sh --------------------------------------------------------------------------------------->
+<p><big>[Recursive math #6]</big>
+<br>Să se scrie un script care primește o valoare n ca parametru de intrare (verificați că n > 0) 
+și calculează în manieră recursivă termenul y<sub>n</sub> al șirului {y<sub>m</sub>}<sub>m>=0</sub> , definit astfel:
+<br>
+<span class="stil_black_BGcolor"><tt>&nbsp; y<sub>0</sub> = 1, y<sub>1</sub> = 1,</tt>
+respectiv <tt>y<sub>m</sub> = (m+1)*y<sub>m-1</sub> + (m+2)*y<sub>m-2</sub></tt> , pentru orice <tt>m>=2</tt> </span>.
+<br>La final se va afișa valoarea termenului cerut y<sub>n</sub>.
+Se vor trata toate cazurile de excepție ce pot apare.
+<br>
+<small>(Indicație: <span class="stil_hint">valoarea pentru n va fi preluată ca argument la linia de comandă prin care se lansează scriptul,
+sau se va citi prin comanda read, în caz că nu este dată în linia de comandă.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Exerciții ce presupun corectarea unor greșeli ``strecurate'' într-un script dat:</span></p>
+</a>
+
+<ol>
+
+<li>
+<p><big>[Exemplul #1 cu erori sintactice și semantice]</big>
+<br>
+Se dă scriptul următor, care se va apela cu o serie de parametri în linia de comandă:
+<pre class="stil_solutie">
+#!/bin/noshell
+A=1; #B=0;
+for a in $(ls /usr/share)
+do
+  [ -d $a ] && let B++
+done
+echo #B, $A
+</pre>
+i) Explicați ce se va afișa pe ecran în urma execuției scriptului.
+<br>
+ii) Corectați eventualele erori existente astfel încât, în urma execuției scriptului corectat, pe ecran să apară
+afișat numărul subdirectoarelor aflate în directorul <tt>/usr/share</tt> , urmat de numărul parametrilor cu care a fost apelat scriptul.
+</p>
+
+<button onclick="myToggle('lab5_ex-err1')">Show / Hide some suggestions for solving the problem</button>
+
+<div id="lab5_ex-err1" style="display:none;" class="stil_explicatie">
+i) Executați scriptul, identificați eventualele mesaje de eroare ce apar pe ecran și încercați să identificați cauzele care le produc!
+<br>
+<br>
+ii) Corectați, pe rând, fiecare greșeală identificată în maniera descrisă la pct.i),
+repetând procedeul până când nu mai apare niciun mesaj de eroare la execuția scriptului.
+<br>
+Apoi încercați să identificați și eventualele erori semantice, i.e. <i>bug</i>-uri în cod,
+adică greșeli strecurate în script care nu cauzează mesaje de eroare la execuția lui,
+dar datorită cărora scriptul nu face exact ceea ce este specificat în enunț că ar trebui să facă!
+</div>
+<br><br>
+</li>
+
+<li>
+<p><big>[Exemplul #2 cu erori sintactice și semantice]</big>
+<br>
+Se dă scriptul următor, care se va apela cu un parametru în linia de comandă:
+<pre class="stil_solutie">
+#!/bin/nologin
+if[ $# -lt 1] then
+    read -p "Dati n: " n
+else
+    n=$1
+
+prod=0
+for k in ${seq 1 n}
+do
+    prod*=k
+done
+
+echo "Fact($n)=prod"
+</pre>
+i) Explicați ce se va afișa pe ecran în urma execuției scriptului.
+<br>
+ii) Corectați eventualele erori existente astfel încât, în urma execuției scriptului corectat, pe ecran să apară
+afișată valoarea factorialului pentru numărul primit ca parametru.
+</p>
+
+<button onclick="myToggle('lab5_ex-err2')">Show / Hide some suggestions for solving the problem</button>
+
+<div id="lab5_ex-err2" style="display:none;" class="stil_explicatie">
+i) Executați scriptul, identificați eventualele mesaje de eroare ce apar pe ecran și încercați să identificați cauzele care le produc!
+<br>
+<br>
+ii) Corectați, pe rând, fiecare greșeală identificată în maniera descrisă la pct.i),
+repetând procedeul până când nu mai apare niciun mesaj de eroare la execuția scriptului.
+<br>
+Apoi încercați să identificați și eventualele erori semantice, i.e. <i>bug</i>-uri în cod,
+adică greșeli strecurate în script care nu cauzează mesaje de eroare la execuția lui,
+dar datorită cărora scriptul nu face exact ceea ce este specificat în enunț că ar trebui să facă!
+</div>
+<br><br>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1539 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #5</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #5 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab5.html#sec_1">Exerciții cu fișiere de comenzi (partea a treia -- procesări diverse de fișiere)</a></h4>
+<h5><a href="lab5.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab5.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>II) <a href="lab5.html#sec_2">Exerciții cu fișiere de comenzi (partea a patra -- parcurgeri recursive ale sistemului de fișiere)</a></h4>
+<h5><a href="lab5.html#sec_2a">Exerciții rezolvate</a></h5>
+<h5><a href="lab5.html#sec_2b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab5.html#sec_2c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții cu fișiere de comenzi (partea a treia -- procesări diverse de fișiere):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab5_ex-new0.sh --------------------------------------------------------------------------------------->
+<p><big>[Run SPMD programs]</big>
+<br>Să se scrie un script care, primind la linia de comandă calea către un program executabil (sau un script),
+un număr n și o secvență de n valori, lansează în execuție paralelă și neînlănțuită n instanțe ale acelui program sau script,
+iar fiecare din cele n instanțe va fi apelată cu un argument -- cu câte una dintre cele n valori primite în linia de comandă.
+<br>
+<i>Explicație</i>: acronimul <b>SPMD</b> înseamnă Single-Program-Multiple-Data și descrie un șablon de programare paralelă,
+în care n instanțe ale unui program secvențial sunt executate în paralel, pe date diferite, în manieră asincronă.
+Bineînțeles, cel mai adesea cele n instanțe cooperează ître ele, sub diverse forme de interacțiune.
+<br>
+(Varianta sincronă, denumită <b>SIMD</b>, i.e. Single-Instraction-Multiple-Data, este un șablon de programare paralelă mult mai restrictiv,
+căci presupune execuția sincronizată în paralel a celor n instanțe, i.e. la orice moment toate cele n instanțe execută aceeași instrucțiune!)
+</p>
+<button onclick="myToggle('lab5_ex0')">Show / Hide a possible solution</button>
+
+<div id="lab5_ex0" style="display:none;" class="stil_rezolvare">
+O posibilă soluție este următoarea:
+<pre class="stil_codBash">
+<div w3-include-MyCode="lab5_sh/RunMySPMD.sh">See the script from <a target="_blank" href="lab5_sh/RunMySPMD.sh">here</a>.</div>
+</pre>
+<p>
+Iată și câteva exemple simple de apelare a acestui script:
+<pre>
+./RunMySPMD.sh /bin/ls 3 ~ /usr/share /proc
+./RunMySPMD.sh /bin/cat 2 /etc/passwd /etc/group
+./RunMySPMD.sh /bin/ps 3 a -ef -af
+</pre>
+</p>
+<p>
+<i>Explicație detaliată</i>, despre exemplele de apelare de mai sus:
+<button onclick="myToggle('lab5_ex0a')">Show / Hide the full details</button>
+<div id="lab5_ex0a" style="display:none;width:50%;" class="stil_image_frame"><img width="95%" src="xerox_files/Lab5_ex0__SPMD{BP}.png" align="middle"></div>
+</p>
+
+<p>
+<i>Observație</i>: veți folosi acest script în partea a doua a laboratoarelor, pentru a rula anumite programe C în conformitate cu șablonul de paralelism SPMD.
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab5_ex9.sh ------------------------------------------------------------------------------------------->
+<p><big>[MyGccOrCat]</big>
+<br>
+Să se scrie un script care primește ca parametru un nume de director.
+Scriptul va compila fiecare fișier sursă C aflat în directorul dat,
+respectiv va tipări (i.e., afișa pe ecran) conținutul fiecărui fișier text din acest director.
+(Compilarea se realizează în felul următor: &nbsp; <tt>gcc fisier.c -o fisier -Wall</tt>.)
+<br>
+(<i>Atenție</i>: NU se cere parcurgerea recursivă a directorului respectiv!)
+</p>
+
+<button onclick="myToggle('lab5_ex9')">Show / Hide a possible solution</button>
+
+<div id="lab5_ex9" style="display:none;" class="stil_rezolvare">
+O posibilă soluție este următoarea:
+<pre class="stil_codBash">
+<div w3-include-MyCode="lab5_sh/MyGccOrCat.sh">See the script from <a target="_blank" href="lab5_sh/MyGccOrCat.sh">here</a>.</div>
+</pre>
+<p>
+<i>Observație</i>: dacă veți testa scriptul acesta cu un director în care se găsesc și fișiere care conțin în numele lor caractere spații sau tab-uri,
+atunci pentru respectivele fișiere veți obține erori de genul "File not found", datorită modului de evaluare a enumerării din structura
+"for variabila in lista-de-cuvinte", ceea ce face imposibilă protejarea spațiilor din numele fișierelor și subdirectoarelor obținute cu comanda ls -A
+(sau cu șabloanele * și .*).
+Pentru mai multe detalii, precum și o idee de tratare a acestor nume "excepționale" de fișiere,
+citiți observația suplimentară de la finalul rezolvării exercițiului [MyFind #1].
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex15.sh ------------------------------------------------------------------------------------------>
+<p><big>[MyG++]</big><!-- old lab.3,IV,ex.2 ; old ex.3 -->
+<br>Să se scrie un script care primește ca parametru la linia de comandă un director și care compilează toate fișierele sursă C++
+aflate doar în acest director (nu și cele din subdirectoarele lui).
+(Compilarea se realizează în felul următor: &nbsp; <tt>g++ fisier.cpp -o fisier -Wall</tt>.)
+<br>
+(<i>Atenție</i>: NU se cere parcurgerea recursivă a directorului respectiv!)
+<br>
+<small>(Indicație: <span class="stil_hint">folosind comanda basename se poate obține numele fișierului fără extensie, e.g.
+basename fisier.cpp .cpp  afișează pe stdout doar 'fisier'.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex15')">Show / Hide the solutions</button>
+
+<div id="lab4_ex15" style="display:none;" class="stil_rezolvare">
+<p>
+<b>i)</b> Prima soluție -- folosim un șablon de forma <tt>*.cpp</tt> în lista de cuvinte de la structura for,
+șablon ce va fi interpretat de bash în modul cunoscut:
+</p>
+<button onclick="myToggle('lab4_ex15_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex15_1" style="display:none;" class="stil_codBash">
+<div w3-include-MyCode="lab5_sh/MyG++_v1.sh">See the script from <a target="_blank" href="lab5_sh/MyG++_v1.sh">here</a>.</div>
+</pre>
+
+<p>
+<b>ii)</b> A doua soluție -- folosim comanda find, cu parcurgerea limitată la un nivel pe adâncime,
+pentru a genera lista numelor de fișiere sursă C++ din directorul dat ca parametru:
+</p>
+<button onclick="myToggle('lab4_ex15_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex15_2" style="display:none;" class="stil_codBash">
+<div w3-include-MyCode="lab5_sh/MyG++_v2.sh">See the script from <a target="_blank" href="lab5_sh/MyG++_v2.sh">here</a>.</div>
+</pre>
+<p>
+<i>Observație</i>: deși exercițiul nu o cerea, pentru a compila toate fișierele aflate în subarborele determinat de directorul dat ca parametru,
+este suficient ca în scriptul de mai sus să eliminăm opțiunea "-maxdepth 1" de la comanda find.
+</p>
+
+<p>
+<i>Observație suplimentară</i>: dacă veți testa oricare dintre cele două scripturi de mai sus, dându-i ca argument un director în care se găsesc și fișiere care
+conțin în numele lor caractere spații sau tab-uri, atunci pentru respectivele fișiere veți obține erori de genul "File not found",
+datorită modului de evaluare a enumerării din structura "for variabila in lista-de-cuvinte", ceea ce face imposibilă protejarea spațiilor din numele fișierelor
+și subdirectoarelor obținute cu comanda ls -A (sau cu șabloane de genul * și .*).
+Pentru mai multe detalii, precum și o idee de tratare a acestor nume "excepționale" de fișiere,
+citiți observația suplimentară de la finalul rezolvării exercițiului [MyFind #1].
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: editcomp.sh ------------------------------------------------------------------------------------------>
+<p><big>[EditCompileRun]</big><!--  Script pentru automatizarea procesului de dezvoltare de programe C -->
+<br>
+Să se scrie un script care să vă ajute la scrierea programelor în C, prin care să se automatizeze ciclul de dezvoltare:
+modificare sursă --> compilare --> testare (execuție).
+<br>
+<big>Cerințe:</big>
+<br>Scriptul va lansa editorul preferat pentru fișierul filename.c specificat ca parametru în linia de comandă (sau citit
+de la tastatură, în caz contrar), apoi va interoga utilizatorul dacă dorește să lanseze compilatorul și în caz afirmativ o va face (fișierul
+executabil să aibă numele filename , deci fără sufixul .c). Apoi, dacă sunt erori de compilare (lucru observabil prin erorile de compilare
+afișate de compilator), va relua ciclul de la editare (bineînțeles cu o pauză pentru ca utilizatorul să aibă timp să citească erorile afișate
+pe ecran), iar dacă nu sunt erori la compilare, va interoga utilizatorul dacă dorește să testeze (i.e., să execute) acel program și în caz
+afirmativ va executa acel fișier executabil rezultat prin compilare.
+<br>
+În concluzie, la fiecare pas să se facă o interogare a utilizatorului dacă dorește să continue cu următorul pas.
+</p>
+
+<button onclick="myToggle('lab5_editcomp')">Show / Hide a possible solution</button>
+
+<div id="lab5_editcomp" style="display:none;" class="stil_rezolvare">
+O posibilă soluție este următoarea:
+<pre class="stil_codBash">
+<div w3-include-MyCode="lab5_sh/EditCompileRun.sh">See the script from <a target="_blank" href="lab5_sh/EditCompileRun.sh">here</a>.</div>
+</pre>
+Vă recomand să adaptați acest script după dorință, conform stilului propriu de lucru.
+</div>
+
+<p>
+<i>Observație</i>: veți putea folosi acest script în partea a doua a laboratoarelor, pentru a vă automatiza activitatea de dezvoltare a programelor C.
+</p>
+<br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex11.sh ------------------------------------------------------------------------------------------>
+<p><big>[MyId]</big><!-- old lab.3,IV,ex.3 -->
+<br>Să se scrie un script care, pentru un utilizator specificat prin UID-ul acestuia dat ca parametru în linia de comandă,
+să afișeze numele lui real, plus numele de utilizator, precum și denumirea tuturor grupurilor din care face parte.
+<br>
+<small>(Indicație: <span class="stil_hint">pentru a obține informațiile cerute, puteți folosi comanda id și/sau prelucrați
+fișierele <tt>/etc/passwd</tt> și <tt>/etc/group</tt>.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex11')">Show / Hide the solutions</button>
+
+<div id="lab4_ex11" style="display:none;" class="stil_explicatie">
+<p>
+<b>i)</b> Prima soluție -- folosim informațiile din fișierele <tt>/etc/passwd</tt> și <tt>/etc/group</tt>:
+</p>
+<button onclick="myToggle('lab4_ex11_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex11_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### My id command. ###
+
+if [ $# -eq 0 ]
+then
+    echo "Eroare: parametri insuficienti! Nu ati specificat UID-ul."
+    exit 1  # Fail!
+fi
+
+cuv=":$1:"
+linie=$(grep $cuv /etc/passwd)
+if [ $? -eq 0 ]
+then
+    nume_real=$(echo $linie | cut -d: -f5 | cut -d, -f1)
+    if [ -n $nume_real ] ; then echo Numele real: $nume_real ; else echo "Nu exista informatii despre numele real." ; fi
+
+    nume_cont=$(echo $linie | cut -d: -f1)
+    echo Numele de cont: $nume_cont
+
+    gid_principal=`echo $linie | cut -d: -f4`
+    grup_principal=`grep :$gid_principal: /etc/group | cut -d: -f1`
+    echo Grupul principal din care face parte: $grup_principal
+
+    grupuri_secundare=`grep -w $nume_cont /etc/group | cut -d: -f1`
+    if [ -n $grupuri_secundare ] ; then
+        echo Grupurile secundare de care apartine: $grupuri_secundare
+    else
+        echo "Nu exista informatii despre grupurile secundare din care face parte." 
+    fi
+else
+    echo "Eroare: nu exista nici un utilizator avand $1 drept UID."
+    exit 2  # Fail!
+fi
+
+exit 0  # Succes!
+</pre>
+<p>
+<i>Notă</i>: observați faptul că valorile numerice nnn pentru UID și GID le căutăm cu șabloane de forma :nnn: ,
+deoarece altfel, dacă am folosi ca șablon doar nnn, comanda grep ar putea selecta și alte linii de text,
+și anume cele în care nnn apare ca subcuvânt într-o secvență mai lungă de cifre.
+Iar numele de cont îl căutăm cu grep -w din același motiv; fără opțiunea -w comanda grep ar putea selecta și alte linii de text,
+și anume acelea în care numele de cont apare ca subcuvânt într-un cuvânt mai lung.
+</p>
+
+<p>
+<b>ii)</b> A doua soluție -- este o rescriere echivalentă a primei soluții, fără a mai folosi variabile pentru stocarea rezultatelor intermediare:
+</p>
+<button onclick="myToggle('lab4_ex11_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex11_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### My id command. ###
+
+if [ $# -eq 0 ]
+then
+    echo "Eroare: parametri insuficienti! Nu ati specificat UID-ul."
+    exit 1  # Fail!
+fi
+
+grep ":$1:" /etc/passwd  >/dev/null
+if [ $? -eq 0 ]
+then
+    echo -n Numele real:
+    grep ":$1:" /etc/passwd | cut -d: -f5 | cut -d, -f1
+
+    echo -n Numele de cont:
+    grep ":$1:" /etc/passwd | cut -d: -f1
+
+    echo -n Grupul principal din care face parte:
+    grep :$(grep ":$1:" /etc/passwd | cut -d: -f4): /etc/group | cut -d: -f1
+
+    echo -n Grupurile secundare de care apartine:
+    grep -w $(grep ":$1:" /etc/passwd | cut -d: -f1) /etc/group | cut -d: -f1
+else
+    echo "Eroare: nu exista nici un utilizator avand $1 drept UID."
+    exit 2  # Fail!
+fi
+
+exit 0  # Succes!
+</pre>
+
+<p>
+<b>iii)</b> A treia soluție -- este o altă rescriere echivalentă a primei soluții, dar de data aceasta folosim comanda id în locul fișierului <tt>/etc/group</tt>:
+</p>
+<button onclick="myToggle('lab4_ex11_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_ex11_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### My id command. ###
+
+if [ $# -eq 0 ]
+then
+    echo "Eroare: parametri insuficienti! Nu ati specificat UID-ul."
+    exit 1  # Fail!
+fi
+
+cuv=":$1:"
+linie=`grep $cuv /etc/passwd`
+if [ $? -eq 0 ]
+then
+    nume_real=`echo $linie | cut -d: -f5 | cut -d, -f1`
+    if [ -n $nume_real ] ; then echo Numele real: $nume_real ; else echo "Nu exista informatii despre numele real." ; fi
+	
+    nume_cont=`echo $linie | cut -d: -f1`
+    echo Numele de cont: $nume_cont
+
+    echo -n Grupurile din care face parte:
+    id -Gn $nume_cont
+else
+    echo "Eroare: nu exista nici un utilizator avand $1 drept UID."
+    exit 2  # Fail!
+fi
+
+exit 0  # Succes!
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab4_ex12.sh ------------------------------------------------------------------------------------------>
+<p><big>[WhoHasWebpage?]</big>
+<br>Să se scrie un script care să afișeze care dintre utilizatorii ce sunt studenți și al căror nume de cont începe cu o literă dată,
+au pagini web pe serverul fenrir.
+<br>
+<small>(Indicație: <span class="stil_hint">testați existența și vizibilitatea pentru toată lumea a unuia dintre fișierele index.htm sau index.html
+sau index.php, ce ar trebui să se afle în subdirectorul html din directorul home al utilizatorului ce are pagină web.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab4_ex12')">Show / Hide the solutions</button>
+
+<div id="lab4_ex12" style="display:none;" class="stil_explicatie">
+<p>
+<b>i)</b> O primă idee de rezolvare -- generăm lista numelor de conturi student (Cum? A se revedea un exercițiu din laboratorul precedent)
+și o filtrăm după prima literă, apoi ne "uităm" (i.e. testăm) dacă avem drept de citire în directorul html al fiecăruia pentru
+cel puțin unul dintre fișierele specificate:
+</p>
+<button onclick="myToggle('lab4_ex12_1')">Show / Hide the 1st script</button>
+
+<pre id="lab4_ex12_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Testing who has webpage? ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati prima litera a numelor: " litera
+else
+    litera=$1
+fi
+
+lista=$(grep :202: /etc/passwd | grep ^$litera | cut -f1 -d:)
+
+for user in $lista
+do
+    dir_html_user=~$user/html     # i.e. dir_html_user=/fenrir/studs/$user/html
+
+    if test -r $dir_html_user/index.html -o -r $dir_html_user/index.htm -o -r $dir_html_user/index.php
+    then
+        echo $user are pagina web "(accesibila la adresa http://students.info.uaic.ro/~"$user" )."
+    fi
+done
+</pre>
+<p>
+<i>Observație importantă</i>: această soluție va afișa un număr redus de studenți cu pagina web,
+deși majoritatea studenților aveați pagină web creată în primul semestru (cel puțin, cei din promoțiile mai vechi).
+<br>
+Explicația constă în faptul că acest script verifică dacă studentul X (cel care rulează scriptul) are acces la acele fișiere index ale
+fiecărui student Y și afișează numele lui Y în caz afirmativ. Numai că X și Y sunt colegi în grupul studs, iar a avea pagină web înseamnă
+a avea unul din acele fișiere index accesibil pentru serverul HTTP Apache, care este un program ce rulează ca root, deci intră în categoria
+others pentru drepturile specificate de Y pe fișierele sale index.
+Cu alte cuvinte, orice student Y care și-a setat drepturi de forma 604 pe fișierul index.{html,htm,php},
+va avea acel fișier accesibil serverului HTTP Apache, dar nu și colegilor de grup. 
+</p>
+
+<p>
+<b>ii)</b> A doua idee de rezolvare -- încercăm să testăm cu <tt>find ... -perm ...</tt> dacă vreunul dintre acele fișiere index are drept de citire pentru
+others (și prin urmare va fi accesibil serverului HTTP Apache), indiferent dacă colegii de grup au sau nu drept de citire:
+</p>
+<button onclick="myToggle('lab4_ex12_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab4_ex12_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Testing who has webpage? ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati prima litera a numelor: " litera
+else
+    litera=$1
+fi
+
+lista=$(grep :202: /etc/passwd | grep ^$litera | cut -f1 -d:)
+
+for user in $lista
+do
+    dir_html_user=~$user/html     # i.e. dir_html_user=/fenrir/studs/$user/html
+
+    if test -x $dir_html_user
+    then
+	    find $dir_html_user -maxdepth 1 \( -name "index.html" -o -name "index.htm" -o -name "index.php" \) -perm /o+r  \
+	        -exec echo $user are pagina web \{} "(accesibila la adresa http://students.info.uaic.ro/~"$user" )." \;  2>/dev/null
+    elif test `id -g` -eq `id -g $user`
+    then
+        # Nota: fiind colegi de grup si neavand drept de acces la directorul html al lui $user, nu se poate determina daca serverul HTTP are drept de acces!
+        echo "Nu pot determina daca $user are sau nu pagina web."
+    else
+        echo $user nu are pagina web.
+    fi
+done
+</pre>
+<p>
+<i>Observație importantă</i>: deci nici această soluție nu ne oferă lista completă a studenților care au pagină web,
+și anume pentru acei studenți Y care și-au setat drepturi de forma 701 pe directorul home și/sau pe subdirectorul html,
+orice comandă (e.g. test ..., find ..., stat ..., ș.a.) ar încerca să folosească studentul X,
+comanda nu va putea accesa fișierul index al studentului Y pentru a-i putea testa drepturile de acces sau existența.
+</p>
+
+<p>
+<b>Concluzie</b>: drepturile de acces la fișiere reprezintă un mecanism important de protecție,
+ce garantează "filtrarea" acceselor (i.e. permiterea doar a unora dintre ele și interzicerea altora)
+la un fișier în conformitate cu dorințele proprietarului.
+</p>
+
+<p>În cazul de față, pentru a putea totuși "vedea" existența paginilor "ascunse" ale acelor studenți care au interzis accesul pentru colegii de grup,
+dar l-au lăsat permis pentru others ca să fie accesibil serverului HTTP Apache, soluția este următoarea:
+</p>
+
+<p>
+<b>iii)</b> A treia soluție -- studentul X încearcă să acceseze paginile studentului Y nu prin diverse comenzi rulate avându-l drept proprietar
+al procesului pe X, ci printr-o comandă care rulează în numele unui cont de sistem, de exemplu, deci care nu se încadrează în colegii de grup ai lui Y.
+</p>
+
+<p>O posibilă astfel de comandă este invocarea tocmai a serverului HTTP Apache, ce rulează ca root.
+Invocarea se poate face printr-un browser în mod text, care va rula în numele lui X, și-i va cere serverului HTTP Apache să-i livreze
+continuțul paginii de la adresa http specificată în browser.
+Fișierul propriu-zis al acelei pagini va fi accesat în sistemul de fișiere nu de către procesul browser rulat de studentul X,
+ci de către procesul server HTTP Apache, și astfel putem "vedea" paginile web dacă există
+(și aceasta, în mod evident, fără a încălca drepturile de acces specificate de proprietarii paginilor web, pentru situațiile amintite mai sus).
+</p>
+<button onclick="myToggle('lab4_ex12_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab4_ex12_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Testing who has webpage? ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati prima litera a numelor: " litera
+else
+    litera=$1
+fi
+
+lista=$(grep ^$litera /etc/passwd | grep :202: | cut -f1 -d:)
+
+for user in $lista
+do
+    adr_http_user="http://students.info.uaic.ro/~"$user
+
+    HtmlNotFound=$(links -dump $adr_http_user/index.html | grep -c "Error 404")
+    HtmNotFound=$(links -dump $adr_http_user/index.htm | grep -c "Error 404")
+    PhpNotFound=$(links -dump $adr_http_user/index.php | grep -c "Error 404")
+
+    if test $HtmlNotFound -eq 0 -o $HtmNotFound -eq 0 -o $PhpNotFound -eq 0
+    then
+        echo $user are pagina web "(accesibila la adresa http://students.info.uaic.ro/~"$user" )."
+    else
+        echo $user nu are pagina web.
+    fi
+done
+</pre>
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_propuse">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Iată câteva exerciții cu scripturi, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li>
+<p><big>[MyLast]</big>
+<br>Să se scrie un script care citește nume de utilizatori de la intrarea standard (folosind comanda read) și, pentru fiecare utilizator introdus,
+va afișa ultimele 3 conectări (logări) ale acestuia (în luna curentă), iar daca acesta nu s-a conectat deloc în luna curentă va afișa mesajul
+"Utilizatorul X nu s-a conectat niciodată!".
+<br>
+<small>(Indicație: <span class="stil_hint">a se folosi comanda <tt>last</tt>.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab5_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[MyZip]</big>
+<br>Să se scrie un script care primește ca parametru un director (fie de la linia de comandă, fie de la tastatură)
+și arhivează toate fișierele text (i.e., cele ce au extensia <tt>.txt</tt>)
+și toate scripturile (i.e., fișierele ce au extensia <tt>.sh</tt>) aflate doar în acest director (deci nu și cele din subdirectoarele lui!).
+<br>
+Arhivarea fișierelor text se va face cu comanda gzip, iar a fișierelor script-uri se va face cu comanda zip,
+prin păstrarea numelui de bază al fiecărui script și înlocuirea extensiei <tt>.sh</tt> cu extensia <tt>.zip</tt>, pentru fiecare script în parte.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosind comanda basename se poate obține numele fișierului fără extensie,
+e.g. <tt>basename fisier.sh .sh</tt> afișează pe stdout doar 'fisier'.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții cu fișiere de comenzi (partea a patra -- parcurgeri recursive ale sistemului de fișiere):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab5_ex7.sh ------------------------------------------------------------------------------------------->
+<p><big>[Call2Find #1]</big><!-- exercițiu cu apel de find -->
+<br>Să se scrie un script care să afișeze toate comentariile din scripturile aflate într-un director specificat ca argument sau în subdirectoarele acestuia.
+(<i>Notă</i>: se va presupune că scripturile au extensia <tt>.sh</tt>, pentru a le putea deosebi de alte genuri de fișiere text.)
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+</p>
+
+<button onclick="myToggle('lab5_ex7')">Show / Hide a possible solution</button>
+
+<div id="lab5_ex7" style="display:none;" class="stil_explicatie">
+Iată o posibilă rezolvare:
+<pre class="stil_solutie">
+#!/bin/bash
+### Afișarea comentariilor din script-uri. ###
+
+# Validarea datelor de intrare
+
+if [ $# -eq 0 ]
+then
+    read -p "Dați directorul de start:" dir
+    [ -z $dir ] && dir="."   # Dacă utilizatorul introduce cuvântul vid la read (i.e., apasă direct ENTER), vom procesa directorul curent de lucru!
+else
+    dir=$1
+fi
+
+if [ ! -d $dir -o ! -r $dir ]
+then
+    echo "Argumentul dat, $dir, nu este director, sau nu aveti drept de citire a lui!"
+    exit 1  # Fail!
+fi
+
+# Parcurgere recursivă implicită, obținută aici cu ajutorul comenzii find
+lista=$(find $dir -type f -name "*.sh")
+
+for fis in $lista
+do
+    echo $fis
+    grep -n '#' $fis | grep -v '$#' | grep -v '#!'
+done
+
+exit 0  # Succes!
+</pre>
+<p>
+<i>Observația #1</i>: primul grep are rolul de a selecta liniile ce conțin comentarii, iar opțiunea -n este pentru
+a le prefixa cu numărul lor de ordine în fișier.
+Iar ultimele două comenzi grep au rolul de a elimina liniile în care apare variabila specială $#,
+respectiv de a elimina linia de forma #!shellul_dorit (aflată de obicei pe prima linie dintr-un script).
+Evident, astfel se vor pierde la afișare eventualele comentarii scrise pe aceeași linie în care apare $# sau #!shell.
+</p>
+<p>
+<i>Observația #2</i>: observați criteriul -type f adăugat la comanda find, împreună cu criteriul -name "*.sh". Astfel ne asigurăm că vom selecta
+doar fișiere de tipul obișnuit (deci nu și directoare, sau celelalte patru tipuri de fișiere) al căror nume se termină cu extensia .sh,
+pentru a selecta doar scripturi, conform cerinței din enunț.
+<br>De fapt însă, această condiție nu ne garantează că va selecta DOAR scripturile, căci nu este suficient să ne uităm la numele fișierului (și la tipul lui),
+ci trebuie să ne uităm la conținutul lui, pentru a fi siguri că este un script.
+<br>Iar aceasta o putem face, de exemplu, cu comanda file: file se va uita dacă prima linie este de forma #!shell și atunci va afișa un text de genul:
+"<tt><i>nume_fisier</i>: Bourne-Again shell script, ...</tt>" (în cazul liniei #!/bin/bash) sau altceva similar, în functie de shellul specificat pe prima linie.
+Vă las ca temă pentru acasă să rescrieți voi scriptul de mai sus folosind această idee bazată pe outputul comenzii file.
+</p>
+
+<p>
+<i>Observație suplimentară</i>: dacă veți testa scriptul de mai sus, dându-i ca argument un director în care se găsesc și fișiere sau subdirectoare care
+conțin în numele lor caractere spații sau tab-uri, atunci pentru respectivele fișiere/subdirectoare veți obține erori de genul "File not found",
+datorită modului de evaluare a enumerării din structura "for variabila in lista-de-cuvinte", ceea ce face imposibilă protejarea spațiilor din numele fișierelor
+și subdirectoarelor obținute cu comanda ls -A (sau cu șabloane de genul * și .*).
+Pentru mai multe detalii, precum și o idee de tratare a acestor nume "excepționale" de fișiere,
+citiți observația suplimentară de la finalul rezolvării exercițiului [MyFind #1].
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab5_ex8.sh ------------------------------------------------------------------------------------------->
+<p><big>[Call2Find #2]</big><!-- exercițiu cu apel de find -->
+<br>Să se scrie un script care primește ca parametri d (un nume de director) și n (un număr).
+Pentru fiecare fișier pentru care utilizatorul curent are drepturi de citire și execuție,
+aflat în directorul dat ca parametru sau în subdirectoarele acestuia, se vor afișa primele n linii de text.
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+</p>
+
+<button onclick="myToggle('lab5_ex8')">Show / Hide the solutions</button>
+
+<div id="lab5_ex8" style="display:none;" class="stil_explicatie">
+<p>
+<b>i)</b> Prima soluție -- iată o posibilă idee de rezolvare:
+</p>
+<button onclick="myToggle('lab5_ex8_1')">Show / Hide the 1st script</button>
+
+<pre id="lab5_ex8_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișarea primelor n linii de text din fișiere. ###
+
+# Validarea datelor de intrare
+
+if [ $# -lt 2 ]
+then
+    echo "Utilizare: $0 director număr"
+    exit 1  # Fail!
+fi
+
+if [ ! -d $1 ]
+then
+    echo "Primul argument trebuie să fie director."
+    exit 2  # Fail!
+fi
+
+if [ ! $2 -ge 0 ]
+then
+    echo "Al doilea argument trebuie să fie un număr pozitiv sau 0."
+    exit 3  # Fail!
+fi
+
+# Parcurgere recursivă implicită, obținută aici cu ajutorul comenzii find
+
+lista=$(find $1 -type f)     # Aici selectăm fișierele de tip obișnuit, ...
+
+for fis in $lista
+do
+    if [ -r $fis -a -x $fis ]    # ..., iar aici le selectăm pe cele pentru care avem drept de citire și de execuție.
+    then
+        echo "Fișierul $fis : primele $2 linii de text sunt următoarele:"
+        head -n $2 $fis
+    fi
+done
+
+exit 0  # Succes!
+</pre>
+
+<p>
+<b>ii)</b> A doua soluție -- este o rescriere echivalentă a primei soluții, în care testele din if le "mutăm" la find:
+</p>
+<button onclick="myToggle('lab5_ex8_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab5_ex8_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Afișarea primelor n linii de text din fișiere. ###
+
+# Validarea datelor de intrare
+
+if [ $# -lt 2 ]
+then
+    echo "Utilizare: $0 director număr"
+    exit 1  # Fail!
+fi
+
+if [ ! -d $1 ]
+then
+    echo "Primul argument trebuie să fie director."
+    exit 2  # Fail!
+fi
+
+if [ ! $2 -ge 0 ]
+then
+    echo "Al doilea argument trebuie să fie un număr pozitiv sau 0."
+    exit 3  # Fail!
+fi
+
+# Parcurgere recursivă implicită, obținută aici cu ajutorul comenzii find
+
+lista=$(find $1 -type f -readable -executable)
+# Aici, cu find, selectăm fișierele de tip obișnuit și pentru care avem drept de citire și de execuție.
+
+for fis in $lista
+do
+    echo "Fișierul $fis : primele $2 linii de text sunt următoarele:"
+    head -n $2 $fis
+done
+
+exit 0  # Succes!
+</pre>
+<br>
+<p class="stil_QandA"><i>Întrebare</i>:
+chiar dacă ambele soluții de mai sus sunt corecte, i.e. "calculează" ceea ce se cere în problema noastră,
+care dintre ele credeți că este mai performantă (d.p.d.v. al timpului de execuție și/sau consumului de resurse ale sistemului pentru execuția sa) ?
+<i>Răspuns</i>: a doua, deoarece ...
+</p>
+
+<p>
+<i>Observație</i>: dacă veți testa oricare dintre cele două scripturi de mai sus, dându-i ca argument un director în care se găsesc și fișiere care
+conțin în numele lor caractere spații sau tab-uri, atunci pentru respectivele fișiere veți obține erori de genul "File not found",
+datorită modului de evaluare a enumerării din structura "for variabila in lista-de-cuvinte", ceea ce face imposibilă protejarea spațiilor din numele fișierelor
+și subdirectoarelor obținute cu comanda ls -A (sau cu șabloane de genul * și .*).
+Pentru mai multe detalii, precum și o idee de tratare a acestor nume "excepționale" de fișiere,
+citiți observația suplimentară de la finalul rezolvării exercițiului [MyFind #1].
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab5_ex4.sh ------------------------------------------------------------------------------------------->
+<p><big>[MyFind #1]</big>
+<br>Să se scrie un script care calculează și afișează numărul total de fișiere de tip fifo și numărul total de subdirectoare
+aflate într-un director dat, <u>parcurgand directorul recursiv, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Numele directorului de pornire se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint">parcurgeți cu un for directorul curent și calculați informațiile solicitate, iar
+pentru fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: să se afișeze acele informații totale pentru fiecare subdirector parcurs.
+</p>
+
+<button onclick="myToggle('lab5_ex4')">Show / Hide the solutions</button>
+
+<div id="lab5_ex4" style="display:none;" class="stil_explicatie">
+<p>
+Ideea de rezolvare -- similar ca la exercițiile cu calcule aritmetice recursive din laboratorul precedent, avem următoarele posibilități de implementare:
+<ul>
+<li><b>Recursia</b> se poate implementa în două maniere diferite, exemplificate în soluțiile ce urmează a fi prezentate mai jos:
+<br>a) fie prin <i>apel recursiv de funcție</i> (a se vedea prima soluție de mai jos),
+<br>b) fie prin <i>apel recursiv de procedură/script</i> (a se vedea celelalte trei soluții de mai jos),
+iar în acest caz trebuie să ținem cont și de modul de apel,
+i.e. dacă vor fi executate toate apelurile de aceeași instanță de shell,
+caz în care avem "memorie comună" între apeluri (a se vedea soluțiile a treia și a patra de mai jos),
+sau fiecare apel va fi executat de o nouă instanță a shell-ului,
+caz în care NU mai avem variabile partajate între apeluri (a se vedea a doua soluție de mai jos).
+<br><br>
+</li>
+<li><b>Valorile intermediare</b> ale statisticilor ce se cer a fi calculate în manieră recursivă,
+se pot transmite de la un apel la altul prin mai multe modalități, i.e. cele patru metode ilustrate la calculul factorialului în laboratorul precedent:
+<br>i) fie prin codul de terminare a procesului,
+<br>ii) fie prin "preluarea", în linia de comandă a apelantului, a valorii afișate pe ecran de apelat,
+<br>iii) fie printr-o variabilă globală,
+<br>iv) fie printr-un al doilea parametru de apel al funcției/scriptului.
+<br>  
+<i>Notă</i>: varianta i) este foarte limitată, căci permite transmiterea unei singure valori, iar aceasta este restricționată la un octet fără semn.
+Celelalte variante pot fi folosite și atunci când avem de transmis mai multe valori de la un apel la altul, cum este cazul exercițiului acesta!
+</li>
+</ul>
+</p>
+
+<p>
+<i>Observație</i>: noutatea introdusă de acest exercițiu, față de calculele aritmetice recursive din laboratorul precedent, este dată de faptul că
+acum avem de prelucrat nu o secvență de numere, ci o structură arborescentă de directoare din sistemul de fișiere:
+<ul>
+<li>Prin recursie coborâm în adâncime în arborele de fișiere, iar deplasarea pe orizontală, i.e. parcurgerea intrărilor dintr-un director,
+o facem cu o structură repetitivă de tipul for:
+<br><tt>for f in &lt;lista-de-intrari-din-director&gt; ;do ... ;done</tt>
+<br>Iar lista de intrări din directorul ce reprezintă argumentul de la apelul curent, poate fi generată în două maniere:
+<br>a) fie cu comanda ls:  <tt>$(ls -A director)</tt>
+<br>b) fie cu șabloane de specificare a fișierelor:  <tt>*</tt> și <tt>.*</tt>
+</li>
+<li>Un alt aspect pe care trebuie să-l luăm în seamă, este cum gestionăm specificarea căii până la fișierul curent, în arborele de fișiere parcurs prin recursie?
+Iarăși avem două variante posibile de implementare:
+<br>a) fie specificăm explicit calea către intrarea curentă de prelucrat, i.e. <tt>$director/$f</tt> (a se vedea primele trei soluții de mai jos);
+<br>b) fie schimbăm directorul curent de lucru la fiecare apel recursiv, astfel încât să putem specifica simplu intrarea curentă
+doar prin <tt>$f</tt> (a se vedea soluția a patra de mai jos).
+</li>
+</ul>
+</p>
+
+
+<p>
+<b>1)</b> Prima soluție -- folosim o funcție recursivă pentru a parcurge subarborele de fișiere cu rădăcina în directorul dat:
+</p>
+<button onclick="myToggle('lab5_ex4_1')">Show / Hide the 1st script</button>
+
+<pre id="lab5_ex4_1" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculeaza recursiv numarul de fisiere fifo si subdirectoare dintr-un director dat. ###
+### Afiseaza numarul total de fisiere fifo si subdirectoare continute de acesta.        ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati numele directorului de start: " numedir
+    [ -z $numedir ] && numedir="."   # Dacă utilizatorul introduce cuvântul vid la read (i.e., apasă direct ENTER), vom procesa directorul curent de lucru!
+else
+    numedir=$1
+fi
+
+nr_fif=0
+nr_dir=0
+
+function parcurgere_director ()
+{
+    for fis in $(ls -A $1)
+    do
+        # Construim calea până la intrarea $fis din directorul $1
+        cale=$1/$fis   # Este suficient doar atât, căci argumentul primului apel nu va putea fi cuvântul vid niciodată! (Motivul: a se vedea primul if din script)
+		
+        # Procesăm calea respectivă în funcție de tipul ei, i.e. subdirector/fișier fifo.
+        if [ -d $cale ] ; then
+            let nr_dir++
+            parcurgere_director $cale    # apelul recursiv
+        elif [ -p $cale ] ; then
+            let nr_fif++
+        fi
+    done
+}
+
+parcurgere_director $numedir             # apelul initial
+
+echo "Directorul $numedir contine $nr_dir directoare si $nr_fif fisiere fifo."
+</pre>
+
+
+<p>
+<b>2)</b> A doua soluție -- în loc de funcție recursivă, folosim apelul recursiv al scriptului:
+</p>
+<button onclick="myToggle('lab5_ex4_2')">Show / Hide the 2nd script</button>
+
+<pre id="lab5_ex4_2" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculeaza recursiv numarul de fisiere fifo si subdirectoare dintr-un director dat. ###
+### Afiseaza numarul total de fisiere fifo si subdirectoare continute de acesta.        ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati numele directorului de start: " numedir
+    [ -z $numedir ] && numedir="."   # Dacă utilizatorul introduce cuvântul vid la read (i.e., apasă direct ENTER), vom procesa directorul curent de lucru!
+else
+    numedir=$1
+fi
+
+nr_fif=0
+nr_dir=0
+
+for fis in $(ls -A $numedir)
+do
+    # Construim calea până la intrarea $fis din directorul $1
+    cale=$numedir/$fis   # Este suficient doar atât, căci argumentul primului apel nu va putea fi cuvântul vid niciodată! (Motivul: a se vedea primul if din script)
+
+    # Procesăm calea respectivă în funcție de tipul ei, i.e. subdirector/fișier fifo.
+    if [ -d $cale ] ; then
+        let nr_dir++
+        results=$( $0 $cale apel_recursiv )         # apelul recursiv (intr-un nou proces bash) si preluarea celor 2 totaluri intermediare
+        let nr_dir+=$( echo $results | cut -f1 -d: )
+        let nr_fif+=$( echo $results | cut -f2 -d: )
+    elif [ -p $cale ] ; then
+        let nr_fif++
+    fi
+done
+
+if test M$2 == Mapel_recursiv
+then   # apelurile recursive
+    echo "$nr_dir:$nr_fif"      # aici scriem pe ecran cele doua valori numerice; ele vor fi preluate in procesul apelant prin substitutia $(...)
+else   # doar apelul initial
+    echo "Directorul $numedir contine $nr_dir subdirectoare si $nr_fif fisiere fifo."
+fi
+</pre>
+
+<p>
+<i>Observația #1</i>: observați forma de apel a scriptului -- este prima dintre formele de apel a unei comenzi simple, prin care se creează un nou proces shell (i.e.
+o nouă instanță a interpretorului bash) ce va executa o nouă instanță a scriptului.
+<br>Ca atare, întrucât variabilele nr_dir și nr_fif sunt locale fiecărui proces shell în parte, nu mai putem doar să le incrementăm ca la soluția anterioară cu o
+funcție apelată recursiv (unde toate apelurile sunt executate în cadrul unui singur proces shell, nu se creează câte un nou proces pentru fiecare apel de funcție).
+<br>Din acest motiv, pentru a putea transmite totalurile intermediare din apelurile recursive ale scriptului, putem folosi scrierea lor pe ecran
+și preluarea în procesul apelant cu substituția specială comandă (<i>Notă</i>: nu merge nici să folosim codul de terminare în acest scop, deoarece sunt
+două valori ce trebuie transmise procesului apelant, plus că avem și limitarea de 1 octet fără semn pentru reprezentarea codului de terminare).
+</p>
+
+<p>
+<i>Observația #2</i>: observați folosirea caracterului 'M' ca prefix în ambii termeni din ultimul test; el este doar un artificiu ajutător,
+pentru ca test-ul să nu dea eroare de sintaxă în situațiile în care $2 este șirul vid (ceea ce se întâmplă la apelul inițial al scriptului).
+Doar apelurile recursive vor primi un al doilea parametru, marcatorul 'apel_recursiv',
+pentru a putea afișa rezultatele în format diferit la apelurile recursive față de apelul inițial.
+</p>
+
+<p>
+<i>Observația #3</i>: această soluție are un dezavantaj -- fiecare apel recursiv produce un nou proces shell și, ca urmare, dacă apelați scriptul având ca argument
+un director pentru care subarborele de fișiere cu rădăcina în el are o adâncime de aprox. 25 de nivele,
+vă veți atinge limita maximă de procese simultane per utilizator fixată pe serverul fenrir.
+</p>
+
+<p>
+La soluțiile următoare vom vedea cum putem înlătura acest dezavantaj:
+vom folosi pentru apelul recursiv a treia formă de apel a unei comenzi simple, valabilă numai pentru scripturi (și anume,
+forma cu cuvintele cheie . sau source: <tt>source script [parametri]</tt> ),
+prin care nu se creează un nou proces shell (i.e. o nouă instanță a interpretorului bash) pentru a rula noua instanță a scriptului,
+ci tot procesul shell curent o va executa.
+<br>În acest fel, pe lângă posibilitatea de transmitere a rezultatelor intermediare prin scrierea lor pe ecran și recuperarea cu substituția specială comandă (precum
+am procedat la această soluție), avem o nouă posibilitate: folosirea unor variabile la fel ca la prima soluție, cea cu funcția recursivă, căci de data aceasta
+vom avea un singur proces shell pe toată durata de execuție a tuturor apelurilor scriptului.
+</p>
+
+<p>
+<b>3)</b> A treia soluție -- folosim apelul recursiv al scriptului cu forma de apelare source și variabile în care contorizăm totalurile:
+</p>
+<button onclick="myToggle('lab5_ex4_3')">Show / Hide the 3rd script</button>
+
+<pre id="lab5_ex4_3" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculeaza recursiv numarul de fisiere fifo si subdirectoare dintr-un director dat. ###
+### Afiseaza numarul total de fisiere fifo si subdirectoare continute de acesta.        ###
+
+case $# in
+ 0 ) read -p "Dati numele directorului de start: " cale
+     [ -z $cale ] && cale="." ;;
+ 1 ) cale=$1 ;;
+ 2 ) if test $2 != "apel_recursiv" ; then
+         echo "Something is wrong with the parameter(s) for the script..." 1>&2 ; exit 1
+     fi
+     cale=$1
+esac
+
+if test $# -lt 2   # doar apelul initial
+then
+    if test ! -d $cale -o ! -r $cale ; then
+        echo "Eroare: numele dat, $cale, nu exista ca director, sau nu aveti drept de citire a lui." 1>&2 ; exit 2
+    fi
+
+    nr_fif=0    # initializarea acestor variabile trebuie facuta doar la primul apel initial al scriptului
+    nr_dir=0
+fi
+
+for fis in $(ls -A $cale)
+do
+    if test -d $cale/$fis ; then
+        let nr_dir++
+        source $0 $cale/$fis apel_recursiv         # apelul recursiv in forma source ...
+
+        # Nota: la intoarcerea din recursie trebuie refacuta calea dinaintea apelului (caci e un singur proces shell,
+        # si ca atare variabila cale va fi modificata in timpul apelurilor recursive).
+        # Putem folosi comanda dirname pentru a reface valoarea corecta pentru variabila cale.
+        
+        cale=$(dirname $cale)     # comanda dirname practic va taia din variabila cale sufixul /$fis ce-i fusese adaugat in urma apelului recursiv
+
+    elif test -p $cale/$fis ; then
+        let nr_fif++
+    fi
+done
+
+if test $# -lt 2    # facem afisarea doar la sfarsitul calculului, in apelul initial al scriptului
+then
+    echo "Directorul $cale contine $nr_dir directoare si $nr_fif fisiere fifo."
+fi
+</pre>
+
+<p>
+<i>Observație</i>: pentru a diferenția apelul inițial de apelurile recursive ale scriptului, am adăugat un marcator 'apel_recursiv' drept al doilea parametru
+doar la apelurile recursive.
+Este necesar să facem o astfel de diferențiere nu doar pentru a afișa rezultatele totale doar în apelul inițial (și nu și în cele recursive),
+dar și pentru a inițializa cu zero o singură dată, la început, cele două variabile în care contorizăm numărul de subdirectoare și de fișiere
+(similar ca la prima soluție, cea cu funcție recursivă).
+</p>
+
+<p>
+<b>4)</b> A patra soluție -- este foarte asemănătoare cu cea de-a treia soluție, i.e. folosim apelul recursiv al scriptului cu forma de apelare source și variabile
+în care contorizăm totalurile, precum și un (alt) marcator pentru a diferenția apelul inițial de apelurile recursive ale scriptului, lucru necesar
+din aceleași motive explicate la soluția a treia.
+</p>
+<p>
+Diferența față de soluția a treia constă în faptul că vom elimina necesitatea de a gestiona argumentul cale curentă (i.e. variabila cale de mai sus),
+prin renunțarea pur și simplu la acest parametru transmis scriptului. În locul lui vom folosi o altă idee: schimbarea directorului curent de lucru
+înaintea apelului recursiv și refacerea sa după revenirea din apelul recursiv.
+</p>
+<button onclick="myToggle('lab5_ex4_4')">Show / Hide the 4th script</button>
+
+<pre id="lab5_ex4_4" style="display:none;" class="stil_solutie">
+#!/bin/bash
+### Calculeaza recursiv numarul de fisiere fifo si subdirectoare dintr-un director dat. ###
+### Afiseaza numarul total de fisiere fifo si subdirectoare continute de acesta.        ###
+
+case $# in
+ 0 ) read -p "Dati numele directorului de start: " dir_start
+     [ -z $dir_start ] && dir_start="." ;;
+ 1 ) dir_start=$1 ;;
+ 2 ) if test $1 != "apel" -o $2 != "recursiv" ; then
+         echo "Something is wrong with the parameter(s) for the script..." 1>&2 ; exit 1
+     fi
+esac
+
+if test $# -lt 2   # doar apelul initial
+then
+    if test ! -d $dir_start -o ! -r $dir_start ; then
+        echo "Eroare: numele dat, $dir_start, nu exista ca director, sau nu aveti drept de citire a lui." 1>&2 ; exit 2
+    fi
+    initial_wd=$(pwd)          # salvam valoarea initiala a directorului curent de lucru (pentru a o reface la final)
+    cd $dir_start              # schimbam directorul curent de lucru in directorul dat pentru calculele cerute
+
+    script_path=$(realpath $0) # salvam calea absoluta a scriptului curent (pentru a o folosi mai jos, la apelul recursiv)
+
+    nr_fif=0                   # initializarea acestor variabile trebuie facuta doar la apelul initial al scriptului
+    nr_dir=0
+fi
+
+for fis in $(ls -A)
+do
+    if test -d $fis ; then
+        let nr_dir++
+        cd $fis
+        source $script_path apel recursiv  # apelul recursiv : numele scriptului trebuie specificat prin cale absoluta (sau relativa la directorul home)
+        cd ..				               # (Nu merge prin cale relativa la directorul curent de lucru, caci acesta se modifica de la un apel la altul)
+    elif test -p $fis ; then
+        let nr_fif++
+    fi
+done
+
+if test $# -lt 2        # facem afisarea doar la sfarsitul calculului, in apelul initial al scriptului
+then
+    echo "Directorul $dir_start contine $nr_dir directoare si $nr_fif fisiere fifo."
+    cd $initial_wd        # refacem valoarea initiala a directorului curent de lucru
+fi
+</pre>
+
+<p>
+<i>Observație</i>: de data aceasta am folosit marcatorul apel recursiv în loc de apel_recursiv pentru a avea două cuvinte,
+primul cuvânt ('apel') va fi primul argument pentru apelurile recursive (căci nu mai avem o cale dată ca argument în aceste cazuri),
+iar al doilea cuvânt ('recursiv') pentru a avea două argumente la apelurile recursive.
+Se poate folosi și un singur cuvânt ca marcator (i.e. apel_recursiv), dar atunci trebuie modificate în mod adecvat case-ul și cele două if-uri folosite
+pentru a diferenția apelul inițial de apelurile recursive ale scriptului.
+</p>
+
+<br>
+<i>Observație suplimentară</i>, comună pentru toate soluțiile de mai sus:
+<button onclick="myToggle('lab5_ex4_final')">Show / Hide some final remarks about these solutions</button>
+<div id="lab5_ex4_final" style="display:none;" class="stil_explicatie_detaliata">
+<p>
+În rezultatele obținute nu vor fi luate în calcul fișierele fifo sau subdirectoarele care conțin în numele lor caractere spații sau tab-uri,
+datorită modului de evaluare a enumerării din structura "for variabila in lista-de-cuvinte", ceea ce face imposibilă protejarea spațiilor din numele
+fișierelor și subdirectoarelor obținute cu comanda ls -A (sau cu șabloanele * și .*).
+</p>
+
+<p>
+Repararea acestui neajuns s-are putea face, de exemplu, folosind o singură comandă find, care implicit va parcurge recursiv directorul dat,
+iar cu opțiunea -exec cmd de la find i se poate da o comandă cmd adecvată care să facă actualizarea variabilelor de contorizare.
+<br>
+Însă această soluție, cu find, nu se încadrează în scopul acestui exercițiu, acela de a implementa dvs. explicit recursia printr-un script sau printr-o funcție
+care să parcurgă recursiv prin apeluri explicite (!) directorul dat. Ca atare, ignorăm neajunsul amintit pe care-l au soluțiile propuse mai sus.
+</p>
+
+<p>
+Totuși, dacă doriți să tratați neapărat și această situație, a fișierelor ce conțin spații în nume, există și o altă soluție, deși nu foarte elegantă,
+de a "proteja" totuși, pentru comanda for, spațiile din numele fișierelor și subdirectoarelor obținute cu comanda ls -A (sau cu șabloanele * și .*).
+Ideea este următoarea:
+<pre>
+for fis in $(ls -1A | tr " " / )
+do
+  original_name=$(echo $fis | tr / " " )
+  echo Prelucrează fișierul cu numele $original_name ...
+done
+</pre>
+<i>Explicație</i>: înlocuim spațiile cu un caracter invalid (i.e. ce nu poate apare în numele de fișiere) ca să generăm lista de cuvinte pentru for,
+iar apoi înlocuim la loc acel caracter "/" cu spațiu pentru a obține numele fișierului de prelucrat în iterația curentă.
+</p>
+
+<p>
+Similar se pot "proteja" pentru comanda for și eventualele caractere tab ce ar putea apare în numele fișierelor și subdirectoarelor obținute cu comanda ls -A
+(sau cu șabloanele * și .*).
+</p>
+</div>
+
+</div>
+<br><br>
+</li>
+
+
+
+
+<li><!-- Problema: lab5_ex5.sh ------------------------------------------------------------------------------------------->
+<p><big>[MyFind #2]</big>
+<br>Să se scrie un script care calculează numărul total de linii de text și respectiv de caractere din toate fișierele normale dintr-un director dat,
+<u>parcurgand directorul respectiv în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Numele directorului se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint">parcurgeți cu un for directorul curent și calculați informațiile solicitate, iar pentru
+fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: să se afișeze acele informații totale pentru fiecare subdirector parcurs.
+</p>
+
+<button onclick="myToggle('lab5_ex5')">Show / Hide a possible solution</button>
+
+<div id="lab5_ex5" style="display:none;" class="stil_explicatie">
+Exercițiul se rezolvă similar cu cel precedent, parcurgerea recursivă a subarborelui de fișiere se poate face prin oricare
+dintre cele 4 metode ilustrate mai sus, doar statisticile calculate sunt diferite.
+<br>
+Vom ilustra în continuare doar prima variantă de rezolvare de la exercițiul precedent, adaptată pentru calculele cerute la acest exercițiu:
+<pre class="stil_solutie">
+#!/bin/bash
+### Calculeaza recursiv numarul de linii si numarul de caractere din toate fisierele normale ###
+### dintr-un director dat si din toate subdirectoarele sale.                                 ###
+### Afiseaza numarul total de linii si numarul total de caractere calculate.                 ###
+
+if [ $# -eq 0 ]
+then
+    read -p "Dati numele directorului de start: " numedir
+    [ -z $numedir ] && numedir="."   # Dacă utilizatorul introduce cuvântul vid la read (i.e., apasă direct ENTER), vom procesa directorul curent de lucru!
+else
+    numedir=$1
+fi
+
+nr_linii=0
+nr_chars=0
+
+function parcurgere_director ()
+{
+    for fis in $(ls -A $1)
+    do
+        # Construim calea până la intrarea $fis din directorul $1
+
+        cale=$1/$fis   # Este suficient doar atât, căci argumentul primului apel nu va putea fi cuvântul vid niciodată! (Motivul: a se vedea primul if din script)
+
+        # Procesăm calea respectivă în funcție de tipul ei, i.e. subdirector/fișier obișnuit.
+
+        if [ -d $cale ] ; then
+            parcurgere_director $cale    # apelul recursiv
+        elif [ -f $cale ] ; then
+    	    rezl=$(wc -l $cale | cut -d" " -f1)   #sau, echivalent: rezl=`cat $cale | wc -l`
+            let nr_linii+=rezl
+            rezc=`wc -c $cale | cut -d" " -f1`   #sau, echivalent: rezc=$(cat $cale | wc -c)
+            let nr_chars+=rezc
+        fi
+    done
+}
+
+parcurgere_director $numedir    # apelul initial
+echo "Directorul $numedir contine $nr_linii linii de text si $nr_chars caractere in fisierele normale aflate in el sau in subdirectoarele sale."
+</pre>
+<p>
+<i>Observație</i>: se poate rafina enunțul problemei, în sensul de a lua în calcul doar fișierele text, nu și cele binare.
+În acest caz, se poate folosi comanda file pentru a depista care dintre fișiere sunt binare și respectiv care sunt fișiere text.
+</p>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab5_ex6.sh ------------------------------------------------------------------------------------------->
+<p><big>[MyFind #3]</big>
+<br>Să se scrie un script care să afișeze un arbore cu structura subdirectoarelor din contul personal de pe server.
+Parcurgerea recursivă a directorului <i>acasă</i> asociat contului personal de pe server,
+se va face în manieră explicită (i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+<br>
+<i>Cerință suplimentară</i>: mai general, să se afișeze un arbore cu structura subdirectoarelor dintr-un director specificat ca argument.
+</p>
+
+<button onclick="myToggle('lab5_ex6')">Show / Hide a possible solution</button>
+
+<div id="lab5_ex6" style="display:none;" class="stil_explicatie">
+Exercițiul se rezolvă similar cu cele două precedente, parcurgerea recursivă a subarborelui de fișiere se poate face prin oricare
+dintre cele 4 metode ilustrate mai sus, doar informațiile afișate sunt diferite.
+<br>
+Vom ilustra în continuare doar prima variantă de rezolvare de la exercițiile precedente, adaptată pentru cerințele acestui exercițiu:
+<pre class="stil_solutie">
+#!/bin/bash
+### Afiseaza un arbore cu structura directorului curent de lucru al utilizatorului, sau al altui director specificat ca argument.  ###
+
+function afisare_indentata()
+{
+# Functia primeste doua argumente: primul este un nume de director, iar al doilea este nivelul curent
+# in arbore (folosit pentru a crea textul de indentare utilizat la afisarea arborelui)
+
+    for fis in $(ls -A $1)    # folosim optiunea -A in loc de -a pentru a nu afisa si intrarile implicite . si ..
+    do
+        # Construim calea până la intrarea $fis din directorul $1
+
+        cale=$1/$fis   # Este suficient doar atât, căci argumentul primului apel nu va putea fi cuvântul vid niciodată! (Motivul: a se vedea ultimul if din script)
+
+        # Procesăm calea respectivă în funcție de tipul ei, i.e. subdirector/altceva.
+
+        if [ -d $cale ]  # dacă-i director, îl afișăm indentat și...
+        then
+            let nivel=$2+1
+            sir_indentare=
+            for i in $(seq $nivel) ; do sir_indentare=$sir_indentare"-> " ; done
+            echo -e $sir_indentare$cale
+
+            afisare_indentata $cale $nivel  # ... și apelăm recursiv funcția pentru a-i procesa intrările din el.
+        fi
+    done
+}
+
+if test $# -eq 0 ; then numedir=$(pwd) ; else numedir=$1 ; fi
+
+echo "Afisam structura arborelui cu radacina in directorul: $numedir"
+afisare_indentata $numedir 0   # apelul initial
+</pre>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab5_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Call2Find]</big><!----- exercitiu cu find ----->
+<!--Să se scrie un script care va redenumi toate fișierele ".txt" aflate în directorul curent și în toate subdirectoarele acestuia, dându-le extensia ".ascii".-->
+<br>Să se scrie un script care va redenumi toate fișierele ".txt" aflate într-un director specificat ca argument
+și în toate subdirectoarele acestuia, dându-le extensia ".ascii".
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosind comanda basename se poate obține numele fișierului fără extensie,
+e.g. <tt>basename fisier.txt .txt</tt> afișează pe stdout doar 'fisier'.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab5_setCV_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: MyFind]</big><!-- Problema: lab5_ex1.sh -->
+<br>Să se scrie un script care calculează și afișează numărul total de fișiere de tip obișnuit ce sunt "ascunse" (i.e. numele lor începe cu caracterul '.'),
+numărul total de fișiere de tip alias (numărați doar link-urile simbolice) și numărul total de subdirectoare aflate într-un director dat,
+<u>parcurgand acel director în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Numele directorului de pornire se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint2">parcurgeți cu un for directorul curent și calculați informațiile solicitate, iar
+pentru fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: să se afișeze acele informații totale pentru fiecare subdirector parcurs.
+</p>
+<button onclick="myToggle('lab5_ex1')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab5_ex1" style="display:none;" class="stil_explicatie_detaliata">
+Ideea de rezolvare:
+<br>-- recursia se poate implementa în două maniere diferite: fie prin apel recursiv de funcție, fie prin apel recursiv de script;
+<br>-- statisticile (i.e. valorile ce se cer a fi calculate în enunțul problemei) se calculează într-o manieră asemănătoare cu cea
+din rezolvările date la exercițiul rezolvat [MyFind #1] de mai sus.
+<br>
+<i>Notă</i>: citiți cu atenție și observația de la finalul rezolvărilor date pentru exercițiul rezolvat [MyFind #1] de mai sus.
+</div>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab5_setRB_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Call2Find]</big>
+<br>Să se scrie un script care va modifica permisiunile pentru toate fișierele de tip obișnuit ce sunt scripturi bash,
+aflate în directorul curent și în toate subdirectoarele acestuia, adăugându-le dreptul de execuție pentru toți utilizatorii.
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+<br>
+<small>(Indicație: <span class="stil_hint2">filtrați fișierele de tip obișnuit cu comanda find și verificați conținutul fișierului folosind comanda file.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab5_setRB_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: MyFind]</big>
+<br>Să se scrie un script care afișează în ordine alfabetică acele directoare care au mai mult de 5 fișiere, dar mai puțin de 100 de fișiere,
+aflate într-un director dat, <u>parcurgand acel director în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Numele directorului de pornire se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint2">parcurgeți cu un for directorul curent și calculați informațiile solicitate, iar
+pentru fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.
+Folosiți un fișier temporar pentru a reține numele directoarelor selectate cu find și sortați-l după parcurgerea cu find.</span>)</small>
+</p>
+<button onclick="myToggle('lab5_setRB_ex2')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab5_setRB_ex2" style="display:none;" class="stil_explicatie_detaliata">
+Ideea de rezolvare:
+<br>-- recursia se poate implementa în două maniere diferite: fie prin apel recursiv de funcție, fie prin apel recursiv de script;
+<br>-- statisticile (i.e. valorile ce se cer a fi calculate în enunțul problemei) se calculează într-o manieră asemănătoare cu cea
+din rezolvările date la exercițiul rezolvat [MyFind #1] de mai sus.
+<br>
+<i>Notă</i>: citiți cu atenție și observația de la finalul rezolvărilor date pentru exercițiul rezolvat [MyFind #1] de mai sus.
+</div>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab5_setBP_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Call2Find]</big>
+<br>Să se scrie un script care va șterge toate fișierele "*.txt", accesate în ultimele 20 de zile,
+aflate în directorul curent și în toate subdirectoarele acestuia.
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+<br>
+<small>(Indicație: <span class="stil_hint2">filtrați fișierele cu comanda find, cu două criterii de selecție, după nume și după <i>last access time</i>.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab5_setBP_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: MyFind]</big>
+<br>Să se scrie un script care calculează și afișează numărul total de fișiere de tip obișnuit reprezentând programe în limbajul C (i.e.,
+numele lor se termină cu .c), numărul total de fișiere care au un conținut nevid și numărul total de subdirectoare
+aflate într-un director dat, <u>parcurgand acel director în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Numele directorului de pornire se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint2">parcurgeți cu un for directorul curent și calculați informațiile solicitate, iar
+pentru fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: să se afișeze acele informații totale pentru fiecare subdirector parcurs.
+</p>
+<button onclick="myToggle('lab5_setBP_ex2')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab5_setBP_ex2" style="display:none;" class="stil_explicatie_detaliata">
+Ideea de rezolvare:
+<br>-- recursia se poate implementa în două maniere diferite: fie prin apel recursiv de funcție, fie prin apel recursiv de script;
+<br>-- statisticile (i.e. valorile ce se cer a fi calculate în enunțul problemei) se calculează într-o manieră asemănătoare cu cea
+din rezolvările date la exercițiul rezolvat [MyFind #1] de mai sus.
+<br>
+<i>Notă</i>: citiți cu atenție și observația de la finalul rezolvărilor date pentru exercițiul rezolvat [MyFind #1] de mai sus.
+</div>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_explicatie">
+Not yet!
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_explicatie">
+Not yet!
+<!--ol>
+<li><!-- Problema: lab5_setAG_ex1 ---------------------------------------------------------------------------------------- >
+<p><big>[#1: Call2Find]</big>
+<br>Să se scrie un script care va parcurge un director dat ca argument, precum și toate subdirectoarele acestuia,
+și va stoca toate fișierele cu extensiile .txt sau .html întâlnite, într-un array.
+Scriptul va crea fișierul "informatii/concatenate.text" și va scrie în el rezultatul concatenării tuturor fișierelor salvate în array.
+În cazul în care directorul "informatii" nu există, acesta va fi creat programatic din script.
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+</p>
+</li>
+
+<li><! -- Problema: lab5_setAG_ex2 ---------------------------------------------------------------------------------------- >
+<p><big>[#2: MyFind]</big>
+<br>Să se scrie un script care primește 2 argumente: un director și un număr max_depth.
+Scriptul va <u>parcurge acel director în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>), până la adâncimea max_depth,
+și va afișa fiecare fișier găsit, însoțit de eticheta True, în cazul în care fișierul conține cuvântul "rezolvare",
+sau însoțit de eticheta False, în caz contrar. 
+<br>
+<small>(Indicație: <span class="stil_hint2">parcurgeți cu un for directorul curent și prelucraț fișierele întâlnite conform enunțului, iar
+pentru fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+</p>
+<button onclick="myToggle('lab5_setVU_ex2')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab5_setVU_ex2" style="display:none;" class="stil_explicatie_detaliata">
+Ideea de rezolvare:
+<br>-- recursia se poate implementa în două maniere diferite: fie prin apel recursiv de funcție, fie prin apel recursiv de script;
+<br>-- statisticile (i.e. valorile ce se cer a fi calculate în enunțul problemei) se calculează într-o manieră asemănătoare cu cea
+din rezolvările date la exercițiul rezolvat [MyFind #1] de mai sus.
+<br>
+<i>Notă</i>: citiți cu atenție și observația de la finalul rezolvărilor date pentru exercițiul rezolvat [MyFind #1] de mai sus.
+</div>
+</li>
+</ol-->
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab5_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Call2Find]</big>
+<br>Să se scrie un script care va copia toate fișierele "*.sh", 
+aflate într-un director primit ca parametru la linia de comandă și în toate subdirectoarele acestuia,
+într-un folder numit "samples", schimbându-le numele original în hash-ul lor md5.
+<br>
+<i>Atenție</i>: NU se cere ca parcurgerea recursivă a directorului respectiv să fie explicită,
+i.e. puteți folosi comanda <tt>find</tt> sau comanda <tt>ls -R</tt> pentru a parcurge directorul specificat.
+<br>
+<small>(Indicație: <span class="stil_hint2">filtrați și copiați fișierele cu comanda find, iar hash-urile md5 le puteți calcula cu ajutorul comenzii md5sum.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab5_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: MyFind]</big>
+<br>Să se scrie un script care concatenează toate scripturile (i.e., fișiere ce au extensia .sh)
+aflate într-un director dat, <u>parcurgand acel director în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Rezultatul operațiilor de concatenare va fi salvat în fișierul "final_script.sh".
+Numele directorului de pornire se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint2">parcurgeți cu un for directorul curent și adăugati scripturile întâlnite cu append la fișierul rezultat, iar
+pentru fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+</p>
+<button onclick="myToggle('lab5_setVU_ex2')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab5_setVU_ex2" style="display:none;" class="stil_explicatie_detaliata">
+Ideea de rezolvare:
+<br>-- recursia se poate implementa în două maniere diferite: fie prin apel recursiv de funcție, fie prin apel recursiv de script;
+<br>-- statisticile (i.e. valorile ce se cer a fi calculate în enunțul problemei) se calculează într-o manieră asemănătoare cu cea
+din rezolvările date la exercițiul rezolvat [MyFind #1] de mai sus.
+<br>
+<i>Notă</i>: citiți cu atenție și observația de la finalul rezolvărilor date pentru exercițiul rezolvat [MyFind #1] de mai sus.
+</div>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții cu scripturi, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li>
+<p><big>[Call2Find #3]</big>
+<br>
+Să se scrie un script care "scanează" directorul primit ca parametru pentru a găsi fișiere MP3, în acesta sau prin subdirectarele lui
+(<i>Notă</i>: dacă scriptul nu este apelat cu parametru, atunci va folosi implicit directorul home <tt>~</tt>).
+<br>
+Pentru toate fișierele MP3 găsite scriptul va crea link-uri hard <small>(Indicație: <span class="stil_hint">vezi comanda <tt>ln</tt></span>)</small>
+plasate în directorul <tt>~/html/muzica/</tt>.
+<br>
+Scriptul va genera deasemenea un "playlist" în format html simplu, plasat în directorul <tt>~/html</tt>, și care va conține numele fișierelor MP3 găsite
+<small>(Indicație: <span class="stil_hint">eventual doar numele fără extensie, vezi comanda <tt>basename</tt></span>)</small>,
+precum și link-uri HTML spre acestea
+<small>(Indicație: <span class="stil_hint">este suficient un link de forma &lt;a href="muzica/nume fisier mp3 pe disc"&gt;nume mp3 fara extensie&lt;/a&gt;</span>)</small>.
+<br>
+În plus, scriptul va verifica permisiunile pentru directoare și fișiere în așa fel încât în final playlistul să poată fi accesat din exterior pe web
+<small>(Indicație: <span class="stil_hint">trebuie setate drepturi de execuție pentru toți (sau măcar pentru others) pe directoarele <tt>~</tt> ,
+<tt>~/html</tt> și <tt>~/html/muzica</tt> , precum și drept de citire pentru toți (sau măcar pentru others) pe fișierul playlist creat</span>)</small>.
+</p>
+</li>
+
+<li>
+<p><big>[Call2Find #4]</big>
+<br>Să se scrie un script care să construiască o pagină web cu link-uri HTML către toate fișierele imagini (i.e. cele cu extensiile .jpg, .gif, .png, ș.a.)
+din contul personal, ordonate după data ultimei modificări a fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint">aveți grijă la drepturi pentru vizibilitatea pe web a paginii construite, similar ca la exercițiul precedent.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab5_ex2.sh ------------------------------------------------------------------------------------------->
+<p><big>[MyFind #4]</big>
+<br>Să se scrie un script care calculează numărul total de cuvinte și respectiv lungimea cea mai mare a liniilor de text, din toate fișierele ce conțin
+text obișnuit (i.e. fișierele pentru care comanda <tt>file</tt> raportează "ASCII text") aflate într-un director dat,
+<u>parcurgand acel director în manieră recursivă, în mod explicit</u>
+(i.e. fără a apela comanda <tt>find</tt> sau comanda <tt>ls -R</tt>).
+Numele directorului se transmite ca parametru în linia de comandă, sau se va citi prin comanda read în caz contrar.
+<br>
+<small>(Indicație: <span class="stil_hint">parcurgeți cu un for directorul curent și calculați informațiile solicitate, iar pentru
+fiecare intrare din director care este de tipul (sub)director apelați recursiv scriptul.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: să se afișeze acele informații totale pentru fiecare subdirector parcurs.
+</p>
+<button onclick="myToggle('lab5_ex2')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab5_ex2" style="display:none;" class="stil_explicatie_detaliata">
+Ideea de rezolvare:
+<br>-- recursia se poate implementa în două maniere diferite: fie prin apel recursiv de funcție, fie prin apel recursiv de script;
+<br>-- statisticile (i.e. valorile ce se cer a fi calculate în enunțul problemei) se calculează într-o manieră asemănătoare cu cea
+din rezolvările date la exercițiul rezolvat [MyFind #2] de mai sus.
+<br>
+<i>Notă</i>: citiți cu atenție și observația de la finalul rezolvărilor date pentru exercițiul rezolvat [MyFind #1] de mai sus.
+</div>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #9 - Supliment</title>
+  <link rel="stylesheet" type="text/css" href="../stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="../script_include.js"></script>
+
+<body>
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+<p class="stil_QandA">
+<i>Întrebare</i>: cum am putea testa corectitudinea programului,
+în sensul de a verifica dacă într-adevăr programul creează în mod corect ierarhia de procese cerută conform enunțului problemei?
+<br>
+<br>
+<i>Răspuns</i>: evident, ne vom folosi de informațiile afișate pe ecran în urma execuției programului,
+din care vom extrage relațiile de rudenie "tată -- fiu" și vom verifica că aceste relații de rudenie
+descriu exact ierarhia cerută în enunț (în cazul în care programul este corect),
+respectiv că nu o descriu (în cazul în care ați făcut greșeli logice, nu sintactice (!), în program).
+</p>
+
+<p>
+Prin urmare, se pune întrebarea cum extragem relațiile de rudenie "tată -- fiu" și le "asamblăm" într-o ierarhie de procese?
+<br>
+Sunt mai multe moduri posibile de a face aceasta, pe care le vom detalia în cele ce urmează:
+</p>
+
+<dl>
+
+<dt><b>Metoda "vizuală":</b></dt>
+<dd>
+Extragem vizual aceste relații de rudenie din mesajele afișate pe ecran și construim mintal ierarhia acestor relații.
+<br>Dezavantajul acestei metode: o putem aplica cu succes doar pentru ierarhii foarte simple,
+de genul celor de la exercițiile rezolvate <b>[N childs]</b> și <b>[A list of processes (v1 și v2)]</b>;
+pentru ierarhii ceva mai complexe, sunt șanse mari să greșim când facem această verificare mintală.
+<br><br>
+</dd> 
+
+<dt><b>Metoda "manuală":</b></dt>
+<dd>
+Extragem vizual aceste relații de rudenie din mesajele afișate pe ecran și desenăm manual, pe o foaie de hârtie, ierarhia acestor relații de rudenie.
+Mai precis, luăm o foaie de hârtie și scriem pe ea toate valorile numerice ale PID-urilor ce apar în mesajele afișate,
+trecând fiecare PID o singură dată pe hârtie (!), indiferent de numărul de apariții ale acestuia în mesajele afișate.
+Apoi, conectăm printr-o săgeată orientată fiecare pereche de PID-uri, despre care am văzut că sunt în relația părinte--&gt;fiu în vreunul din mesajele afișate.
+<br>
+"Desenul" care rezultă astfel este un graf orientat, și probabil estetic nu va fi foarte plăcut (unele arce se vor intersecta, etc.).
+Oricum, din acest desen ar trebui totuși să puteți să vă dați seama ce fel de formă are graful orientat obținut... e.g.,
+este un arbore binar complet? ; este un "lanț"? ; este un arbore k-ar cu N nivele? etc.
+<br>
+Dacă graful obținut are forma ierarhiei de procese cerute în enunțul problemei, înseamnă că programul este corect, i.e.
+deci nu ați făcut greșeli în program.
+Iar dacă graful obținut arată altfel decât ierarhia cerută, diferențele dintre graf și ierarhia cerută
+v-ar putea ajuta să descoperiți ce greșeli ați făcut în program!
+<br>
+Dezavantajul acestei metode: pentru un număr mare de procese și o ierarhie "stufoasă" (i.e, nodurile au mai mulți fii),
+există probabilitatea să faceți greșeli când realizați desenul pe foaia de hârtie prin procedura descrisă mai sus.
+<br><br>
+Cum am putea elimina acest neajuns al metodei "manuale"?
+<i>Răspuns</i>: prin automatizarea ei (!), realizată prin metoda descrisă mai jos.
+<br><br>
+</dd> 
+
+<dt><b>Metoda automatizată, bazată pe log-uri:</b></dt>
+<dd>
+Ideea generală este aceea de prelucrare automată, după terminarea execuției programului, a informațiilor ce descriu anumiți parametri ai acelei execuții,
+parametri ce au fost salvați într-un fișier de tip log.
+<br>În cazul nostru, parametrii sunt informațiile de rudenie părinte--&gt;fiu, iar fișierul de log folosit este "scrierea de mesaje pe ecran".
+Iar tipul de prelucrare a acestor informații, în cazul nostru, constă în construcția acelui graf orientat ce capturează ierarhia acestor relații de rudenie,
+graf descris la metoda anterioară.
+<br><br>
+Cum am putea face această construcție a grafului într-o manieră automatizată,
+i.e. fără a mai desena manual graful respectiv pe o foaie de hârtie,
+pentru a înlătura probabilitatea de a face greșeli când desenăm manual graful?
+<br>
+O posibilitate de a face automatizat această construcție a grafului, este aceea de a scrie un script bash
+care să "interpreteze" mesajele afișate la execuția programului și să "deseneze pe ecran", în mod automatizat, ierarhia de procese create.
+<br>
+Ideea scriptului este să ne folosim de sistemul de fișiere pentru a "simula" ierarhia relațiilor de rudenie printr-un subarbore de fișiere
+construit în mod adecvat, după care se va lista, într-o manieră "grafică" sugestivă, acel subarbore de fișiere.
+<br>
+Scriptul respectiv, denumit <tt>lab9_p2ls.sh</tt>, este următorul:
+<button onclick="myToggle('lab9_p2ls')">Show / Hide the script</button>
+<pre id="lab9_p2ls" style="display:none;" class="stil_codBash"><div
+w3-include-MyCode="lab9_p2ls.sh">See the script from <a target="_blank" href="lab9_p2ls.sh">here</a>.</div></pre>
+<br>
+<br>
+<i>Explicații</i>: scriptul primește un set de perechi de valori numerice de forma "PID-PPID" și desenează ierarhia de procese determinată de acel set.
+<br>
+De exemplu, pentru perechile date ca intrare:
+<pre>
+1800-21632
+1803-1800
+1804-1803
+1806-1804
+1805-1804
+1802-1800
+1807-1803
+1808-1802
+1810-1807
+1811-1808
+1812-1802
+1814-1812
+1815-1808
+1813-1812
+1809-1807
+</pre>
+scriptul va afișa următoarea ierarhie de procese:
+<pre>
+Ierahia de procese este:
+  |-1800
+  |   |-1802
+  |   |   |-1812
+  |   |   |   |-1814
+  |   |   |   |-1813
+  |   |   |-1808
+  |   |   |   |-1811
+  |   |   |   |-1815
+  |   |-1803
+  |   |   |-1807
+  |   |   |   |-1810
+  |   |   |   |-1809
+  |   |   |-1804
+  |   |   |   |-1805
+  |   |   |   |-1806
+</pre>
+deci, cu alte cuvinte, se folosesțe o identare de la stânga la dreapta pentru a reprezenta fiii fiecărui proces
+(similar cu outputul uneltei "Process Explorer" utilizate în Windows pentru a afișa informații despre procesele active în sistem).
+<br><br>
+<i>Observație</i>: pentru a ușura considerabil scrierea scriptului,
+partea de "interpretare" a textelor mesajelor afișate pe ecran de programul dvs., în sensul extragerii din mesaje a perechilor de forma "PID-PPID",
+nu a fost automatizată prin acest script (!). Și atunci, aveți două soluții la îndemână: 
+<br>i) ori extrageți manual / vizual perechile respective și le furnizați manual ca input scriptului;
+<br>ii) ori puteți să modificați mesajele tipărite de programul dvs. astfel încât să afișeze doar texte de forma "PID-PPID",
+și atunci este suficient să rulați scriptul înlănțuit cu programul dvs., i.e. cu comanda:
+<br>prompt> <tt class="stil_cmdBash"> ./MyProgramWithForks.exe | ./lab9p2ls.sh</tt>
+<br>și astfel nu veți fi nevoiți, când rulați scriptul, să introduceți manual perechile extrase din mesajele afișate la execuția programului dvs.
+<br>
+(<i>Notă</i>: dacă ați scris programul dvs. astfel încât să afișeze mesaje mai lungi, de genul:
+"<tt>Procesul &lt;i>, cu PID-ul:&lt;X>, cu PID-ul parintelui:&lt;Y>, ...</tt>" ,
+atunci fie modificați mesajele în program ca să resepcte formatul necesar scriptului, precum am spus mai sus,
+fie puteți să lăsați programul nemodificat, dar atunci va trebui să prelucrați manual output-ul programului,
+cu comenzi cut adecvate, pentru a extrage din el formatul "PID-PPID" necesar scriptului.)
+<br><br>
+La pasul final (ce este similar cu cel de la metoda anterioară) al acestei metode automatizate parțial, vă rămâne ca sarcină, de executat manual,
+"recunoașterea" formei pe care o are ierarhia afișată de script,
+i.e. dacă are sau nu forma ierarhiei de procese cerute în enunțul problemei?
+<br><br>
+</dd> 
+
+<dt><b>Metoda automatizată, bazată pe "inspectarea" în timp real a execuției programului, cu comanda pstree:</b></dt>
+<dd>
+O altă metodă automatizată are la bază ideea de a "observa" în timp real procesele create de programul dvs.,
+folosind comanda pstree, care afișează procesele active din sistem, printr-o reprezentare identare de la stânga la dreapta, care reflectă ierarhia proceselor.
+<br>
+Pentru a restricționa outptul comenzii doar la ierarhia proceselor care ne interesează, trebuie să apelați comanda pstree cu următorii parametri:
+<br>prompt> <tt class="stil_cmdBash"> pstree -p <i>value</i></tt>
+<br>
+unde <i>value</i> este PID-ul shell-ului ce rulează în fereastra terminal în care vă testați programul.
+Sau, dacă testați programul pe serverul fenrir, și aveți o singură sesiune deschisă, mai puteți specifica, drept <i>value</i>, și <i>username</i>-ul dvs. de pe server.
+<br>
+<br>
+Mai rămâne un aspect de precizat:
+comanda pstree capturează, practic, un <i>snapshot</i> al <u>stării sistemului (i.e., al proceselor active din sistem) de la momentul execuției sale</u>.
+<br>
+Prin urmare, comanda pstree trebuie rulată imediat după ce ați pornit execuția programului dvs., nu după ce s-a terminat deja.
+Aceasta o puteți face astfel:
+<br>prompt> <tt class="stil_cmdBash"> ./MyProgramWithForks.exe > MyOutput.txt &  pstree -p <i>value</i></tt>
+<br>
+Dar nu e suficient să faceți doar atât, ci mai trebuie și <u>să vă asigurați că toate procesele create de programul dvs. <b>încă</b> sunt <i>alive</i>
+(adică, nu s-au terminat deja) în momentul când se execută comanda pstree</u>.
+Pentru aceasta, trebuie să vă asigurați că <u>toate procesele sunt create cât mai repede, chiar la începutul execuției programului dvs.,</u>
+și că <u>durata de viață a <b>fiecărui</b> proces este suficient de lungă</u> (i.e., de ordinul a câtorva secunde),
+pentru a nu se termina înainte de a se executa comanda pstree.
+<br>Iar aceasta o puteți realiza introducând, de exemplu, apeluri sleep(5); , într-o manieră "inteligentă", în programul dvs. (!)
+<br>Adică, trebuie să vă asigurați că apelul sleep se va executa chiar la finalul execuției fiecăruia dintre procesele create la execuția programului dvs.,
+și nu mai înainte de final, ori, mai precis, nu înainte ca respectivul proces să fi terminat de creat toți fiii pe care trebuie să-i creeze conform
+cerințelor din problema respectivă.
+De aceea am spus mai sus că apelurile sleep trebuie introduse într-o manieră "inteligentă" în programul dvs., în sensul că,
+<u>pentru a decide unde să le introduceți în program, trebuie să analizați NU doar <b>structura sintactică</b> a programului, ci și, mai ales,
+<b>"flow"-ul de execuție</b> al programului</u>.
+Acesta va fi însă un "flow" ce se ramifică arborescent (!), datorită apelurilor fork(),
+deci nu va fi un "flow" liniar (ca în cazul programelor secvențiale pe care erați obișnuiți să le scrieți (și să le analizați) la disciplinele întâlnite anterior acestui semestru),
+ceea ce va spori dificultatea alegerii corecte a poziției (sau pozițiilor) din program unde trebuie inserate aceste apeluri sleep.
+<br><br>
+</dd>
+
+</dl>
+
+<p>
+<i>Recomandare</i>: încercați să aplicați (măcar) una dintre cele două metode automatizate descrise mai sus
+(pe care anume? pe care doriți dvs. ; sau, încercați-le pe amândouă...),
+pentru a verifica corectitudinea tuturor programelor din prima parte a acestui laborator
+(atât a celor din exerictiile rezolvate, cât și a programelor pe care le veți scrie pentru a rezolva problemele propuse spre rezolvare).
+</p>
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<script src="../script.js"></script>
+<script>includeMyCode();</script>
+<!--script>includeHTML();</script-->
+</body>
+</html>

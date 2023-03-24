@@ -1,0 +1,1 @@
+PDF-urile se pot asculta fiind deschise cu Adobe Reader si dand dublu click pe iconita

@@ -1,0 +1,907 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #10</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #10, partea I :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab10.html#sec_0">Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile exec</a></h4>
+<h5><a href="lab10.html#sec_0">Programe demonstrative cu apelurile exec</a></h5>
+<h4>I) <a href="lab10.html#sec_1">Exerciții de programare C cu apeluri exec (execuția programatică a unor comenzi uzuale)</a></h4>
+<h5><a href="lab10.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab10.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab10.html#sec_1c">Exerciții suplimentare</a></h5>
+<h4>II) <a href="lab10sync.html#sec_2">Exerciții de programare C cu mai multe procese secvențiale (partea a treia -- diverse procesări, folosind apeluri fork, wait și exec)</a></h4>
+<h4>III) <a href="lab10perf.html#sec_3">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+<h4>IV) <a href="lab10.html#sec_4">Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat</a></h4>
+<h5><a href="lab10.html#sec_4a">Exerciții rezolvate</a></h5>
+<h5><a href="lab10.html#sec_4b">Exerciții propuse spre rezolvare</a></h5>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile exec:</span></p>
+</a>
+
+<h3>Informații despre apelurile de sistem <tt>exec()</tt> din API-ul POSIX:</h3>
+
+<button onclick="myToggle('lab10_prolog1')">Show / Hide the presentation</button>
+<div id="lab10_prolog1" style="display:none;" class="stil_prezentare">
+
+<p>
+(Re)citiți lecția practică despre apelurile din familia exec, disponibilă
+<a target="_blank" href="../cursuri/P7_exec_web-ro.pdf">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p class="stil_ex_rezolvate">Programe demonstrative cu apelurile din familia exec:</p>
+</a>
+
+<ol>
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FirstDemo -- before_exec + after_exec]</big>
+<br>Acest exemplu demonstrativ ilustrează un program, <tt>before_exec.c</tt>, care se reacoperă prin exec cu programul <tt>after_exec.c</tt>.
+De asemenea, se ilustrează și o serie de caracteristici ale procesului care se conservă prin reacoperire.
+</p>
+
+<button onclick="myToggle('lab10_demo1')">Show / Hide the 1st demo example</button>
+
+<div id="lab10_demo1" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți cele două programe de mai jos,
+apoi salvați-le în două fișiere cu numele <tt>before_exec.c</tt> și, respectiv, <tt>after_exec.c</tt>:
+</p>
+
+<button onclick="myToggle('lab10_demo1-before_src')">Show / Hide the "before exec" program</button>
+<pre id="lab10_demo1-before_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/before_exec.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/before_exec.c">here</a>.</div>
+</pre>
+
+<button onclick="myToggle('lab10_demo1-after_src')">Show / Hide the "after exec" program</button>
+<pre id="lab10_demo1-after_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/after_exec.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/after_exec.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați cele două fișiere sursă pentru a obține programele executabile (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>)
+asociate celor două programe, utilizând următoarele comenzi:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall before_exec.c -o before_exec.exe</tt>
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall after_exec.c -o after_exec.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție primul program executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./before_exec.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar putea fi următorul:
+<pre class="stil_output">
+Caracteristici inainte de exec
+------------------------------
+ID-ul procesului : 4284
+ID-ul parintelui : 4055
+Proprietarul real : 1000
+Proprietarul efectiv : 1000
+Directorul curent de lucru : /home/Cristian/Programare/cursuri__C-programs/exec
+
+Caracteristici dupa exec
+------------------------
+ID-ul procesului : 4284
+ID-ul parintelui : 4055
+Proprietarul real : 1000
+Proprietarul efectiv : 1000
+Directorul curent de lucru : /home/Cristian/Programare/cursuri__C-programs/exec
+
+Numarul de caractere citite: -1
+Eroare la citirea din fluxul stdin (deoarece este inchisa !) : Bad file descriptor
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[SecondDemo -- exec_rec]</big>
+<br>Acest program demonstrativ ilustrează cum un program se poate reacoperi, recursiv, cu el însuși.
+</p>
+
+<button onclick="myToggle('lab10_demo2')">Show / Hide the 2nd demo example</button>
+
+<div id="lab10_demo2" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>exec_rec.c</tt>:
+</p>
+
+<button onclick="myToggle('lab10_demo2_src')">Show / Hide the source</button>
+<pre id="lab10_demo2_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/exec_rec.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/exec_rec.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall exec_rec.c -o exec_rec.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./exec_rec.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar putea fi următorul
+(deoarece prima instanță de apel listează toate variabilele de mediu, i.e. cele exportate din fișierele de configurare ale sistemului,
+iar lista respectivă era cam lungă, am eliminat o parte dintre variabilele de mediu afișate pentru a nu încărca prea mult outputul,
+căci oricum nu erau relevante pentru a înțelege rostul acestui exemplu demonstrativ):
+<pre class="stil_output">
+PID=4780, PPID=4736, OWNER=1000
+ENVIRONMENT:
+SHELL=/bin/bash
+COLORTERM=truecolor
+XDG_MENU_PREFIX=gnome-
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GTK_IM_MODULE=ibus
+QT4_IM_MODULE=ibus
+LC_ADDRESS=ro_RO.UTF-8
+GNOME_SHELL_SESSION_MODE=ubuntu
+LC_NAME=ro_RO.UTF-8
+XMODIFIERS=@im=ibus
+DESKTOP_SESSION=ubuntu
+LC_MONETARY=ro_RO.UTF-8
+PWD=/home/Cristian/Programare/cursuri__C-programs/exec
+LOGNAME=Cristian
+XDG_SESSION_DESKTOP=ubuntu
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+HOME=/home/Cristian
+USERNAME=Cristian
+LC_PAPER=ro_RO.UTF-8
+LANG=en_US.UTF-8
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/cb790f36_c3c2_4ee8_a21d_d317ac3e6e42
+INVOCATION_ID=01034a4036ae4c8a92bc20db6394d03d
+...
+...
+...
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=ubuntu
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+LC_NUMERIC=ro_RO.UTF-8
+OLDPWD=/home/Cristian
+_=./exec_rec.exe
+
+<b style="color:blue;">Urmeaza apelul primitivei exec.</b>
+PID=4766, PPID=4736, OWNER=1000
+ENVIRONMENT:
+Salut!
+
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[ThirdDemo -- com-0 + com-2]</big>
+<br>Acest exemplu demonstrativ ilustrează un program, <tt>com-0.c</tt>, care se reacoperă prin exec cu programul <tt>com-2.c</tt>.
+De asemenea, se mai ilustrează și cum se folosește apelul <tt>dup()</tt> pentru a obține în programul com-0 o redirectare a fluxului <tt>stdout</tt> către un fișier,
+iar această redirectare se "moștenește" și în programul com-2, deoarece descriptorii de fișiere deschise reprezintă
+una dintre caracteristicile procesului care se conservă prin reacoperire.
+</p>
+
+<button onclick="myToggle('lab10_demo3')">Show / Hide the 3rd demo example</button>
+
+<div id="lab10_demo3" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți cele două programe de mai jos,
+apoi salvați-le în două fișiere cu numele <tt>com-0.c</tt> și, respectiv, <tt>com-2.c</tt>:
+</p>
+
+<button onclick="myToggle('lab10_demo3-com-0_src')">Show / Hide the "com-0" program</button>
+<pre id="lab10_demo3-com-0_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/com-0.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/com-0.c">here</a>.</div>
+</pre>
+
+<button onclick="myToggle('lab10_demo3-com-2_src')">Show / Hide the "com-2" program</button>
+<pre id="lab10_demo3-com-2_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/com-2.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/com-2.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați cele două fișiere sursă pentru a obține programele executabile
+asociate celor două programe, utilizând următoarele comenzi:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall com-0.c -o com-0</tt>
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall com-2.c -o com-2</tt>
+</p>
+<p>
+<i>Observație</i>: după cum vă spuneam și într-o lectie anterioară, extensia ".exe" nu este obligatorie pentru numele fișierelor executabile,
+atunci când lucrăm la linia de comandă în Linux/UNIX.
+Drept dovadă, toate comenzile uzuale, studiate în primele laboratoare, au nume simple, fără extensia ".exe".
+<br>
+Ca atare, în acest exemplu am ilustrat acest fapt, renunțând la folosirea extensiei ".exe" pentru
+executabilele produse din cele două fișiere sursă de mai sus.
+Dacă totuși doriți să folosiți extensia ".exe" și în cazul acestora,
+să nu uitați să modificați în mod corespunzător primul parametru al apelului execl() din programul <tt>com-0.c</tt> (!).
+</p>
+
+<p>
+3. Lansați în execuție primul program executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./com-0</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Veți constata că outputul afișat pe ecran de acest program este vid (i.e., nu se afișează nimic pe ecran),
+dar în schimb se scrie următorul conținut în fișierul <tt>fis.txt</tt>:
+<pre class="stil_output">
+Salut..., tuturor!
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FourthDemo -- com-1 + com-2]</big>
+<br>Acest exemplu demonstrativ ilustrează un program, <tt>com-1.c</tt>, care se reacoperă prin exec cu programul <tt>com-2.c</tt>.
+De asemenea, se ilustrează și efectul reacoperii asupra eventualelor informații, încă nescrise pe disc,
+aflate în <i>cache</i>-ul folosit de funcțiile din biblioteca <tt>stdio</tt> la momentul execuției apelului de reacoperire.
+</p>
+
+<button onclick="myToggle('lab10_demo4')">Show / Hide the 4th demo example</button>
+
+<div id="lab10_demo4" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți cele două programe de mai jos,
+apoi salvați-le în două fișiere cu numele <tt>com-1.c</tt> și, respectiv, <tt>com-2.c</tt>:
+</p>
+
+<button onclick="myToggle('lab10_demo4-com-1_src')">Show / Hide the "com-1" program</button>
+<pre id="lab10_demo4-com-1_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/com-1.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/com-1.c">here</a>.</div>
+</pre>
+
+<button onclick="myToggle('lab10_demo4-com-2_src')">Show / Hide the "com-2" program</button>
+<pre id="lab10_demo4-com-2_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/com-2.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/com-2.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați cele două fișiere sursă pentru a obține programele executabile
+asociate celor două programe, utilizând următoarele comenzi:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall com-1.c -o com-1</tt>
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall com-2.c -o com-2</tt>
+</p>
+<p>
+La fel ca și la exemplul precedent, și în acest exemplu am ales să renunț la folosirea extensiei ".exe" pentru
+executabilele produse din cele două fișiere sursă de mai sus.
+Dacă totuși doriți să folosiți extensia ".exe" și în cazul acestora,
+să nu uitați să modificați în mod corespunzător primul parametru al apelului execl() din programul <tt>com-1.c</tt> (!).
+</p>
+
+<p>
+3. Lansați în execuție primul program executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./com-1</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Veți constata că outputul afișat pe ecran de acest program este următorul:
+<pre class="stil_output">
+..., tuturor!
+</pre>
+Prin urmare, prima parte a mesajului s-a pierdut în urma apelului exec.
+</p>
+
+<p>
+4. Decomentați apelul <tt class="stil_instrC">fflush(stdout);</tt> din programul <tt>com-1.c</tt>, recompilați-l și executați-l din nou,
+urmărind cu atenție outputul afișat pe ecran de data aceasta.
+Prin ce diferă față de outputul anterior?
+<br>
+<i>Răspuns</i>: veți constata că, de data aceasta, outputul afișat pe ecran de acest program este următorul:
+<pre class="stil_output">
+Salut......, tuturor!
+</pre>
+Prin urmare, prima parte a mesajului NU s-a mai pierdut în urma apelului exec.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FifthDemo -- redirect]</big>
+<br>Acest program demonstrativ nu conține un apel de reacoperire, ci ilustrează
+cum se poate utiliza apelul <tt>dup2()</tt> (ce este mai intuitiv de folosit decât apelul <tt>dup()</tt>)
+pentru a obține în program o redirectare a fluxului <tt>stdout</tt> către un fișier.
+De asemenea, se mai ilustrează și cum se poate anula, pe parcursul execuției programului, efectul unei asemenea redirectări.
+</p>
+
+<button onclick="myToggle('lab10_demo5')">Show / Hide the 5th demo example</button>
+
+<div id="lab10_demo5" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>redirect.c</tt>:
+</p>
+
+<button onclick="myToggle('lab10_demo5_src')">Show / Hide the source</button>
+<pre id="lab10_demo5_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/redirect.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/redirect.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall redirect.c -o redirect</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./redirect</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Veți constata că outputul afișat pe ecran de acest program este următorul:
+<pre class="stil_output">
+Primul mesaj; va apare pe ecran.
+Al treilea mesaj; va apare pe ecran.
+</pre>
+și, în plus, se scrie următorul conținut în fișierul <tt>fis.txt</tt>:
+<pre class="stil_output">
+Al doilea mesaj scris pe stdout; va apare nu pe ecran, ci in fisier.
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[SixthDemo -- exec a bash script]</big>
+<br>Acest exemplu demonstrativ ilustrează un program, <tt>exec_script.c</tt>, care se reacoperă prin exec cu un script, <tt>my_script.sh</tt>.
+Acesta este un simplu script bash, care își afișează numele și linia de comandă (i.e., lista de parametri) cu care a fost invocat.
+(Practic, <tt>my_script.sh</tt> este chiar prima variantă, ușor modificată, prezentată în rezolvarea
+exercițiului <a href="lab4.html#sec_1a">[FirstScript]</a> din laboratorul #4.)
+<br><br>
+<i>Observație</i>: mai precis, în acest caz, efectul apelului exec este acela de reacoperire a programului apelant cu o instanță a interpretorului
+specificat pe prima linie din script, iar această instanță va interpreta scriptul linie cu linie (și-l va executa, astfel, în manieră interpretată).
+</p>
+
+<button onclick="myToggle('lab10_demo6')">Show / Hide the 6th demo example</button>
+
+<div id="lab10_demo6" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți programul C și scriptul bash de mai jos,
+apoi salvați-le în două fișiere cu numele <tt>exec_script.c</tt> și, respectiv, <tt>my_script.sh</tt>:
+</p>
+
+<button onclick="myToggle('lab10_demo6-exec_script_src')">Show / Hide the "exec script" program</button>
+<pre id="lab10_demo6-exec_script_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/exec_script.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/exec/exec_script.c">here</a>.</div>
+</pre>
+
+<button onclick="myToggle('lab10_demo6-my_script_src')">Show / Hide the "my script" source</button>
+<pre id="lab10_demo6-my_script_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/exec/my_script.sh">See the script from <a target="_blank"
+href="../cursuri/C-programs/exec/my_script.sh">here</a>.</div>
+</pre>
+
+<p>
+<i>Notă</i>: practic, apelul <tt class="stil_instrC">execv("my_script.sh",argv);</tt> din program se comportă/execută
+similar ca și cum am fi apelat <tt class="stil_instrC">execl("/bin/bash","my_script.sh",argv[1],argv[2],...);</tt>.
+</p>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall exec_script.c -o exec_script</tt>
+</p>
+
+<p>
+3. Lansați în execuție primul program executabil obținut la pasul anterior, cu o serie arbitrară de parametri, spre exemplu:
+<br>
+prompt> <tt class="stil_cmdBash"> ./exec_script a b c</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului:
+<pre class="stil_output">
+Apelam prin execv un script bash, care isi va lista parametrii cu care a fost apelat!
+-------------------------------------------------------------------------------------
+Suntem in scriptul my_script.sh !
+Acesta a fost apelat cu numele $0=my_script.sh si cu parametrii urmatori:
+param_1 = a
+param_2 = b
+param_3 = c
+Folosind comanda ps -f in script, putem vedea ce linie de comanda a 'construit' apelul execv pentru a rula acest script:
+UID        PID  PPID  C STIME TTY          TIME CMD
+Cristian  3554  3543  0 10:40 pts/0    00:00:00 bash
+Cristian  3585  3554  0 10:45 pts/0    00:00:00 /bin/bash my_script.sh a b c
+Cristian  3586  3585  0 10:45 pts/0    00:00:00 ps -f
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+</div>
+<br><br>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu apeluri exec (execuția programatică a unor comenzi uzuale) :</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+<ol>
+
+<li><!-- Problema: lab10_ex3.c -------------------------------------------------------------------------------------------->
+<p><big>[Exec command #1: ls]</big>
+<br>
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>ls -l -i <i>dirname</i></tt></font>,
+<!-- sau:  ls -i -l <i>dirname</i>  sau:  ls -l -A <i>dirname</i>  sau: ... -->
+unde <i>dirname</i> este un parametru specificat la execuția programului în linia de comandă, sau directorul curent de lucru în caz că lipsește acest parametru.
+La sfârșitul execuției, pe ecran trebuie să fie afișat textul: "Comanda ls a fost executata ...",
+dar numai în situația când într-adevăr s-a executat comanda ls,
+altfel trebuie să fie afișat textul: "Comanda ls nu a putut fi executata...".
+<br>
+<b><i>Cerință</i></b>: se va folosi primitiva execlp() și nu funcția system() !
+<br>
+ii) Să se rescrie programul de la punctul i), utilizând primitiva execl() în locul primitivei execlp().
+</p>
+
+<button onclick="myToggle('lab10_ex1')">Show / Hide a possible solution</button>
+<div id="lab10_ex1" style="display:none;" class="stil_rezolvare">
+<p>
+<b>i)</b> Iată o posibilă soluție pentru programul cerut la pct. i) din enunț:
+</p>
+<pre class="stil_codC"><div w3-include-MyCode="lab10_c/lab10_ex1.c">See the code from <a target="_blank"
+href="lab10_c/lab10_ex1.c">here</a>.</div></pre>
+<p>
+<i>Observație</i>: programul de mai sus ilustrează șablonul generic, bazat pe două instrucțiuni if,
+pentru ramificarea execuției proceselor tată și fiu (i.e., pentru a efectua lucruri diferite, în paralel).
+</p>
+
+<p>
+<b>ii)</b> O soluție pentru programul cerut la pct. ii) din enunț, se poate obține foarte simplu din programul de la pct. i),
+în care trebuie doar să se înlocuiască linia de cod:
+<br><tt class="stil_instrC">execlp("ls","ls","-l","-i",dirname,NULL);</tt>
+<br>cu următoarea linie de cod:
+<br><tt class="stil_instrC">execl("/bin/ls","ls","-l","-i",dirname,NULL);</tt>
+</p>
+<p>
+<i>Observație</i>: prin urmare, în cazul folosirii apelului execl() trebuie specificată calea absolută către comanda dorită,
+deoarece dacă fișierul executabil este specificat printr-un nume simplu (i.e., fără cale absolută sau relativă),
+atunci acesta nu este căutat în directoarele din variabila de mediu PATH, așa cum se întâmplă în cazul apelului exelp().
+<br>
+Iar calea absolută către comanda dorită o putem afla cu comanda <tt class="stil_cmdBash">whereis ls</tt> ;
+sau, alternativ, mai putem folosi și <tt class="stil_cmdBash">which ls</tt>.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab10_ex5.c -------------------------------------------------------------------------------------------->
+<p><big>[Exec command #2: last]</big>
+<br>
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>last --limit 10 -F <i>username</i></tt></font>,
+unde <i>username</i> este un parametru dat la execuția programului în linia de comandă.
+La sfârșitul execuției, pe ecran trebuie să fie afișat textul: "Comanda last a fost executata...",
+dar numai în situația când într-adevăr s-a executat comanda last,
+altfel să fie afișat textul: "Comanda last nu a putut fi executata...".
+<br>
+<b><i>Cerință</i></b>: se va folosi primitiva execlp() și nu funcția system() !
+<br>
+ii) Să se rescrie programul de la punctul i), utilizând primitiva execl() în locul primitivei execlp().
+</p>
+
+<button onclick="myToggle('lab10_ex2')">Show / Hide a possible solution</button>
+<div id="lab10_ex2" style="display:none;" class="stil_rezolvare">
+<p>
+<b>i)</b> Iată o posibilă soluție pentru programul cerut la pct. i) din enunț:
+</p>
+<pre class="stil_codC"><div w3-include-MyCode="lab10_c/lab10_ex2.c">See the code from <a target="_blank"
+href="lab10_c/lab10_ex2.c">here</a>.</div></pre>
+<p>
+<i>Observația #1</i>: practic, acesta este un program similar cu cel de la exercițiul <b>[Exec command #1: ls]</b> de mai sus,
+singura diferență majoră fiind linia de cod:
+<tt class="stil_instrC">execlp("ls","ls","-l","-i",dirname,NULL);</tt>
+care trebuie înlocuită cu:
+<tt class="stil_instrC">execlp("last","last","--limit","10","-F",argv[1],NULL);</tt>
+, plus încă câteva modificări minore, cu rol "estetic"...
+</p>
+<p>
+<i>Observația #2</i>: programul de mai sus ilustrează un alt șablon generic, bazat pe o singură instrucțiune switch,
+pentru ramificarea execuției proceselor tată și fiu (i.e., pentru a efectua lucruri diferite, în paralel).
+</p>
+
+<p>
+<b>ii)</b> Vom proceda similar ca la exercițiul <b>[Exec command #1: ls]</b> de mai sus:
+o soluție pentru programul cerut la pct. ii) din enunț, se poate obține foarte simplu din programul de la pct. i),
+în care trebuie doar să se înlocuiască linia de cod:
+<br><tt class="stil_instrC">execlp("last","last","--limit","10","-F",argv[1],NULL);</tt>
+<br>cu următoarea linie de cod:
+<br><tt class="stil_instrC">execl("/usr/bin/last","last","--limit","10","-F",argv[1],NULL);</tt> .
+</p>
+<p>
+<i>Observație</i>: calea absolută către comanda dorită am aflat-o cu comanda <tt class="stil_cmdBash">whereis last</tt> ;
+sau, alternativ, mai putem folosi și <tt class="stil_cmdBash">which last</tt>.
+</p>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+<ol>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab10_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>[Exec command #3: cut]</big>
+<br>
+<!-- Varianta nouă, folosită joi la grupa A1 (inițial o pregătisem pentru setBP, dar el mi-a trimis alt enunț miercuri seara):-->
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>cut -f1,3 -d: --output-delimiter=" - " /etc/group</tt></font> ,
+<!-- sau:  cut -d: --output-delimiter=" - " -f 1,3 /etc/group  sau: celelalte forme echivalente de apelare a comenzii. -->
+<!--
+Varianta veche, pe care am folosit-o miercuri la grupa B1:
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>cut -d: -f 1,3 /etc/passwd</tt></font> ,
+sau:  cut -d: -f1,3 /etc/passwd  sau:  cut --fields 1,3 --delimiter=: /etc/passwd  sau: celelalte forme din exercițiul rezolvat [cut #1] din Lab1. -->
+iar la sfârșitul execuției comenzii să afișeze textul: "Comanda cut a fost executata ...", dar numai în situația când
+într-adevăr s-a executat comanda cut, altfel să fie afișat textul: "Comanda cut nu a putut fi executata...".
+<br>
+<b><i>Cerință</i></b>: se va folosi <u>primitiva execvp()</u> și nu funcția system(), și nici execlp() !
+<br>
+ii) Să se rescrie programul de la punctul i), utilizând primitiva execv() în locul primitivei execvp().
+<br><br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>): testați corectitudinea programului scris,
+în sensul că outputul afișat de acesta pe ecran să fie IDENTIC cu outputul afișat de comanda specificată în enunț!
+</p>
+
+<!--
+<button onclick="myToggle('lab10_ex3')">Show / Hide a possible solution</button>
+<div id="lab10_ex3" style="display:none;" class="stil_rezolvare">
+<p>
+<b>i)</b> Iată o posibilă soluție pentru programul cerut la pct. i) din enunț:
+</p>
+<pre class="stil_codC"><div w3-include-Code="lab10_c/lab10_ex3.c">See the code from <a target="_blank"
+href="lab10_c/lab10_ex3.c">here</a>.</div></pre>
+<p>
+<i>Observație</i>: practic, acesta este un program similar cu cel de la exercițiul <b>[Exec command #1: ls]</b> de mai sus,
+singura diferență majoră fiind linia de cod:
+<tt class="stil_instrC">execlp("ls","ls","-l","-i",dirname,NULL);</tt>
+care trebuie înlocuită cu:
+<tt class="stil_instrC">execlp("cut","cut","-d:","-f","1,3","/etc/passwd",NULL);</tt>
+, plus încă câteva modificări minore, cu rol "estetic"...
+</p>
+
+<p>
+<b>ii)</b> Vom proceda similar ca la exercițiul <b>[Exec command #1: ls]</b> de mai sus:
+o soluție pentru programul cerut la pct. ii) din enunț, se poate obține foarte simplu din programul de la pct. i),
+în care trebuie doar să se înlocuiască linia de cod:
+<tt class="stil_instrC">execlp("cut","cut","-d:","-f","1,3","/etc/passwd",NULL);</tt>
+cu următoarea linie de cod:
+<tt class="stil_instrC">execl("/usr/bin/cut","cut","-d:","-f","1,3","/etc/passwd",NULL););</tt> .
+</p>
+<p>
+<i>Observație</i>: calea absolută către comanda dorită am aflat-o cu comanda: <tt class="stil_cmdBash">whereis cut</tt>.
+</p>
+</div>
+-->
+</li>
+</ol>
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab10_ex2.c -------------------------------------------------------------------------------------------->
+<p><big>[Exec command #4: ls ...; rm ... ]</big>
+<br>
+Să se scrie un program C care ori primește de la linia de comandă ca parametru numele unui director (specificat prin cale absolută sau relativă),
+ori îl citește de la tastatură în caz că nu este dat ca parametru în linia de comandă.
+<br>
+Programul va afișa conținutul directorului respectiv folosind comanda <font color="blue"><tt>ls -l</tt></font> , apelată printr-un apel execlp(),
+iar apoi va întreba utilizatorul dacă dorește ștergerea acestui director.
+<br>
+În caz de răspuns afirmativ, conținutul directorului va fi șters complet folosind comanda <font color="blue"><tt>rm</tt></font> cu parametrii
+corespunzători (i.e., <font color="blue"><tt>rm -r -i <i>director</i></tt></font>),
+de această dată <u>apelată printr-un apel execv()</u>, în loc de execlp().
+<br>
+La sfârșitul execuției programului se va afișa mesajul "Done!", dar numai în cazul când nu au fost erori la execuția celor două comenzi.
+</p>
+
+<button onclick="myToggle('lab10_ex5')">Show / Hide an incomplete solution</button>
+<div id="lab10_ex5" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea este de a implementa corect cele două invocări ale comenzilor ls și rm, folosind cele două apeluri specificate (execlp, respectiv execv) în enunț.
+<br>
+De asemenea, de observat necesitatea ca apelurile de reacoperire să se facă în câte un proces (fiu) nou,
+astfel încât procesul principal să rămână activ și după fiecare invocare a acestora,
+căci mai are și alte operații de efectuat după fiecare din cele două invocări.
+<br><br>
+Iată un posibil șablon de rezolvare:
+<pre class="stil_codC"><div w3-include-HTML="lab10_c/lab10_ex5.c.html">See the code from <a target="_blank"
+href="lab10_c/lab10_ex5.c.html">here</a>.</div></pre>
+<br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+vă rămâne să implementați singuri codul de invocare a comenzii rm, după exemplul dat pentru invocarea comenzii ls,
+folosind însă un apel <b style="color: red;">execv()</b>, în loc de execlp().
+</div>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Exec command #5: wc ...; rm ... ]</big>
+<br>
+Să se scrie un program C care ori primește de la linia de comandă ca parametru numele unui fișier (specificat prin cale absolută sau relativă),
+ori îl citește de la tastatură în caz că nu este dat ca parametru în linia de comandă.
+<br>
+Programul va afișa numărul de cuvinte din acel fișier folosind comanda <font color="blue"><tt>wc -w</tt></font> , apelată printr-un apel execlp().
+<br>
+Iar apoi, numai dacă fișierul este vid (i.e., are lungimea 0 octeți), programul va șterge acel fișier,
+folosind comanda <font color="blue"><tt>rm</tt></font> cu parametrul corespunzător care cere confirmare de ștergere din partea utilizatorului
+(i.e., <font color="blue"><tt>rm -i <i>fișier</i></tt></font>),
+de această dată <u>apelată printr-un apel execv()</u>, în loc de execlp().
+<br>
+La sfârșitul execuției programului se va afișa mesajul "Am șters fișierul!", respectiv "Am păstrat fișierul!",
+în funcție de rezultatul comenzii rm.
+<br>
+(Indicație: <span class="stil_hint2">vă reamintesc faptul că lungimea unui fișier o puteți afla cu un apel stat.</span>)
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Exec command #6: sort]</big>
+<br>
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>sort --numeric-sort /etc/passwd -t : --key=3</tt></font> ,
+<!-- sau:  sort /etc/passwd -t : -k 3 -n  sau:  celelalte forme din exercițiul rezolvat [sort #2] din Lab2. -->
+iar la sfârșitul execuției comenzii să afișeze textul: "Comanda sort a fost executata ...", dar numai în situația când
+într-adevăr s-a executat comanda sort, altfel să fie afișat textul: "Comanda sort nu a putut fi executata...".
+<br>
+<b><i>Cerință</i></b>: se va folosi <u>primitiva execvp()</u> și nu funcția system(), și nici execlp() !
+<br>
+ii) Să se rescrie programul de la punctul i), utilizând primitiva execv() în locul primitivei execvp().
+<br><br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>): testați corectitudinea programului scris,
+în sensul că outputul afișat de acesta pe ecran să fie IDENTIC cu outputul afișat de comanda specificată în enunț!
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Exec command #7: find]</big>
+<br>
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>find ~ -exec stat --format="%a %n" \{} \;</tt></font> ,
+<!-- sau:  celelalte forme echivalente, din exercițiul rezolvat [find #1] din Lab2. -->
+iar la sfârșitul execuției comenzii să afișeze textul: "Comanda find a fost executata ...", dar numai în situația când
+într-adevăr s-a executat comanda find, altfel să fie afișat textul: "Comanda find nu a putut fi executata...".
+<br>
+<b><i>Cerință</i></b>: se va folosi <u>primitiva execvp()</u> și nu funcția system(), și nici execlp() !
+<br>
+ii) Să se rescrie programul de la punctul i), utilizând primitiva execv() în locul primitivei execvp().
+<br>
+(Indicație: <span class="stil_hint2">vă reamintesc faptul că ~ și, mai general, <tt>~username</tt> reprezintă
+căi relative la directorul <i>acasă</i> al utilizatorului curent, respectiv al utilizatorului specificat,
+care sunt interpretate de către interpretoarele de comenzi UNIX (<tt>/bin/bash</tt> și celelalte),
+NU sunt căi recunoscute la nivelul API-ului de programare al sistemelor din familia UNIX (!).
+<br>Prin urmare, va trebui să înlocuiți manual, în apelul exec, argumentul ~ cu calea reprezentată de acest simbol la nivelul interpretorului de comenzi.
+Cum puteți face acest lucru?
+1) modalitatea ușoară, dar nu și eficientă: "hard-codați" în program calea absolută a directorului <i>acasă</i> al utilizatorului curent;
+2) modalitatlea recomandată: aflați programatic această cale -- cum anume? Fie consultați variabila de mediu $HOME, primită de la părinte,
+fie puteți folosi funcția getpwuid() pasându-i ca argument UID-ul propriu, aflat cu getuid().</span>)
+<br><br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>): testați corectitudinea programului scris,
+în sensul că outputul afișat de acesta pe ecran să fie IDENTIC cu outputul afișat de comanda specificată în enunț!
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Exec command #8: find]</big>
+<br>
+i) Să se scrie un program C care să execute comanda <font color="blue"><tt>find ~ -name "*.c" -printf "%p : %k KB\n"</tt></font> ,
+<!-- sau:  celelalte forme echivalente, obținute prin simplificarea soluției din exercițiul rezolvat [find #2] din Lab2. -->
+iar la sfârșitul execuției comenzii să afișeze textul: "Comanda find a fost executata ...", dar numai în situația când
+într-adevăr s-a executat comanda find, altfel să fie afișat textul: "Comanda find nu a putut fi executata...".
+<br>
+<b><i>Cerință</i></b>: se va folosi <u>primitiva execvp()</u> și nu funcția system(), și nici execlp() !
+<br>
+ii) Să se rescrie programul de la punctul i), utilizând primitiva execv() în locul primitivei execvp().
+<br>
+(Indicație: <span class="stil_hint2">vă reamintesc faptul că ~ și, mai general, <tt>~username</tt> reprezintă
+căi relative la directorul <i>acasă</i> al utilizatorului curent, respectiv al utilizatorului specificat,
+care sunt interpretate de către interpretoarele de comenzi UNIX (<tt>/bin/bash</tt> și celelalte),
+NU sunt căi recunoscute la nivelul API-ului de programare al sistemelor din familia UNIX (!).
+<br>Prin urmare, va trebui să înlocuiți manual, în apelul exec, argumentul ~ cu calea reprezentată de acest simbol la nivelul interpretorului de comenzi.
+Cum puteți face acest lucru?
+1) modalitatea ușoară, dar nu și eficientă: "hard-codați" în program calea absolută a directorului <i>acasă</i> al utilizatorului curent;
+2) modalitatea recomandată: aflați programatic această cale -- cum anume? Fie consultați variabila de mediu $HOME, primită de la părinte,
+fie puteți folosi funcția getpwuid() pasându-i ca argument UID-ul propriu, aflat cu getuid().</span>)
+<br><br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>): testați corectitudinea programului scris,
+în sensul că outputul afișat de acesta pe ecran să fie IDENTIC cu outputul afișat de comanda specificată în enunț!
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte exerciții de programare C cu apeluri exec, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- CV: enunț nou, 2020 ---------------------------------------------------------------------------------------------->
+<p><big>[MyCall_System]</big>
+<br>
+Să se scrie un program C care să simuleze apelul system(), folosind doar apeluri fork, wait și exec.
+</p>
+
+<button onclick="myToggle('lab10_ex10')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab10_ex10" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- trebuie să scrieți un program care, primind ca argumente în linia de comandă un nume de executabil (e.g.,
+orice comandă validă în Linux/UNIX) și o serie de parametri pentru aceasta,
+să creeze un proces fiu care să se reacopere printr-un apel exec cu comanda respectivă, invocată împreună cu parametrii specificați.
+Iar procesul părinte va aștepta terminarea execuției comenzii respective și va prelucra statusul comenzii respective (i.e., succes vs. eșec).
+<br>
+Pentru a înțelege mai bine cum să implementați cele descrise mai sus, revedeți exercițiile rezolvate de la începutul acestui laborator.
+</div>
+<br><br>
+</li>
+
+<li><!-- CV: enunț nou, 2020 ---------------------------------------------------------------------------------------------->
+<p><big>[Run SPMD programs (<small>versiunea în C</small>)]</big>
+<br>
+Să se scrie un program C care să implementeze în C funcționalitatea scriptului bash <tt>RunMySPMD.sh</tt> descris
+în exercițiul rezolvat <b>[Run SPMD programs]</b> prezentat în <a href="lab5.html#sec_1a">Laboratorul #5</a>).
+<br>
+<i>Cerință</i>: trebuie să scrieți cod C echivalent cu acel script, și
+NU să apelați direct acel script, prin intermediul vreunei primitive exec() sau a funcției system() !
+</p>
+
+<button onclick="myToggle('lab10_ex11')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab10_ex11" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- puteți refolosi codul din exercițiul rezolvat <b>[N childs]</b> prezentat în <a href="lab9.html#sec_1a">Laboratorul #9</a>),
+pentru a crea cele n instanțe ale comenzii specificate și pentru a aștepta terminarea execuției tuturor celor n instanțe,
+iar în procesele fii astfel create folosiți apeluri exec pentru a porni executabilul/comanda specificată,
+împreună cu argumentul specificat pentru fiecare instanță în parte.
+<br>
+Așadar, nu aveți voie să apelati direct scriptul respectiv prin apelul system(), sau vreun apel exec(),
+ci trebuie să implementați în C funcționalitatea acestui script, folosind apeluri fork, wait și exec.
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu mai multe procese secvențiale (partea a treia -- diverse procesări, folosind apeluri fork, wait și exec):</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab10sync.html#sec_2">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab10perf.html#sec_3">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_4">
+<p><span class="stil_set_exercitii">IV) Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat:</span></p>
+</a>
+
+<div w3-include-HTML="errors+bugs/Corectare_programeC_cu_erori.html"><!--
+See the page from <a target="_blank" href="errors&bugs/Corectare_programeC_cu_erori.html">here</a>.-->
+<iframe src="errors+bugs/Corectare_programeC_cu_erori.html" height="800" width="100%"></iframe>
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr><td align="center" valign="center">
+    <form><input type="button" name="lastUpdButton" value="Last Update"
+            onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);"></form>
+</td></tr>
+</table>
+
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<script>includeHTML();</script>
+</body>
+</html>

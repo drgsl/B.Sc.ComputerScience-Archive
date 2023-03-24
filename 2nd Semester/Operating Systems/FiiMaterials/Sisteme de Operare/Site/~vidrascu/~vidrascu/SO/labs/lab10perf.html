@@ -1,0 +1,421 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #10</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<!--script src="script_include.js"></script-->
+
+<body>
+
+<h2><font color="blue">Laborator #10, partea a III-a :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab10.html#sec_0">Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile exec</a></h4>
+<h4>I) <a href="lab10.html#sec_1">Exerciții de programare C cu apeluri exec (execuția programatică a unor comenzi uzuale)</a></h4>
+<h4>II) <a href="lab10sync.html#sec_2">Exerciții de programare C cu mai multe procese secvențiale (partea a treia -- diverse procesări, folosind apeluri fork, wait și exec)</a></h4>
+<h4>III) <a href="lab10perf.html#sec_3">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+<h4>IV) <a href="lab10.html#sec_4">Exerciții ce presupun corectarea unor greșeli 'strecurate' într-un program C dat</a></h4>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile exec:</span></p>
+</a>
+
+<p>
+Lista cu aceste informații și programe demonstrative este disponibilă <a href="lab10.html#sec_0">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu apeluri exec (execuția programatică a unor comenzi uzuale):</span></p>
+</a>
+
+<p>
+Lista cu aceste exerciții este disponibilă <a href="lab10.html#sec_1">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu mai multe procese secvențiale (partea a treia -- diverse procesări, folosind apeluri fork, wait și exec) :</span></p>
+</a>
+
+<p>
+Lista cu aceste exerciții este disponibilă <a href="lab10sync.html#sec_2">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab10_ex7.c+rtstats ------------------------------------------------------------------------------------>
+<p><big>['Supervisor-workers pattern' #2-rtstats : Runtime statistics of Coordinated distributed sum]</big>
+<br>
+<b>Studiu experimental</b>: să se studieze eficiența (i.e., performanța exprimată prin prisma timpului de execuție necesar pentru efectuarea calculelor cerute în problema dată)
+a programului de la exercițiul <b>['Supervisor-workers pattern' #2: Coordinated distributed sum]</b>
+ce calculează distribuit suma a <tt>N</tt> numere întregi, prin comparație cu varianta secvențială de calcul a sumei a <tt>N</tt> numere întregi.
+<br>
+(Indicație: <span class="stil_hint">Modul de realizare a experimentului:
+scrieți și o variantă clasică de program ce calculează secvențial suma numerelor citite de la tastatură, apoi comparați timpii de execuție ai acestuia cu cei
+ai programului distribuit realizat la exercițiul pomenit mai sus, folosind un set de fișiere cu secvențe de numere întregi de diverse lungimi
+(1.000 de întregi, 10.000 de întregi, 100.000 de întregi, 1.000.000 de întregi, ș.a.m.d.)
+și observați de la ce dimensiune a secvenței devine mai eficient (d.p.d.v. al timpului de execuție) programul distribuit decât cel secvențial.</span>)
+<br>
+<br><i>Explicații detaliate</i>:
+<button onclick="myToggle('lab10perf_ex1')">Show / Hide the full details</button>
+<div id="lab10perf_ex1" style="display:none;" class="stil_explicatie_detaliata">
+Timpul de execuție a programului de adunare distribuită amintit mai sus depinde atât de "dimensiunea problemei" (i.e., de secvența de numere ce trebuie adunate),
+cât și de mediul de execuție folosit pentru adunare, precum și de anumite caracteristici ale algoritmului de adunare implementat în programul amintit mai sus.
+Mai precis, factorii ce influențează timpul de execuție pot fi clasificați astfel:
+<ul>
+	<li>i) <u>Factori ce descriu "dimensiunea problemei", i.e. secvența de numere ce trebuie adunate</u>:<br><br>
+		<ol>
+		<li><b>Dimensiunea secvenței</b>, notată cu <tt>N</tt>.
+<button onclick="myToggle('lab10perf_ex1_1')">Show / Hide the details</button>
+			<div id="lab10perf_ex1_1" style="display:none;" class="stil_explicatie">
+			<i>Metodologia de experimentare</i>: pentru relevanță statistică, <u>alegeți pentru <tt>N</tt> valorile pe o scară logaritmică: 100, 1000, 10.000, 100.000, 1.000.000, ...</u>
+			<i>Notă</i>: vă puteți opri cu creșterea lui <tt>N</tt> la 10.000.000, sau chiar și mai "departe", în funcție de ce "mărime" va avea timpul de execuție pe care-l veți măsura,
+			i.e. sigur nu veți avea răbdare să așteptați execuții care să dureze de ordinul orelor, sau chiar de ordinul mai multor zeci de minute.
+			Deci puteți opri mărirea graduală a dimensiunii <tt>N</tt> atunci când ajungeți la timpi de execuție de ordinul minutelor, sau câtorva zeci de minute.
+			<br>
+			Mai exact, opriți execuția programului de adunare distribuită în situațiile în care observați că durata execuției depășește un interval de timp, notat cu <tt>Timeout</tt>,
+			și ales de voi după preferințe, în funcție de cât de răbdători sunteți. Spre exemplu, puteți folosi un <tt>Timeout</tt> = 10 minute. Iar în tabelul în care veți colecta
+			timpii de execuție, tabel despre care vă voi vorbi mai jos, puteți trece în celulele corespunzătoare acestor situații textul "TIMEOUT".
+			</div><br><br>
+		</li>
+		<li>Un alt factor de influență ar putea fi și <b>'distribuția' numerelor întregi din acea secvență, d.p.d.v. al mărimii acestora</b>, ceea ce va influența numărul de adunări
+			pe biți și de <i>overflow</i>-uri care se petrec în implementarea hardware a instrucțiunii mașină de adunare a doi întregi.
+<button onclick="myToggle('lab10perf_ex1_2')">Show / Hide the details</button>
+			<div id="lab10perf_ex1_2" style="display:none;" class="stil_explicatie">
+			Evident, acest factor va avea un impact mai mic asupra timpului de execuție, dar care totuși s-ar putea să nu fie neglijabil (depinde însă și de precizia
+			măsurării timpului de execuție, despre care vă voi explica ceva mai jos).
+			<br>
+			<br><i>Metodologia de experimentare</i>: pentru relevanță statistică, <u>trebuie să realizați o medie aritmetică a timpilor calculați pentru o serie de secvențe generate aleator</u>.
+			În acest scop, mai întâi fixați constanta <tt>NrSeries</tt>=5 {sau, în loc de 5, puteți alege 10, sau o valoare și mai mare, în funcție de <i>răbdarea pe care o veți dovedi în execuția experimentelor</i>;
+			evident, răbdarea vă va fi răsplătită printr-o relevanță cu atât mai bună a rezultatelor, cu cât alegeți o valoare mai mare pentru constanta <tt>NrSeries</tt>}.
+			<br>Iar apoi, pentru fiecare valoare a lui <tt>N</tt> aleasă la punctul anterior, generați un set de <tt>NrSeries</tt> fișiere de date care să conțină secvențe de lungime <tt>N</tt>,
+			de numere generate aleator, pe care salvați-le în format binar în fișiere cu nume create după șablonul: "file_<tt>N</tt>_random-<tt>Seria</tt>.dat", unde <tt>Seria</tt>=1,2,3,...,<tt>NrSeries</tt>.
+			<br>
+			<br>În scopul creării acestor fișiere de date, puteți folosi programul auxiliar "bin-write.c" de la exercițiul <b>[MyCritSec #2 : Parallel sorting]</b>, pe care trebuie să-l adaptați
+			să genereze pseudo-aleator <tt>N</tt> numere, în loc să le citească de la tastatură, și să salveze fișierul cu numele creat după șablonul indicat.
+			<i>Notă</i>: aveți grijă la folosirea funcțiilor C de generat numere pseudo-aleatoare, să nu obțineți aceeași secvență identică de <tt>NrSeries</tt> ori!
+			Pentru aceasta, trebuie să inițializați 'seed'-ul secvenței cu valori diferite, la fiecare generare de secvență, i.e. la fiecare execuție a programului auxiliar.
+			Astfel, puteți alege 'seed'-ul pe baza PID-ului procesului {a se vedea funcția getpid()} sau pe baza timpului curent {a se vedea funcția gettimeofday()}.
+			<br>
+			<br><i>Observație</i>: va trebui să adaptați programul dat în rezolvarea exercițiului <b>['Supervisor-workers pattern' #2: Coordinated distributed sum]</b>,
+			precum și varianta sa secvențială pe care trebuie să o scrieți singuri, astfel încât ambele programe să citească numerele de la tastatură fără conversie de format
+			(deci cu funcția fread și nu cu scanf), după care veți putea rula ambele programe cu redirectarea intrării standard din fiecare fișier de date generat mai sus,
+			pentru a compara timpii de execuție obținuți cu cele două programe, pentru fiecare fișier de date în parte.
+			<br>
+			<br><i>Notă</i>: în cele ce urmează, ne vom referi prin indicativul 'Average-case' la situația descrisă mai sus, de calcul a timpilor de execuție ca medie aritmetică a
+			timpilor de adunare a unor secvențe de numere aleatoare.
+			</div><br><br>
+		</li>
+		<li>Un alt factor de influență ar putea fi și <b>tipul de numere 'întregi'</b> efectiv folosit în program, i.e. <u>dimensiunea în biți a acestuia</u>.
+<button onclick="myToggle('lab10perf_ex1_3')">Show / Hide the details</button>
+			<div id="lab10perf_ex1_3" style="display:none;" class="stil_explicatie">
+			Și acest factor va avea un impact mai mic asupra timpului de execuție, dar care totuși s-ar putea să nu fie neglijabil (depinde însă și de precizia
+			măsurării timpului de execuție, despre care vă voi explica ceva mai jos).
+			<br>Discuția este similară aici cu cea purtată în descrierea aceluiași factor de influență la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b>
+			din <a href="lab7perf.html">Lab7</a>, revedeți acea discuție!
+			</div><br><br>
+		</li>		
+		</ol>
+	</li>
+	<li>ii) <u>Factori ce descriu mediul de execuție folosit pentru adunare</u>:<br><br>
+		<ul>
+		<li><b>'Parametrii de funcționare' ai platformei</b>, i.e. ai calculatorului pe care veți realiza experimentele.
+<button onclick="myToggle('lab10perf_ex1_4')">Show / Hide the details</button>
+			<div id="lab10perf_ex1_4" style="display:none;" class="stil_explicatie">		
+			Discuția este similară aici cu cea purtată în descrierea aceluiași factor de influență la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b>
+			din <a href="lab7perf.html">Lab7</a>, revedeți acea discuție!
+			</div><br><br>
+		</li>
+		</ul>
+	</li>
+	<li>iii) <u>Factori ce caracterizează algoritmul folosit pentru rezolvarea problemei</u>:<br><br>
+		<ul>
+		<li><b>'Gradul de paralelism' al algoritmului folosit</b>.
+<button onclick="myToggle('lab10perf_ex1_5')">Show / Hide the details</button>
+			<div id="lab10perf_ex1_5" style="display:none;" class="stil_explicatie">
+			Prin <u>gradul de paralelism</u> al algoritmului de adunare, implementat în programul amintit mai sus, înțelegem, în acest caz, numărul de instanțe
+			ale programului worker, ce sunt create de coordonator și rulate în paralel.
+			<br><i>Notă</i>: numărul de instanțe ale programului worker, create de coordonator, este fixat la <tt>3</tt> în enunțul exercițiului amintit mai sus.
+			Însă programul prezentat ca soluție este deja modificat astfel încât să lucreze cu un număr variabil, notat cu <tt>GP</tt>, de instanțe ale
+			programului worker, primit de coordonator în linia de comandă.
+			În acest fel, veți putea studia variația timpului de execuție și în raport cu acest factor, i.e. gradul de paralelism <tt>GP</tt>.
+			<br>
+			<br>Exceptând cele spuse mai sus, în rest discuția este similară aici cu cea purtată în descrierea aceluiași factor de influență la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b>
+			din <a href="lab7perf.html">Lab7</a>, revedeți acea discuție!
+			</div><br><br>
+		</li>
+		</ul>
+	</li>
+</ul>
+		
+<p>
+<i>Concluzie</i>: <u>timpul de execuție al programului de adunare paralelă distribuită este <b>o funcție de mai mulți parametri</b> (descriși în cele 5 categorii de factori din clasificarea de mai sus)</u>,
+dintre care o parte au ca domenii de valori mulțimi infinit-numărabile {factorul din categoria i).1 },
+o altă parte dintre acești parametri au ca domenii de valori mulțimi finite {factorii din categoriile i).3, i).2 și iii) },
+iar unii dintre acești parametri nu pot fi cuantificați (cel puțin, nu cu ușurință) {factorii din categoria ii) }.
+</p>
+
+<p>
+<b>Scopul urmărit</b>: pe noi ne interesează <u>performanța programului de adunare paralelă distribuită</u>, comparativ cu cea a programului secvențial de adunare.
+Adică, cu alte cuvinte, trebuie să aflăm minimul global al acestei funcții, pentru fiecare dintre cei doi algoritmi, și să le comparăm.
+Sau, mai general, să aflăm toate punctele de minim ale funcției, căci poate avea mai multe minime locale. Iar fiecare punct de minim local, mai precis vecinătatea sa, ne va da câte o caracterizare
+a situațiilor în care programul se comportă eficient, i.e. are timp minim de execuție pentru acea 'regiune' a setului parametrilor de intrare corespunzătoare acelei caracterizări.
+<br>
+Discuția este similară aici cu cea purtată în descrierea scopului urmărit la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b>
+din <a href="lab7perf.html">Lab7</a>, revedeți acea discuție!
+</p>
+
+<p>
+O altă întrebare este:
+<big><i>Cum măsurăm timpul de execuție a unui program?</i></big>
+<br>
+<i>Răspuns</i>: <u>există mai multe posibilități de măsurare a timpului de execuție, fiecare având un anumit grad de precizie a măsurătorilor.</u>
+Astfel, avem la dispoziție trei metode de măsurare a timpului de execuție, pe care le-am prezentat deja în descrierea de la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b>
+din <a href="lab7perf.html">Lab7</a>, revedeți acea discuție!
+<br>
+Ținând cont de datele experimentale obținute anterior la problema pomenită mai sus, precum și de observația intuitivă legată de faptul că, pentru o dimensiune <tt>N</tt> dată,
+durata de calcul a sumei unei secvențe de întregi de lungime <tt>N</tt> este, de regulă, semnificativ mai mică decât durata de sortare a acelei secvențe,
+putem alege, în cazul problemei pe care ne dorim s-o rezolvăm acum, să utilizăm a doua metodă de măsurare a timpului de execuție, cea cu precizia de ordinul microsecundelor.
+</p>
+
+<p>
+<big><i>Metodologia generală de realizare a experimentelor</i></big>
+<br>I) prima etapă constă în colectarea datelor experimentale;
+<br>II) a doua etapă constă în interpretarea datelor experimentale.
+</p>
+
+<p>
+<big><u>I) Etapa de colectare a datelor experimentale</u></big>
+<br>Se vor parcurge pașii următori, similari cu cei descriși la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b>
+din <a href="lab7perf.html">Lab7</a>, <u>revedeți acea discuție</u>!!!
+<ol>
+<li><b>Alegerea tipului de numere întregi cu care se va lucra.</b> [...] 
+	<br><br>
+</li>
+<li><b>Generarea fișierelor cu secvențe de numere pentru adunat.</b> [...]
+	<br><br>
+</li>
+<li><b>Alegerea calculatoarelor pe care le veți folosi pentru a rula experimentele.</b> [...]
+	<br>
+	Reamintesc și aici recomandarea ca pe fiecare calculator să creați un director de lucru, în care veți rula experimentele,
+	și care să aibă următoarea ierarhie de subdirectoare:
+	<br>\-- <tt>InputData</tt> : aici veți stoca originalele fișierelor generate la pasul anterior {vor fi aceleași fișiere de date pe toate calculatoarele};
+	<br>\-- <tt>src</tt> : aici veți stoca sursele programelor C utilizate, i.e. <tt>supervisor.c + worker.c</tt>, varianta secvențială de calcul a sumei,
+		precum și toate celelalte programe ajutătoare amintite mai devreme
+		{conținutul <tt>src</tt> va fi același pe toate calculatoarele};
+	<br>\-- <tt>bin</tt> : aici veți stoca executabilele obținute prin compilarea, pe fiecare calculator în parte, a programelor sursă din subdirectorul <tt>src</tt>,
+		precum și toate scripturile bash ajutătoare amintite mai devreme {vor fi aceleași scripturi pe toate calculatoarele};
+	<br>\-- <tt>OutputData_<i>ID-computer</i></tt> : aici veți stoca fișierele sortate, produse pe acel calculator;
+	<br>\-- <tt>DataAnalysis</tt> : aici veți stoca fișierele cu interpretarea datelor experimentale colectate, despre care voi vorbi la etapa a II-a de mai jos.
+	<br>
+	<br>Toți pașii descriși în cele ce urmează (inclusiv la interpretarea datelor) <u>îi veți repeta pe fiecare calculator în parte</u>.
+	<br><br>
+</li>
+<li><b>Efectuarea experimentelor.</b> [...]
+    <br>Prin urmare, <u>pentru fiecare fișier de date generat</u> (i.e., pentru fiecare valoare a lui <tt>N</tt> și
+    pentru fiecare din cele <tt>NrSeries</tt> secvențe de lungime <tt>N</tt> de numere generate aleator),
+    <u>și respectiv pentru fiecare valoare <tt>GP</tt> a 'gradului de paralelism'</u>, <b>se va rula câte un experiment</b>, i.e. se va executa <tt>programul supervisor.exe</tt>,
+	cu intrarea standard redirectată din fișierul de date respectiv, și care va porni în paralel <tt>GP</tt> instanțe ale programului <tt>worker.exe</tt>,
+	măsurând timpul de execuție cu ajutorul celei de a doua dintre metodele descrise mai sus.
+    Reamintesc și faptul că, experimentele se vor rula unul după altul, nu în același timp.
+    <br>Evident, și în acest caz puteți <u>automatiza execuția secvențială a experimentelor cu ajutorul unui script</u>, astfel:<br>
+    Scrieți un script care va genera 'spațiul valorilor de intrare' cu ajutorul a 3 bucle for, imbricate (<small>nu contează neapărat în ce ordine, ci după preferințe; de exemplu, putem folosi
+    ordinea <tt>N</tt> -> secvență de numere -> <tt>GP</tt> </small>), și pentru fiecare tripletă din 'spațiul valorilor de intrare' va efectua experimentul având acea tripletă ca și parametri de intrare.
+    <br>
+    <br>În plus, pentru fiecare fișier de date generat, se va efectua și următorul experiment: <u>se va rula o singură instanță a programului de adunare secvențială</u>,
+	pentru a compara timpul său de execuție cu acela al experimentului în care se rulează programul de adunare coordonată cu o singură instanță a programului <tt>worker</tt>.
+    Astfel putem trage vreo eventuală concluzie despre 'punctul de inflexiune', i.e. dimensiunea secvenței de numere întregi de la care timpul de execuție al programului distribuit
+	devine mai mic decât cel al programului secvențial.
+    <br>
+    De asemenea, se poate folosi outputul experimentului rulat cu programul de adunare secvențială pentru <u>verificarea corectitudinii</u> adunării distribuite cu <tt>GP</tt> instanțe
+	ale programului <tt>worker</tt>, i.e. de verificat că nu apar fenomene de tip <i>data race</i> care să strice corectitudinea rezultatelor. Cu observația că, în acest fel
+	veți testa nu corectitudinea absolută a rezultatului, ci doar faptul că aproximările survenite prin adunări repetate și "pierderile" prin <i>overflow</i>-uri ce pot surveni
+	la adunarea a două numere întregi, sunt aceleași în ambele situații, deși ordinea de adunare a numerelor nu este aceeași în cele două situații.
+    <br>Pentru aceasta, se poate adăuga în scriptul de automatizare a execuției secvențiale a tuturor experimentelor, unul după altul, amintit mai sus, și un test adecvat pentru a compara outputul fiecărei
+    adunări coordonate cu <tt>GP</tt> instanțe ale programului <tt>worker</tt>, cu outputul programului de adunare secvențială, pe același fișier de intrare.
+</li>
+</ol>
+</p>
+
+
+<p>
+<big><u>II) Etapa de interpretare a datelor experimentale</u></big>
+<br>Se vor parcurge pașii următori, repetați pentru fiecare calculator în parte utilizat pentru a colecta date experimentale,
+similari cu cei descriși la problema <b>[MyCritSec #2-rtstats : Runtime statistics of Parallel sorting]</b> din <a href="lab7perf.html">Lab7</a>, <u>revedeți acea discuție</u>!!!
+<ol>
+<li><b>Colectăm toate datele într-o tabelă Excel, pentru prelucrări statistice ulterioare</b>.
+    <br>Pe baza outputului generat pe ecran și redirectat către un fișier, de către scriptul de automatizare a execuției tuturor experimentelor descris la pct.4 de mai sus,
+    obținem un fișier cu timpii de execuției pentru toate experimentele, pe care îl putem importa într-un program de calcul tabelar de genul LibreOffice (sau Microsoft Office),
+	prin conversie de la CSV, obținând o tabelă Excel
+	precum cea de mai jos:<br>
+<button onclick="myToggle('lab10perf_ex1_9a')">Show / Hide the Excel sheet for a laptop</button>
+    <p id="lab10perf_ex1_9a" style="display:none;" class="stil_explicatie">
+	Not yet!
+<!--
+    <table>
+    <tr><td><iframe src="data_analysis/Lab10_log_runtime_SG4_original.html" height="450" width="400"></iframe></td>
+        <td valign="top">
+        Această tabelă conține datele experimentale obținute folosind un laptop cu următoarele caracteristici:
+        <br>CPU: AMD C60 dual-core, RAM: 8GB DDR3, Stocare: SSD.
+        SO: Linux Mint 18.3, kernel: 4.15.0-47-generic #50~16.04.1-Ubuntu SMP Fri Mar 15 16:06:21 UTC 2019.
+        <br><br>
+        <i>Legendă</i>:
+        <br>Primele două coloane din tabel reflectă algoritmul de adunare utilizat pentru experimentul de pe fiecare linie:
+        'Seq add, 1' înseamnă adunare folosind o singură instanță a programului de adunare secvențială,
+        iar 'Par add, i' înseamnă adunare coordonată folosind i instanțe ale programului <tt>worker</tt>, cu i=1,2,3,...,<tt>GPmax</tt>.
+        <br>Coloanele 3 și 4 conțin dimensiunea secvenței de numere și fișierul cu acea secvență de numere, ce a fost adunată,
+        iar ultima coloană conține durata de execuție a adunării, calculată cu a doua dintre metodele de măsurare a timpului descrise mai sus,
+        <u>durata fiind exprimată în microsecunde</u> (!).
+        <br><br>
+        Limitele folosite: <tt>NrSeries=5</tt>, <tt>GPmax=16</tt>, nu am folosit timeout, însă m-am "oprit" din creșterea dimensiunii la <tt>Nmax=1.000.000</tt>.
+        Tipul de numere întregi utilizat: <tt>int</tt>.
+        <br><br>
+        <i>Observație</i>: execuția scriptului de automatizare a rulării tuturor experimentelor, unul după altul, pe acest calculator,
+        a durat în total aproximativ ?? de minute și nu s-a depistat nicio eroare datorită <i>data race</i>-urilor
+        (lucru ce nu era neapărat de așteptat în cazul acestui program, deoarece adunarea a doi întregi în limbaj mașină x86 NU ESTE ASOCIATIVĂ !!!).
+        </td>
+    </tr></table>
+-->
+	
+    </p>
+<button onclick="myToggle('lab10perf_ex1_9b')">Show / Hide the Excel sheet for a server</button>
+    <p id="lab10perf_ex1_9b" style="display:none;" class="stil_explicatie">
+    <table>
+    <tr><td><iframe src="data_analysis/Lab10_log_runtime_thor_original.html" height="500" width="400"></iframe></td>
+        <td valign="top">
+        Această tabelă conține datele experimentale obținute pe serverul profs, cu următoarele caracteristici:
+        <br>CPU: Intel Xeon E3-12xx v2 (Ivy Bridge), RAM: 8GB (?), Stocare: n/a.
+        SO: CentOS Linux 7 (Core), kernel: 3.10.0-862.14.4.el7.x86_64 #1 SMP Wed Sep 26 15:12:11 UTC 2018.
+        <br><br>
+        <i>Legendă</i>:
+        <br>Primele două coloane din tabel reflectă algoritmul de adunare utilizat pentru experimentul de pe fiecare linie:
+        'Seq add, 1' înseamnă adunare folosind o singură instanță a programului de adunare secvențială,
+        iar 'Par add, i' înseamnă adunare coordonată folosind i instanțe ale programului <tt>worker</tt>, cu i=1,2,3,...,<tt>GPmax</tt>.
+        <br>Coloanele 3 și 4 conțin dimensiunea secvenței de numere și fișierul cu acea secvență de numere, ce a fost adunată,
+        iar ultima coloană conține durata de execuție a adunării, calculată cu a doua dintre metodele de măsurare a timpului descrise mai sus,
+        <u>durata fiind exprimată în microsecunde</u> (!).
+        <br><br>
+        Limitele folosite: <tt>NrSeries=5</tt>, <tt>GPmax=16</tt>, nu am folosit timeout, însă m-am "oprit" din creșterea dimensiunii la <tt>Nmax=100.000.000</tt>.
+        Tipul de numere întregi utilizat: <tt>int</tt>.
+        <br><br>
+        <i>Observație</i>: execuția scriptului de automatizare a rulării tuturor experimentelor, unul după altul, pe acest calculator,
+        a durat în total aproximativ 15 minute și 30 secunde (!) și nu s-a depistat nicio eroare datorită <i>data race</i>-urilor
+        (lucru ce nu era neapărat de așteptat în cazul acestui program, deoarece adunarea a doi întregi în limbaj mașină x86 NU ESTE ASOCIATIVĂ !!!).
+        </td>
+    </tr></table>    
+    </p>
+    <br><br>
+</li>
+
+<li><b>Calculăm media aritmetică a duratelor de execuție pentru secvențele de numere generate aleator</b>.
+    <br>A se revedea discuția de la factorul de influență i).2 !!!
+    <br>Pentru fiecare din cele <tt>NrSeries</tt> fișiere cu secvențe de aceeași lungime, de numere generate aleator, vom calcula media aritmetică a duratelor de execuție,
+	folosind operațiuni și funcții specifice din calculul tabelar.
+	Mai precis, sortăm tabela de mai sus după coloanele: mai intâi după prima coloană, apoi după a doua coloană.
+    Astfel, am grupat laolaltă cele <tt>NrSeries</tt> fișiere de aceeași dimensiune și cu același grad de paralelism, pentru a aplica mai ușor funcția AVERAGE din Excel pe
+	un interval contiguu de celule.
+    <br>În urma aplicării repetate a funcției AVERAGE pe intervalele corespunzătoare de celule, obținem mediile aritmetice dorite și le 'decorăm' cu semnificația lor:
+	average-case, obținând o tabelă Excel precum cea de mai jos:<br>
+<button onclick="myToggle('lab10perf_ex1_10a')">Show / Hide the Excel sheet for a laptop</button>
+    <p id="lab10perf_ex1_10a" style="display:none;" class="stil_explicatie">
+	Not yet!
+<!--	
+    <table>
+    <tr><td><iframe src="data_analysis/Lab10_log_runtime_SG4_sortatGP.html" height="450" width="500"></iframe></td>
+        <td valign="top">
+        Aceasta este tabela obținută din cea anterioară (i.e, tabela cu datele experimentale obținute folosind un laptop), prin prelucrările descrise mai sus.
+        </td>
+    </tr></table>    
+-->
+    </p>
+<button onclick="myToggle('lab10perf_ex1_10b')">Show / Hide the Excel sheet for a server</button>
+    <p id="lab10perf_ex1_10b" style="display:none;" class="stil_explicatie">
+    <table>
+    <tr><td><iframe src="data_analysis/Lab10_log_runtime_thor_sortatGP.html" height="500" width="555"></iframe></td>
+        <td valign="top">
+        Aceasta este tabela obținută din cea anterioară (i.e, tabela cu datele experimentale obținute folosind un server), prin prelucrările descrise mai sus.
+        </td>
+    </tr></table>    
+    </p>
+    <br><br>
+</li>
+
+<li><b>Analizăm datele din tabela Excel obținută mai sus, încercând să observăm eventuale corelații ce se pot face între date</b>.
+  <br><br>
+    <ul>
+      <li>O primă observație pe care o putem trage din cele două tabele de mai sus:
+        <br><u>Precizia aleasă pentru măsurarea timpului, i.e. microsecunde, a fost inspirată</u>,
+		căci dacă alegeam prima metodă de măsurare a timpului, cea cu precizia de sutimi de secundă, ar fi fost <b>insuficientă</b>
+        pentru secvențe de numere de lungime mică (!)
+      </li>
+      <li>Întrebare: există vreo corelație între gradul de paralelism și timpul de execuție?
+        <br>[...] //ToDo: analizați cele două tabele, sortate ca la pct.1: ... 
+        <!--Care este factorul de accelerare?-->
+        <br><br>
+      </li>
+      <li>Întrebare: există vreo corelație între lungimea secvenței și timpul de execuție?
+        <br>[...] //ToDo: analizați cele două tabele de la pct.2, sortate după N: ...
+        <br><br>
+      </li>
+      <li>Întrebare: există vreo legătură între timpii de execuție pentru programul de adunare din <a href="lab10perf.html">Lab10</a>,
+			și respectiv cel de sortare din <a href="lab7perf.html">Lab7</a>,
+			măsurați pentru aceeași lungime a secvenței de numere și același grad de paralelism?
+        <br>[...] //ToDo: analizați tabelele pentru cele două programe ...
+		<br>
+		Evident, timpul de execuție la adunare va fi mai mic decât la sortare, pentru aceeași lungime a secvenței de numere și același grad de paralelism,
+		deoarece, deși ambele programe sunt I/O-intensive, totuși programul de sortare este cu mult mai I/O-intensiv decât cel de adunare!
+        <br><br>
+      </li>
+
+    </ul>
+    <br><br>
+</li>
+
+</ol>
+</p>
+
+
+</div>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<script src="script.js"></script>
+<!--script>includeMyCode();</script-->
+<!--script>includeHTML();</script-->
+</body>
+</html>

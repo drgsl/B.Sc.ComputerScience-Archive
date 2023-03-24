@@ -1,0 +1,536 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #2</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h2><font color="blue">Laborator #2 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab2.html#sec_1">Exerciții cu comenzi simple (partea a doua)</a></h4>
+<h5><a href="lab2.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab2.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab2.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții cu comenzi simple (partea a doua):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab2_ex1 ---------------------------------------------------------------------------------------------->
+<p><big>[find #1]</big>
+<br>Să se scrie comanda care să parcurgă recursiv directorul dat ca argument și să afișeze permisiunile tuturor fișierelor și subdirectoarelor întâlnite.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find și cu acțiunea de apelare a comenzii stat, sau acțiunea echivalentă de afișare cu format.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex1')">Show / Hide the solution</button>
+
+<div id="lab2_ex1" style="display:none;" class="stil_solutie">
+Soluții cu acțiunea de afișare cu format:
+<pre>
+find <i>arg_director</i> -printf "%m : %p\n"
+   # specificatorul %m : afișează permisiunile în octal
+
+find <i>arg_director</i> -printf %M\ :\ %p\\n
+   # specificatorul %M : afișează permisiunile în notație simbolică
+</pre>
+Sau, cu acțiunea generală -exec pentru a apela comanda stat:
+<pre>
+find <i>arg_director</i> -exec stat --format="%a %n" \{} \;
+   # specificatorul %a : afișează permisiunile în octal
+
+find <i>arg_director</i> -exec stat --format="%A %n" \{} \;
+   # specificatorul %A : afișează permisiunile în notație simbolică)
+</pre>
+<i>Observație</i>: atenție la cuvântul care descrie formatul, nu trebuie să conțină spații neprotejate!
+(Doarece doar primul cuvânt ce urmează după -printf se ia în considerare ca valoare pentru acțiunea -printf, și similar la comanda stat.)
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex2 ---------------------------------------------------------------------------------------------->
+<p><big>[find #2]</big>
+<br>Să se scrie comanda ce afișează pentru toate fișierele găsite în directorul dat ca argument în linia de comandă, parcurs recursiv,
+fișiere ale căror nume încep sau se termină cu litera 'a', următoarele proprietăți:
+numele fișierului, data ultimei modificări și dimensiunea fișierului în Kbytes.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find și cu opțiunea de combinare alternativă a mai multor criterii de căutare după nume,
+iar la partea de acțiuni cu opțiunea -printf cu parametrii adecvați.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex2a')">Show / Hide the solution</button>
+
+<div id="lab2_ex2a" style="display:none;" class="stil_solutie">
+Soluția mai "lungă":
+<pre>
+find <i>arg_director</i> -name "a*" -printf "%p : %t : %k KB\n" -or -name "*a" -printf "%p : %t : %k KB\n"
+</pre>
+Sau, mai condensat, prin forțarea precedenței de evaluare a opțiunilor folosind paranteze:
+<pre>
+find <i>arg_director</i> \( -name "a*" -o -name "*a" \) -printf "%p : %t : %k KB\n"
+</pre>
+</div>
+
+<button onclick="myToggle('lab2_ex2b')">Show / Hide some remarks</button>
+
+<div id="lab2_ex2b" style="display:none;" class="stil_explicatie">
+<i>Observații</i>:
+<br><br>
+<ol>
+  <li>Operatorul -o sau -or se folosește pentru a combina mai multe criterii de căutare ce trebuie satisfăcute disjunctiv (i.e., nu trebuie ca
+  toate să fie adevărate simultan, ci doar cel puțin unul dintre ele trebuie să fie adevărat).</li>
+  <li>Folosind parantezele se pot grupa mai multe criterii de căutare pentru a specifica o singură dată, în afara parantezelor, acțiunea de efectuat.</li>
+  <li>Atenție la caracterele speciale * { } ; ( ) ce trebuie protejate ca să fie citite ca atare de comanda find (altfel, neprotejate, le interpretează
+  interpretorul bash înainte de a executa comanda find, conform semnificației speciale pe care o au - vezi detalii despre aceasta la cursuri).
+  <br><i>Notă suplimentară</i>: în cazul caracterului * , acesta va rămâne neschimbat în urma interpretării de către bash atunci și numai atunci când
+  nu se poate identifica nici un fișier care să se potrivească cu șablonul în care apare folosit caracterul * !</li>
+</ol>
+</div>
+</li>
+
+
+<li><!-- Problema: lab2_ex3 ---------------------------------------------------------------------------------------------->
+<p><big>[sort #1]</big>
+<br>Să se scrie comanda care să sorteze descrescător liniile de text din fișierul <tt>/etc/passwd</tt>, iar rezultatul sortării să fie salvat în fișierul output.txt.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda sort cu cele două opțiuni corespunzătoare cerințelor din enunț.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex3')">Show / Hide the solution</button>
+
+<div id="lab2_ex3" style="display:none;" class="stil_solutie">
+O soluție posibilă ar fi:
+<pre>
+sort -r /etc/passwd -o output.txt
+</pre>
+Sau, alte combinații posibile de specificare a parametrilor (vezi observația de la Ex.[cut #1] din laboratorul #1):
+<pre>
+sort /etc/passwd -r -o output.txt
+
+sort /etc/passwd -o output.txt -r
+
+sort -r -o output.txt /etc/passwd
+
+..., etc.
+
+</pre>
+Dar NU și formele următoare de apel:
+<pre>
+sort /etc/passwd -o -r output.txt
+
+sort -r -o /etc/passwd output.txt
+</pre>
+(<i>Explicație</i>: ultimele două comenzi vor sorta fișierul output.txt și vor încerca să salveze rezultatul în fișierul <tt>/etc/passwd</tt>,
+dar vor eșua din lipsă de drepturi.)
+<br>
+<br>
+O altă soluție, mai generală, presupunând că sort nu ar fi avut opțiunea -o -- putem folosi redirectarea ieșirii normale standard:
+<pre>
+sort -r /etc/passwd > output.txt
+</pre>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex4 ---------------------------------------------------------------------------------------------->
+<p><big>[sort #2]</big>
+<br>Să se scrie comanda care să sorteze crescător după UID liniile de text din fișierul <tt>/etc/passwd</tt>.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda sort cu trei opțiuni: opțiunea pentru sortare numerică,
+opțiunea pentru sortare după cheia câmpul 3 și opțiunea pentru stabilirea separatorului dintre câmpuri.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex4')">Show / Hide the solution</button>
+
+<div id="lab2_ex4" style="display:none;" class="stil_solutie">
+O soluție posibilă ar fi:
+<pre>
+sort -n -t: -k3 /etc/passwd
+</pre>
+Sau, alte combinații posibile de specificare a parametrilor (vezi observația de la Ex.[cut #1] din laboratorul #1):
+<pre>
+sort /etc/passwd -t: -k3 -n
+
+sort --numeric-sort /etc/passwd --key=3 -t :
+
+..., etc.
+</pre>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex12-new ----------------------------------------------------------------------------------------->
+<p><big>[wc #1]</big>
+<br>Să se scrie comanda care să ne indice câte conturi de utilizatori și, respectiv, câte grupuri de utilizatori există pe sistemul pe care lucrați.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda wc aplicată celor două baze de date, ce conțin utilizatorii sistemului și, respectiv, grupurile de utilizatori.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex12')">Show / Hide the solution</button>
+
+<div id="lab2_ex12" style="display:none;" class="stil_solutie">
+Conform celor discutate anterior (a se vedea laboratorul #1), fișierul <tt>/etc/passwd</tt> conține informații despre utilizatorii sistemului, câte unul pe fiecare linie de text,
+iar fișierul <tt>/etc/group</tt> conține informații despre grupurile de utilizatori ai sistemului, câte unul pe fiecare linie de text.
+<br>
+Prin urmare, este suficient să folosim comanda wc ca să afișăm numărul de linii pentru fiecare din cele două fișiere.
+<br>
+Studiind documentația comenzii wc (i.e., pagina <tt>man 1 wc</tt>), aflăm că opțiunea de care avem nevoie este -l, prin urmare rezolvarea problemei este următoarea comandă:
+<pre>
+wc -l /etc/passwd /etc/group 
+</pre>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex13-new ----------------------------------------------------------------------------------------->
+<p><big>[Info user(s) #1]</big>
+<br>Să se scrie comanda care să ne indice informații despre un cont de utilizator de pe sistemul pe care lucrați, cum ar fi ID-ul numeric asociat, sau grupurile din care face parte.
+</p>
+
+<button onclick="myToggle('lab2_ex13')">Show / Hide the solution</button>
+
+<div id="lab2_ex13" style="display:none;" class="stil_solutie">
+Conform celor discutate anterior (a se vedea laboratorul #1), fișierul <tt>/etc/passwd</tt> conține informații despre utilizatorii sistemului, câte unul pe fiecare linie de text,
+iar fișierul <tt>/etc/group</tt> conține informații despre grupurile de utilizatori ai sistemului, câte unul pe fiecare linie de text.
+<br>
+Prin urmare, am putea vizualiza conținutul acestor fișiere pentru a obține (o parte din) informațiile solicitate.
+<br>
+<i>Explicație suplimentară</i>:
+<button onclick="myToggle('lab2_ex13a')">Show / Hide the details</button>
+<div id="lab2_ex13a" style="display:none;" class="stil_explicatie">
+Uneori, apartenența la anumite grupuri de utilizatori nu este trecuta în <tt>/etc/group</tt>, ci este administrată centralizat în cazul
+rețelelor companiilor sau instituțiilor, folosind tehnologii precum servere <a href="https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">LDAP</a> (pentru rețele UNIX/Linux)
+sau <a href="https://en.wikipedia.org/wiki/Active_Directory">Active Directory</a> (pentru rețele Windows).
+</div>
+<br>
+<br>
+Informații de genul celor solicitate în enunț, despre un cont de utilizator de pe sistemul pe care lucrați, pot fi obținute cu comanda următoare:
+<pre>
+id <i>username</i>
+</pre>
+Doar lista grupurilor din care face parte un utilizator se mai poate obține și cu comanda:
+<pre>
+groups <i>username</i>
+</pre>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex14-new ----------------------------------------------------------------------------------------->
+<p><big>[Info user(s) #2]</big>
+<br>Să se scrie comanda care să ne indice informații despre utilizatorii care au deschise sesiuni de lucru pe sistemul pe care lucrați.
+</p>
+
+<button onclick="myToggle('lab2_ex14')">Show / Hide the solution</button>
+
+<div id="lab2_ex14" style="display:none;" class="stil_solutie">
+<b>i)</b> O primă soluție este folosirea comenzii <b>users</b>, fără argumente:
+<pre>
+users
+</pre>
+Ne va furniza lista numelor utilizatorilor ce sunt conectați la sistem, la momentul respectiv.
+<br>
+<i>Notă</i>: lista poate conține duplicate (e.g., în caz că vreun utilizator are deschise mai multe sesiuni).
+
+<br><br>
+<b>ii)</b> O altă soluție este folosirea comenzii <b>who</b>, tot fără argumente:
+<pre>
+who
+</pre>
+Ne va furniza lista username-urilor celor conectați la sistem, plus alte informații legate de aceștia.
+<br>
+<i>Notă #1</i>: coloanele de informații afișate pot fi controlate prin opțiunile pe care le acceptă această comandă (a se vedea pagina: <tt>man 1 who</tt>).
+<br>
+<i>Notă #2</i>: lista poate conține duplicate (e.g., în caz că vreun utilizator are deschise mai multe sesiuni).
+
+<br><br>
+<b>iii)</b> O comandă "înrudită" cu who, este comanda <b>w</b>, pe care o putem apela (și) fără argumente:
+<pre>
+w
+</pre>
+Ne va furniza lista username-urilor celor conectați la sistem, plus alte informații legate de aceștia, plus un header de identificare a coloanelor de informații.
+<br>
+<i>Notă #1</i>: coloanele de informații afișate pot fi controlate prin opțiunile pe care le acceptă această comandă (a se vedea pagina: <tt>man 1 w</tt>).
+<br>
+<i>Notă #2</i>: prima coloană, ce conține username-urile, este limitată, implicit, la 8 caractere (astfel, username-urile mai lungi de 8 caractere vor apare trunchiate!).
+
+<br><br>
+<b>iv)</b> O a patra soluție este folosirea comenzii <b>finger</b>, apelată tot fără argumente:
+<pre>
+finger
+</pre>
+Ne va furniza lista username-urilor celor conectați la sistem, plus alte informații legate de aceștia, plus un header de identificare a coloanelor de informații.
+<br>
+<i>Notă #1</i>: coloanele de informații afișate pot fi controlate prin opțiunile pe care le acceptă această comandă (a se vedea pagina: <tt>man 1 finger</tt>).
+<br>
+<i>Notă #2</i>: lista poate conține duplicate (e.g., în caz că vreun utilizator are deschise mai multe sesiuni).
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex15-new ----------------------------------------------------------------------------------------->
+<p><big>[Info running programs]</big>
+<br>Să se scrie comanda care să ne indice informații despre programele executate pe sistemul pe care lucrați, inițiate fiind de către sistemul de operare și/sau de către utilizatorii ce sunt conectați la sistem.
+</p>
+
+<button onclick="myToggle('lab2_ex15')">Show / Hide the solution</button>
+
+<div id="lab2_ex15" style="display:none;" class="stil_solutie">
+<b>i)</b> O primă soluție este folosirea comenzii <b>pstree</b>, care ne oferă o reprezentare vizuală a arborelui ce surprinde relațiile de "rudenie" între
+diferitele programe ce rulează în sistem.
+<br>Exemple de apelare a acestei comenzi:
+<pre>
+pstree
+  # Se afișează arborele cu toate programele ce rulează în sistem, rădăcina sa fiind procesul init (cu PID-ul 1).
+</pre>
+<i>Notă #1</i>: fără a folosi alte argumente, arborele este "compactat", reprezentând programele doar prin numele lor, iar dacă există mai multe instanțe
+de execuție ale unui program, va apare o singură dată numele acelui program, prefixat de un factor ce indică numărul de instanțe.
+<br>
+<i>Notă #2</i>: studiați documentația (i.e., pagina: <tt>man 1 pstree</tt>) pentru a vedea ce opțiuni sunt disponibile pentru a configura
+informațiile afișate în acest arbore!
+
+<pre>
+pstree <i>PID</i>
+  # Se afișează sub-arborele cu acele programe ce rulează în sistem, având ca rădăcină procesul cu PID-ul specificat.
+
+pstree <i>username</i>
+  # Se afișează sub-arborii cu acele programe ce rulează în sistem, având ca rădăcini programe rulate de utilizatorul specificat.
+</pre>
+<i>Notă</i>: putem avea 0, 1, sau mai mulți sub-arbori "deținuți" de un utilizator (în funcție de câte sesiuni de lucru are deschise în acel moment).
+
+<br><br>
+<b>ii)</b> O altă soluție este folosirea comenzii <b>ps</b>, care ne oferă informații variate despre diferitele programe ce rulează în sistem.
+<br>Exemple de apelare a acestei comenzi:
+<pre>
+ps
+  # Se afișează informații doar despre programele utilizatorului curent, ce rulează doar în sesiunea de lucru curentă.
+
+ps u
+  # Se afișează informații (într-un format mai bogat, ce conține, în prima coloană, username-ul sau UID-ul proprietarului acelui proces,
+  # plus alte coloane suplimentare) despre programele utilizatorului curent, ce rulează în toate sesiunile de lucru pe care le are deschise.
+
+ps x
+  # Se afișează informații despre toate programele utilizatorului curent (i.e., din toate sesiunile de lucru deschise de acesta),
+  # INCLUSIV acele programe care sunt neinteractive, i.e. nu au asociat un terminal de control (e.g., instanțele programului sshd).
+
+ps a
+  # Se afișează informații despre toate programele din sistem, nu doar cele ale utilizatorului curent.
+</pre>
+
+Putem avea și combinații de opțiuni (se vor combina efectele opțiunilor individuale), spre exemplu:
+<pre>
+ps ux
+ps ax
+ps aux  
+</pre>
+
+Comanda ps acceptă o mulțime de opțiuni:
+<ul>
+  <li>o primă categorie este reprezentată de acele opțiuni care configurează ce coloane de informații să se afișeze, despre procesele selectate (cum se face selecția? vezi următoarea categorie!);
+  <li>o a doua categorie cuprinde acele opțiuni ce selectează submulțimea de procese, dintre toate cele ce rulează pe sistem, despre care să se afișeze informațiile solicitate (i.e., cele
+configurate cu prima categorie de opțiuni!).
+</ul>
+
+<p>
+Studiați documentația (i.e., pagina: <tt>man 1 ps</tt>) pentru a vedea ce opțiuni sunt disponibile pentru a configura mulțimea de procese selectate și, respectiv, coloanele de informații afișate!
+</p>
+Spre exemplificare, iată câteva dintre opțiunile pentru selecția mulțimii de procese despre care se vor afișa informații:
+<pre>
+ps -C <i>cmd-list</i>
+   # Selectează doar procesele ce sunt instanțe de execuție ale programelor/comenzilor enumerate (prin numele lor) în lista dată.
+
+ps --ppid <i>pid-list</i>
+   # Selectează doar procesele ce sunt copii ai programelor/comenzilor enumerate (prin PID-urile lor) în lista dată.
+
+ps -U <i>user-list</i>
+   # Selectează doar procesele ale căror proprietari reali sunt cei enumerați (prin username sau UID) în lista dată.
+
+ps -u <i>user-list</i>
+   # Selectează doar procesele ale căror proprietari efectivi sunt cei enumerați (prin username sau UID) în lista dată.
+
+ps -L
+   # Se afișează informații și despre thread-urile individuale ale programelor multithreaded !
+
+..., etc.
+</pre>
+
+Iată și câteva dintre opțiunile pentru configurarea informațiilor ce se vor afișa despre procesele selectate:
+<pre>
+ps -f
+   # Se afișează un format mai lung (i.e., cu mai multe coloane de informații) decât cel implicit.
+
+ps -F
+   # Se afișează un format și mai lung (i.e., cu și mai multe coloane de informații) decât cel implicit.
+
+..., etc.
+</pre>
+
+Cea mai utilă este opțiunea --format, sau -o, care ne permite să ne definim propriul format de afișare,
+combinând după dorință diversele tipuri de informații disponibile.
+Spre exemplu:
+<pre>
+ps -o pid,user,args
+   # Se afișează 3 coloane de informații: PID-ul procesului, proprietarul procesului, respectiv linia de comandă (i.e.,
+   # numele programului plus argumentele cu care a fost apelat).
+
+ps -o pid,args --forrest
+   # În coloana cu linia de comandă se folosește grafică ASCII pentru a reprezenta relațiile de "rudenie" între procese.
+</pre>
+
+<b>iii)</b> O altă soluție este folosirea comenzii <b>top</b>, care ne oferă informații variate despre diferitele programe ce rulează în sistem,
+într-o manieră interactivă:
+în cadrul unei ferestre în mod text, se afișează informații ce se actualizează automat în timp real (similar cu utilitarul Task Manager din Windows).
+<pre>
+top
+</pre>
+Se afișează fereastra interactivă de care spuneam; cu tasta 'h' obțineți help despre tastele pe care le puteți folosi pentru a configura informațiile afișate,
+iar cu tasta 'q' ieșiți din acest program.
+<br>
+<i>Notă</i>: comanda top poate fi invocată și cu o serie de opțiuni, despre al căror efect puteți citi în documentație (i.e., pagina: <tt>man 1 ps</tt>).
+
+<br><br>
+<b>iv)</b> Ultima comandă amintită în prezentare este comanda <b>jobs</b>, care este o comandă internă și furnizează informații despre programele
+pornite în background de la prompterul interpretorului curent.
+</br>
+<i>Notă</i>: fiind internă, documentația despre această comandă o puteți accesa cu comanda: <tt>help jobs</tt> .
+</div>
+</br></br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab2_ex6 ---------------------------------------------------------------------------------------------->
+<p><big>[find #3]</big>
+<br>Să se scrie comanda ce afișează toate fișierele de tip normal (i.e., fișiere obișnuite) pe care le dețineți în cont
+și care au fost modificate în ultima săptămână, împreună cu drepturile de acces și data ultimei modificări.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab2_ex7 ---------------------------------------------------------------------------------------------->
+<p><big>[find #4]</big>
+<br>Să se scrie comanda ce afișează toate fișierele găsite începând din directorul dat ca argument în linia de comandă, parcurs recursiv,
+pentru care proprietarul fișierului are drept de execuție asupra sa, precum și data ultimei accesări a fișierului și dimensiunea sa în Kbytes. 
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex4modificat ------------------------------------------------------------------------------------->
+<p><big>[sort #3]</big>
+<br>Să se scrie comanda care să sorteze descrescător după GID liniile de text din fișierul <tt>/etc/group</tt>.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda sort.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Iată alte câteva exerciții cu comenzi simple, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab2_ex5 ---------------------------------------------------------------------------------------------->
+<p><big>[find #5]</big>
+<br>Să se scrie comanda ce afișează toate fișierele și directoarele, precum și drepturile de acces asociate acestora, 
+aflate în directorul dat ca argument în linia de comandă, parcurs recursiv, pentru care grupul proprietarului are drepturi de citire și de execuție.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex8 ---------------------------------------------------------------------------------------------->
+<p><big>[find #6]</big>
+<br>Să se scrie comanda care să afișeze toate programele sursă C/C++ (i.e., fișierele cu extensiile .c, .cpp și .h)
+pe care le dețineți în cont, împreună cu lungimile lor (i.e., dimensiunile lor în octeți) și data ultimei modificări.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find cu trei opțiuni -name la criteriul de căutare,
+iar la partea de acțiuni cu opțiunea -printf cu parametrii adecvați.
+Pentru a testa comanda, creați câteva fișiere C/C++ în directorul home, eventual prin copierea unor exemple de programe
+de la laboratoarele de programare din primul semestru sau de la disciplina POO.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex9 ---------------------------------------------------------------------------------------------->
+<p><big>[find #7]</big><!-- modificat pentru fișiere C++ în loc de C -->
+<br>Să se scrie comanda care identifică toate programele sursă C++ (i.e., fișierele cu extensia .cpp) pe care le dețineti (doar) în
+directorul home și, dacă dimensiunea acestora este mai mică de 5 Kbytes, încearcă să le compileze folosind g++.
+Ieșirea de eroare standard pentru comanda de compilare va fi redirectată către un fișier errors.txt.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find cu opțiunile -name și -size la criteriul de căutare,
+iar la partea de acțiuni cu opțiunea -exec g++ ... 2&gt;&gt; errors.txt .
+Pentru a testa comanda, creați câteva fișiere C++ în directorul home, eventual prin copierea unor exemple de programe
+de la laboratoarele de programare din primul semestru sau de la disciplina POO.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex10---------------------------------------------------------------------------------------------->
+<p><big>[find #8]</big>
+<br>Să se scrie comanda ce afișează toate fișierele pagini web (i.e., fișierele cu extensiile .htm, .html, .php, .css) pe care le dețineți în cont,
+împreună cu lungimile lor (i.e., dimensiunile lor în Kbytes) și data ultimei modificări.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex11 --------------------------------------------------------------------------------------------->
+<p><big>[find #9]</big>
+<br>Să se scrie comanda care șterge toate fișierele temporare din contul propriu (i.e. din directorul home, și inclusiv pe cele din subdirectoarele acestuia).
+<br>
+Explicație: fișierele temporare sunt cele ale căror nume se termină cu ~ sau cu .bak . Acestea sunt fișiere create de diverse editoare de text în care se salvează
+penultima versiune, i.e. cea de dinainea ultimei editări, a fișierului original (i.e., fișierul cu numele respectiv fără ~ sau .bak).
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda find și cu acțiunea de apelare a comenzii rm, sau acțiunea echivalentă de ștergere.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

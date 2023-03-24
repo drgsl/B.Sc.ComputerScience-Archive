@@ -1,0 +1,50 @@
+<pre>
+#include &lt;unistd.h>
+#include &lt;stdio.h>
+#include &lt;sys/types.h>
+
+void dialog_tata()
+{
+	// <font color="red">TODO: de implementat bucla dialogului pentru tata</font>
+
+	... // Scrieți două bucle imbricate, conform indicațiilor cuprinse în diagramă!
+}
+
+void dialog_fiu()
+{
+	// <font color="red">TODO: de implementat bucla dialogului pentru fiu</font>
+
+	... // Scrieți două bucle imbricate, conform indicațiilor cuprinse în diagramă!
+}
+
+int main()
+{
+	pid_t pid_fiu;
+
+	// <font color="red">TODO: de inițializat cu 0 fișierul flag.bin</font>
+
+	/* Crearea unui proces fiu. */
+	if(-1 == (pid_fiu=fork()) )
+	{
+		perror("Eroare la fork");  return 1;
+	}
+
+	/* Ramificarea execuției în cele două procese, tată și fiu. */
+	if(pid_fiu == 0)
+	{   /* Zona de cod executată doar de către fiu. */
+
+		printf("\n[P1] Procesul fiu, cu PID-ul: %d.\n", getpid());
+		dialog_fiu();
+	}
+	else
+	{   /* Zona de cod executată doar de către părinte. */
+
+		printf("\n[P0] Procesul tata, cu PID-ul: %d.\n", getpid());
+		dialog_tata();
+	}
+
+	/* Zona de cod comună, executată de către ambele procese */
+	printf("Sfarsitul executiei procesului %s.\n\n", pid_fiu == 0 ? "fiu" : "parinte" );
+	return 0;
+}
+</pre>

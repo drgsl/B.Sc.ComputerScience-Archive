@@ -1,0 +1,406 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #11</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #11 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab11.html#sec_0" class="button_href">Recapitularea unor cunoștințe dobândite în lecția practică despre canale de comunicație</a></h4>
+<h5><a href="lab11.html#sec_0" class="button_href">Programe demonstrative cu comunicații prin canale anonime și canale fifo</a></h5>
+<h4>I) <a href="lab11_c/lab11_pipe.html#sec_1" class="button_href">Exerciții de programare C cu comunicații între procese (prima parte, folosind canale de comunicație anonime)</a></h4>
+<h5><a href="lab11_c/lab11_pipe.html#sec_1a" class="button_href">Exerciții rezolvate</a></h5>
+<h5><a href="lab11_c/lab11_pipe.html#sec_1b" class="button_href">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab11_c/lab11_pipe.html#sec_1c" class="button_href">Exerciții suplimentare</a></h5>
+<h4>II) <a href="lab11_c/lab11_fifo.html#sec_2" class="button_href">Exerciții de programare C cu comunicații între procese (partea a doua, folosind canale de comunicație fifo)</a></h4>
+<h5><a href="lab11_c/lab11_fifo.html#sec_2a" class="button_href">Exerciții rezolvate</a></h5>
+<h5><a href="lab11_c/lab11_fifo.html#sec_2b" class="button_href">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab11_c/lab11_fifo.html#sec_2c" class="button_href">Exerciții suplimentare</a></h5>
+<h5><a href="lab11_c/lab11_fifo.html#sec_2d" class="button_href">Exercițiu complex de programare: un joc <i>multi-player</i></a></h5>
+<h4>III) <a href="prg_perf/lab11perf.html#sec_3" class="button_href">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Recapitularea unor cunoștințe dobândite în lecția practică despre canale de comunicație:</span></p>
+</a>
+
+<h3>Informații despre comunicații inter-procese prin canale anonime și canale cu nume:</h3>
+
+<button onclick="myToggle('lab11_prolog')">Hide / Show the presentation</button>
+<div id="lab11_prolog" style="display:block;" class="stil_prezentare">
+
+<p>
+(Re)citiți lecția practică despre canale de comunicație, disponibilă
+<a target="_blank" href="../cursuri/P9_pipe+fifo_web-ro.pdf">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p class="stil_ex_rezolvate">Programe demonstrative cu comunicații prin canale anonime și canale fifo:</p>
+</a>
+
+<ol>
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FirstDemo -- pipe_ex1]</big>
+<br>Acest exemplu demonstrativ, i.e. programul <tt>pipe_ex1.c</tt>, ilustrează modul de utilizare a unui pipe (i.e., canal anonim)
+pentru comunicația <i>unul-la-unul</i> între două procese, unul cu rol de producător, iar celălalt cu rol de consumator.
+Comunicația este realizată folosind funcțiile I/O de nivel scăzut (i.e., cele din API-ul POSIX).
+</p>
+
+<button onclick="myToggle('lab11_demo1')">Show / Hide the 1st demo example</button>
+
+<div id="lab11_demo1" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>pipe_ex1.c</tt>:
+</p>
+
+<button onclick="myToggle('lab11_demo1_src')">Show / Hide the source</button>
+<pre id="lab11_demo1_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/pipe/pipe_ex1.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/pipe/pipe_ex1.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>), cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall pipe_ex1.c -o pipe_ex1</tt>
+</p>
+<p>
+<i>Observație</i>: după cum vă spuneam și într-o lectie anterioară, extensia ".exe" nu este obligatorie pentru numele fișierelor executabile,
+atunci când lucrăm la linia de comandă în Linux/UNIX.
+Drept dovadă, toate comenzile uzuale, studiate în primele laboratoare, au nume simple, fără extensia ".exe".
+<br>
+Ca atare, în aceste exemple am folosit această convenție specifică "universului UNIX",
+renunțând la folosirea extensiei ".exe" pentru executabilul produs prin compilare din fișierul sursă corespunzător.
+Dacă totuși doriți să folosiți extensia ".exe" și în cazul acestora,
+să nu uitați să adaptați în mod corespunzător liniile de comandă indicate în exemplele de mai jos (!).
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./pipe_ex1</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[SecondDemo -- pipe_ex2]</big>
+<br>
+Și acest exemplu demonstrativ, i.e. programul <tt>pipe_ex2.c</tt>, ilustrează modul de utilizare a unui pipe (i.e., canal anonim)
+pentru comunicația <i>unul-la-unul</i> între două procese, unul cu rol de producător, iar celălalt cu rol de consumator.
+De această dată, însă, comunicația este realizată folosind funcțiile I/O de nivel înalt (i.e., cele din biblioteca stdio).
+</p>
+
+<button onclick="myToggle('lab11_demo2')">Show / Hide the 2nd demo example</button>
+
+<div id="lab11_demo2" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>pipe_ex2.c</tt>:
+</p>
+
+<button onclick="myToggle('lab11_demo2_src')">Show / Hide the source</button>
+<pre id="lab11_demo2_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/pipe/pipe_ex2.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/pipe/pipe_ex2.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil asociat lui, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall pipe_ex2.c -o pipe_ex2</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./pipe_ex2</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[ThirdDemo -- mkfifo_ex]</big>
+<br>Acest exemplu demonstrativ, i.e. programul <tt>mkfifo_ex.c</tt>, ilustrează modul de creare a unui canal cu nume (i.e., un fișier <i>fifo</i>).
+</p>
+
+<button onclick="myToggle('lab10_demo3')">Show / Hide the 3rd demo example</button>
+
+<div id="lab10_demo3" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>mkfifo_ex.c</tt>:
+</p>
+
+<button onclick="myToggle('lab11_demo3_src')">Show / Hide the source</button>
+<pre id="lab11_demo3_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/fifo/mkfifo_ex.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fifo/mkfifo_ex.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil asociat lui, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall mkfifo_ex.c -o mkfifo_ex</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, cu un nume arbitrar ca argument, spre exemplu:
+<br>
+prompt> <tt class="stil_cmdBash"> ./mkfifo_ex fifo1</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FourthDemo -- testare_retentie_fifo]</big>
+<br>Acest exemplu demonstrativ, i.e. programul <tt>testare_retentie_fifo.c</tt>, testează "durata de persistență" a conținutului unui fișier <i>fifo</i>,
+i.e. răspunde la întrebarea "Care este perioada de retenție, în fișierul <i>fifo</i>, a informațiilor scrise în el?".
+</p>
+
+<button onclick="myToggle('lab11_demo4')">Show / Hide the 4th demo example</button>
+
+<div id="lab11_demo4" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>testare_retentie_fifo.c</tt>:
+</p>
+
+<button onclick="myToggle('lab11_demo4_src')">Show / Hide the source</button>
+<pre id="lab11_demo4_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/fifo/testare_retentie_fifo.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fifo/testare_retentie_fifo.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil asociat lui, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall testare_retentie_fifo.c -o testare_retentie_fifo</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, cu un nume arbitrar ca argument, spre exemplu:
+<br>
+prompt> <tt class="stil_cmdBash"> ./testare_retentie_fifo fifo1</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului:
+<pre class="stil_output">
+Observatie: fisierul fifo fifo1 exista deja !
+
+S-au scris 9 octeti in canal --> si anume, secventa de caractere: '123abc789'
+Dimensiunea fisierului fifo, dupa scrierea in el, este:
+prw------- 1 Cristian Cristian 0 mai  3 17:31 fifo1
+
+S-au citit din canal primii 3 octeti: '123'
+Dimensiunea fisierului fifo, dupa prima citire a 3 octeti din el, este:
+prw------- 1 Cristian Cristian 0 mai  3 17:31 fifo1
+
+Am inchis capatul de scriere. Dimensiunea fisierului fifo, dupa inchiderea capatului de scriere, este:
+prw------- 1 Cristian Cristian 0 mai  3 17:31 fifo1
+
+S-au citit din canal urmatorii 3 octeti: 'abc'
+
+Am inchis si capatul de citire. Dimensiunea fisierului fifo, in acest moment, este:
+prw------- 1 Cristian Cristian 0 mai  3 17:31 fifo1
+
+Eroare la a treia citire din canal: Resource temporarily unavailable
+Eroare EAGAIN la citire (i.e. canalul este gol)!
+Asadar, nu s-a mai putut citi nimic din canal dupa inchiderea ambelor capete si apoi redeschiderea lor (i.e.,
+ultimii 3 octeti din canal s-au 'pierdut' cand am inchis si capatul de citire)!
+
+Sfarsitul programului de testare a retentiei.
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FifthDemo -- suma_pipes]</big>
+<br>Acest exemplu demonstrativ, i.e. programul <tt>suma_pipes.c</tt>, ilustrează calculul "distribuit" al sumei,
+folosind două procese worker și comunicații prin canale anonime între supervisor și workeri.
+<br>
+<i>Observație</i>: este un exemplu de calcul paralel folosind strategia "supervisor-workers" (denumită uneori și "master-slaves").
+<br>
+<i>Notă</i>: practic, este problema cu suma distribuită de la lecția despre fork()
+(<small>a se revedea exercițiul rezolvat
+<a href="lab9sync.html#sec_2a">['Supervisor-workers' pattern #1 : A coordinated distributed sum #1 (v1, using regular files for IPC)]</a></small>),
+rezolvată acum folosind canale anonime în loc de fișiere obișnuite.
+</p>
+
+<button onclick="myToggle('lab11_demo5')">Show / Hide the 5th demo example</button>
+
+<div id="lab11_demo5" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>suma_pipes.c</tt>:
+</p>
+
+<button onclick="myToggle('lab11_demo5_src')">Show / Hide the source</button>
+<pre id="lab11_demo5_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/pipe/suma_pipes.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/pipe/suma_pipes.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall suma_pipes.c -o suma_pipes</tt>
+</p>
+
+<p>
+3. Lansați în execuție primul program executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./suma_pipes</tt>
+<br>
+și introduceți o secvență de numere, apoi urmăriți outputul afișat pe ecran de această instanță de execuție a programului:
+<pre class="stil_output">
+
+Introduceti numerele (0 pentru terminare):
+1 2 3 4 5 6 7 8 9 10 0
+Master[PID:2869]> Suma secventei de numere introduse este: 55
+Slave2[PID:2871]> Suma partiala: 30
+Slave1[PID:2870]> Suma partiala: 25
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[SixthDemo -- suma_fifos]</big>
+<br>Acest exemplu demonstrativ, i.e. programul <tt>suma_fifos.c</tt>, ilustrează calculul "distribuit" al sumei,
+folosind două procese worker și comunicații prin canale fifo între supervisor și workeri.
+<br>
+<i>Observație</i>: este un exemplu de calcul paralel folosind strategia "supervisor-workers" (denumită uneori și "master-slaves").
+<br>
+<i>Notă</i>: practic, este problema cu suma distribuită de la lecția despre fork()
+(<small>a se revedea exercițiul rezolvat
+<a href="lab9sync.html#sec_2a">['Supervisor-workers' pattern #1 : A coordinated distributed sum #1 (v1, using regular files for IPC)]</a></small>),
+rezolvată acum folosind canale fifo în loc de fișiere obișnuite.
+</p>
+
+<button onclick="myToggle('lab11_demo6')">Show / Hide the 6th demo example</button>
+
+<div id="lab11_demo6" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>suma_fifos.c</tt>:
+</p>
+
+<button onclick="myToggle('lab11_demo6_src')">Show / Hide the source</button>
+<pre id="lab11_demo6_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/fifo/suma_fifos.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fifo/suma_fifos.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall suma_fifos.c -o suma_fifos</tt>
+</p>
+
+<p>
+3. Lansați în execuție primul program executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./suma_fifos</tt>
+<br>
+și introduceți o secvență de numere, apoi urmăriți outputul afișat pe ecran de această instanță de execuție a programului:
+<pre class="stil_output">
+
+Introduceti numerele (0 pentru terminare):
+1 -2 3 -4 5 -6 7 0
+Slave1[PID:3101]> Suma partiala: 16
+Slave2[PID:3102]> Suma partiala: -12
+Master[PID:3100]> Suma secventei de numere introduse este: 4
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+</div>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu comunicații între procese (prima parte, folosind canale de comunicație anonime):</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab11_c/lab11_pipe.html#sec_1">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu comunicații între procese (partea a doua, folosind canale de comunicație fifo):</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab11_c/lab11_fifo.html#sec_2">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Studiul experimental al performanței unor programe C mai complexe:</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="prg_perf/lab11perf.html#sec_3">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr>
+<td align="center" valign="center" width="50%">
+<button onClick="javascript: window.location='#top';">Back to top of page</button>
+</td>
+<td align="center" valign="center" width="50%">
+<button name="lastUpdButton" onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);">Last Update</button>
+</td>
+</tr>
+</table>
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<!--script>includeHTML();</script-->
+</body>
+</html>

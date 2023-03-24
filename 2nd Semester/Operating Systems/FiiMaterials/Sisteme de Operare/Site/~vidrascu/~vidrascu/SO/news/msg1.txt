@@ -1,0 +1,21 @@
+Buna dimineata,
+
+A mai ramas o problemă de rezolvat, în paralel cu pregătirea (și a voastră, și a noastră) pentru testul doi, si anume cea legată de bonusul 2b și de cele afirmate pe mine in anuntul de pe site, din 10.V, reproduc aici doar partea cea mai relevanta (restul textului il puteti reciti de pe site):
+
+Ca urmare, am decis să micșorăm acest bonus -- vă vom calcula un bonus de maxim 3p pentru activitatea pe care ați desfășurat-o la ultimele 2 laboratoare de programare, cele de după vacanța de Paști. Totuși, vă voi oferi șansa să puteți câștiga și cele 2p diferență, prin realizarea unei teme suplimentare în săptămâna a 13-a; voi reveni cu detalii în acest sens ulterior, după primul test online.
+
+Solutia pentru aceasta "promisiune" a mea, trebuia sa ia in calcul (i.e., sa gaseasca un compromis) inclusiv situatia speciala de la grupele lui Dragoș Aioanei, unde (dupa cum stiti cei de la grupele respective) v-a pregatit o tema pentru vacanta de Pasti (ceea ce a fost o initiativa laudabila din partea lui, numai ca nu m-a informat si pe mine in avans despre aceasta initiativa, si astfel nu am putut sa coordonez generalizarea ei la toate grupele), si ca urmare i-am acordat permisiunea ca sa includa in bonusul 2b si recompensarea celor care au lucrat tema de vacanta.
+
+Nu vreau sa ma mai lungesc prea mult, asa ca iata decizia pe care am luat-o pentru bonusul 2b (si problema pentru care va trimit aceasta informare):
+
+- la grupele lui Dragoș Aioanei se va calcula un bonus de maxim 5p, care va lua in calcul atat activitatea de la laboratoarele 10 si 11, cat si tema de vacanta.
+
+- la grupele celorlalti profesori, se va calcula un bonus de maxim 4p, pe baza doar a problemelor rezolvate la laboratoarele 10 si 11. În plus, toti studentii doar din aceste grupe vor putea sa mai câstige 1p suplimentar pentru acest bonus, prin realizarea urmatoarei teme, intr-un timp limitat:
+
+In ziua de vineri, 22 mai, la o ora stabilita pentru toata lumea (vom vedea ulterior exact ora) veti intra pe Discord in legatura cu profesorii vostri, care va vor da sa scrieti un program cu semnale. Veti avea la dispozitie fix 1 ora, dupa care veti prezenta programul profesorului dvs., live pe Discord, si veti primi (sau nu) acel 1p suplimentar. Pentru aceasta, va trebui sa studiati singuri lectia despre semnale si laboratorul 12 cu exercitii rezolvate cu semnale.
+
+Pana vineri, as dori sa va informatii colegii despre cele de mai sus, ca sa aiba timp sa se gandeasca daca vor sau nu sa lucreze pentru acest 1p suplimentar (repet, doar cei care nu sunt la grupele lui Dragoș Aioanei), si sa realizati o evidenta cu studentii doritori sa realizeze aceasta tema suplimentara. As dori sa-mi transmiteti aceasta evidenta in cursul zilei de vineri, sa zicem la ora 10AM, nu mai devreme! (Deci inscrierile/retragerile le gestionati voi, ramanand deschise pana joi seara/vineri dimineata).
+
+Vineri la ora 10AM vreau sa am evidenta exacta a celor inscrisi, pe grupe, ca sa vad necesarul de profesori (poate nu va fi nevoie sa-i implic chair pe toti, cu exceptia lui Dragoș Aioanei) si sa negociez cu ei ora de start, in functie de programul lor (foarte probabil va fi nevoie sa incepem la o ora din cursul dupa-amiezii...)
+
+C.Vidrascu

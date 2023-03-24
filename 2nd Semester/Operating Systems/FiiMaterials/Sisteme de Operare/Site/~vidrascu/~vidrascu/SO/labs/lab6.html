@@ -1,0 +1,1258 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #6</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #6 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab6.html#sec_0">Scurtă prezentare a unor cunoștințe ce se vor dobândi ulterior</a></h4>
+<h4>I) <a href="lab6.html#sec_1">Exerciții de programare C cu fișiere (prima parte -- prelucrări diverse de fișiere)</a></h4>
+<h5><a href="lab6.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab6.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab6.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>II) <a href="lab6.html#sec_2">Exerciții de programare C cu fișiere (a doua parte -- implementarea unor comenzi uzuale)</a></h4>
+<h5><a href="lab6.html#sec_2a">Exerciții rezolvate</a></h5>
+<h5><a href="lab6.html#sec_2b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab6.html#sec_2c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Scurtă prezentare a unor cunoștințe ce se vor dobândi ulterior:</span></p>
+</a>
+
+<h3>i) Despre <i>granularitatea informației</i> (i.e., unitatea de alocare și/sau de transfer) de la diferite nivele dintr-un sistem de calcul</h3>
+
+<button onclick="myToggle('lab6_prolog1')">Show / Hide the details</button>
+<div id="lab6_prolog1" style="display:none;" class="stil_explicatie">
+<dl>
+<dt style="display: list-item;"><b><i>Granularitatea informației</i> la nivelul hardware al perifericelor de stocare</b>:</dt>
+<dd><br>
+<u>Unitatea de alocare</u> a informației (i.e. de stocare) pe un periferic de stocare se numește <b>sector</b>;
+o denumire alternativă utilizată este cea de <b>bloc fizic de disc</b>, prescurtată uneori doar prin <b>bloc de disc</b>.
+<br>
+De asemenea, tot sectorul este și <u>unitatea de transfer hardware</u> (prin tehnica DMA, explicată la curs), între periferic și memorie!
+Cu alte cuvinte, nu se poate transfera hardware doar un singur octet, sau doar o secvență de câțiva octeți, ci se transferă fie exact un sector,
+fie un multiplu de sectoare (transferate "atomic", printr-un singur transfer hardware).
+<br><br>
+Dimensiunea sectorului are o valoare constantă, standardizată pentru toate modelele de periferice de stocare dintr-o anumită categorie!
+<br>
+Astfel, pentru categoria mediilor de stocare de tipul CD-urilor și DVD-urilor, dimensiunea sectorului era de 2048 octeți.
+<br>
+Pentru categoria discurilor magnetice clasice (aka HDD-uri), dimensiunea sectorului era de 512 octeți, valoare standardizată folosită de toți producătorii
+de modele de HDD-uri vreme de cca. 3-4 decenii, până în anul 2005, când a apărut primul model de HDD având dimensiunea sectorului de 4096 octeți.
+În anii care au urmat, toți producătorii au migrat treptat la noua valoare de 4096 octeți/sector, astfel că în prezent putem considera că
+dimensiunea standardizată a sectorului este de 4096 octeți, pentru modelele actuale de HDD-uri.
+<br>
+(<i>Notă</i>: migrarea de la HDD-uri cu sectorul de 512 octeți la cele cu sectorul de 4096 octeți nu a fost ușoară, datorită nevoii de păstrare
+a compatibilității pentru nivelul superior, software, printr-o tehnică de emulare a vechii dimensiuni -- în acest sens, vă recomand să lecturați
+articolul de <a target="_blank" href="https://en.wikipedia.org/wiki/Advanced_Format">aici</a>.)
+<br>
+Pentru categoria discurilor bazate pe memorie <i>flash</i> (aka SDD-uri), acestea reprezintă, încă, o tehnologie "tânără", i.e. în curs de dezvoltare.
+Adică, nu este încă standardizată, fiecare producător major de SDD-uri folosind propria tehnologie proprietară.
+Chiar dacă există diferențe între tehnologiile de fabricație a SSD-urilor utilizate de producătorii majori de pe această piață (inclusiv,
+aceste tehnologii proprietare este posibil să folosească <u>intern</u> unități de alocare de dimensiuni diferite), totuși toți fabricanții
+au inclus la nivelul firmware-ului de pe SSD-uri, un nivel de emulare prin software a interfeței hardware standardizate de la categoria HDD-urilor,
+modalitate adoptată la introducerea acestei noi categorii pentru păstrarea compatibilității cu software-ul existent (atât SO-uri, cât și aplicații
+specializate care accesează discul în manieră directă). Astfel, practic, SSD-urile sunt "văzute" la nivel software ca și dispozitive de stocare cu
+unitatea de alocare și stocare (i.e., sectorul) similară cu cea standardizată de la categoria HDD-urilor.
+<br><br>
+</dd>
+
+
+<dt style="display: list-item;"><b><i>Granularitatea informației</i> la nivelul sistemelor de fișiere</b>:</dt>
+<dd><br>
+<u>Unitatea de alocare</u> a informației (i.e. de stocare) în cadrul unui fișier se numește <b><i>cluster</i></b>; uneori,
+o denumire alternativă utilizată este cea de <b>bloc logic</b>.
+Cu alte cuvinte, spațiul alocat pe disc pentru stocarea conținutului unui fișier este un multiplu de dimensiunea <i>cluster</i>-ului (și anume, acel număr
+reprezentând partea întreagă superioară din raportul dintre dimensiunea în octeți a conținutul propriu-zis stocat în acel fișier și dimensiunea <i>cluster</i>-ului).
+<br>
+Mai precis, structurile de date specifice fiecărui tip de sistem de fișiere (e.g., tabela MFT folosită de sistemul de fișiere NTFS din Windows),
+utilizate pentru gestiunea fișierelor (și directoarelor) stocate în cadrul acelui sistem de fișiere, folosesc <i>cluster</i>-ul ca și unitate de alocare
+pe disc pentru păstrarea conținuturilor fișierelor stocate în cadrul acelui sistem de fișiere.
+<br><br>
+Dimensiunea <i>cluster</i>-ului NU are o valoare constantă, standardizată pentru toate modelele de periferice de stocare dintr-o anumită categorie!
+Ea depinde de tipul de sistem de fișiere în care păstrăm acel fișier, și mai precis depinde de valoarea atribuită de utilizator,
+în manieră implicită sau explicită (i.e., prin interfața programului/comenzii de formatare specifice SO-ului și acelui tip de sistem de fișiere),
+la momentul creării acelui sistem de fișiere (prin operațiunea de formatare, cu acel sistem de fișiere, a unei partiții de pe un dispozitiv de stocare).
+<br>
+În practică, valoarea aceea configurabilă de utilizator la momentul formatării unei partiții, este întotdeauna selectabilă dintr-o listă 
+de <u>multipli <b>puteri a lui 2</b> de dimensiunea sectorului</u>, corespunzătoare dispozitivului de stocare pe care se află acea partiție.
+<br>
+Spre exemplu, dacă la formatarea unei partiții cu un anumit sistem de fișiere, se alege dimensiunea <i>cluster</i>-ului să fie de 16384 octeți,
+și presupunând că partiția respectivă se află pe un dispozitiv de stocare (e.g., un HDD sau un SDD) care are sectorul de dimensiune 4096 octeți,
+înseamnă că fiecare <i>cluster</i> al fiecărui fișier va ocupa de disc câte 4 sectoare, consecutive (adică, adresele de disc ale celor 4 sectoare
+sunt numere consecutive). 
+<br><br>
+<!--
+Notă: apelurile de citire/scriere ar putea lua în considerare dimensiunea <i>cluster</i>-ului pentru a fi eficiente,
+însă aceasta este variabilă (i.e., depinde de ce alegeri a făcut utilizatorul când și-a formatat partițiile de pe discul calculatorului său),
+nu este constantă precum este dimensiunea sectorului de disc. De aceea, se preferă dimensiunea unității explicate la punctul următor!
+-->
+<i>Notă</i>: când se citește în memorie de pe disc, respectiv când se scrie din memorie pe disc, o parte din conținutul unui fișier,
+folosind fie apelurile I/O specifice API-ului acelui SO, fie funcțiile de I/O din biblioteca stdio (sau din alte biblioteci cu rol asemănător),
+<b>unitatea de transfer</b> nu este nici <i>cluster</i>-ul, nici secvența exactă de octeți specificată în parametrii apelului I/O folosit.
+Ci, unitatea de transfer este cea descrisă la categoria care urmează mai jos:
+<br><br>
+</dd>
+
+
+<dt style="display: list-item;"><b><i>Granularitatea informației</i> la nivelul memoriei și al <i>file-system cache</i>-ului din memorie</b>:</dt>
+<dd><br>
+Pentru SO-urile comerciale moderne, care administrează memoria RAM folosind tehnica de paginare la cerere, bazată pe suportul pentru paginare hardware
+oferit de arhitectura hardware a sistemului de calcul folosit,
+<u>unitatea de alocare</u> a informației (i.e. de stocare) în memoria RAM este <b>pagina</b> (fizică și virtuală),
+a cărei dimensiune este o constantă ce depinde de arhitectura hardware.
+<br>
+Spre exemplu, simplificând discuția de la cursul teoretic, dimensiunea paginii pentru arhitectura x86/x64 este de 4096 octeți/pagină.
+<br><br>
+Orice transfer de informații între memoria RAM și un periferic de stocare, transfer comandat de SO (și, prin intermediul SO-ului, de către orice aplicație software),
+se face la nivel de pagină, nu de octet!
+Cu alte cuvinte, nu se transferă octeți individuali, ci pagini întregi (cu o pseudo-excepție: când dimensiunea logică a unui fișier nu este multiplu de
+dimensiunea paginii -- a se vedea detalii mai jos).
+<br>
+Deci, tot pagina este și <u>unitatea de transfer software</u> (i.e., transfer comandat de SO sau aplicații), între memorie și sistemul de fișiere stocat
+pe un periferic de stocare!
+<br><br>
+<i>Comentariu</i>: în practică, această afirmație nu intră în contradicție cu cele spuse mai sus, despre unitatea de transfer la nivel hardware,
+deoarece dimensiunea paginii este egală cu un multiplu al dimensiunii sectorului, întotdeauna (sau, cel puțin, eu nu am cunoștiință de vreo arhitectură hardware
+și de vreun tip de periferic de stocare folosit de vreun sistem de calcul bazat pe acea arhitectură hardware, care să încalce această regulă). 
+<br><br>
+<i>Observația #1</i>: principala metodă folosită de aplicații pentru a comanda un transfer software, prin intermediul SO-ului, este, după cum spuneam și mai sus,
+prin intermediul apelurilor de sistem pentru operații I/O, specifice API-ului acelui SO. Sau, prin intermediul apelării funcțiilor de I/O din
+biblioteca stdio (sau din alte biblioteci cu rol asemănător), iar implementarea funcțiilor respective de bibliotecă folosește tot
+apelurile de sistem pentru operații I/O, specifice API-ului acelui SO.
+<br>
+În ambele situații (i.e., fie că folosim un apel de sistem, fie o funcție de bibliotecă), SO-ul optimizează operațiile cu discul utilizând conceptul
+de <i>file-system cache</i>, pe care l-am sumarizat la topicul ii) de mai jos.
+Astfel, indiferent de lungimea exactă a secvenței de octeți specificată în parametrii apelului I/O folosit de noi în aplicație pentru a accesa o parte din
+conținutul unui fișier (i.e., fie pentru a citi în memorie informații din fișierul de pe disc, fie pentru a scrie informații din memorie în fișierul de pe disc),
+<b>unitatea de transfer</b> nu este nici <i>cluster</i>-ul, nici secvența exactă de octeți specificată în parametrii apelului I/O folosit,
+ci este pagina, transferul efectiv între RAM și disc a paginilor ce conțin acea informație fiind gestionat de administratorul de memorie al SO-ului, care are
+și sarcina gestiunii <i>file-system cache</i>-ului din memorie.
+<br>
+Spre exemplu, să presupunem că în programul nostru facem un apel de citire care comandă citirea a 100 octeți, începând de la offset-ul (poziția) 10
+dintr-un anumit fișier.
+Practic, SO-ul va determina <i>cluster</i>-ul acelui fișier care stochează primii 4096 de octeți ai conținutului fișierului respectiv, apoi va determina
+sectorul de disc (sau sectoarele de disc consecutive) ce stochează pe disc acel <i>cluster</i>, iar apoi va citi acel sector/acele sectoare de pe disc și le va salva
+într-o pagină fizică alocată pentru <i>file-system cache</i> (sau în mai multe pagini, dacă se folosește, de exemplu, și tehnica de <i>read-ahead</i>).
+În situația în care acel sector/acele sectoare este/sunt deja în <i>cache</i>, atunci nu se mai citește efectiv de pe disc.
+În ambele cazuri (i.e., <i>cache hit</i> vs. <i>cache miss</i>), se face apoi copierea intra-memorie, din <i>file-system cache</i> în <i>user-space</i>,
+exact a informației solicitate în apelul de citire făcut, conform celor explicate în topicul ii) de mai jos.
+<br>
+Și acum, am ajuns la explicarea pseudo-excepției amintite mai sus: să presupunem că fișierul din care vrem să citim cei 100 de octeți începând de la poziția 10,
+are lungimea logică de doar 4000 de octeți (adică conținutul propriu-zis al fișierului are numai 4000 de octeți).
+Ce se întâmplă în acest caz este următorul lucru: la fel ca mai sus, SO-ul va comanda transferul complet a unui sector (sau mai multe, consecutive),
+determinate ca mai sus, pentru 4096 octeți, dar după terminarea transferului de pe disc în pagina corespunzătoare din <i>file-system cache</i>-ul din memorie,
+va "inițializa" cu zero ultimii 96 de octeți din acea pagină, înainte de a continua apoi cu copierea intra-memorie, descrisă mai sus.
+<br>
+Iar dacă în loc de citire dintr-un fișier, vrem să facem o scriere într-un fișier, lucrurile decurg simetric, in sens invers, precum am explicat
+și în topicul ii) de mai jos, adaptând în mod corespunzător explicațiile suplimentare date aici pentru citire.
+<br><br>
+<i>Observația #2</i>: pe lângă interfața de tip I/O amintită la Observația #1 de mai sus, SO-urile moderne pun la dispoziția programatorilor de aplicații
+și o a doua interfață de acces la fișiere, o tehnică denumită "fișiere <i>mapate</i> în memorie", despre care vă voi vorbi mai în detaliu la lecția practică
+și laboratorul din săptămâna a 8-a.
+<br>
+Pe scurt, ideea în cazul acestei tehnici este că un fișier poate fi copiat în memorie, unitatea de alocare în memorie și de transfer fiind tot pagina.
+Și în acest caz, la copierea în memorie, dacă lungimea fișierului nu este multiplu de dimensiunea paginii, se face practic o copiere "incompletă" în sensul
+explicat mai sus (i.e., inițializarea cu zero-uri a restului din pagină, după poziția corespunzătoare EOF-ului din fișier).
+După copierea în memorie, programul accesează adresele de memorie din pagina (sau paginile) în care a fost mapat fișierul de pe disc în memorie,
+făcând citiri și scrieri după dorință la acele adrese de memorie.
+Iar modificările făcute în memorie se pot "salva" înapoi pe disc, după dorința programatorului.
+<br>
+Mai mult, zona de memorie reprezentată de pagina (sau paginile) în care a fost mapat fișierul de pe disc, poate fi și partajată între două sau mai multe
+procese (secvențiale, sau <i>multi-threaded</i>), pur și simplu prin maparea aceluiași fișier, în fiecare dintre cele două sau mai multe procese.
+<br>
+<i>Consecință</i>: astfel, veți putea experimenta practic șabloanele de cooperare și de sincronizare bazate pe memorie partajată prezentate la cursurile teoretice,
+folosind procese secvențiale care partajează memorie prin intermediul unui fișier mapat în memorie!
+<br><br>
+</dd>
+
+</dl>
+
+<p>
+<i>Notă</i>: mai multe detalii despre aceste lucruri veți învăța ulterior, la cursurile teoretice despre "Administrarea memoriei", despre
+"Administrarea informațiilor -- sisteme de fișiere" și despre "Administrarea perifericelor de stocare".
+</p>
+</div>
+
+
+
+<h3>ii) Despre <i>file-system cache</i>-ul gestionat de sistemul de operare</h3>
+
+<button onclick="myToggle('lab6_prolog2')">Show / Hide the details</button>
+<div id="lab6_prolog2" style="display:none;" class="stil_explicatie">
+<p>
+<b>Conceptul de <i>file-system cache</i> din cadrul unui SO:</b>
+</p>
+<p>
+La nivelul componentei de gestiune a sistemelor de fișiere din cadrul nucleului unui SO,
+se folosește o zonă de memorie internă din <i>kernel-space</i> ce implementează un <i>cache</i>
+pentru operațiile cu discul, i.e. se păstrează în memoria RAM conținutul celor mai recent accesate blocuri de disc.
+<br>
+Acest <i>cache</i> este denumit <b><i>file-system cache</i></b> în literatura de specialitate,
+iar el funcționează după aceleași reguli generale ale <i>cache</i>-urilor de orice fel:
+i) citiri repetate ale aceluiași bloc de disc, la intervale de timp foarte scurte, vor regăsi informația direct din <i>cache</i>-ul din memorie;
+ii) scrieri repetate ale aceluiași bloc de disc, la intervale de timp foarte scurte, vor actualiza informația direct în <i>cache</i>-ul din memorie,
+iar pe disc informația va fi actualizată o singură dată, la momentul operației de <i>cache-flushing</i>;
+iii) operațiile de invalidare/actualizare a informației din <i>cache</i>: ... ;
+ș.a.
+</p>
+<p>
+Granularitatea acestui <i>cache</i> (i.e., <b>unitatea de alocare</b> în <i>cache</i>) nu este octetul, ci pagina (i.e., unitatea de administrare a memoriei virtuale),
+care are o dimensiune dependentă de arhitectura hardware (e.g., pentru arhitectura x86/x64 dimensiunea paginii este de 4096 octeți).
+Cu alte cuvinte, operațiile efective de I/O prin DMA între memorie și disc transferă blocuri de informație cu această dimensiune!
+</p>
+<p>
+Acest <i>cache</i> este unic per sistem, i.e. există o singură instanță a sa, gestionată de SO și utilizată simultan (ca și "resursă partajată") de toate
+procesele ce se execută în sistem (cu unele excepții, procese care fac operații I/O conform celor descrise în cele două observații numerotate,
+de la finalul acestui topic).
+</p>
+
+<p>
+<i>Notă</i>: mai multe detalii despre aceste lucruri veți afla într-un curs teoretic ulterior.
+</p>
+
+<p>
+<b>Implicațiile existenței acestui <i>file-system cache</i> pentru programarea aplicațiilor folosind API-ul POSIX</b>:
+</p>
+<p>
+<i>Implicit</i>, apelul read() implementează o citire realizată astfel:
+(1) doar dacă informația solicitată nu este deja în <i>file-system cache</i>, se execută un transfer efectiv, prin DMA, dinspre disc
+înspre pagina de memorie alocată în <i>file-system cache</i> pentru a stoca acea informație, folosind ca unitate de transfer pagina;
+(2) se copie doar informația solicitată dinspre <i>kernel-space</i> (i.e., pagina din <i>file-system cache</i> alocată pentru blocul respectiv de disc).
+înspre <i>user-space</i> (i.e., variabila din programul dvs. a cărei adresă o specificați în apelul respectiv, ca argumentul al doilea).
+</p>
+
+<p>
+<i>Implicit</i>, apelul write() implementează o scriere realizată astfel:
+(1) se copie informația solicitată dinspre <i>user-space</i> (i.e., variabila din programul dvs. a cărei adresă o specificați în apelul respectiv,
+ca argumentul al doilea)
+înspre <i>kernel-space</i> (i.e., în poziția ei din pagina din <i>file-system cache</i> alocată pentru blocul respectiv de disc);
+(2) nu imediat, ci ulterior, la un moment de timp stabilit prin politica folosită pentru <i>flushing</i>-ul pe disc al actualizărilor din <i>cache</i>,
+se va executa un transfer efectiv, prin DMA, dinspre pagina de memorie alocată în <i>file-system cache</i> pentru acea informație, înspre disc,
+folosind ca unitate de transfer întreaga pagină.
+</p>
+
+<p>
+<i>Consecință</i>:
+astfel se obtine un spor de performanță, prin faptul că mai multe operații de citiri și/sau scrieri <u>succesive</u> (sau,
+la momente de timp "foarte apropiate" între ele) din/în același bloc de disc, vor "economisi" transferuri efective cu discul,
+și doar copierile intra-memorie (i.e., între <i>user-space</i> și <i>kernel-space</i> ) se vor executa pentru fiecare dintre acele citiri și/sau scrieri !!!
+Iar de această optimizare este responsabil SO-ul, programatorul care scrie o aplicație nu are nimic special de făcut pentru a beneficia de acest tip de
+optimizare a acceselor la disc (exceptând faptul că, totuși, programatorul poate influența modul de gestiune implicită a <i>file-system cache</i>-ului
+utilizat de către SO -- în acest sens, a se vedea cele două observații de mai jos).
+</p>
+
+<p>
+<i>Notă</i>: pe de altă parte, se mai poate îmbunătăți performanța la execuție și prin minimizarea numărului de apeluri de sistem făcute
+pentru a citi sau scrie o pagină!
+Cu alte cuvinte, un singur apel <tt>read/write(fd, &page, 4096);</tt> este mai eficient, ca timp de execuție, decât bucla echivalentă:
+<tt>for(int offset = 0; offset &lt; 4096; offset++) read/write(fd, &page+offset, 1);</tt>
+Iar pentru acest tip de optimizare este <u>direct responsabil</u> programatorul care scrie o aplicație, SO-ul nu poate "interveni" pentru a "rescrie"
+programul executabil în sensul realizării unei astfel de optimizări.
+</p>
+<!-- TODO: de elaborat niste exercitii care sa ilustreze aceste diferente de performanta, in lab6_perf.html -->
+
+<p>
+<i>Observația #1</i>: comportamentul implicit descris mai sus s-ar putea dovedi ineficient pentru unele aplicații cu cerințe speciale (e.g.,
+programe care accesează discul după anumite "tipare" neobișnuite de accese la disc, ce provoacă o rată mică de "succes în <i>cache</i>"),
+situație în care <b>dubla copiere</b> impusă de comportamentul implicit (i.e.,
+o copiere între disc și memoria nucleului, și o altă copiere între memoria nucleului și memoria aplicației)
+s-ar putea să le afecteze performanța la execuție.
+<br>
+Pentru astfel de aplicații, API-ul POSIX pune la dispoziție flagul <tt>O_DIRECT</tt> ce poate fi specificat în apelul open() pentru a "scurtcircuita"
+dubla copiere impusă de comportamenul implicit al operațiilor read() și write().
+Practic, nu se mai folosește <i>cache</i>-ul, ci fiecare apel read()/write() va provoca un transfer efectiv, prin DMA, între disc și <i>user-space</i> (i.e.,
+variabila din programul dvs. a cărei adresă o specificați în apelul respectiv, ca argumentul al doilea).
+<br>
+Folosirea acestui flag impune anumite restricții de <i>aligment</i> a adresei și dimensiunii variabilei respective, precum și anumite particularități legate
+de comportamentul său, astfel că programarea cu acest stil de I/O directe nu este ușoară.
+Pentru mai multe detalii, citiți despre flagul <tt>O_DIRECT</tt> în pagina de manual <tt>man 2 open</tt>.
+</p>
+
+<p>
+<i>Observația #2</i>: o altă manieră de modificare a comportamentului implicit descris mai sus este folosirea flagului <tt>O_SYNC</tt>,
+ce poate fi specificat în apelul open() pentru a lucra cu apeluri de scriere "full-sincrone",
+i.e. un apel write() de acest tip nu va returna decât după ce informația scrisă a ajuns efectiv pe disc. Practic, pentru descriptorul respectiv,
+se modifică comportamentul implicit al <i>file-system cache</i>-ului legat de politica folosită pentru <i>flushing</i>-ul pe disc al actualizărilor din <i>cache</i>,
+în sensul că se va comporta ca un <i>cache</i> de tipul "write-through", pentru descriptorul respectiv.
+</p>
+
+<p><!-- TODO: de prezentat detalii despre tehnicile read-ahead și write-behind -->
+Ca o remarcă finală pe marginea acestui subiect, SO-ul mai folosește și alte tehnici de optimizare a accesului la disc prin intermediul
+<i>file-system cache</i>-ului gestionat de el, precum ar fi tehnica de <i>read-ahead</i> și tehnica de <i>write-behind</i>.
+Despre aceste tehnici vă voi vorbi într-un curs teoretic ulterior.
+</p>
+</div>
+
+
+
+<h3>iii) Despre <i>cache</i>-urile gestionate de biblioteca standard I/O din C</h3>
+
+<button onclick="myToggle('lab6_prolog3')">Show / Hide the details</button>
+<div id="lab6_prolog3" style="display:none;" class="stil_explicatie">
+<p>
+<b>Conceptul de <i>cache</i> gestionat de biblioteca stdio:</b>
+</p>
+<p>
+După cum spuneam în lecția practică despre <a target="_blank" href="http://profs.info.uaic.ro/~vidrascu/SO/cursuri/P4_file.pdf">lucrul cu fișiere</a>,
+funcțiile din biblioteca standard I/O din C lucrează <i>buffer</i>izat,
+adică folosesc un <i>cache</i> pentru disc implementat la nivelul bibliotecii stdio,
+adică "deasupra" <i>file-system cache</i>-ului gestionat la nivelul nucleului SO-ului, prezentat la topicul ii) de mai sus.
+<br>
+Cu alte cuvinte, acesta este un <i>cache</i> al informațiilor din <i>file-system cache</i>, care la rândul său este un <i>cache</i> al informațiilor de pe disc.
+</p>
+<p>
+În plus, acest <i>cache</i> gestionat de biblioteca stdio, este implementat în <i>user-space</i> (la fel ca și toate funcțiile bibliotecii),
+ceea ce înseamnă că este unic per proces și nu per sistem,
+adică nu există un singur <i>cache</i> al bibliotecii care să fie partajat de toate procesele ce utilizează apeluri ale bibliotecii.
+<br>
+În concluzie, rețineți faptul că acest <i>cache</i> gestionat de biblioteca stdio nu este unic per sistem,
+ca în cazul <i>file-system cache</i>-ului gestionat de SO, de aceea am folosit pluralul în titlul acestui topic.
+</p>
+<!-- TODO: de gandit un exemplu de program care sa testeze daca acest cache este per proces, sau este shared? -->
+
+<p>
+<i>Analogie</i>: putem face o paralelă cu situația <i>cache</i>-urilor prezente într-un procesor x86/x64 multicore cu doar 2 nivele de cache
+(nu cu 3 nivele, cum sunt modelele mai performante). Și anume:
+<i>cache</i>-ul gestionat de biblioteca stdio este analogul <i>cache</i>-urilor L1 de pe procesor (există câte unul pentru fiecare core),
+<i>file-system cache</i>-ul gestionat de SO este analogul <i>cache</i>-ului L2 de pe procesor (există unul singur, partajat de toate core-urile),
+iar discul este analogul memoriei RAM, i.e. este "depozitul" principal de informație, peste care s-au construit cele două nivele de <i>cache</i>-uri.
+</p>
+
+</div>
+
+<br>
+<p>
+<b><i>Observație finală</i>:</b>
+pentru <u>a putea scrie programe de aplicație nu doar corecte, ci și <b>eficiente/performante</b> (!)</u>,
+este necesar să cunoașteți astfel de detalii legate de modul de execuție a apelurilor I/O și de optimizări folosite atât la nivelul SO-ului,
+cât și la nivelele superioare ale bibliotecilor și framework-urilor pe care le apelați în programele pe care le scrieți.
+Și, bineînțeles, nu doar să le cunoașteți, ci și <u>să le aplicați în mod adecvat în programele pe care le scrieți</u>!
+</p>
+<br>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu fișiere (prima parte -- prelucrări diverse de fișiere):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problemă nouă, 2019  -------------------------------------------------------------------------------------------->
+<p><big>[FirstProgram--HelloWorld]</big>
+<br>Primul program scris în limbajul C pentru platforma Linux: să se scrie un program C care afișează pe ecran textul "Hello world!".
+<br>
+<small>(Observație: <span class="stil_hint2">se vor ilustra comenzile de compilare a programului sursă și, apoi, de execuție a executabilului produs prin compilare.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab7_ex0')">Show / Hide the solution</button>
+
+<div id="lab7_ex0" style="display:none;" class="stil_rezolvare">
+1. Porniți editorul de text preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>helloworld.c</tt>:
+<pre class="stil_codC">
+#include &lt;stdio.h>
+#include &lt;unistd.h>
+
+int main(int argc, char* argv[], char* env[])
+{
+   printf("Hello world!");
+   sleep(3);  // O pauză de 3 secunde, pentru a observa "întârzierea" afișării textului pe ecran, introdusă de bufferul de la nivelul bibliotecii stdio!
+   return 0;
+}
+</pre>
+
+<p>2. Compilați fișierul sursă pentru a obține programul executabil (în formatul ELF64 pentru platforma Linux pe 64 biți), cu următoarea comandă:
+<br>prompt> <tt class="stil_black_BGcolor"> gcc -Wall helloworld.c -o helloworld.exe</tt>
+</p>
+
+<p>3. Lansați în execuție programul executabil obținut la pasul anterior:
+<br>prompt> <tt class="stil_black_BGcolor"> ./helloworld.exe</tt>
+</p>
+
+<p>
+<i>Observație</i>: în eventualitatea că, la pasul 2. de mai sus, obțineți anumite mesaje de eroare din partea compilatorului,
+este posibil să nu aveți instalat suportul complet pentru dezvoltarea de programe C.
+<br>Motivația fiind aceea că fișierul iso pentru instalare furnizat de anumite distribuții de Linux (e.g. Linux Mint), este configurat implicit pentru a instala
+un sistem ce va fi folosit cu rolul de utilizator obișnuit, nu de developer, și astfel sistemului Linux pe care vi l-ați instalat cu ajutorul acelui iso,
+îi lipsește un pachet necesar pentru dezvoltarea de programe C.
+<br>Pentru a remedia acest neajuns, va trebui sa instalați pachetul <tt>build-essential</tt>, lucru pe care îl puteți face de la linia de comandă, astfel:
+<br>prompt> <tt class="stil_black_BGcolor"> sudo apt update ; sudo apt install build-essential</tt>
+<br>
+<i>Notă</i>: această comandă e valabilă doar dacă distribuția de Linux pe care lucrați este derivată din Debian, e.g. Ubuntu sau Linux Mint.
+Dacă folosiți vreun alt tip de distribuție, ce vă dă vreo eroare de genul "command apt not found...", înseamnă că acea distribuție folosește
+un alt sistem de administrare a pachetelor (i.e., <i>package management system</i>) și ca atare va trebui să studiați documentația acelei distribuții
+ca să aflați care este comanda (sau unealta grafică) pentru instalat pachete, ce este specifică pentru acea distribuție.
+</p>
+</div>
+<p>
+<i>Recomandare</i>: (re)vedeți exercițiul rezolvat <a href="lab5.html#sec_1a">[EditCompileRun]</a> din laboratorul precedent.
+Vă recomand să folosiți scriptul respectiv, cu eventuale modificări după propria dorință, pentru a vă automatiza activitatea de dezvoltare de programe C
+pe care o veți desfășura în cadrul laboratoarelor ce urmează.
+</p>
+<br>
+</li>
+
+
+
+<li><!-- Problema: lab7_ex1.c -------------------------------------------------------------------------------------------->
+<p><big>[AsciiStatistics]</big>
+<br>Să se scrie un program C care primește de la linia de comandă numele unui fișier și afișează numărul total de apariții
+pentru fiecare caracter ce apare în acel fișier.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierului.
+<br>
+<small>(Indicație: <span class="stil_hint">printr-o singură parcurgere a fișierului, calculați de câte ori apare fiecare caracter ASCII posibil,
+i.e. orice octet cuprins între 0 și 255.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab7_ex1')">Show / Hide the solutions</button>
+
+<div id="lab7_ex1" style="display:none;" class="stil_rezolvare">
+<p>
+<b>1)</b> Prima soluție -- un program în care folosim apelurile de sistem (open, read, ș.a.) pentru prelucrarea fișierului:
+</p>
+<button onclick="myToggle('lab7_ex1_1')">Show / Hide the 1st program</button>
+<pre id="lab7_ex1_1" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab6_c/AsciiStatistics_v1.c">See the code from <a target="_blank" href="lab6_c/AsciiStatistics_v1.c">here</a>.</div>
+</pre>
+
+<p>
+<i>Notă</i>: observați cum am tratat toate cazurile de erori/excepții posibile să apară la execuția programului.
+<br>Încercați să adoptați această manieră de lucru în toate programele pe care le veți dezvolta ulterior!
+</p>
+
+<p>
+<b>2)</b> A doua soluție -- este aproape similară cu prima, dar acum <u>citim în mod eficient de pe disc</u>,
+i.e. la fiecare apel de sistem read() pe care-l facem, citim câte un bloc de disc, în loc de un singur octet.
+<br>
+Mai precis, am folosit în program apelul de sistem read() cu dimensiunea <tt>BLOCK_SIZE</tt> de 4096,
+pentru ca fiecare apel să citească NU un singur octet, ci exact o pagină (sau, puteam alege chiar un multiplu de pagini),
+4096 fiind dimensiunea unei pagini, specifică arhitecturii hardware x86/x64.
+<br>
+<i>Notă</i>: pentru a înțelege aceste aspecte, legate de eficiența execuției apelurilor I/O la nivelul SO-ului,
+(re)citiți prezentarea conceptului de <i>file-system cache</i> făcută în topicul ii) din <a href="lab6.html#sec_0">preambulul</a> acestei pagini de laborator,
+precum și explicațiile suplimentare date în topicul i) din același preambul.
+</p>
+
+<button onclick="myToggle('lab7_ex1_2')">Show / Hide the 2nd program</button>
+<pre id="lab7_ex1_2" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab6_c/AsciiStatistics_v2.c">See the code from <a target="_blank" href="lab6_c/AsciiStatistics_v2.c">here</a>.</div>
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab7_ex3.c -------------------------------------------------------------------------------------------->
+<p><big>[MyFind #1]</big><!-- MyFind&amp;Stat -->
+<br>Să se scrie un program C care să parcurgă directorul dat ca argument în linia de comandă, în manieră recursivă (i.e.,
+întregul subarbore cu rădăcina în directorul dat), iar pentru toate fișierele (și subdirectoarele) întâlnite prin parcurgere,
+să afișeze numele fișierului, tipul lui, dimensiunea, permisiunile în format simbolic și octal, precum și proprietarul și grupul proprietar.
+<br>
+<small>(Indicație: <span class="stil_hint">parcurgeți recursiv subarborele cu rădăcina în directorul dat; pentru parcurgerea unui nivel, folosiți șablonul
+indicat în lecția practică și, pentru fiecare intrare din director, utilizați apelul de sistem stat() pentru a afla informațiile cerute în enunț.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab7_ex3')">Show / Hide a possible solution</button>
+
+<div id="lab7_ex3" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție, completă (i.e., se tratează și toate erorile posibile):
+<pre class="stil_codC">
+<div w3-include-MyCode="lab6_c/MyFind-1.c">See the code from <a target="_blank" href="lab6_c/MyFind-1.c">here</a>.</div>
+</pre>
+</div>
+<p>
+<i>Notă</i>: observați cum am "factorizat" codul, i.e. am descompus rezolvarea problemei în mai multe funcții, nu am "îngrămădit-o" pe toată doar în funcția main!
+<br>Încercați să adoptați această manieră de lucru în toate programele mai complexe pe care le veți dezvolta ulterior!
+Recomandarea este ca dimensiunea codului sursă al fiecărei funcții să nu depășească un ecran (ori, maxim două ecrane, în cazuri justificate),
+pentru o mai bună vizibilitate a codului, ceea ce ajută la așa-numita proprietate de <i>readability of code</i> (pe lângă multe alte tehnici, precum ar fi:
+scrierea indentată a codului, alegerea unor nume sugestive ca identificatori pentru variabile/funcții, ș.a.).
+</p>
+<br>
+</li>
+
+
+
+<li><!-- Problema: lab7_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>[ArithmeticMean]</big>
+<br>Să se scrie un program C care să realizeze prelucrările descrise în continuare.
+Într-un fișier text este stocată o secvență de numere întregi.
+Să se calculeze media aritmetică pentru fiecare grup de numere cuprinse între două numere cu valoarea zero din fișier.
+Să se scrie valorile calculate pe câte o linie distinctă într-un alt fișier text (fișierul rezultat).
+Începutul și sfârșitul fișierului cu secvența de numere "joacă rolul" unui număr cu valoarea zero.
+Numele fișierelor sursă și destinație se specifică drept argumente la linia de comandă a programului.
+</p>
+
+<button onclick="myToggle('lab7_ex4')">Show / Hide a possible solution</button>
+
+<div id="lab7_ex4" style="display:none;" class="stil_rezolvare">
+<p>
+Iată mai jos o posibilă soluție, completă (i.e., se tratează și toate erorile posibile).
+<br>Deoarece fișierele sursă și destinație conțin numere în format text și nu în format binar,
+vom folosi funcțiile de citire/scriere formatată fscanf() și respectiv fprintf() din biblioteca stdio.h din C.
+</p>
+<p>
+<i>Observație</i>: am putea folosi direct apelurile de sistem read() și respectiv write() în locul funcțiilor din biblioteca stdio.h,
+dar atunci ar trebui implementate în programul nostru funcționalitățile de conversie de la reprezentarea numerelor întregi în format text (i.e.,
+ca secvență de cifre zecimale) la reprezentarea binară a numerelor întregi (i.e., reprezentarea în complement față de 2), precum și conversia inversă.
+Cu alte cuvinte, ar trebui implementate funcționalitățile oferite de funcțiile atoi() și respectiv itoa(), însă aceasta NU constituie scopul acestui exercițiu.
+</p>
+<pre class="stil_codC">
+<div w3-include-MyCode="lab6_c/ArithmeticMean.c">See the code from <a target="_blank" href="lab6_c/ArithmeticMean.c">here</a>.</div>
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab7_ex5.c -------------------------------------------------------------------------------------------->
+<p><big>[MyExpr]</big>
+<br>Într-un fișier text sunt scrise linii de text sub forma: două numere întregi urmate de un caracter, ce poate fi '+', '-', '*' sau '/'.
+Să se scrie un program C care citește linia a <tt>N</tt>-a din fișier (considerăm liniile fișierului ca fiind numerotate începând de la 1),
+efectuează operația dintre cele două numere și apoi scrie într-un alt fișier text o linie de forma: &nbsp; <i>nr1 operator nr2 = rezultat</i> &nbsp;.
+Linia cu calculul respectiv se va adăuga la sfârșitul fișierului cu rezultate.
+Numărul de ordine <tt>N</tt> al liniei vizate din fișierul sursă, precum și numele fișierului sursă și al celui cu rezultate
+se specifică drept argumente în linia de comandă.
+</p>
+
+<button onclick="myToggle('lab7_ex5')">Show / Hide a possible solution</button>
+
+<div id="lab7_ex5" style="display:none;" class="stil_rezolvare">
+<p>
+Iată mai jos o posibilă soluție, completă (i.e. se tratează și toate erorile posibile).
+<br>Deoarece fișierele sursă și destinație conțin numere în format text și nu în format binar,
+vom folosi funcțiile de citire/scriere formatată fscanf() și respectiv fprintf() din biblioteca stdio.h din C.
+</p>
+<p>
+<i>Observație</i>: am putea folosi direct apelurile de sistem read() și respectiv write() în locul funcțiilor din biblioteca stdio.h,
+dar atunci ar trebui implementate în programul nostru funcționalitățile de conversie de la reprezentarea numerelor întregi în format text (i.e.,
+ca secvență de cifre zecimale) la reprezentarea binară a numerelor întregi (i.e., reprezentarea în complement față de 2), precum și conversia inversă.
+Cu alte cuvinte, ar trebui implementate funcționalitățile oferite de funcțiile atoi() și respectiv itoa(), însă aceasta NU constituie scopul acestui exercițiu.
+</p>
+<pre class="stil_codC">
+<div w3-include-MyCode="lab6_c/MyExpr.c">See the code from <a target="_blank" href="lab6_c/MyExpr.c">here</a>.</div>
+</pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab7_ex-new -------------------------------------------------------------------------------------------->
+<p><big>[Filter programs] (e.g., dos2unix &amp; unix2dos)</big>
+<br>Un program de tip <b>filtru</b> este un program care copie conținutul unui fișier de intrare într-un fisier de ieșire,
+aplicând în timpul copierii o anumită transformare asupra conținutului copiat.
+<br>Exemplu: comenzile dos2unix și unix2dos.
+<br>
+<i>Explicație</i>: fișierele cu text obișnuit folosesc caracterul newline (reprezentat prin '\n' în limbajul C), ca și separator de linie.
+Numai că reprezentarea caracterului newline este dependentă de platformă, i.e. de SO-ul pe care ați creat acel fișier,
+cu ajutorul unui program de tipul editor de text obișnuit pentru acea platformă!
+<br>
+Comanda dos2unix filtrează fișierul de intrare, aplicându-i translatarea reprezentării caracterului newline folosită de SO-urile DOS și Windows,
+la reprezentarea caracterului newline folosită de Linux și celelalte SO-uri din familia UNIX.
+Iar comanda unix2dos realizează filtrarea în sens invers.
+<br>
+<br>
+<i>Cerință</i>: să se scrie un program C care primește de la linia de comandă numele a două fișiere și care
+va copia conținutul fișierului de intrare în cel de ieșire,
+transformând conținutul copiat conform conversiei realizate de comanda dos2unix.
+Similar, să se scrie un program C care simulează comanda unix2dos.
+</p>
+
+<button onclick="myToggle('lab7_filters')">Show / Hide the solutions</button>
+
+<div id="lab7_filters" style="display:none;" class="stil_rezolvare">
+<p>
+<b>1)</b> Primul program, <a href="http://profs.info.uaic.ro/~vidrascu/SO/cursuri/C-programs/file/dos2unix.c">dos2unix.c</a>,
+implementează conversia realizată de comanda dos2unix.
+</p>
+
+<button onclick="myToggle('lab7_filters_d2u')">Show / Hide the 1st program</button>
+<pre id="lab7_filters_d2u" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/file/dos2unix.c">See the code from <a target="_blank"
+href="http://profs.info.uaic.ro/~vidrascu/SO/cursuri/C-programs/file/dos2unix.c">here</a>.</div>
+</pre>
+
+<p>
+<b>2)</b> Al doilea program, <a href="http://profs.info.uaic.ro/~vidrascu/SO/cursuri/C-programs/file/unix2dos.c">unix2dos.c</a>,
+implementează conversia realizată de comanda unix2dos.
+</p>
+
+<button onclick="myToggle('lab7_filters_u2d')">Show / Hide the 2nd program</button>
+<pre id="lab7_filters_u2d" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/file/unix2dos.c">See the code from <a target="_blank"
+href="http://profs.info.uaic.ro/~vidrascu/SO/cursuri/C-programs/file/unix2dos.c">here</a>.</div>
+</pre>
+
+<p>
+<i>Explicație detaliată</i>, despre reprezentările diferite ale caracterului newline pe platforme diferite
+și impactul acestor reprezentări asupra "portabilității" fișierelor text obișnuite:
+<button onclick="myToggle('lab6_filters_details')">Show / Hide the full details</button>
+<div id="lab6_filters_details" style="display:none;" class="stil_explicatie_detaliata">
+<p>
+Mai precis, reprezentarea caracterului newline folosită de Linux și celelalte SO-uri din familia UNIX
+constă în stocarea în fișier a caracterului LF (i.e., caracterul cu codul ASCII 10), ca delimitator între liniile de text.
+În schimb, sistemele de operare DOS și Windows folosesc ca și reprezentare a caracterului newline,
+o secvență de două caractere, și anume: caracterul CR (i.e., caracterul cu codul ASCII 13), urmat de caracterul LF (i.e., caracterul cu codul ASCII 10).
+Iar vechile versiuni de Mac OS (cele dinainte de Mac OS X) foloseau ca și reprezentare a caracterului newline, doar  caracterul CR (i.e., caracterul cu codul ASCII 13).
+O dată cu trecerea la versiunile de Mac OS X, care este un SO diferit de vechiul Mac OS, fiind bazat pe UNIX, în prezent Mac OS X folosește caracterului LF (i.e.,
+caracterul cu codul ASCII 10), ca delimitator între liniile de text, la fel ca și în UNIX.
+Pentru mai multe detalii, puteți consulta informațiile de <a href="https://en.wikipedia.org/wiki/Newline">aici</a>, precum și pagina
+de documentație: <tt>man dos2unix</tt>.
+</p>
+
+<p>
+Impactul acestei diferențe de reprezentare asupra "portabilității" fișierelor text obișnuite între platforme diferite:
+<ul>
+<li>i) dacă deschidem un fișier text, creat anterior sub Linux, în Windows cu editorul clasic Notepad, vom vedea tot textul din fișier pe o singură linie,
+eventual "wrapped" pe ecran, în funcție de setarea curentă "Word Wrap: yes or no" pe care o aveți în Notepad.
+<br><i>Notă</i>: mai sunt și alte editoare în Windows care se comportă precum Notepad-ul.
+Iar altele, cum ar fi Notepad++, se comportă în mod "inteligent", în sensul că efectuează singure conversia necesară atunci când "interpretează" conținutul
+fișierului pentru a-l afișa pe ecran.
+<br><i>Remarcă</i>: conform unui anunț recent, versiunea viitoare de Notepad, care va fi introdusă în versiunea 2004 de Windows 10, va căpăta în sfârșit
+capabilitatea de "comportament inteligent la detecția newline-urilor", în sensul celor spuse în nota anterioară.
+</li>
+<li>ii) dacă deschidem un fișier text, creat anterior sub Windows, în Linux cu editorul mcedit, vom vedea la finalul fiecărei linii de text
+secvența "^M" pe un background de culoare neagră, secvență prin care mcedit reprezintă pe ecran caracterul CR, ceea ce poate fi deranjant.
+<br><i>Notă</i>: mai sunt și alte editoare în Linux care se comportă precum mcedit-ul.
+Iar altele  se comportă în mod "inteligent", în sensul că efectuează singure conversia necesară atunci când "interpretează" conținutul fișierului
+pentru a-l afișa pe ecran.
+</li>
+</ul>
+<br>
+<i>Observație</i>:
+cele spuse mai sus sunt valabile dacă ați transferat fișierul respectiv între cele două platforme fără să-i aplicați, conștient sau nu,
+o conversie între cele două reprezentări diferite în timpul "transferului".
+Spre exemplu, dacă din Linux copiați fișierul dorit între o partiție de Linux și una folosită de Windows, cu file-managerul din distribuția dvs. de Linux,
+atunci copia va fi identică cu originalul, i.e. fără să se facă nicio conversie în timpul "transferului".
+<br>În schimb, dacă copiați fișierul respectiv între calculatorul local și un server, folosind comenzi de genul ftp, scp, sftp, etc.,
+sau aplicații cu interfață grafică de genul WinSCP,
+atunci trebuie să fiți atenți la faptul că aceste comenzi și aplicații au, de regulă, o setare cu trei valori posibile:
+i) transferă orice fișier fără nicio conversie (modalitate de copiere numită și "transfer binar");
+ii) transferă orice fișier aplicându-i conversia necesară între cele două reprezentări diferite, în funcție de SO-ul de pe calculatorul local și cel de pe server
+(modalitate de copiere numită și "transfer text");
+iii) transferă fișierele aplicându-le modul de "transfer binar" sau cel de "transfer text", pe baza extensiei din numele lor (e.g., pentru un fișier cu numele
+nume.txt sau sau pagina.html se va aplica automat modul de transfer text).
+De asemenea, au și o valoare implicită, una dintre aceste 3 valori, pentru setarea respectivă.
+<br>
+<br>
+Ceva similar celor descrise în observația de mai sus, se poate întâmpla și când transferați un text, cu <i>copy-paste</i>, dintr-o fereastră din Windows
+într-un editor din Linux, cum ar fi mcedit-ul, atunci când lucrați cu Linux-ul instalat într-o mașină virtuală sub Windows.
+</p>
+</div>
+</p>
+
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+
+<button onclick="mySetToggle2('setCV','1')">Setul CV</button>
+<button onclick="mySetToggle2('setRB','1')">Setul RB</button>
+<button onclick="mySetToggle2('setBP','1')">Setul BP</button>
+<button onclick="mySetToggle2('setDA','1')">Setul DA</button>
+<button onclick="mySetToggle2('setAG','1')">Setul AG</button>
+<button onclick="mySetToggle2('setVU','1')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV1" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: The filter ToUpperCase]</big><!-- CV: enunț nou, 2019 -->
+<br>Să se scrie un program C care primește de la linia de comandă numele a două fișiere și care va copia conținutul fișierului de intrare în cel de ieșire,
+transformând fiecare apariție a unei litere minuscule în litera majusculă corespunzătoare.
+În caz că fișierul de ieșire deja există, se va cere confirmare de suprascriere.
+Respectiv, va fi creat în cazul în care nu există, cu drepturi de citire și scriere doar pentru proprietar.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">printr-o singură parcurgere a fișierului de intrare, copiați fiecare caracter citit,
+aplicând transformarea cerută, în fișierul de ieșire.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: dacă de la linia de comandă se primește un singur nume de fișier,
+sau dacă numele fișierului de ieșire coincide cu numele celui de intrare,
+atunci se va trata, într-un mod adecvat, această situație (i.e., nu se mai face copiere, ci supra-scriere).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB1" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setRB_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: The filter MyTr]</big><!-- CV: enunț nou, 2019 -->
+<br>Să se scrie un program C care primește de la linia de comandă numele a două fișiere și două caractere, cu care va face următoarea procesare:
+va copia conținutul fișierului de intrare în cel de ieșire, înlocuind fiecare apariție a primului caracter specificat ca argument
+cu cel de-al doilea caracter specificat ca argument.
+În caz că fișierul de ieșire deja există, se va cere confirmare de suprascriere.
+Respectiv, va fi creat în cazul în care nu există, cu drepturi de citire și scriere doar pentru proprietar.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">printr-o singură parcurgere a fișierului de intrare, copiați fiecare caracter citit,
+aplicând transformarea cerută, în fișierul de ieșire.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: dacă de la linia de comandă se primește un singur nume de fișier,
+sau dacă numele fișierului de ieșire coincide cu numele celui de intrare,
+atunci se va trata, într-un mod adecvat, această situație (i.e., nu se mai face copiere, ci supra-scriere).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP1" style="display:none;" class="stil_enunt_propus">
+<!-- Not yet! (BP le-a cerut să rezolve problema de la setCV1) -->
+<ol>
+<li><!-- Problema: lab6_setBP_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: The filter ToLowerCase]</big><!-- CV: enunț nou, 2020, adaptat după cel similar de la setul CV -->
+<br>Să se scrie un program C care primește de la linia de comandă numele a două fișiere și care va copia conținutul fișierului de intrare în cel de ieșire,
+transformând fiecare apariție a unei litere majuscule în litera minusculă corespunzătoare.
+În caz că fișierul de ieșire deja există, se va cere confirmare de suprascriere.
+Respectiv, va fi creat în cazul în care nu există, cu drepturi de citire și scriere doar pentru proprietar.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">printr-o singură parcurgere a fișierului de intrare, copiați fiecare caracter citit,
+aplicând transformarea cerută, în fișierul de ieșire.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: dacă de la linia de comandă se primește un singur nume de fișier,
+sau dacă numele fișierului de ieșire coincide cu numele celui de intrare,
+atunci se va trata, într-un mod adecvat, această situație (i.e., nu se mai face copiere, ci supra-scriere).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA1" style="display:none;" class="stil_enunt_propus">
+<!-- Not yet! (DA le-a cerut să rezolve problema de la un alt set, probabil setCV1) -->
+<ol>
+<li><!-- Problema: lab6_setDA_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: The filter Base64]</big>
+<br>Să se scrie un program C care primește de la linia de comandă numele a două fișiere, cu care va face următoarea procesare:
+va copia conținutul fișierului de intrare în cel de ieșire, aplicând o transformare de tip Base64 ce codifică fiecare tripletă
+de caractere ASCII (orice caracter din setul ASCII, nu doar litere și cifre) prin patru valori din setul Base64.
+În caz că fișierul de ieșire deja există, se va cere confirmare de suprascriere.
+Respectiv, va fi creat în cazul în care nu există, cu drepturi de citire și scriere doar pentru proprietar.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+Despre ce este o transformare de tip Base64 puteți citi <a href="https://en.wikipedia.org/wiki/Base64">aici</a>.
+<br>
+<small>(Indicație: <span class="stil_hint2">printr-o singură parcurgere a fișierului de intrare, copiați fiecare tripletă de caractere citite,
+aplicând transformarea cerută, în fișierul de ieșire.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: dacă de la linia de comandă se primește un singur nume de fișier,
+sau dacă numele fișierului de ieșire coincide cu numele celui de intrare,
+atunci se va trata, într-un mod adecvat, această situație (i.e., nu se mai face copiere, ci supra-scriere).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG1" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setAG_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: The filter NoVocals]</big>
+<br>Să se scrie un program C care primește de la linia de comandă numele a două fișiere, cu care va face următoarea procesare:
+va copia conținutul fișierului de intrare în cel de ieșire, eliminând vocalele întâlnite (majuscule și minuscule).
+În caz că fișierul de ieșire deja există, se va cere confirmare de suprascriere.
+Respectiv, va fi creat în cazul în care nu există, cu drepturi de citire și scriere doar pentru proprietar.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">printr-o singură parcurgere a fișierului de intrare, copiați fiecare caracter citit,
+aplicând transformarea cerută, în fișierul de ieșire.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: dacă de la linia de comandă se primește un singur nume de fișier,
+sau dacă numele fișierului de ieșire coincide cu numele celui de intrare,
+atunci se va trata, într-un mod adecvat, această situație (i.e., nu se mai face copiere, ci supra-scriere).
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU1" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: The filter ROT13]</big>
+<br>Să se scrie un program C care primește de la linia de comandă numele a două fișiere, cu care va face următoarea procesare:
+va copia conținutul fișierului de intrare în cel de ieșire, aplicând o transformare de tip ROT13 pe fiecare literă (majusculă și minusculă).
+În caz că fișierul de ieșire deja există, se va cere confirmare de suprascriere.
+Respectiv, va fi creat în cazul în care nu există, cu drepturi de citire și scriere doar pentru proprietar.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+Despre ce este o transformare de tip ROT13 puteți citi <a href="https://en.wikipedia.org/wiki/ROT13">aici</a>.
+<br>
+<small>(Indicație: <span class="stil_hint2">printr-o singură parcurgere a fișierului de intrare, copiați fiecare caracter citit,
+aplicând transformarea cerută, în fișierul de ieșire.</span>)</small>
+<br>
+<i>Cerință suplimentară</i>: dacă de la linia de comandă se primește un singur nume de fișier,
+sau dacă numele fișierului de ieșire coincide cu numele celui de intrare,
+atunci se va trata, într-un mod adecvat, această situație (i.e., nu se mai face copiere, ci supra-scriere).
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu prelucrări diverse de fișiere, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab7_ex2.c -------------------------------------------------------------------------------------------->
+<p><big>[MyFind #2]</big>
+<br>Să se implementeze o clonă simplificată pentru comanda find, care funcționează astfel:
+programul primește un singur parametru în linia de comandă, reprezentând numele exact al fișierului care este căutat.
+Pornind din directorul <i>acasă</i> al utilizatorului curent, programul va parcurge recursiv întregul subarbore din sistemul de fișiere cu rădăcina în acesta,
+și va afișa calea, relativă față de directorul de start, spre fiecare fișier întâlnit în timpul parcurgerii, ce are numele căutat.
+În plus, în caz de eroare, programul va afișa un mesaj explicit și se va închide "elegant", returnând și un cod de terminare specific erorii apărute.
+<br>
+<small>(Indicație: <span class="stil_hint">parcurgeți directorul cu șablonul indicat în lecția practică și,
+pentru fiecare intrare din director ce are numele căutat, afișați calea ei,
+iar pentru fiecare intrare ce este de tip director, apelați recursiv funcția de parcurgere.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab7_ex2')">Show / Hide some suggestions for solving the problem</button>
+
+<div id="lab7_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<i>Ideea de rezolvare</i>: parcurgerea recursivă se implementează similar ca la exercițiul rezolvat [MyFind #1].
+Iar informațiile ce trebuie afișate sunt mult mai simple în cazul acestui exercițiu!
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab7_ex14.c ------------------------------------------------------------------------------------------->
+<p><big>[MyFind #3]</big>
+<br>Să se scrie un program C care șterge toate legăturile simbolice "rupte" (i.e. legături ale căror destinații nu mai există)
+aflate într-un director, dat ca parametru, sau în subdirectoarele lui (parcurse recursiv).
+<br>
+<small>(Indicație: <span class="stil_hint">parcurgeți directorul cu șablonul indicat în lecția practică și,
+pentru fiecare intrare din director ce este o legătură simbolică,
+testați existența destinației cu funcția <tt>access(legătură, F_OK)</tt> și în caz negativ ștergeți legătura respectivă cu funcția <tt>unlink(legătură)</tt>,
+iar pentru fiecare intrare ce este de tip director, apelați recursiv funcția de parcurgere.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab7_ex14')">Show / Hide some suggestions for solving the problem</button>
+
+<div id="lab7_ex14" style="display:none;" class="stil_sugestie_de_rezolvare">
+<i>Ideea de rezolvare</i>: parcurgerea recursivă se implementează similar ca la exercițiul rezolvat [MyFind #1].
+Iar prelucrările cerute sunt mai simple în cazul acestui exercițiu; pentru implementarea lor folosiți apelurile de sistem access() și unlink().
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu fișiere (a doua parte -- implementarea unor comenzi uzuale):</span></p>
+</a>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab7_ex6.c -------------------------------------------------------------------------------------------->
+<p><big>[MyWc]</big>
+<br>Să se scrie un program C care să implementeze comanda wc, inclusiv cu opțiunile sale -c, -w, -l și -L.
+<br>
+<small>(Atenție: <span class="stil_hint">se cere să se scrie cod C care realizează aceeași funcționalitate ca și comanda wc,
+deci nu în sensul ca să apelați direct comanda wc dintr-un program C folosind funcțiile system() sau exec().</span>)</small>
+<br>
+<br>
+<i>Cerință</i> (valabilă și pentru toate celelalte exerciții de mai jos, acestea fiind asemănătoare cu acest exercițiu):
+implementarea comenzii <i>cmd</i>, inclusiv a unei opțiuni <i>-o</i>, presupune următoarele lucruri:
+<br>-- implementarea comportamentului implicit al comenzii cmd: &nbsp;
+	<i>cmd nume_fisier</i>
+<br>-- în plus, și implementarea comportamentului modificat pe baza opțiunii precizate în enunț: &nbsp;
+	<i>cmd -o nume_fisier</i>
+</p>
+
+<button onclick="myToggle('lab7_ex6')">Show / Hide the solutions</button>
+
+<div id="lab7_ex6" style="display:none;" class="stil_rezolvare">
+<p>
+<b><i>Ideea de rezolvare</i>:</b> se parcurge/citește fișierul octet cu octet.
+Pentru statisticile asociate opțiunilor -c și -l, este suficient să "observ" doar caracterul curent citit,
+i.e. dacă octetul citit este '\n', atunci incrementez numărul de linii.
+Totodată, indiferent de ce valoare are octetul citit, incrementez numărul de caractere și, de asemenea,
+pentru opțiunea -L mai trebuie să fac următoarele operații: incrementez lungimea liniei curente și,
+doar dacă octetul citit este '\n', atunci actualizez maximul și apoi resetez lungimea liniei curente.
+<br>În schimb, pentru statistica asociată opțiunii -w, nu mai este suficient să "observ" doar caracterul curent citit,
+ci trebuie să "observ" și istoricul, i.e. aici e suficient să "observ" doar octetul precedent.
+Practic, detecția unui cuvânt se poate face folosind <b>automatul determinist finit</b> descris în următoarea diagramă:
+<br>
+<!--div align="center"><img src="xerox_files/Lab7_ex1a__IMG_20190502_183703_cr.jpg" width="50%"></div-->
+<div style="width:50%;margin: auto;" class="stil_image_frame"><img width="95%" src="xerox_files/Lab7_ex1a__IMG_20190502_183703_cr.jpg" align="middle"></div>
+<br>
+(P.S. Despre teoria automatelor deterministe finite și aplicațiile lor în analiza lexicală (i.e., parsarea) unui limbaj de programare,
+veți învăța în anul 2 la disciplina LFAC = Limbaje formale, automate și compilatoare.)
+</p>
+
+<p>
+<b>1)</b> Prima soluție -- iată mai jos o primă variantă de rezolvare, ce este incompletă și neoptimizată!
+<br>Este incompletă, deoarece nu s-a implementat și tratarea opțiunii -L.
+<br>Este neoptimizată, în sensul că cele 3 numere/statistici se calculează întotdeauna, dar se afișează dintre ele
+numai acelea pentru care sunt prezente opțiunile corespunzătoare.
+</p>
+<button onclick="myToggle('lab7_ex6_1')">Show / Hide the 1st program</button>
+<pre id="lab7_ex6_1" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab6_c/MyWc_v1.c">See the code from <a target="_blank" href="lab6_c/MyWc_v1.c">here</a>.</div>
+</pre>
+
+
+<p>
+<b>2)</b> A doua soluție -- iată mai jos o variantă de rezolvare, ce este completă și optimizată!
+<br>Este completă, deoarece s-a implementat inclusiv tratarea opțiunii -L, pe lângă celelalte trei implementate deja în prima variantă.
+<br>Este optimizată, în sensul că cele 4 numere/statistici nu se mai calculează întotdeauna, ci se calculează și se afișează dintre ele
+numai acelea pentru care sunt prezente opțiunile corespunzătoare.
+</p>
+<button onclick="myToggle('lab7_ex6_2')">Show / Hide the 2nd program</button>
+<pre id="lab7_ex6_2" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab6_c/MyWc_v2.c">See the code from <a target="_blank" href="lab6_c/MyWc_v2.c">here</a>.</div>
+</pre>
+
+<p>
+<b><i>Remarcă</i>:</b> observați că ambele variante de programe, date mai sus, folosesc funcțiile din biblioteca standard I/O din C,
+pentru a prelucra conținutul fișierului de intrare.
+Evident, în locul funcțiilor din biblioteca standard I/O din C, ambele variante ar putea fi rescrise echivalent astfel încât să folosească
+apelurile de sistem specifice din API-ul POSIX, pentru a prelucra conținutul fișierului de intrare.
+<br>
+<font color="red">// TODO:</font> vă las ca exercițiu sarcina acestei rescrieri!
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab7_ex7.c -------------------------------------------------------------------------------------------->
+<p><big>[MyCp]</big>
+<br>Să se scrie un program C care să implementeze comanda cp, inclusiv cu opțiunile sale -i și -u.
+<br>
+<small>(Atenție: <span class="stil_hint">se cere să se scrie cod C care realizează aceeași funcționalitate ca și comanda cp,
+deci nu în sensul ca să apelați direct comanda cp dintr-un program C folosind funcțiile system() sau exec().
+SIMILAR și pentru toate celelalte exerciții de mai jos!</span>)</small>
+</p>
+
+<button onclick="myToggle('lab7_ex7')">Show / Hide the solutions</button>
+
+<div id="lab7_ex7" style="display:none;" class="stil_rezolvare">
+<p>
+<b><i>Ideea de rezolvare</i>:</b> se parsează argumentele din linia de comandă, pentru a obține numele fișierului sursă și al celui destinație,
+precum și pentru a vedea dacă s-au specificat opțiunile -u sau/și -i.
+Apoi se adaptează comportamentul la copiere conform celor două opțiuni, în caz că sunt prezente (fie ambele, fie doar vreuna dintre ele):
+opțiunea -u înseamnă <i>update</i>, adică în cazul în care fișierul destinație deja există, atunci se face copiere prin suprascriere NUMAI dacă
+atributul "timpul ultimei modificări" al fișierului sursă este mai recent decât cel al fișierului destinație.
+Opțiunea -i înseamnă <i>interactive</i>, adică în cazul în care fișierul destinație deja există, atunci se va întreba utilizatorul dacă dorește suprascrierea.
+Iar în cazul când ambele opțiuni sunt prezente, opțiunea -u este mai prioritară decât opțiunea -i.
+</p>
+
+<p>
+<b>1)</b> Prima soluție -- iată mai jos o primă variantă de rezolvare, și observați că este completă (i.e. se tratează și toate erorile posibile).
+Ea folosește apeluri de sistem specifice platformei Linux/UNIX (i.e., API-ul POSIX).
+</p>
+
+<button onclick="myToggle('lab7_ex7_1')">Show / Hide the 1st program</button>
+<pre id="lab7_ex7_1" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab6_c/MyCp_POSIX.c">See the code from <a target="_blank" href="lab6_c/MyCp_POSIX.c">here</a>.</div>
+</pre>
+
+<p>
+<i>Observație</i>: citirile / scrierile de pe/pe disc la nivel fizic (hardware) se efectuează prin transferuri de unități exprimate în blocuri fizice de disc
+(aka sectoare), nu în octeți individuali.
+Mai mult, pentru eficiența operațiilor I/O cu discul la nivel software (i.e., pentru a obține un spor și mai mare de performanță),
+apelurile de citire / scriere trebuie să transfere informație la nivel de pagină.
+Pentru a înțelege aceste aspecte, legate de modul de execuție a apelurilor I/O la nivelul SO-ului,
+(re)citiți prezentarea conceptului de <i>file-system cache</i> făcută în topicul ii) din <a href="lab6.html#sec_0">preambulul</a> acestei pagini de laborator,
+precum și explicațiile suplimentare date în topicul i) din același preambul.
+<br>
+Din acest motiv, am folosit în program apelurile de sistem read() și respectiv write() cu dimensiunea <tt>BLOCK_SIZE</tt> de 4096,
+pentru ca fiecare apel să citească/scrie NU un singur octet, ci exact o pagină (sau, puteam alege chiar un multiplu de pagini),
+4096 fiind dimensiunea unei pagini, specifică arhitecturii hardware x86/x64.
+</p>
+
+
+<p>
+<b>2)</b> A doua soluție -- iată mai jos o altă variantă de rezolvare, și observați că este completă (i.e. se tratează și toate erorile posibile).
+Am obținut-o din prima soluție de mai sus, rescriind DOAR funcția copie_simpla(), ce realizează copierea efectivă, astfel încât
+să folosească funcțiile din biblioteca standard I/O din C, în locul apelurilor de sistem specifice platformei Linux/UNIX (i.e., API-ul POSIX).
+</p>
+
+<button onclick="myToggle('lab7_ex7_2')">Show / Hide the 2nd program</button>
+<pre id="lab7_ex7_2" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="lab6_c/MyCp_stdio.c">See the code from <a target="_blank" href="lab6_c/MyCp_stdio.c">here</a>.</div>
+</pre>
+
+<p>
+<i>Observație</i>: după cum spuneam în alte ocazii, pentru eficiența operațiilor I/O cu discul,
+citirea fizică de pe disc trebuie să se facă la nivel de bloc de disc, nu la nivel de octeți individuali.
+Totuși, după cum puteți observa, în această a doua soluție am rescris funcția copie_simpla() folosind apeluri de citire/scriere a câte unui singur octet,
+fără a pierde eficiența operațiilor I/O cu discul. Cum se explică acest lucru?
+<i>Răspuns</i>: acest lucru se explică prin faptul că funcțiile din biblioteca standard I/O din C lucrează <i>buffer</i>izat,
+mai precis sunt două nivele de <i>cache</i> până la disc: cel gestionat de biblioteca stdio, per proces,
+și cel gestionat de SO, per sistem.
+(<i>Notă</i>: pentru a înțelege aceste aspecte, legate de eficiența execuției apelurilor I/O din biblioteca stdio,
+(re)citiți prezentarea conceptului de <i>cache</i>uri gestionate de biblioteca stdio făcută în topicul iii) din
+<a href="lab6.html#sec_0">preambulul</a> acestei pagini de laborator, precum și explicațiile suplimentare date în topicurile i) și ii) din același preambul.)
+</p>
+
+<p>
+<i>Notă</i>: totuși, mai putem obține un mic spor de performanță,
+prin minimizarea numărului de apeluri ale funcțiilor de bibliotecă făcute pentru a citi sau scrie o pagină,
+adică prin înlocuirea apelurilor de citire/scriere a câte unui singur octet,
+cu apeluri de citire/scriere a câte unei pagini întregi, i.e. câte 4096 octeți per apel.
+Cu alte cuvinte, un singur apel <tt>fread/fwrite(&page, 1, 4096, fd);</tt> este mai eficient, ca timp de execuție, decât bucla echivalentă:
+<tt>for(int offset = 0; offset &lt; 4096; offset++) fscanf/fprintf(fd,"%c",&page+offset);</tt>
+Iar pentru acest tip de optimizare este <u>direct responsabil</u> programatorul care scrie o aplicație,
+biblioteca stdio nu poate "interveni" pentru a "rescrie" programul executabil în sensul realizării unei astfel de optimizări.
+</p>
+
+<!-- TODO:
+1) de elaborat niste exercitii care sa ilustreze aceste diferente de performanta, in lab6_perf.html (similar ca la observatia analoaga din topicul ii) din preambul)
+2) plus, tot pentru lab6_perf.html: de masurat timpii de executie pentru programul de copiere, in cele 2x2 variante (cu apeluri POSIX vs stdio X 1 apel vs 4096 apeluri),
+pentru fisiere de diferite lungimi, generate aleator inaintea fiecarui test si restart (ca sa nu fie in system cache).
+Plus varianta 5: apeluri cu O_DIRECT. Si tras concluzii pe baza graficelor.
+ -->
+
+
+
+
+<p>
+<i>Remarcă</i>: cealaltă funcție din primul program ce folosește API-ul POSIX, i.e. funcția copie_opts_i_u(), este mai dificil
+să fie rescrisă să folosească funcțiile din biblioteca standard I/O din C, în locul apelurilor de sistem specifice API-ului POSIX.
+Cele două apeluri access() din această funcție ar putea fi "simulate" cu apeluri adecvate fopen() și testarea succesului/eșecului la deschidere.
+În schimb, apelurile stat() necesare pentru a afla atributele "timpul ultimei modificări" ale celor două fișiere nu prea avem cum
+să le "simulăm" cu apeluri de funcții din biblioteca standard I/O din C.
+</p>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+
+<button onclick="mySetToggle2('setCV','2')">Setul CV</button>
+<button onclick="mySetToggle2('setRB','2')">Setul RB</button>
+<button onclick="mySetToggle2('setBP','2')">Setul BP</button>
+<button onclick="mySetToggle2('setDA','2')">Setul DA</button>
+<button onclick="mySetToggle2('setAG','2')">Setul AG</button>
+<button onclick="mySetToggle2('setVU','2')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV2" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setCV_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: The command MyTac]</big><!-- CV: lab7_ex8.c -->
+<br>Să se scrie un program C care copie liniile dintr-un fișier text de intrare, în ordine inversă, afișându-le pe ecran (stdout), similar cu comanda tac.
+Se va permite precizarea de argumente multiple de tip nume de fișiere, în linia de comandă a programului, pentru procesare.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">încercați să simulați cât mai exact comportamentul comenzii tac.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB2" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setRB_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: The command MyTail]</big><!-- CV: lab7_ex10.c -->
+<br>Să se scrie un program C ce implementează comanda tail, inclusiv cu opțiunile -n și -c.
+Se va permite precizarea de argumente multiple de tip nume de fișiere, în linia de comandă a programului, pentru procesare.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">încercați să simulați cât mai exact comportamentul comenzii tail.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP2" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setBP_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: The command MyRev]</big><!-- CV: enunț nou 2020 -->
+<br>Să se scrie un program C ce implementează comanda rev, inclusiv cu opțiunea -h.
+Se va permite precizarea de argumente multiple de tip nume de fișiere, în linia de comandă a programului, pentru procesare.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">încercați să simulați cât mai exact comportamentul comenzii rev.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA2" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setDA_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: The command MyHead]</big><!-- CV: enunț nou 2020, inspirat din lab7_ex10.c -->
+<br>Să se scrie un program C ce implementează comanda head, inclusiv cu opțiunile -n și -c (și inclusiv cu valori numerice negative pentru aceste opțiuni).
+Se va permite precizarea de argumente multiple de tip nume de fișiere, în linia de comandă a programului, pentru procesare.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">încercați să simulați cât mai exact comportamentul comenzii head.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG2" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setAG_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: The command MyCut]</big><!-- CV: enunț nou 2020 -->
+<br>Să se scrie un program C ce implementează comanda cut, inclusiv cu opțiunile -b, -f și -d.
+Se va permite precizarea de argumente multiple de tip nume de fișiere, în linia de comandă a programului, pentru procesare.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">încercați să simulați cât mai exact comportamentul comenzii cut.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU2" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- Problema: lab6_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: The command MyGrep]</big><!-- CV: enunț nou 2020 -->
+<br>Să se scrie un program C ce implementează comanda grep, inclusiv cu opțiunile -c, -v și -n.
+Ca și <i>pattern</i> de căutat, veți considera doar cazul simplu al cuvintelor fixe/constante (deci fără expresii regulate, de niciun fel).
+Se va permite precizarea de argumente multiple de tip nume de fișiere, în linia de comandă a programului, pentru procesare.
+<br>
+<i>Cerință</i>: se vor utiliza apelurile de sistem din API-ul POSIX pentru accesarea fișierelor.
+<br>
+<small>(Indicație: <span class="stil_hint2">încercați să simulați cât mai exact comportamentul comenzii grep.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu implementarea unor comenzi uzuale, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab7_ex11.c -------------------------------------------------------------------------------------------->
+<p><big>[MyMv]</big>
+<br>Să se scrie un program C ce implementează comanda mv, inclusiv cu opțiunile -i, -u și -t.
+Se va permite precizarea mai multor fișiere sursă și a unui singur fișier/director destinație. 
+</p>
+</li>
+
+
+<li><!-- Problema: lab7_ex12.c -------------------------------------------------------------------------------------------->
+<p><big>[MyLs]</big>
+<br>Să se scrie un program C ce implementează comanda ls, inclusiv cu opțiunile sale -l și -A.
+Se va permite precizarea de argumente multiple de tip nume de fișiere sau directoare. 
+</p>
+</li>
+
+
+<li><!-- Problema: lab7_ex9.c -------------------------------------------------------------------------------------------->
+<p><big>[MyRm]</big>
+<br>Să se scrie un program C ce implementează comanda rm, inclusiv cu opțiunile -i și -r.
+Se va permite precizarea de argumente multiple de tip nume de fișiere sau directoare. 
+</p>
+</li>
+
+
+<li><!-- Problema: lab7_ex13.c ------------------------------------------------------------------------------------------->
+<p><big>[MyChmod]</big>
+<br>Să se scrie un program C ce implementează o variantă interactivă a comenzii chmod, i.e. programul va afișa meniuri text
+pentru interacțiunea cu utilizatorul, în vederea interogării acestuia pentru schimbarea permisiunilor fișierelor.
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+</body>
+</html>

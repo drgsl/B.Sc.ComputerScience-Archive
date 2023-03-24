@@ -1,0 +1,51 @@
+﻿<pre>
+/*
+  Program: soluția incompletă a problemei [Exec command #4: ls ...; rm ... ].
+*/
+
+#include &lt;unistd.h>
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+#include &lt;sys/types.h>
+#include &lt;sys/wait.h>
+#include &lt;string.h>
+#include &lt;limits.h>  // necesar pentru PATH_MAX
+
+int main(int argc, char* argv[])
+{
+	char nume_dir[PATH_MAX];
+	int cod_term;
+
+	// Pasul #1: obtinerea numelui directorului de prelucrat
+	
+	if(argc > 1)
+	{
+		strcpy(nume_dir,argv[1]);
+	}
+	else
+	{
+		printf("Introduceti numele directorului dorit:");  scanf("%s", nume_dir);
+	}
+
+	// Pasul #2: invocarea primei comenzi: ls -l nume_dir
+	
+	switch( fork() )
+	{
+		case -1:	perror("Eroare la primul fork");  exit(1);
+
+		case  0:	execlp("ls","ls","-l",nume_dir,NULL);
+				perror("Eroare la primul exec");  exit(2);
+		
+		default:	wait(&cod_term);
+				if( WIFEXITED(cod_term) )
+					printf("Comanda ls a rulat, terminandu-se cu codul de terminare: %d.\n", WEXITSTATUS(cod_term) );
+				else
+					printf("Comanda ls a fost terminata fortat de catre semnalul: %d.\n", WTERMSIG(cod_term) );
+	}
+
+	// Pasul #3: invocarea celei de-a doua comenzi: rm -r -i nume_dir
+	
+	//  <font color="red">TODO: de implementat un switch similar ca la pasul #2, pentru invocarea comenzii rm, folosind însă un apel <b>execv()</b>, în loc de execlp()</font>
+	...
+}
+</pre>

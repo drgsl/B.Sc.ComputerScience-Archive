@@ -1,0 +1,17 @@
+/*
+  Input: m, n
+  Output: true/false
+*/
+
+// algoritm
+uniformRat(m,n)
+{
+    uniform x from [1..n];
+    if(x<=m) return true;
+    return false;
+}
+
+/*
+Testarea cu interpreterul Alk:
+alki -a .\Bobu_Dragos_Partial_UniformRat.alk -m -n " m |-> 10 n |-> 15"
+*/

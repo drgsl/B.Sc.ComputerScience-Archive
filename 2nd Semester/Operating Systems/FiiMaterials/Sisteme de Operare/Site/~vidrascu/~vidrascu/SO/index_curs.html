@@ -1,0 +1,246 @@
+﻿<html>
+<head>
+    <title>Operating Systems course</title>
+    <meta name="description" content="Sisteme de operare - curs - suport electronic">
+    <meta name="keywords"    content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author"      content="Cristian Vidrașcu">
+    <meta name="owner"       content="Cristian Vidrașcu">
+
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma"        content="no-cache">
+    <meta http-equiv="Expires"       content="-1">
+
+    <!-- pentru diacritice -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body bgcolor="#DDDDDD" text="black" link="blue" vlink="blue" alink="blue">
+
+<a name="top">
+
+<!------------------------------------------------------------------------------------->
+
+<p><b>Obiectivele cursului:</b></p>
+<p>
+Disciplina Sisteme de operare are două componente:
+<ul>
+<li>o componentă teoretică, ce își propune să aprofundeze conceptele teoretice privitoare la sisteme de operare,
+al căror studiu l-ați început în primul semestru în cadrul disciplinei "Arhitecturi de calculatoare și sisteme de operare";
+</li>
+<li>o componentă practică, ce își propune două obiective:
+să vă ofere o prezentare generală a unui sistem de operare alternativ celui dominant la ora actuală pe piață,
+i.e. un ghid de utilizare a Linux-ului,
+precum și o introducere în domeniul programării pentru platforma Linux (inclusiv scrierea de programe paralele/concurente),
+folosind limbajul de programare C și API-ul de programare a sistemului Linux, i.e. standardul POSIX.
+</li>
+</ul>
+Pentru mai multe detalii citiți <b>prezentarea cursului</b>, ce poate fi vizualizată <a href="prefata.pdf">aici</a>.
+</p>
+
+<p><hr size="3" width="95%" noshade></p>
+<!------------------------------------------------------------------------------------->
+
+<p><b>Bibliografie obligatorie:</b></p>
+<p>
+<ol>
+<li>Pentru componenta teoretică sunt recomandate două cărți de bază pentru teoria sistemelor de operare:
+	<ul>
+	<li>Cartea "<i>Operating System Concepts</i>", autori Avi Silberschatz, Peter Baer Galvin și Greg Gagne, editura John Wiley & Sons, Inc., ediția a 10-a, 2018.
+	<br>O copie electronică a acestei cărți o puteți găsi <a href="books/OSC10.pdf">aici</a>.
+	(<i>Notă</i>: în cadrul prezentărilor PPT de mai jos mă voi referi la această ediție prin referința [OSC10].)
+<!--
+	Cartea "<i>Operating System Concepts</i>", autori Avi Silberschatz, Peter Baer Galvin și Greg Gagne, editura John Wiley & Sons, Inc., ediția a 9-a, 2013.
+	<br>O copie electronică a precedentei ediții a acestei cărți o puteți găsi <a href="books/OSC9.pdf">aici</a>.
+	(<i>Notă</i>: în cadrul prezentărilor PPT de mai jos mă voi referi la această ediție prin referința [OSC9].)
+-->
+	</li>
+	<li>Cartea "<i>Modern Operating Systems</i>", autor Andrew S. Tanenbaum, editura Pearson, ediția a 4-a, 2015.
+	<br>O copie electronică a acestei cărți o puteți găsi <a href="books/MOS4.pdf">aici</a>.
+	(<i>Notă</i>: în cadrul prezentărilor PPT de mai jos mă voi referi la această ediție prin referința [MOS4].)
+<!--
+	<br>O copie electronică a precedentei ediții a acestei cărți o puteți găsi <a href="books/MOS3.pdf">aici</a>.
+	(<i>Notă</i>: în cadrul prezentărilor PPT de mai jos mă voi referi la această ediție prin referința [MOS3].)
+-->
+	</li>
+	</ul>
+	Oricare dintre cele două cărți poate fi citită pentru aprofundarea conceptelor teoretice de la curs.
+	<br><font color="red">Indicație:</font> NU vă rezumați deci doar la consultarea prezentărilor Powerpoint;
+	trebuie să citiți capitolul indicat în fiecare prezentare din măcar una dintre cele două cărți,
+	săptămânal, pentru a putea asimila materia teoretică, nu amânați acest studiu pentru sesiune.
+	<br><br>
+</li>
+<li>Pentru componenta practică puteți folosi cartea "<i>Sisteme de operare</i>", manual pentru ID, autor C.Vidrașcu,
+    editura Universității "Alexandru Ioan Cuza", 2006.
+	<br>O copie electronică a acestei cărți o puteți găsi <a href="books/ManualID-SO.pdf">aici</a>.
+	<br><font color="red">Indicație:</font> NU vă rezumați deci doar la consultarea prezentărilor Powerpoint;
+	trebuie să citiți capitolul corespunzător pentru fiecare prezentare,
+	săptămânal, pentru a putea asimila materia practică și rezolva exercițiile de laborator.
+</li>
+</ol>
+</p>
+
+<p><hr size="3" width="95%" noshade></p>
+<!------------------------------------------------------------------------------------->
+
+<p><b>Prezentări pentru cursuri:</b></p>
+
+<p><i>Observație</i>: link-urile către prezentările individuale din tabelul de mai jos vor deveni disponibile pe parcursul semestrului...</p>
+
+
+<p align="center">
+<table border="1" cellpadding="5">
+<tr>
+  <th>Săptămâna</th><th>Curs <!-- teoretic--></th><th>Prezentare PPT</th><th>Suplimente</th>
+</tr>
+<tr>
+  <td align="center" rowspan="2">1</td>
+  <td>Organizarea cursului</td>
+  <td><a href="prefata.pdf">prefata</a></td>
+  <td rowspan="2">(*) <a href="cursuri/P1a_intro.pdf">Despre Linux</a></td>
+</tr>
+<tr>
+  <td>Concepte de bază despre sistemele de operare</td>
+  <td><a href="cursuri/T1_basics.pdf">T1_basics</a></td>
+</tr>
+<tr>
+  <td align="center">2</td>
+  <td>Structură, componente, servicii. Nucleul</td>
+  <td><a href="cursuri/T2_structure.pdf">T2_structure</a></td>
+  <td>(*) <a href="cursuri/Install_guide.pdf">Instrucțiuni pentru instalare Linux</a>
+    &nbsp; &nbsp; (*) <small>Ilustrare componente HW</small> 
+  </td>
+</tr>
+<tr>
+  <td align="center">3</td>
+  <td>Gestiunea proceselor (partea I-a)</td>
+  <td><a href="cursuri/T3_processAdmin1.pdf">T3_processAdmin1</a></td>
+  <td><small>A se vedea exemplele din <a href="simulatoare/simulator3/index.html">TutorSO</a>.</small></td>
+</tr>
+<tr>
+  <td align="center">4</td>
+  <td>Gestiunea proceselor (partea a II-a)</td>
+  <td><a href="cursuri/T4_processAdmin2.pdf">T4_processAdmin2</a></td>
+  <td><small>A se vedea <a href="simulatoare/simulator1/OSCAL.html">OSCAL - animația #1</a>,
+      precum și simulatorul <a href="simulatoare/simulator2/index.html">Planificator procese</a>.</small>
+  </td>
+</tr>
+<tr>
+  <td align="center">5</td>
+  <td>Sincronizarea proceselor (partea I-a)</td>
+  <td><a href="cursuri/T5_processSync1.pdf">T5_processSync1</a></td>
+  <td><small>A se vedea <a href="simulatoare/simulator1/OSCAL.html">OSCAL - animația #2</a>.</small>
+      <br>(*) <a href="cursuri/P12_X-Window.pdf">Interfața grafică în UNIX</a><!--<br> + demo animații 3D în Compiz-->
+  </td>
+</tr>
+<tr>
+  <td align="center">6</td>
+  <td>Sincronizarea proceselor (partea a II-a)</td>
+  <td><a href="cursuri/T6_processSync2.pdf">T6_processSync2</a></td>
+  <td><small>A se vedea <a href="simulatoare/simulator1/OSCAL.html">OSCAL - animațiile #3</a>.</small>
+      <br>(*) <a href="cursuri/P13_WSL.pdf">Mediul de lucru WSL</a> (<small>i.e., running Linux distros on Windows 10</small>)
+      <!--TODO: P4_file.pdf -->
+  </td>
+</tr>
+<tr>
+  <td align="center">7</td>
+  <td>Comunicații inter-procese și interblocaj</td>
+  <td><a href="cursuri/T7_IPC+deadlock.pdf">T7_IPC+deadlock</a></td>
+  <td><small>A se vedea <a href="simulatoare/simulator1/OSCAL.html">OSCAL - animațiile #4</a></small>
+      <!--TODO: P5_lock.pdf -->
+  </td>
+</tr>
+<!--tr>
+  <td align="center">8</td>
+  <td colspan="3" align="center" bgcolor="#AAAAAA"><del>Sesiunea I: săptămâna de examene parțiale (la alte discipline)</del> ???</td>
+</tr-->
+<tr>
+  <td align="center">8</td>
+  <td>Administrarea memoriei (partea I-a &amp; a II-a)</td>
+  <td><a href="cursuri/T8_memoryAdmin1.pdf">T8_memoryAdmin1</a><br><a href="cursuri/T9_memoryAdmin2.pdf">T9_memoryAdmin2</a></td>
+  <td><small>A se vedea exemplele din <a href="simulatoare/simulator3/index.html">TutorSO</a>.</small>
+      <!--TODO: P14_mmap.pdf -->
+  </td>
+</tr>
+<tr>
+  <td align="center">9</td>
+  <td>Administrarea memoriei (partea a III-a)</td>
+  <td><a href="cursuri/T10_memoryAdmin3.pdf">T10_memoryAdmin3</a></td>
+  <td><small>A se vedea <a href="simulatoare/simulator1/OSCAL.html">OSCAL - animația #5</a>,
+      precum și exemplele din <a href="simulatoare/simulator3/index.html">TutorSO</a></small>.
+      <!--TODO: P6_fork+wait.pdf -->
+  </td>
+</tr>
+<tr>
+  <td align="center" colspan="4" bgcolor="#AAAAAA">Vacanța de Paști (săptămâna 20-26 aprilie 2020)</td>
+</tr>
+<tr>
+  <td align="center">10</td>
+  <td>Administrarea perifericelor de stocare</td>
+  <td><a href="cursuri/T12_hddAdmin.pdf">T12_hddAdmin</a></td>
+  <td><small>A se vedea <a href="simulatoare/simulator1/OSCAL.html">OSCAL - animația #6</a>,
+      precum și exemplele din <a href="simulatoare/simulator3/index.html">TutorSO</a></small>.
+      <!--TODO: P7_exec.pdf -->
+  </td>
+</tr>
+<tr>
+  <td align="center">11</td>
+  <td>Administrarea informațiilor: sisteme de fișiere</td>
+  <td><a href="cursuri/T11_filesysAdmin.pdf">T11_filesysAdmin</a></td>
+  <td><small>A se vedea exemplele din <a href="simulatoare/simulator3/index.html">TutorSO</a></small>.
+	  <!--TODO: P8_pipe.pdf -->
+	  <!--TODO: P9_fifo.pdf -->
+  </td>
+</tr>
+<tr>
+  <td align="center">12</td>
+  <td>(*) Noțiuni introductive despre sistemele distribuite</td>
+  <td><a href="cursuri/T13_introSistemeDistribuite.pdf">T13_introSistemeDistribuite</a-- ></td-->
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td align="center">13</td>
+  <td align="center" colspan="3"><i>Recapitularea materiei teoretice</i></td>
+  <!--td>Observație: spațiu eliberat prin faptul că am pus cursurile 8 și 9 laolaltă!</td>
+  <td>&nbsp;</td-->
+</tr>
+<tr>
+  <td align="center">14-16</td>
+  <td align="center" colspan="3" bgcolor="#AAAAAA">Sesiunea normală de evaluare (trei săptămâni, include și vechea săptămână a 8-a de examene parțiale)</td>
+</tr>
+</table>
+(*) <small><i>Notă</i>: prezentările marcate cu asterisc tratează subiecte suplimentare, pe care nu vă cer să le învățați pentru examenul scris de la final.</small>
+</p>
+
+
+<p>
+<b>Câteva observații:</b>
+<ul>
+<li>În coloana Suplimente din tabel găsiți unele materiale suplimentare, precum ar fi:
+  diverse exemple de simulare, cu ajutorul simulatorului <a href="simulatoare/simulator1/OSCAL.html">OSCAL</a>, pentru o parte dintre subiectele abordate la cursul respectiv.
+</li>
+<li><a href="simulatoare/simulator2/index.html">Planificator procese</a>: este un alt simulator util de folosit pentru subiectul "Planificarea proceselor",
+  ce a fost realizat de studenți în cadrul competiției FIICompetition din 2009.
+</li>
+<li><a href="simulatoare/simulator3/index.html">TutorSO</a>: este un al treilea simulator util de folosit pentru ilustrarea unora dintre subiectele abordate la cursul de Sisteme de operare,
+  ce a fost realizat în 2010 de un student pentru lucrarea sa de licență.
+</li>
+<li>O listă cu mai multe simulatoare online pentru ilustrarea unora dintre subiectele abordate la cursul de Sisteme de operare o puteți accesa în pagina autorului unei alte cărți despre sisteme de operare,
+  W. Stallings, <a href="http://williamstallings.com/OS-Animation/Animations.html">aici</a>.
+</li>
+</ul>
+</p>
+
+<br><br><br>
+<p><hr size="3" width="95%" noshade></p>
+<!------------------------------------------------------------------------------------->
+
+<center>
+<table border="0" cellpadding="3" width="95%">
+<tr><td align="center" valign="center">
+<button name="lastUpdButton" onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);">Last Update</button>
+</td></tr>
+</table>
+</center>
+
+</body>
+</html>

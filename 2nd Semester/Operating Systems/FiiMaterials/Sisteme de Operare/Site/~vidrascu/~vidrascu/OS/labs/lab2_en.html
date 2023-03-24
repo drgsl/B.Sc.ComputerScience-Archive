@@ -1,0 +1,454 @@
+﻿<html lang="en">
+<head>
+  <title>OS course -- Laboratory #2</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h2><font color="blue">Laboratory #2 :</font> training exercises</h2>
+
+<b>Summary:</b>
+<h4>I) <a href="lab2_en.html#sec_1">Exercises with basic commands (2nd part)</a></h4>
+<h5><a href="lab2_en.html#sec_1a">Solved exercises</a></h5>
+<h5><a href="lab2_en.html#sec_1b">Exercises given for solving</a></h5>
+<h5><a href="lab2_en.html#sec_1c">Supplementary exercises, given for solving</a></h5>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exercises with basic commands (2nd part):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Solved exercises:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab2_ex1 ---------------------------------------------------------------------------------------------->
+<p><big>[find #1]</big>
+<br>
+<p>Write the command that browses a directory given as argument at the command line and displays the permission of all the files and subdirectories found. 
+<br>
+<small>(Hint: <span class="stil_hint">Use the "find" command and make it call the "stat" command or use the equivalent form of the "find" command that displays the file information in a certain format.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex1')">Show / Hide the solution</button>
+
+<pre id="lab2_ex1" style="display:none;" class="stil_solutie">
+Solutions with the format display action:
+
+find <i>arg_director</i> -printf "%m : %p\n"                           (the specifier %m: it displays permissions in octal)
+
+find <i>arg_director</i> -printf %M\ :\ %p\\n                          (the specifier %M : it displays permissions in symbolic notation)
+
+Or, solutions with the general action -exec to call the stat command:
+
+find <i>arg_director</i> -exec stat --format="%a %n" \{} \;            (the specifier %a : it displays permissions in octal)
+
+find <i>arg_director</i> -exec stat --format="%A %n" \{} \;            (the specifier %A : it displays permissions in symbolic notation)
+
+<i>Remark</i>: pay attention to the word that describes the format, it must not contain unprotected spaces!
+(Only the first word that follows after -printf is considered as value for the -printf action, and similar for the stat command.)
+</pre>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex2 ---------------------------------------------------------------------------------------------->
+<p><big>[find #2]</big>
+<br>Write the command that displays for all the files whose names start or end with letter 'a' and are (recursively) found in the directory given as argument at the command line,
+the following properties: the file name, the last modification time and the size of the file in Kbytes.
+<br>
+<small>(Hint: <span class="stil_hint">Use the "find" command with the option that allows using alternatively more search by name criteria;
+for the actions part, use the -printf options with the appropriate arguments.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex2a')">Show / Hide the solution</button>
+
+<pre id="lab2_ex2a" style="display:none;" class="stil_solutie">
+The "longer" solution:
+
+find <i>arg_director</i> -name "a*" -printf "%p : %t : %k KB\n" -or -name "*a" -printf "%p : %t : %k KB\n"
+
+Or, more condensed, by forcing the precedence of evaluating options using parentheses:
+
+find <i>arg_director</i> \( -name "a*" -o -name "*a" \) -printf "%p : %t : %k KB\n"
+</pre>
+
+<button onclick="myToggle('lab2_ex2b')">Show / Hide some remarks</button>
+
+<div id="lab2_ex2b" style="display:none;" class="stil_explicatie">
+<i>Remarks</i>:
+<br><br>
+<ol>
+  <li>The -o or -or operator is used to combine several search criteria that must be satisfied disjunctively (i.e., they do not have to
+  be true all at the same time, but only at least one of them must be true).</li>
+  <li>Using brackets, you can group several search criteria to specify only once, outside the brackets, the action to be performed.</li>
+  <li>Pay attention to the special characters * { } ; ( ) which must be protected to be read as such by the find command (otherwise, unprotected,
+  the bash interpreter will interpret them, before executing the find command, according to the special meaning they have - see details about this at future courses).
+  <br><i>Additional note</i>: in the case of the character *, it will remain unchanged after the interpretation by the bash interpreter then and only when
+  it cannot find any file that matches the template in which the character * is used!</li>
+</ol>
+</div>
+</li>
+
+
+<li><!-- Problema: lab2_ex3 ---------------------------------------------------------------------------------------------->
+<p><big>[sort #1]</big>
+<br>Write the command that does a descending sort on the lines from the file /etc/passwd and writes the result into the file output.txt
+<br>
+<small>(Hint: <span class="stil_hint">use the "sort" command with the two arguments that correspond to the given problem</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex3')">Show / Hide the solution</button>
+
+<pre id="lab2_ex3" style="display:none;" class="stil_solutie">
+sort -r /etc/passwd -o output.txt
+
+Or, other possible combinations for specifying the parameters (see the observation from Ex.[cut #1] of the laboratory #1):
+
+sort /etc/passwd -r -o output.txt
+
+sort /etc/passwd -o output.txt -r
+
+sort -r -o output.txt /etc/passwd
+
+..., etc.
+
+But NOT the following invocations of the sort command:
+sort /etc/passwd -o -r output.txt
+sort -r -o /etc/passwd output.txt
+(Explanation: The last two commands will sort the output.txt file and try to save the result in the /etc/passwd file, but they will fail due to lack of rights.)
+
+
+Another, more general solution, assuming that sort command would not have the -o option -- we can use the standard normal output redirection:
+
+sort -r /etc/passwd > output.txt
+</pre>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex4 ---------------------------------------------------------------------------------------------->
+<p><big>[sort #2]</big>
+<br>Write the command that sorts the lines from the /etc/passwd file in ascending order on the UID specified on each line.
+<br>
+<small>(Hint: <span class="stil_hint">use the "sort" command with three options: the option for numeric sort, the option for using
+the third field as the sort key and the option for setting the separator between fields.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex4')">Show / Hide the solution</button>
+
+<pre id="lab2_ex4" style="display:none;" class="stil_solutie">
+sort -n -t: -k3 /etc/passwd
+
+Or, other possible combinations for specifying the parameters (see the observation from Ex.[cut #1] of the laboratory #1):
+
+sort /etc/passwd -t: -k3 -n
+
+sort --numeric-sort /etc/passwd --key=3 -t :
+
+..., etc.
+</pre>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex12-new ----------------------------------------------------------------------------------------->
+<p><big>[wc #1]</big>
+<br>Write the command that tells us how many user accounts and how many user groups there are on the system you are working on.
+<br>
+<small>(Hint: <span class="stil_hint">use the wc command applied to those two databases, which contain system users and user groups, respectively.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab2_ex12')">Show / Hide the solution</button>
+
+<pre id="lab2_ex12" style="display:none;" class="stil_solutie">
+As discussed previously (see Lab #1), the /etc/passwd file contains information about system users, one on each line of text,
+and the /etc/group file contains information about the user groups of the system, one on each line of text.
+
+Therefore, it is sufficient to use the wc command to display the number of lines for each of the two files.
+By studying the documentation of the wc command (i.e., the <tt>man 1 wc</tt> page), we find that the option we need is -l,
+therefore for solving the problem we can use the following command:
+
+wc -l /etc/passwd /etc/group 
+</pre>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex13-new ----------------------------------------------------------------------------------------->
+<p><big>[info user(s) #1]</big>
+<br>Write the command that tells us the information related to a user account on the system you are working on, such as the associated numeric ID, or the groups it is a member of.
+</p>
+
+<button onclick="myToggle('lab2_ex13')">Show / Hide the solution</button>
+
+<pre id="lab2_ex13" style="display:none;" class="stil_solutie">
+As discussed previously (see Lab #1), the /etc/passwd file contains information about system users, one on each line of text,
+and the /etc/group file contains information about the user groups of the system, one on each line of text.
+Therefore, we could view the contents of these files to obtain (some of) the requested information.
+<i>Explanation</i>: Sometimes, the membership of certain user groups is not stored in /etc/group file, but is centrally managed in the case of computer networks
+of companies or institutions, using technologies such as LDAP (for UNIX / Linux) or Active Directory (for Windows).
+
+Information such as those requested in the statement, about a user account on the system you are working on, can be obtained with the following command:
+
+id <i>username</i>
+
+The list of groups of which a user is a member of, can also be obtained with the command:
+
+groups <i>username</i>
+</pre>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex14-new ----------------------------------------------------------------------------------------->
+<p><big>[info user(s) #2]</big>
+<br>Write the command to tell us about the users who are logged on to the system you are working on.
+</p>
+
+<button onclick="myToggle('lab2_ex14')">Show / Hide the solution</button>
+
+<pre id="lab2_ex14" style="display:none;" class="stil_solutie">
+<b>i)</b> One solution is to use the <b>users</b> command, without arguments:
+
+users
+  # It will provide us with the list of usernames of those connected to the system.
+  # Note: the list may contain duplicates (e.g., if one user has multiple sessions open).
+
+<b>ii)</b> Another solution is to use the <b>who</b> command, also without arguments:
+
+who
+  # It will provide us with the list of usernames of those connected to the system, plus other information related to them.
+  # Note 1: the displayed information columns can be controlled by the options that this command accepts (see page: man 1 who).
+  # Note 2: the list may contain duplicates (e.g., if one user has multiple sessions open).
+
+<b>iii)</b> A command "related" to who, is the <b>w</b> command, which we can call also without arguments:
+
+w
+  # It will provide us with the list of usernames of those connected to the system, plus other information related to them, plus a header for identifying information columns.
+  # Notă 1: the displayed information columns can be controlled by the options that this command accepts (see page: man 1 w).
+  # Notă 2: the first column, which contains usernames, is limited to 8 characters (so usernames longer than 8 characters will appear truncated!).
+  
+<b>iv)</b> A fourth solution is to use the <b>finger</b> command, also without arguments:
+
+finger
+  # It will provide us with the list of usernames of those connected to the system, plus other information related to them, plus a header for identifying information columns.
+  # Note 1: the displayed information columns can be controlled by the options that this command accepts (see page: man 1 finger).
+  # Note 2: the list may contain duplicates (e.g., if one user has multiple sessions open).
+</pre>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab2_ex15-new ----------------------------------------------------------------------------------------->
+<p><big>[info running programs]</big>
+<br>Write the command that tells us information about the programs executed on the system you are working on, initiated by the operating system and/or by the users who are connected to the system.
+</p>
+
+<button onclick="myToggle('lab2_ex15')">Show / Hide the solution</button>
+
+<pre id="lab2_ex15" style="display:none;" class="stil_solutie">
+<b>i)</b> One solution is to use the <b>pstree</b> command, which gives us a visual representation of the tree that captures the "father-child" relationships between the various programs running in the system.
+Examples of calling this command:
+
+pstree
+  # It will show us the tree of all the programs running in the system, its root being the init process (with PID 1).
+  # Note 1: without using other arguments, the tree is "compacted", representing programs only by their name, and if there are multiple instances of execution of a program,
+  # the name of that program, prefixed by a factor indicating the number of instances, will appear only once.
+  # Note 2: study the documentation (i.e., page: man 1 pstree) to see what options are available to configure the information displayed in this tree!
+  
+pstree <i>PID</i>
+  # It will show us the sub-tree with those programs running in the system, having as root the process with the specified PID.
+
+pstree <i>username</i>
+  # It will show us the sub-trees with those programs running in the system, having as root programs run by the specified user.
+  # Note: we can have 0, 1, or more sub-trees "owned" by a user (depending on how many open sessions it has at that time).
+
+
+<b>ii)</b> Another solution is to use the <b>ps</b> command, which gives us various information about the different programs running in the system.
+Examples of calling this command:
+
+ps
+  # It will only show us information about current user programs running only in the current working session.
+
+ps u  
+  # It will show us information (in a richer format, which contains, in the first column, the username or UID of the owner of that process, plus other additional columns)
+  # about the current user's programs, running in all the working sessions he has open.
+
+ps x
+  # It will show us information about all the programs of the current user (i.e., from all the working sessions opened by him), INCLUDING those programs that
+  # are non-interactive, i.e. they do not have a control terminal associated to them (e.g., sshd program instances).
+
+ps a
+  # It will display information about all the programs in the system, not just about those of the current user.
+
+We can have also combinations of options (the effects of the individual options will be combined), for instance:
+ps ux
+ps ax
+ps aux  
+
+The ps command accepts a lot of options:
+- a first category is represented by those options that configure which information columns to display, about the selected processes (how to make the selection? see the next category!);
+- a second category includes those options that select the subset of processes, from all those running on the system, about which to display the requested information (i.e., the information
+configured with the first category of options!).
+Browse the documentation (i.e., page: man 1 ps) to see what options are available to configure the set of processes selected and the columns of information displayed respectively!
+
+For example, here are some of the options for selecting the set of processes about which information will be displayed:
+
+ps -C <i>cmd-list</i>     # It selects only the processes that are execution instances of the programs/commands listed (by their name) in the given list.
+ps --ppid <i>pid-list</i> # It selects only the processes that are children of the programs/commands listed (through their PIDs) in the given list.
+ps -U <i>user-list</i>    # It selects only the processes whose real owners are those listed (via username or UID) in the given list.
+ps -u <i>user-list</i>    # It selects only the processes whose effective owners are those listed (via username or UID) in the given list.
+
+ps -L                     # It also displays information about individual threads of multithreaded programs !
+..., etc.
+
+Here are some of the options for configuring the information that will be displayed about the selected processes:
+
+ps -f             # A longer format (i.e., with more columns of information) is displayed than the default one.
+ps -F             # An even longer format (i.e., with even more columns of information) is displayed than the default one.
+..., etc.
+
+The most useful is the --format option, or -o option, which allows us to define our own display format, combining as desired the different types of information available.
+For instance:
+ps -o pid,user,args  # 3 columns of information are displayed: the process PID, the process owner, and the commandline (i.e., the program's name and the arguments with which it was called).
+
+ps -o pid,args --forrest  # In the commandline column, ASCII graphs are used to represent the "father-child" relations between processes.
+
+
+<b>iii)</b> Another solution is to use the <b>top</b> command, which gives us various information about the different programs running in the system, in an interactive way:
+in a text-based window, information is displayed that updates automatically in real time (similar to the Task Manager utility in Windows).
+
+top
+  # It displays the interactive window I was saying above; with the 'h' key you get help on the keys you can use to configure the displayed information, and with the 'q' key you exit this program.
+  # Note: the top command can also be invoked with a number of options, the effect of which you can read about in the documentation (i.e., the page: man 1 ps).
+
+
+<b>iv)</b> The last command mentioned in the presentation is the jobs command, which is an internal command and provides information about the programs started in the background from the prompt
+of the current shell (i.e., command interpreter) you use.
+Note: being internal, you can access the documentation about it with the command: help jobs .
+</pre>
+</br></br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exercises given for solving:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab2_ex6 ---------------------------------------------------------------------------------------------->
+<p><big>[find #3]</big>
+<br>Write the command that displays all the files of regular type (i.e., ordinary files) which you have in your account and which were modified in the last week, 
+together with their access rights and their last modification time.
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab2_ex7 ---------------------------------------------------------------------------------------------->
+<p><big>[find #4]</big>
+<br>Write the command that displays all the files found, starting from the directory given as argument at the command line, recursively, for which the
+owner of the file has the right to execute it, as well as the last access time of the file and its size in Kbytes.
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab2_ex4modificat ------------------------------------------------------------------------------------->
+<p><big>[sort #3]</big>
+<br>Write the command that sorts the lines from the /etc/group file in descending order on the GID specified on each line.
+<br>
+<small>(Hint: <span class="stil_hint">use the "sort" command.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Supplementary exercises, given for solving:</p>
+</a>
+
+<p>Here are some more exercises with simple commands that you can try to solve on your own:</p> 
+
+<ol>
+
+<li><!-- Problema: lab2_ex5 ---------------------------------------------------------------------------------------------->
+<p><big>[find #5]</big>
+<br> Write the command that displays all the files and directories, as well as the access rights associated with these, located 
+in the directory given as argument at the command line, for which the group of the owner has reading and writing rights.
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex8 ---------------------------------------------------------------------------------------------->
+<p><big>[find #6]</big>
+<br>Write the command that displays all the C/C++ source files (i.e., the files with the following extensions: .c, .cpp and .h)
+that are found in your account, together with their length (i.e., their size in bytes) and the date of the last modification.
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command with three options -name at the search criteria, and for the action part use -printf with adequate options.
+To test the command, create some C/C++ files in the home directory, eventually by copying some examples of programs from the programming laboratories
+from the first semester or from the OOP course.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex9 ---------------------------------------------------------------------------------------------->
+<p><big>[find #7]</big><!-- modificat pentru fișiere C++ în loc de C -->
+<br>Write the command that identifies all the C++ source files (i.e., files with the .cpp extension) which are found (only) in your home directory
+and, if their size is less than 5 Kbytes, tries to compile them using g++.
+The standard error output for the compiling command will be redirected to a file named errors.txt.
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command with the options "-name" and "-size" for the search criteria;
+for the action part use the option "-exec g++ ... 2&gt;&gt; errors.txt" .
+To test the command, create some C++ files in your home directory. You can even try copying some examples of programs from the programming laboratories
+from the first semester or from the OOP course.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab2_ex10---------------------------------------------------------------------------------------------->
+<p><big>[find #8]</big>
+<br>Write the command that displays all the files that are web pages (i.e., the files with the following extensions: .htm, .html, .php, .css) which you have
+in your account, together with their lengths (i.e., their size in Kbytes) and their last modification time.
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab2_ex11 --------------------------------------------------------------------------------------------->
+<p><big>[find #9]</big>
+<br>Write the command that deletes all the temporary files from your account (i.e. from your home directory, including the ones from its subdirectories).
+<br>
+Explanation: the temporary files are those whose names end with "~" or ".bak". These are files that are created by text editors in which the previous version
+of the edited file is saved, i.e. the one before the last editing, of the original file (i.e., the file with the name without "~" or ".bak").
+<br>
+<small>(Hint: <span class="stil_hint">use the "find" command with the option for calling the "rm" command, or the equivalent action for delete.</span>)</small>
+</p>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

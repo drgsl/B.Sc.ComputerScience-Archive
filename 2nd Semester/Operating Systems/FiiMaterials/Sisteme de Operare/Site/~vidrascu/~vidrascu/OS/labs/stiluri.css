@@ -1,0 +1,23 @@
+
+.stil_hint { color: lightgray; font-size: smaller; }
+.stil_hint2 { color: gray; font-size: smaller; }
+.stil_set_exercitii { font-weight: bold; font-size: larger; color: #800080; }
+
+.stil_ex_rezolvate { font-style: italic; font-size: larger; color: red; }
+.stil_ex_propuse { font-style: italic; font-size: larger; color: red; }
+.stil_ex_suplimentare { font-style: italic; font-size: larger; color: red; }
+
+.stil_black_BGcolor { font-size: larger;  color: white;  background-color: black; }
+
+
+
+.stil_solutie { width: 95%;  padding: 20px 20px;  text-align: left;  background-color: lightblue;  margin-top: 20px; }
+.stil_explicatie { width: 95%;  padding: 20px 20px;  text-align: justify;  color: black;  background-color: lightgrey;  margin-top: 10px; }
+.stil_explicatie_detaliata { width: 95%;  padding: 20px 20px;  text-align: justify;  color: white;  background-color: grey;  margin-top: 10px; }
+.stil_output { width: 95%;  padding: 10px 10px;  text-align: justify;  color: white;  background-color: black;  margin-top: 5px; }
+.stil_QandA { width: 95%;  padding: 10px 10px;  text-align: justify;  background-color: blue;  color: yellow;  margin-top: 5px; }
+
+
+
+/* stil deprecated; il voi elimina dupa ce voi modifica si paginile Lab11, Lab12 si Lab13, singurele unde mai apare acum */
+.stil_exercitii { font-weight: bold; font-size: larger; color: #800080; }

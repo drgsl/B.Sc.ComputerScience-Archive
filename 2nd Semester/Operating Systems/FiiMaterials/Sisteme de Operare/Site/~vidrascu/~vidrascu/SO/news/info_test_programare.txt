@@ -1,0 +1,159 @@
+[L.E.] Alte precizări suplimentare:
+
+1) Să respectați toți oricare dintre cele două convenții, referitor la alegerea numelui executabilului la compilare, în funcție de numele sursei:
+folosiți ca și nume pentru executabil, ori numele sursei fără extensia .c , ori numele sursei cu extensia .exe în loc de .c
+Deci obligatoriu, în apelurile exec pe care le veți scrie, să folosiți fie prg_P1 și respectiv prg_P2 , fie prg_P1.exe și respectiv prg_P2.exe !!!
+
+2) In baremul detaliat mai jos, implementarea functionalitatii unui program si comunicarea intre procese sunt punctate separat.
+În acest context, prin functionalitatea programului ma refer la partea de procesare a informatiei ce trebuie prelucrata de acel program; partea de comunicare corecta
+a informatiei procesate este punctata separat.
+
+3) Comunicațiile implementate prin citiri/scrieri în memorie partajata au particularităti diferite față de comunicațiile prin canale (anonime sau cu nume).
+Ca atare, acordati atenția cuvenită astfel încât comunicarea prin memorie partajată să funcționeze corect, adică asigurați-vă că implementați sincronizarea
+necesară pentru ca ORICE citire a unei informații din memorie, de către un proces, să se petreacă INTOTDEAUNA (i.e., la orice execuție posibilă a programului !!!)
+după momentul în care celălalt proces a scris acea informație în memorie. Cu alte cuvinte, codul scris de dvs. să nu aibă greșeli de tipul "race conditions".
+
+4) Va recomand la testul de programare TP2 sa va luati cat mai multe masuri pentru a avea un environment cat mai usor de folosit, pentru a nu avea probleme
+pe partea de implementare, in cazul in care ati avut in trecut. Cateva aspecte pe care sa le aveti in vedere in acest sens:
+- este recomandat sa lucrati pe o masina Linux locala (dual boot, sau macar virtuala) pentru a nu avea probleme cu conexiunea la serverul fenrir (din Windows, prin putty)
+  in timpul testului de programare, si inclusiv prin prisma faptului ca serverul ar putea deveni supra-aglomerat in timpul testului.
+- pe masina Linx locala sa aveti un IDE/text editor cat mai confortabil pentru voi si incercati sa indentati codul ca sa fie cat mai usor de citit, i.e. "readable code",
+  (altfel, este posibil sa va incurcati singuri cu un cod dezordonat), aspect punctat si in baremul detaliat mai jos.
+- repet recomandarea scrisa si mai jos: fiind trei module/programe de scris, și nu doar un singur program monolitic, le puteți dezvolta într-o manieră iterativă (compilați
+  din când în când și corectați erorile, nu amânați compilarea până la final când credeți că ați terminat de scris acel program) și independentă una de alta, a surselor.
+
+5) O altă recomandare: ținând cont de ce-am spus mai jos (i.e., problema pe care o veți primi la test este o ADAPTARE după șablonului general de cooperare 'Supervisor & cooperating workers'),
+vă recomand să revizitați exercițiile propuse spre rezovare în laboratorul #11 (sunt acolo 6 probleme propuse pe acest șablon) și să rezolvați unele dintre ele, ca
+antrenament, mai ales dacă nu ați rezolvat-o pe cea propusă dvs. în timpul acelui laborator.
+
+
+
+=====================================================================================================================
+
+
+Testul de programare va consta în scrierea unui program modularizat, care să acopere majoritatea conceptelor de bază:
+=====================================================================================================================
+
+Veți avea de scris trei programe, în trei fișiere sursă (numite în felul următor: prg_P0.c, prg_P1.c și prg_P2.c) și care să colaboreze între ele conform
+specificațiilor următoare, ce descriu o instanțiere (i.e., o adaptare particularizată) a șablonului general de cooperare 'Supervisor & cooperating workers',
+într-o manieră modularizată (în loc de un singur program complex, veți scrie trei programe mai simple), pentru a vă ușura activitatea de scriere a codului
+și cea de compilare.
+
+Descrierea de mai jos este generică, varianta efectivă de enunț pe care o veți primi la test (în manieră aleatoare) reprezentând o anumită instanțiere a
+"alternativelor" posibile cuprinse în această descriere generică:
+
+
+1) Programul inițial, ce trebuie startat de la linia de comandă (creând astfel un proces denumit P0 în cele ce urmează), va fi prg_P0.c
+El va fi responsabil cu crearea unei anumite ierarhii de 3 procese specificate (ori "tată cu doi fii", ori "tată cu un fiu și un nepot").
+// Tipul de ierarhie este prima sursă de alternative posibile! Pe celelalte de mai jos, le veți înțelege singuri din contextul descrierii.
+
+2) În primul fiu creat (respectiv în singurul fiu) se va starta, printr-un apel exec adecvat, programul prg_P1.c (iar procesul respectiv va fi denumit P1 în cele ce urmează);
+iar în al doilea fiu creat (respectiv în nepot) se va starta, printr-un apel exec adecvat, programul prg_P2.c (iar procesul respectiv va fi denumit P2 în cele ce urmează).
+
+3) Programele creatoare efectiv de noi procese (doar P0, în cazul primei ierarhii, respectiv P0 și P1, în cazul celei de a doua ierarhii) vor fi scrise în manieră
+modularizată, adică în functia main veți scrie doar codul necesar pentru crearea ierarhiei specificate (prin apeluri fork si exec) și, eventual,
+codul necesar pentru inițializarea comunicațiilor descrise mai jos (în funcție de natura 'canalului de comunicație' specificat).
+Iar funcționalitățile de procesare a informațiilor, descrise în cele ce urmează, le veți implementa în funcții separate, apelate din funcțiile main ale acestor programe.
+
+4) Fluxul de procesare a informației și de transmitere a ei, de la un  proces la altul, în cadrul ierahiei celor 3 procese, va fi de genul următor:
+- procesul P0 obține o secvență de informații inițiale (numere sau cuvinte/linii de text) dintr-o sursă specificată (e.g.,
+  de la tastatură sau dintr-un fișier de intrare) și o transmite, printr-un 'canal de comunicație' de tipul X, către unul dintre celelalte două procese, P1 sau P2;
+  în cele ce urmează, vom presupune că destinatarul specificat al acestei comunicații este P2.
+- procesul P2 citește secvența de informații primită de la P0, îi aplică o anumită "procesare" specificată (e.g. transformă literele mici în majuscule, etc.),
+  aplicată pe fiecare informație din secvență, apoi trasmite informația procesată către celălalt proces, P1, printr-un 'canal de comunicație' de tipul Y.
+- procesul P1 citește secvența de informații primită de la P2, îi aplică o altă "procesare" specificată (e.g. elimină caracterele ce nu sunt litere sau cifre, etc.),
+  aplicată pe fiecare informație din secvență, apoi trasmite informația procesată către procesul inițial P0, printr-un 'canal de comunicație' de tipul Z.
+- procesul P0 citește secvența de informații primită de la P1 și îi aplică o "procesare" finală specificată (e.g. o operație de "agregare" a secvenței primite,
+  cum ar fi: calculează numărul de caractere din secvența primită).
+
+Practic, avem 3 comunicații 1-la-1 între cele trei procese, sub forma unui circuit de tip "triunghi" inițiat de P0: P0 -> P2 -> P1 -> P0 (sau P0 -> P1 -> P2 -> P0),
+iar cele 3 comunicații se vor realiza OBLIGATORIU folosind trei tipuri diferite de 'canale de comunicație', adică tripleta tipurilor X,Y,Z de mai sus reprezintă
+o anumită permutare (specificată în enunțul variantei pe care o veți primi) a următoarelor trei tipuri:
+tipul I - comunicație printr-un canal anonim;
+tipul II - comunicație printr-un canal cu nume (i.e., fișier fifo)
+tipul III - comunicație prin modelul "shared memory", folosind o mapare în memorie (la alegerea voastră: fie un fișier mapat în memorie, fie o mapare nepersistentă cu nume -- nume creat cu funcția shm_open; Notă: o mapare nepersistentă anonimă nu se poate "transmite" prin exec.)
+            Aici mai puteți alege și implementarea comunicației prin "shared disc", adică prin accesul direct pe disc al unui fișier (dar cu o penalizare, descrisă în barem mai jos).
+
+
+RECOMANDARE: în timpul testului, înainte de a vă repezi să implementați cerințele primite, pe baza șăblonului generic de mai sus, vă sfătuiesc să începeți printr-o
+analiză atentă a cerințelor -- desenați de mână pe o foaie de hârtie o schemă cu "arhitectura aplicației": ierarhia de procese, mijloacele de comunicație între procese și
+sensul de transmitere a informației prin aceste mijloace de comunicație (precum ați văzut în exemplele de diagrame realizate de mână, atașate la unele exerciții de laborator).
+Astfel vă veți clarifica mai bine cerințele specificate în enunțul problemei și, de asemenea, vă va ajuta la partea de implementare!
+
+
+ALTĂ RECOMANDARE: fiind trei module/programe de scris, și nu doar un singur program monolitic, le puteți dezvolta într-o manieră iterativă (compilați din când în când
+și corectați erorile, nu amânați compilarea până la final când credeți că ați terminat de scris acel program) și independentă una de alta, a surselor.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Baremul generic (total 25p) -- punctajul pentru fiecare criteriu se acordă integral, pentru îndeplinirea criteriului, sau deloc (deci fără punctaje parțiale)
+
+Criteriul minimal de îndeplinit: fiecare dintre cele trei fișiere sursă trebuie să se compileze fără erori (adică trebuie
+să producă un executabil, chiar și cu eventuale avertismente la compilare), pentru a fi luată în considerare spre corectare!
+Altfel, dacă vreunul dintre cele trei fișiere sursă NU se compilează fără erori, se vor acorda din oficiu 0p (zero!) pentru
+fiecare dintre cele 7 criterii, ce urmează mai jos, în care se face referire la procesul corespunzător acelui fișier sursă!
+
+
+În cazul ierarhiei "tată cu doi fii", se vor aplica criteriile 1-4 următoare:
+
+1) Implementarea corectă a creării ierarhiei de procese și a apelurilor exec precizate, în funcția main a sursei prg_P0.c : 4p
+2) Implementarea corectă a funcționalității cerute pentru P0 în (una sau două) funcții separate de main, în prg_P0.c :      3p
+3) Implementarea corectă a funcționalității cerute pentru P1, într-o sursă separată prg_P1.c :                              2p
+4) Implementarea corectă a funcționalității cerute pentru P2, într-o sursă separată prg_P2.c :                              2p
+
+iar în cazul celeilalte ierarhii, "tată cu un fiu și un nepot", se vor aplica criteriile echivalente următoare:
+
+1a) Implementarea corectă a creării unui nou proces și a apelului exec precizate, în funcția main a sursei prg_P0.c :  2p
+2) Implementarea corectă a funcționalității cerute pentru P0 în (una sau două) funcții separate de main, în prg_P0.c : 3p
+1b) Implementarea corectă a creării unui nou proces și a apelului exec precizate, în funcția main a sursei prg_P1.c :  2p
+3) Implementarea corectă a funcționalității cerute pentru P1, într-o funcție separată de main, în sursa prg_P1.c :     2p
+4) Implementarea corectă a funcționalității cerute pentru P2, într-o sursă separată prg_P2.c :                         2p
+
+Următoarele trei criterii alocă câte 3p pentru implementarea corectă a celor 3 comunicații individuale, prin cele 3 tipuri de 'canale' de comunicație descrise mai sus. Deoarece aici sunt mai multe posibilități de exprimare a baremului, în funcție de permutarea X,Y,Z a celor trei tipuri de comunicație și în funcție de sensul circuitului de realizare a comunicațiilor (P0 -> P2 -> P1 -> P0 sau P0 -> P1 -> P2 -> P0) descrise mai sus, e mai complicat să dau o descriere generică care să acopere toate posibilitățile, așa încât voi prezenta criteriile 5-7 pentru un anumit caz particular (pentru toate celelalte cazuri îl puteți deduce singuri,
+aplicând permutările posibile), și anume:
+ 
+5) Implementarea corectă a comunicației de la P0 către P1, prin canal fifo : 3p
+6) Implementarea corectă a comunicației de la P1 către P2, prin canal anonim : 3p
+7) Implementarea corectă a comunicației de la P2 către P0, prin fișier pe disc (respectiv mapare), inclusiv sincronizarea necesară: 1.5p (respectiv 3p)
+
+//Total MAXIM criteriile 1-7 = 20p
+
+În varianta de problemă pe care o veți primi, în mod aleator, la test, enunțul respectiv va fi însoțit și de baremul generic de mai sus, instanțiat pentru cazul
+concret din enunț (din punct de vedere al posibilităților permutabile descrise în cele de mai sus)
+
+----------------------------------------------------------------------------------
+
+Ultima parte a baremului generic (aceeași pentru toate variantele de enunțuri posibile):
+
+Se va calcula fracția procentuală F = Total puncte acordate pentru criteriile 1-7 / 20p (i.e., total MAXIM criteriile 1-7) de îndeplinire a criteriilor de mai sus,
+iar următoarele 3 criterii de mai jos vor fi notate prin ponderare cu acest procentaj:
+
+8) Tratarea cazurilor de eroare la TOATE apelurile de sistem din toate cele trei programe: F * 2p
+9) Scrierea codului într-o formă indentată, plăcută ochiului (i.e., "readable code"):      F * 2p  (de exemplu, evitați copy-paste în mcedit)
+10) Alegerea adecvată a identificatorilor folosiți drept nume pentru variabile și funcții: F * 1p  (adică, numele lor să fie în corelație cu semnificația lor)
+
+//Total MAXIM criteriile 8-10 = 5p
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Alte observații:
+La finalul testului va trebui să încărcați în formular o arhivă cu cele 3 fișiere sursă prg_P0.c, prg_P1.c și prg_P2.c, arhivă căreia să-i atribuiți ca nume de fișier, username-ul dvs. de pe serverul fenrir, plus extensia de arhivă.
+E obligatoriu să respectați acest format de denumire, pentru a vă putea identifica la corectarea programelor.
+
+Pentru crearea arhivei, porniți un shell și plasați-vă în directorul în care aveți cele 3 fișiere sursă (pe Linuxul local), apoi executați următoarea comandă:
+prompt>  zip vasile.ionescu.zip  prg_P0.c  prg_P1.c  prg_P2.c
+care va produce arhiva vasile.ionescu.zip, pe care o veți încărca pe serverele Google prin intermediul formularului.
+(Atenție: evident, în loc de vasile.ionescu, veți folosi fiecare propriul username de pe fenrir !!!)
+
+[L.E.] Cine doreste, poate sa mai adauge si un script in arhiva cu cele 3 fisiere sursa, submisa prin formularul de la test, in care sa mentioneze procesul de compilare pe care il doreste (i.e., daca are nevoie de vreo optiune suplimentara la compilare, daca nu respecta conventia de numire a executabilelor -- cea descrisă chiar la inceputul acestei pagini, etc.).
+Insa nu este nevoie ca TOȚI sa adaugati un astfel de script. Doar aceia foarte puțini, care aveti eventual indicatii speciale de mentionat, puteti s-o faceti prin acest script suplimentar.
+
+
+Observație: în cazul în care nu lucrați la testul al doilea pe Linuxul local, ci pe serverul fenrir (deși nu vă recomand aceasta, din aceleași motive pomenite în precizările de la primul test), atunci va trebui mai întâi să transferați cele trei fișiere din contul dvs. de pe fenrir pe Windows-ul de pe laptopul propriu,
+și apoi să creați în Windows o arhivă zip cu cele 3 fișiere și cu nuemle arhivei specificat mai sus, pentru upload în formular.
+Pentru transfer de fișiere între un Windows local și un server Linux, vă recomand folosirea programului WinSCP (are o interfață grafică simplă, asemănător cu putty).
+
+Exersați aceste operații (creare arhivă pe Linuxul local, transfer de fișiere de pe fenrir pe laptop în Windows, dacă e cazul, etc.) înaintea testului, ca să vă deprindeți cu ele!
+
+
+

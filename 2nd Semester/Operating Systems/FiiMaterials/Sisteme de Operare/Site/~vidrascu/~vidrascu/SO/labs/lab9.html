@@ -1,0 +1,862 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #9</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #9, partea I :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab9.html#sec_0">Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile fork și wait</a></h4>
+<h5><a href="lab9.html#sec_0">Programe demonstrative cu apelurile fork și wait</a></h5>
+<h5><a href="lab9.html#sec_0b">Șabloane de cooperare și sincronizare</a></h5>
+<h4>I) <a href="lab9.html#sec_1">Exerciții de programare C cu mai multe procese secvențiale (prima parte - creare diverse ierarhii de procese, folosind apeluri fork și wait)</a></h4>
+<h5><a href="lab9.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab9.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab9.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>II) <a href="lab9.html#sec_2">Exerciții de programare C cu mai multe procese secvențiale (a doua parte - diverse procesări, folosind apeluri fork și wait)</a></h4>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile fork și wait:</span></p>
+</a>
+
+<h3>i) Informații despre apelurile de sistem <tt>fork()</tt> și <tt>wait()</tt> din API-ul POSIX:</h3>
+
+<button onclick="myToggle('lab9_prolog1')">Show / Hide the presentation</button>
+<div id="lab9_prolog1" style="display:none;" class="stil_prezentare">
+
+<p>
+(Re)citiți lecția practică despre apelurile fork și wait, disponibilă
+<a target="_blank" href="../cursuri/P6_fork+wait.pdf">aici</a>.
+</p>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0a">
+<p class="stil_ex_rezolvate">Programe demonstrative cu apelurile fork și wait:</p>
+</a>
+
+<ol>
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FirstDemo -- info_ex]</big>
+<br>Acest program demonstrativ ilustrează câteva dintre apelurile ce oferă diverse informații despre procesul curent.
+</p>
+
+<button onclick="myToggle('lab9_demo1')">Show / Hide the 1st demo example</button>
+
+<div id="lab9_demo1" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>info_ex.c</tt>:
+</p>
+
+<button onclick="myToggle('lab9_demo1_src')">Show / Hide the source</button>
+<pre id="lab9_demo1_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/fork/info_ex.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fork/info_ex.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>), cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall info_ex.c -o info_ex.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./info_ex.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+
+Procesul curent are PID-ul: 5754 , iar parintele lui este procesul cu PID-ul: 5733.
+
+Proprietarul real al procesului curent este: UID=1000, GID=1000.
+Proprietarul efectiv al procesului curent  : UID=1000, GID=1000.
+
+Start of sleeping for 3 seconds...
+
+Finish of sleeping for 3 seconds!
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[SecondDemo -- fork_ex]</big>
+<br>Acest program demonstrativ ilustrează șablonul pentru crearea unui proces fiu, al procesului curent.
+</p>
+
+<button onclick="myToggle('lab9_demo2')">Show / Hide the 2nd demo example</button>
+
+<div id="lab9_demo2" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>fork_ex.c</tt>:
+</p>
+
+<button onclick="myToggle('lab9_demo2_src')">Show / Hide the source</button>
+<pre id="lab9_demo2_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/fork/fork_ex.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fork/fork_ex.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall fork_ex.c -o fork_ex.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./fork_ex.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+
+Procesul tata cu PID-ul: 5803 , avand parintele cu PID-ul: 5786 si un fiu cu PID-ul: 5804.
+
+Procesul fiu cu PID-ul: 5804 , avand parintele cu PID-ul: 5803.
+In procesul fiu: dupa apelul fork, variabila nr are initial valoarea: 0.
+In procesul fiu: dupa modificarea ei, variabila nr are valoarea: 5.
+Zona de cod comuna, executata de catre fiu.
+
+In procesul tata, dupa 2 secunde: variabila nr are valoarea: 0.
+Zona de cod comuna, executata de catre parinte.
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Programe demonstrative ilustrate în lecția practică ------------------------------------------------------------->
+<p><big>[ThirdDemo -- wait_ex{1,2,3}]</big>
+<br>Aceste programe demonstrative ilustrează terminarea, normală sau anormală, a fiului creat de procesul inițial.
+</p>
+
+<button onclick="myToggle('lab9_demo3')">Show / Hide the 3rd demo example</button>
+
+<div id="lab9_demo3" style="display:none;" class="stil_rezolvare">
+<p>
+<b>i)</b> Prima variantă a acestui program demonstrativ, ce ilustrează o terminare normală a procesului fiu, este următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>wait_ex1.c</tt>:
+</p>
+
+<button onclick="myToggle('lab9_demo3_src1')">Show / Hide the source</button>
+<pre id="lab9_demo3_src1" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/wait/wait_ex1.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/wait/wait_ex1.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall wait_ex1.c -o wait_ex1.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./wait_ex1.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+
+Procesul fiu, cu PID-ul: 23025.
+
+Procesul tata: fiul cu PID-ul 23025 s-a sfarsit cu status-ul: 768.
+Mai exact, codul de terminare al fiului este de fapt: 3.
+</pre>
+</p>
+
+<br>
+
+<p>
+<b>ii)</b> A doua variantă a acestui program demonstrativ, ce ilustrează o terminare anormală cu apelul abort() a procesului fiu, este următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>wait_ex2.c</tt>:
+</p>
+
+<button onclick="myToggle('lab9_demo3_src2')">Show / Hide the source</button>
+<pre id="lab9_demo3_src2" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/wait/wait_ex2.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/wait/wait_ex2.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall wait_ex2.c -o wait_ex2.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./wait_ex2.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+
+Procesul fiu, cu PID-ul: 22944.
+
+Procesul tata: fiul cu PID-ul 22944 s-a sfarsit cu status-ul: 134.
+Mai exact, fiul a fost terminat fortat, cu semnalul: 6.
+</pre>
+</p>
+
+<br>
+
+<p>
+<b>iii)</b> A treia variantă a acestui program demonstrativ, ce ilustrează o terminare anormală, comandată cu comanda kill, a procesului fiu, este următoarea:
+</p>
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>wait_ex3.c</tt>:
+</p>
+
+<button onclick="myToggle('lab9_demo3_src3')">Show / Hide the source</button>
+<pre id="lab9_demo3_src3" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/wait/wait_ex3.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/wait/wait_ex3.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil, cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall wait_ex3.c -o wait_ex3.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție pe fundal (i.e., în <i>background</i>) programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./wait_ex3.exe &amp;</tt>
+<br>
+apoi, în timp ce fiul este "blocat" în acea buclă <tt>for</tt> infinită, iar părintele său este blocat în apelul <tt>wait</tt>,
+puteți verifica, dacă doriți, faptul că procesul fiu chiar are <tt>PID</tt>-ul afișat de părintele său, studiind outputul afișat de comanda:
+<br>
+prompt> <tt class="stil_cmdBash"> ps</tt>
+<br>
+după care transmiteți procesului fiu un semnal ce cauzează terminarea execuției procesului,
+e.g. semnalul 2 (i.e., <tt>SIGINT</tt>), semnalul 9 (i.e., <tt>SIGKILL</tt> sau semnalul 15 (i.e., <tt>SIGTERM</tt>),
+astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> kill -<i>semnal</i> <i>pid_fiu</i></tt>
+<br>
+(unde <i>semnal</i> este numărul semnalului pe care doriți să-l transmiteți fiului, iar <i>pid_fiu</i> este <tt>PID</tt>-ul fiului, aflat mai devreme cu <tt>ps</tt>),
+<br>
+și urmăriți outputul afișat pe ecran după execuția comenzii kill, ce va "debloca" cele două instanțe, tată și fiu, ale programului nostru.
+<br>
+Un exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+cris@SG7:~/Programare$ cursuri__C-programs/wait/wait_ex3.exe &
+[1] 23061
+cris@SG7:~/Programare$
+Procesul fiu, cu PID-ul: 23062.
+
+cris@SG7:~/Programare$ ps
+  PID TTY          TIME CMD
+22006 pts/1    00:00:00 bash
+23061 pts/1    00:00:00 wait_ex3.exe
+23062 pts/1    00:00:08 wait_ex3.exe
+23065 pts/1    00:00:00 ps
+cris@SG7:~/Programare$ kill -INT 23062
+cris@SG7:~/Programare$ 
+Procesul tata: fiul cu PID-ul 23062 s-a sfarsit cu status-ul: 2.
+Mai exact, fiul a fost terminat fortat, cu semnalul: 2.
+
+[1]+  Done                    cursuri__C-programs/wait/wait_ex3.exe
+</pre>
+Un alt exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+cris@SG7:~/Programare$ cursuri__C-programs/wait/wait_ex3.exe &
+[1] 4472
+cris@SG7:~/Programare$
+Procesul fiu, cu PID-ul: 4473.
+
+cris@SG7:~/Programare$ kill -TERM 4473
+cris@SG7:~/Programare$
+Procesul tata: fiul cu PID-ul 4473 s-a sfarsit cu status-ul: 15.
+Mai exact, fiul a fost terminat fortat, cu semnalul: 15.
+
+[1]+  Done                    cursuri__C-programs/wait/wait_ex3.exe
+</pre>
+<br>
+Un al treilea exemplu de output afișat pe ecran de acest program, ar fi următorul:
+<pre class="stil_output">
+cris@SG7:~/Programare$ cursuri__C-programs/wait/wait_ex3.exe & 
+[1] 4494
+cris@SG7:~/Programare$ 
+Procesul fiu, cu PID-ul: 4495.
+
+cris@SG7:~/Programare$ kill -ABRT 4495
+cris@SG7:~/Programare$ 
+Procesul tata: fiul cu PID-ul 4495 s-a sfarsit cu status-ul: 134.
+Mai exact, fiul a fost terminat fortat, cu semnalul: 6.
+
+[1]+  Done                    cursuri__C-programs/wait/wait_ex3.exe
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Program demonstrativ ilustrat în lecția practică ---------------------------------------------------------------->
+<p><big>[FourthDemo -- get_limits_ex]</big>
+<br>Acest program demonstrativ ilustrează câteva limite de folosire a diverse resurse ale SO-ului.
+</p>
+
+<button onclick="myToggle('lab9_demo4')">Show / Hide the 4th demo example</button>
+
+<div id="lab9_demo4" style="display:none;" class="stil_rezolvare">
+<p>
+Cu ajutorul apelurilor de sistem <tt>sysconf</tt> și <tt>getrlimit</tt> putem afla o serie de informații despre anumiți parametri ai sistemului,
+sau anumite limite ce se pot impune asupra folosirii unor resurse ale SO-ului.
+O parte dintre ele sunt și configurabile, prin intermediul apelului de sistem <tt>setrlimit</tt>.
+<br>
+Pentru a vedea lista detaliată a acestor parametri și limite, vă recomand să consultați paginile de manual:
+<tt class="stil_cmdBash">man 2 getrlimit</tt> și <tt class="stil_cmdBash">man 3 sysconf</tt>.
+</p>
+
+<p>
+1. Porniți editorul de texte preferat și scrieți codul de mai jos, apoi salvați-l într-un fișier cu numele <tt>get_limits_ex.c</tt>:
+</p>
+
+<button onclick="myToggle('lab9_demo4_src')">Show / Hide the source</button>
+<pre id="lab9_demo4_src" style="display:none;" class="stil_codC">
+<div w3-include-MyCode="../cursuri/C-programs/fork/get_limits_ex.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fork/get_limits_ex.c">here</a>.</div>
+</pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>), cu următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall get_limits_ex.c -o get_limits_ex.exe</tt>
+</p>
+
+<p>
+3. Lansați în execuție programul executabil obținut la pasul anterior, astfel:
+<br>
+prompt> <tt class="stil_cmdBash"> ./get_limits_ex.exe</tt>
+<br>
+și urmăriți outputul afișat pe ecran de această instanță de execuție a programului.
+<br>
+<br>
+Un exemplu de output afișat pe ecran de acest program, obținut pe un sistem Linux de tip desktop (mai precis, Ubuntu 9.10 x64),
+rulând pe un laptop cu CPU dual-core cu HT, și cu 8GB de RAM,
+ar fi următorul:
+<pre class="stil_output">
+The maximum length of a login name, including the terminating null byte, is: 256 caracters.
+   Note: the POSIX standard defines the minimum value for this limit as: 9.
+
+The maximum number of supplementary group IDs is: 65536 groups.
+
+The number of processors configured / currently online (available) are: 4, respectively 4,  processors.
+
+The number of pages of physical memory is: 1986219 pages.
+The number of currently available pages of physical memory is: 1120709 pages.
+
+The page size on your hardware system is: 4096 bytes.
+
+The soft/hard limits for RLIMIT_AS (i.e., the maximum size of the process's virtual memory (address space)), configured for your system, are: -1, respectively -1, bytes.
+
+The soft/hard limits for RLIMIT_DATA (i.e., the maximum size of the process's data segment (initialized data, uninitialized data, and heap)), configured for your system,
+are: -1, respectively -1, bytes.
+
+The soft/hard limits for RLIMIT_STACK (i.e., the maximum size of the process stack, in bytes), configured for your system, are: 8388608, respectively -1, bytes.
+
+The soft/hard limits for RLIMIT_MEMLOCK (i.e., the maximum number of bytes of memory that may be locked into RAM), configured for your system,
+are: 67108864, respectively 67108864, bytes.
+
+The maximum number of simultaneous processes per user ID, configured for your system, is: 30817 processes/user.
+   Note: the POSIX standard defines the minimum value for this limit as: 25.
+
+The soft/hard limits for RLIMIT_NPROC (i.e., maximum number of simultaneous processes per user ID), configured for your system, are: 30817, respectively 30817, processes/user.
+
+The soft/hard limits for RLIMIT_CPU (i.e., the limit, in seconds, on the amount of CPU time that the process can consume), configured for your system,
+are: -1, respectively -1, seconds.
+
+The maximum number of simultaneous open files per process, configured for your system, is: 1024 open files/process.
+   Note: the POSIX standard defines the minimum value for this limit as: 20.
+
+The soft/hard limits for RLIMIT_NOFILE (i.e., this specifies a value one greater than the maximum file descriptor number that can be opened by this process), configured for your system,
+are: 1024, respectively 1048576.
+
+The soft/hard limits for RLIMIT_FSIZE (i.e., the maximum size in bytes for any file that the process may create), configured for your system, are: -1, respectively -1, seconds.
+
+The soft/hard limits for RLIMIT_LOCKS (i.e., the limit on the combined number of flock(2) locks and fcntl(2) leases that this process may establish), are: -1, respectively -1, seconds.
+
+Notification: The number of clock ticks per second (aka kernel constant USER_HZ), configured for your system's kernel, is: 100 clock ticks/second.
+</pre>
+Un alt exemplu de output afișat pe ecran de acest program, obținut pe serverul <tt>fenrir</tt>, poate fi consultat
+<a href="lab9_c/get_limits_results-on-fenrir.txt">aici</a>.
+</p>
+</div>
+</li>
+
+</ol>
+
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0b">
+&nbsp;<!--p class="stil_ex_rezolvate">Șabloane de cooperare și/sau sincronizare:</p-->
+</a>
+<h3>ii) Câteva șabloane de cooperare și sincronizare între procese multiple</h3>
+
+<p>
+Descrierea acestor șabloane este disponibilă <a href="lab9sync.html#sec_0b">aici</a>.
+</p>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu mai multe procese secvențiale (prima parte - creare diverse ierarhii de procese, folosind apeluri fork și wait):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab9_ex3.c -------------------------------------------------------------------------------------------->
+<p><big>[N childs]</big>
+<br>
+Să se scrie un program C care să creeze <tt>N</tt> procese fii ai procesului inițial
+(unde <tt>N</tt> este o valoare citită de la tastatură, sau primită din linia de comandă).
+Și anume, procesul inițial P<sub>0</sub> va avea ca fii procesele P<sub>1</sub>, P<sub>2</sub>, ..., P<sub><tt>N</tt></sub>,
+iar acestea nu vor avea nici un fiu.
+Fiecare proces își va tipări, printr-un singur mesaj, numărul lui de ordine ca fiu sau proces inițial, PID-ul lui și pe cel al părintelui său.
+<br>
+<i>Cerință</i>: proiectați o rezolvare nerecursivă a acestei probleme (i.e., folosiți o buclă iterativă pentru crearea proceselor).
+</p>
+
+<button onclick="myToggle('lab9_ex1')">Show / Hide a possible solution</button>
+
+<div id="lab9_ex1" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-HTML="lab9_c/lab9_ex1.c.html">See the code from <a target="_blank"
+href="lab9_c/lab9_ex1.c">here</a> (or, with coloured comments, from <a target="_blank" href="lab9_c/lab9_ex1.c.html">here</a>).</div></pre>
+<!-- TODO:
+1) de exemplificat orfanii (i.e., eliminând apelurile wait) ;
+2) de exemplificat "something todo" in fiecare fiu (e.g., un sleep cu durata random)
+-->
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+<br>
+i) Pentru a observa, la execuția programului, eventuale procese fii ce au rămas orfani, experimentați astfel:
+eliminați din program, acea buclă cu apeluri wait().
+<br>
+ii) Pentru a "vedea", la execuția programului, cum procesele fii au diverse durate de execuție (i.e., "efectuează diverse calcule"), experimentați astfel:
+adăugați în program, pe "ramura fiului", un apel sleep() cu o durată <i>random</i> de maxim 5 secunde, înainte și, respectiv, după acel apel printf().
+<br>
+<br>
+<!-- TODO:
+3) de exemplificat ce se întâmplă dacă eliminăm din program acea instrucțiune return i; de la linia 39...
+-->
+<div class="stil_QandA">
+Ce rol credeți că are instrucțiunea <tt class="stil_instrC">return i;</tt> de la linia 39?
+Sau, altfel reformulat, ce credeți că se întâmplă dacă o eliminăm din program?
+<br><br>
+<i>Răspuns</i>: pentru a vedea ce se întâmplă, experimentați astfel:
+eliminați din program acea instrucțiune, apoi rulați programul astfel modificat și, pe baza mesajelor afișate,
+încercați să deduceți în ce fel de ierarhie sunt "organizate" procesele create pe parcursul execuției sale.
+<br>
+În acest caz, ierarhia respectivă mai este tot un arbore <tt>N</tt>-ar complet cu două nivele, sau ce fel de arbore este? 
+<br>
+<div class="stil_detalii_suplimentare2">
+<b><i>Recomandare</i>:</b>
+pentru a putea răspunde mai ușor la această întrebare,
+puteți proceda în maniera descrisă <a target="_blank" href="lab9_c/lab9_ps2ls.html">aici</a>.
+<!--...aici: <a href="lab9_c/lab9_p2ls_sh.txt">aici</a-->
+<!--mai jos: <div class="stil_explicatie" w3-include-HTML="lab9_c/lab9_ps2ls.html">See the explanation from <a target="_blank"
+href="lab9_c/lab9_ps2ls.html">here</a>.</div-->
+<br><br>
+<i>Notă</i>: evident, aceeași recomandare o puteți aplica și pentru rezolvarea prezentată mai sus a acestei probleme, i.e.
+pentru a verifica faptul că, într-adevăr, programul produce o ierarhie de procese întocmai cu cea descrisă în enunț
+(deși, în acest caz ierarhia de procese fiind mult mai simplă, se poate verifica mult mai ușor corectitudinea programului în mod vizual, i.e.
+prin interpretarea directă a mesajelor afișate pe ecran prin execuția programului respectiv).
+</div>
+</div>
+
+<p>
+<i>Observația #1</i>: ordinea în care procesele fii afișează pe ecran acele mesaje "Sunt procesul fiu ..." este nedeterministă, i.e.
+făcând mai multe (suficient de multe) execuții ale programului, veți observa ordini diferite de afișare a acestor mesaje.
+<br>
+Motivația acestui lucru este următoarea: conform celor spuse mai sus, cele N procesii fii sunt executate în paralel.
+Mai exact, planificatorul din cadrul SO-ului decide cânđ și cât timp să aloce câte un core al CPU-ului pentru execuția fiecărui proces,
+iar modul în care o face nu îl putem influența noi prin program.
+Făcând mai multe execuții ale programului, este posibil să difere modul de alocare pe CPU a celor N fii de la o execuție a programului nostru la alta,
+deoarece poate diferi "încărcătura totală" (i.e., toate sarcinile din sistem ce trebuie planificate de SO spre execuție pe CPU) existentă în sistem
+în intervalul de timp asociat unei execuții a programului nostru, față de intervalul unei alte execuții a programului nostru.
+</p>
+
+<p>
+<i>Observația #2</i>: în program am folosit două bucle <tt class="stil_instrC">for(i = 1; i &lt;= N; i++)</tt>,
+deși aș fi putut folosi și una singură -- cu alte cuvinte, aș mai fi putut scrie programul și astfel:
+<button onclick="myToggle('lab9_ex2_a')">Show / Hide the alternative code</button>
+<pre id="lab9_ex2_a" style="display:none;" class="stil_codC"><div w3-include-HTML="lab9_c/lab9_ex1_secvential.c.html">See the code from <a target="_blank"
+href="lab9_c/lab9_ex1_secvential.c.html">here</a>.</div></pre>
+</p>
+<p class="stil_QandA">
+Deși ambele variante de cod sunt echivalente, i.e. produc N procese fii ale procesului inițial,
+totuși am preferat să NU folosesc forma mai concisă, cu o singură buclă for. Oare de ce?
+<br><br>
+<i>Răspuns</i>: în varianta cu două bucle for, cele N procese fii vor fi create și executate <u>în paralel</u>,
+pe când în varianta cu o singură buclă for, cele N procese fii vor fi create și executate <u>secvențial</u>, unul după altul.
+Prin urmare, impactul asupra performanței programului va fi semnificativ;
+nu neapărat aici, în exemplul de față, unde fiii doar execută un simplu apel printf(),
+ci, mai ales, în situațiile în care veți folosi ideea din acest program aplicată, spre exemplu,
+la rezolvarea unei probleme conforme cu șablonul de cooperare 'Supervisor/workers';
+în astfel de situații, supervisorul va crea N workeri și le va da câte ceva de calculat, calcule ce probabil vor avea durate semnificative,
+și atunci ne dorim ca aceste calcule să se execute în paralel, nu secvențial. 
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab9_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>[A list of processes (<small>v1, the iterative version</small>)]</big>
+<br>
+Să se scrie un program C care să creeze o listă de procese de lungime <tt>N</tt>
+(unde <tt>N</tt> este o valoare citită de la tastatură, sau primită din linia de comandă).
+Și anume, procesul P<sub>1</sub> va avea ca fiu pe procesul P<sub>2</sub>, acesta la rândul lui îl va avea ca fiu pe procesul P<sub>3</sub>, ș.a.m.d. până la
+procesul P<sub><tt>N</tt></sub>, care nu va avea nici un fiu.
+Fiecare proces își va tipări, printr-un singur mesaj, numărul lui de ordine în listă, PID-ul lui, pe cel al părintelui său, precum și PID-ul fiului său și codul
+acestuia de terminare.
+<br>
+<i>Cerință</i>: proiectați o rezolvare nerecursivă a acestei probleme (i.e. folosiți o buclă iterativă pentru crearea proceselor).
+</p>
+
+<button onclick="myToggle('lab9_ex2')">Show / Hide a possible solution</button>
+
+<div id="lab9_ex2" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-HTML="lab9_c/lab9_ex2.c.html">See the code from <a target="_blank"
+href="lab9_c/lab9_ex2.c">here</a> (or, with coloured comments, from <a target="_blank" href="lab9_c/lab9_ex2.c.html">here</a>).</div></pre>
+<!-- TODO:
+1) de exemplificat orfanii (i.e., eliminând apelurile wait) ;
+2) de exemplificat "something todo" in fiecare fiu (e.g., un sleep cu durata random)
+-->
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+<br>
+i) Pentru a observa, la execuția programului, eventuale procese fii ce au rămas orfani, experimentați astfel:
+eliminați din program, acel apel wait() (și, bineînțeles, nu mai afișați codul de terminare al fiului).
+<br>
+ii) Pentru a "vedea", la execuția programului, cum procesele individuale au diverse durate de execuție (i.e., "efectuează diverse calcule"), experimentați astfel:
+adăugați în program, pe "ramura fiului", un apel sleep() cu o durată <i>random</i> de maxim 5 secunde, înainte și, respectiv, după acel apel printf().
+<br>
+<br>
+<!-- TODO:
+3) de exemplificat ce se întâmplă dacă eliminăm din program acea instrucțiune return i; de la linia 48...
+-->
+<div class="stil_QandA">
+Ce rol credeți că are instrucțiunea <tt class="stil_instrC">return i;</tt> de la linia 48?
+Sau, altfel reformulat, ce credeți că se întâmplă dacă o eliminăm din program?
+<br><br>
+<i>Răspuns</i>: pentru a vedea ce se întâmplă, experimentați astfel:
+eliminați din program acea instrucțiune, apoi rulați programul astfel modificat și, pe baza mesajelor afișate,
+încercați să deduceți în ce fel de ierarhie sunt "organizate" procesele create pe parcursul execuției sale.
+<br>
+În acest caz, ierarhia respectivă mai este tot o listă, adică un "lanț" cu <tt>N+1</tt> noduri (i.e., un arbore 1-ar de adâncime <tt>N</tt>),
+sau ce fel de arbore este? 
+<br>
+<div class="stil_detalii_suplimentare2">
+<b><i>Recomandare</i>:</b>
+pentru a putea răspunde mai ușor la această întrebare,
+puteți proceda în maniera descrisă <a target="_blank" href="lab9_c/lab9_ps2ls.html">aici</a>.
+<!--...aici: <a href="lab9_c/lab9_p2ls_sh.txt">aici</a-->
+<!--mai jos: <div class="stil_explicatie" w3-include-HTML="lab9_c/lab9_ps2ls.html">See the explanation from <a target="_blank"
+href="lab9_c/lab9_ps2ls.html">here</a>.</div-->
+<br><br>
+<i>Notă</i>: evident, aceeași recomandare o puteți aplica și pentru rezolvarea prezentată mai sus a acestei probleme, i.e.
+pentru a verifica faptul că, într-adevăr, programul produce o ierarhie de procese întocmai cu cea descrisă în enunț
+(deși, în acest caz ierarhia de procese fiind mult mai simplă, se poate verifica mult mai ușor corectitudinea programului în mod vizual, i.e.
+prin interpretarea directă a mesajelor afișate pe ecran prin execuția programului respectiv).
+</div>
+</div>
+
+<p>
+<i>Observație</i>: în acest exemplu, ordinea în care procesele fii afișează pe ecran acele mesaje "Sunt procesul ..." este deterministă, i.e.
+făcând mai multe execuții ale programului, veți observa întotdeauna o aceeași ordine de afișare a acestor mesaje,
+și anume ordinea inversă creării fiilor:
+mai întâi apare pe ecran mesajul afișat de ultimul fiu creat, apoi apare mesajul afișat de penultimul fiu creat, ... ș.a.m.d.,
+ultimul apare mesajul afișat de procesul inițial.
+<br>
+Motivația acestui lucru este foarte simplă: dacă veți inspecta programul cu atenție, veți constata că apelul printf() care afișează acel mesaj,
+în cazul fiecărui proces fiu (exceptându-l pe ultimul creat), este precedat de apelul wait() prin care fiecare proces așteaptă terminarea fiului său.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab9_ex5.c -------------------------------------------------------------------------------------------->
+<p><big>[A list of processes (<small>v2, the recursive version</small>)]</big>
+<br>
+Să se elaboreze o soluție recursivă a problemei <b>[A list of processes #1]</b> (i.e., scrieți o funcție recursivă pentru crearea proceselor).
+</p>
+
+<button onclick="myToggle('lab9_ex3')">Show / Hide a possible solution</button>
+
+<div id="lab9_ex3" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-HTML="lab9_c/lab9_ex3.c.html">See the code from <a target="_blank"
+href="lab9_c/lab9_ex3.c">here</a> (or, with coloured comments, from <a target="_blank" href="lab9_c/lab9_ex3.c.html">here</a>).</div></pre>
+<!-- TODO:
+1) de exemplificat orfanii (i.e., eliminând apelurile wait) ;
+2) de exemplificat "something todo" in fiecare fiu (e.g., un sleep cu durata random)
+-->
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+<br>
+i) Pentru a observa, la execuția programului, eventuale procese fii ce au rămas orfani, experimentați astfel:
+eliminați din program, acel apel wait() (și, bineînțeles, nu mai afișați codul de terminare al fiului).
+<br>
+ii) Pentru a "vedea", la execuția programului, cum procesele individuale au diverse durate de execuție (i.e., "efectuează diverse calcule"), experimentați astfel:
+adăugați în program, pe "ramura fiului", un apel sleep() cu o durată <i>random</i> de maxim 5 secunde, înainte și, respectiv, după acel apel printf().
+<br>
+<br>
+<!-- TODO:
+3) de exemplificat ce se întâmplă dacă eliminăm din program acea instrucțiune exit(i); de la linia 61...
+-->
+<div class="stil_QandA">
+Ce rol credeți că are instrucțiunea <tt class="stil_instrC">exit(i);</tt> de la linia 61?
+Sau, altfel reformulat, ce credeți că se întâmplă dacă o eliminăm din program?
+<br><br>
+<i>Răspuns</i>: pentru a vedea ce se întâmplă, experimentați astfel:
+eliminați din program acea instrucțiune, apoi rulați programul astfel modificat și, pe baza mesajelor afișate,
+încercați să deduceți în ce fel de ierarhie sunt "organizate" procesele create pe parcursul execuției sale.
+<br>
+În acest caz, ierarhia respectivă mai este tot o listă, adică un "lanț" cu <tt>N+1</tt> noduri (i.e., un arbore 1-ar de adâncime <tt>N</tt>),
+sau ce fel de arbore este? 
+<br>
+<div class="stil_detalii_suplimentare2">
+<b><i>Recomandare</i>:</b>
+pentru a putea răspunde mai ușor la această întrebare,
+puteți proceda în maniera descrisă <a target="_blank" href="lab9_c/lab9_ps2ls.html">aici</a>.
+<!--...aici: <a href="lab9_c/lab9_p2ls_sh.txt">aici</a-->
+<!--mai jos: <div class="stil_explicatie" w3-include-HTML="lab9_c/lab9_ps2ls.html">See the explanation from <a target="_blank"
+href="lab9_c/lab9_ps2ls.html">here</a>.</div-->
+<br><br>
+<i>Notă</i>: evident, aceeași recomandare o puteți aplica și pentru rezolvarea prezentată mai sus a acestei probleme, i.e.
+pentru a verifica faptul că, într-adevăr, programul produce o ierarhie de procese întocmai cu cea descrisă în enunț
+(deși, în acest caz ierarhia de procese fiind mult mai simplă, se poate verifica mult mai ușor corectitudinea programului în mod vizual, i.e.
+prin interpretarea directă a mesajelor afișate pe ecran prin execuția programului respectiv).
+</div>
+</div>
+
+<p>
+<i>Observație</i>: și în acest exemplu, ordinea în care procesele fii afișează pe ecran acele mesaje "Sunt procesul ..." este deterministă, i.e.
+făcând mai multe execuții ale programului, veți observa întotdeauna o aceeași ordine de afișare a acestor mesaje,
+și anume ordinea inversă creării fiilor:
+mai întâi apare pe ecran mesajul afișat de ultimul fiu creat, apoi apare mesajul afișat de penultimul fiu creat, ... ș.a.m.d.,
+ultimul apare mesajul afișat de procesul inițial.
+<br>
+Motivația acestui lucru este similară cu cea de la varianta iterativă a acestei probleme, pezentată mai sus.
+</p>
+</div>
+<br><br>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setCV')">Setul BP</button>
+<button onclick="mySetToggle('setRB')">Setul DA</button>
+<button onclick="mySetToggle('setCV')">Setul AG</button>
+<button onclick="mySetToggle('setRB')">Setul VU</button>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 (crearea unui arbore particularizat într-un anume fel, de procese) -------------------------->
+<p><big>[A particular tree of processes]</big>
+<br>
+Să se scrie un program C care să creeze un arbore particular de procese, având <tt>3</tt> nivele, structurate astfel:
+<br>1) unicul proces P<sub>1,1</sub> de pe nivelul 1 al arborelui (i.e., rădăcina arborelui) va avea <tt>2</tt> procese fii, și anume
+procesele P<sub>2,1</sub> și P<sub>2,2</sub> de pe nivelul 2 al arborelui;
+<br>2) fiecare dintre cele două procese de pe nivelul 2 al arborelui, va avea la rândul său <tt>3</tt> procese fii pe nivelul 3 al arborelui,
+numerotate cu P<sub>3,1</sub> , P<sub>3,2</sub> , ... , P<sub>3,6</sub>,
+care vor fi astfel "nepoți" ai procesului din rădăcina arborelui și, în plus, nu vor avea nici un fiu la rândul lor (i.e., vor fi "frunze" în arbore).
+<br>
+<!--i>Cerință</i--> Fiecare proces își va tipări, printr-un singur mesaj, "numărul lui de ordine" în arbore
+(<small>i.e., perechea (i,j) de forma: (1,1), (2,1),(2,2), (3,1),...,(3,6) </small>),
+urmat de PID-ul lui, cel al părintelui său, precum și PID-urile fiilor acestuia și codurile acestora de terminare.
+</p>
+
+<button onclick="myToggle('lab9_ex6custom1')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex6custom1" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b>
+pentru a testa corectitudinea programului pe care îl veți scrie,
+în sensul de a verifica dacă într-adevăr se creează în mod corect ierarhia de procese cerută în enunțul acestei probleme,
+puteți proceda în maniera descrisă <a target="_blank" href="lab9_c/lab9_ps2ls.html">aici</a>.
+<!--...aici: <a href="lab9_c/lab9_p2ls_sh.txt">aici</a-->
+<!--mai jos: <div class="stil_explicatie" w3-include-HTML="lab9_c/lab9_ps2ls.html">See the explanation from <a target="_blank"
+href="lab9_c/lab9_ps2ls.html">here</a>.</div-->
+</div>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_enunt_propus">
+<ol>
+<li><!-- CV: enunț nou, 2020 (crearea unui arbore particularizat într-un anume fel, de procese) -------------------------->
+<p><big>[Another particular tree of processes]</big>
+<br>
+Să se scrie un program C care să creeze un arbore particular de procese, având <tt>3</tt> nivele, structurate astfel:
+<br>1) unicul proces P<sub>1,1</sub> de pe nivelul 1 al arborelui (i.e., rădăcina arborelui) va avea <tt>3</tt> procese fii, și anume
+procesele P<sub>2,1</sub> , P<sub>2,2</sub> și P<sub>2,3</sub> de pe nivelul 2 al arborelui;
+<br>2) fiecare dintre cele trei procese de pe nivelul 2 al arborelui, va avea la rândul său <tt>2</tt> procese fii pe nivelul 3 al arborelui,
+numerotate cu P<sub>3,1</sub> , P<sub>3,2</sub> , ... , P<sub>3,6</sub>,
+care vor fi astfel "nepoți" ai procesului din rădăcina arborelui și, în plus, nu vor avea nici un fiu la rândul lor (i.e., vor fi "frunze" în arbore).
+<br>
+<!--i>Cerință</i--> Fiecare proces își va tipări, printr-un singur mesaj, "numărul lui de ordine" în arbore
+(<small>i.e., perechea (i,j) de forma: (1,1), (2,1),(2,2),(2,3), (3,1),...,(3,6) </small>),
+urmat de PID-ul lui, cel al părintelui său, precum și PID-urile fiilor acestuia și codurile acestora de terminare.
+</p>
+
+<button onclick="myToggle('lab9_ex6custom2')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex6custom2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b>
+pentru a testa corectitudinea programului pe care îl veți scrie,
+în sensul de a verifica dacă într-adevăr se creează în mod corect ierarhia de procese cerută în enunțul acestei probleme,
+puteți proceda în maniera descrisă <a target="_blank" href="lab9_c/lab9_ps2ls.html">aici</a>.
+<!--...aici: <a href="lab9_c/lab9_p2ls_sh.txt">aici</a-->
+<!--mai jos: <div class="stil_explicatie" w3-include-HTML="lab9_c/lab9_ps2ls.html">See the explanation from <a target="_blank"
+href="lab9_c/lab9_ps2ls.html">here</a>.</div-->
+</div>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu crearea unor ierarhii diverse formate din mai multe procese secvențiale,
+pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab9_ex6.c -------------------------------------------------------------------------------------------->
+<p><big>[A perfect k-ary tree of processes (<small>v1, the recursive version</small>)]</big>
+<br>
+Să se scrie un program C care să creeze un arbore <tt>K</tt>-ar <a target="_blank"
+href="https://en.wikipedia.org/wiki/Binary_tree#Types_of_binary_trees">perfect</a> cu <tt>N</tt> nivele, de procese
+(valorile <tt>K</tt> și <tt>N</tt> vor fi citite de la tastatură, sau primite din linia de comandă).
+<br>
+Și anume: unicul proces P<sub>1,1</sub> de pe nivelul 1 al arborelui (i.e., rădăcina arborelui) va avea <tt>K</tt> procese fii, și anume
+procesele P<sub>2,1</sub>,...,P<sub>2,<tt>K</tt></sub> de pe nivelul 2 al arborelui,
+fiecare dintre acestea va avea la rândul său <tt>K</tt> procese fii pe nivelul 3 al arborelui, ș.a.m.d.
+până la cele <tt>K</tt><sup><tt>N</tt>-1</sup> procese de pe nivelul <tt>N</tt> al arborelui, care nu vor avea nici un fiu.
+<br>
+Fiecare proces își va tipări, printr-un singur mesaj, numărul lui de ordine în arbore
+(i.e. perechea i,j cu 1&le;i&le;<tt>N</tt> și 1&le;j&le;<tt>K</tt><sup>i-1</sup>),
+PID-ul lui, pe cel al părintelui său, precum și PID-urile celor <tt>K</tt> fii ai acestuia și codurile acestora de terminare.
+<br>
+<i>Cerință</i>: proiectați o rezolvare recursivă a acestei probleme (i.e., folosiți o funcție recursivă pentru crearea proceselor), astfel:
+<br>i) prin recursie doar după adâncimea în arbore, <tt>N</tt> (recursia este mai simplă);
+<br>sau
+<br>ii) prin recursie după <tt>K</tt> și <tt>N</tt> (recursia este mai complexă).
+</p>
+
+<button onclick="myToggle('lab9_ex6')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex6" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b>
+pentru a testa corectitudinea programului pe care îl veți scrie,
+în sensul de a verifica dacă într-adevăr se creează în mod corect ierarhia de procese cerută în enunțul acestei probleme,
+puteți proceda în maniera descrisă <a target="_blank" href="lab9_c/lab9_ps2ls.html">aici</a>.
+<!--...aici: <a href="lab9_c/lab9_p2ls_sh.txt">aici</a-->
+<!--mai jos: <div class="stil_explicatie" w3-include-HTML="lab9_c/lab9_ps2ls.html">See the explanation from <a target="_blank"
+href="lab9_c/lab9_ps2ls.html">here</a>.</div-->
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab9_ex7.c -------------------------------------------------------------------------------------------->
+<p><big>[A perfect k-ary tree of processes (<small>v2, the iterative version</small>)]</big>
+<br>
+Să se elaboreze o soluție iterativă a problemei <b>[A tree of processes #1]</b> (i.e., folosiți bucle iterative pentru crearea proceselor).
+</p>
+
+<button onclick="myToggle('lab9_ex7')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex7" style="display:none;" class="stil_explicatie_detaliata">
+<b><i>Recomandare</i>:</b> a se reciti sugestia dată la problema suplimentară precedentă!
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu mai multe procese secvențiale (a doua parte - diverse procesări, folosind apeluri fork și wait):</span></p>
+</a>
+
+<p>
+Lista cu exercițiile de acest gen este disponibilă <a href="lab9sync.html#sec_2">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr><td align="center" valign="center">
+    <form><input type="button" name="lastUpdButton" value="Last Update"
+            onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);"></form>
+</td></tr>
+</table>
+
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<script>includeHTML();</script>
+</body>
+</html>

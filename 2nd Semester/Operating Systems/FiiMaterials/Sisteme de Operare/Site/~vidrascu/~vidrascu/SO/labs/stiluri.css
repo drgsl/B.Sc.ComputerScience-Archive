@@ -1,0 +1,36 @@
+
+.stil_hint { color: lightgray; font-size: smaller; }
+.stil_hint2 { color: gray; font-size: smaller; }
+.stil_set_exercitii { font-weight: bold; font-size: larger; color: #800080; }
+
+.stil_ex_rezolvate { font-style: italic; font-size: larger; color: red; }
+.stil_ex_propuse { font-style: italic; font-size: larger; color: red; }
+.stil_ex_suplimentare { font-style: italic; font-size: larger; color: red; }
+
+.stil_black_BGcolor { font-size: larger;  color: white;  background-color: black; }
+
+
+.stil_prezentare { width: 95%;  padding: 10px 20px;  text-align: justify;  color: black;  background-color: lightskyblue;  margin-top: 10px; }
+
+.stil_solutie { width: 95%;  padding: 20px 20px;  text-align: left;  color: black;  background-color: lightblue;  margin-top: 20px; }
+.stil_explicatie { width: 95%;  padding: 20px 20px;  text-align: justify;  color: black;  background-color: lightgrey;  margin-top: 10px; }
+.stil_explicatie_detaliata { width: 95%;  padding: 20px 20px;  text-align: justify;  color: white;  background-color: grey;  margin-top: 10px; }
+.stil_output { width: 95%;  padding: 10px 10px;  text-align: justify;  color: white;  background-color: black;  margin-top: 5px; }
+.stil_QandA { width: 95%;  padding: 10px 10px;  text-align: justify;  background-color: blue;  color: yellow;  margin-top: 5px; }
+.stil_detalii_suplimentare1 { width: 95%;  padding: 5px 5px;  text-align: justify;  color: black;  background-color: lightgrey;  margin-top: 5px; }
+.stil_detalii_suplimentare2 { width: 95%;  padding: 5px 5px;  text-align: justify;  color: white;  background-color: grey;  margin-top: 5px; }
+
+
+.stil_rezolvare { width: 95%;  padding: 20px 20px;  text-align: justify;  color: black;  background-color: lightgrey;  margin-top: 10px; }
+.stil_rezolvare_incompleta { width: 95%;  padding: 20px 20px;  text-align: justify;  color: black;  background-color: lightgrey;  margin-top: 10px; }
+.stil_codBash { width: 95%;  padding: 20px 20px;  text-align: left;  color: black;  background-color: lightblue;  margin-top: 20px; }
+.stil_cmdBash { width: 95%;  padding: 2px 2px;  text-align: left;  color: black;  background-color: lightblue;  margin-top: 1px; }
+.stil_codC { width: 95%;  padding: 20px 20px;  text-align: left;  color: black;  background-color: lightblue;  margin-top: 20px; }
+.stil_instrC { width: 95%;  padding: 2px 2px;  text-align: left;  color: black;  background-color: lightblue;  margin-top: 1px; }
+.stil_sugestie_de_rezolvare { width: 95%;  padding: 10px 10px;  text-align: justify;  color: white;  background-color: grey;  margin-top: 5px; }
+.stil_enunt_propus { width: 95%;  padding: 10px 10px;  text-align: justify;  color: black;  background-color: lightgrey;  margin-top: 5px; }
+.stil_image_frame { padding: 20px 20px;  text-align: center;  background-color: darkblue;  color: yellow;  margin-top: 10px; }
+
+
+
+.button_href { display: inline-block; padding: 3px 5px; border: 1px solid #000; background: #eee; }

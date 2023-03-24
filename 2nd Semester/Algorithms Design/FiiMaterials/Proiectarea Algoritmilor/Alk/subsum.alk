@@ -1,0 +1,54 @@
+sol = [0..(n - 1)];
+
+checkSol(k, v, out sol, sum) {
+  s = 0;
+  for(i = 0; i <= k; i++) {
+    s += (v[i] * sol[i]);
+    if (s > sum) {
+      return 0;
+    }
+  }
+
+  if (s == sum) {
+    return 1;
+  }
+  return 2;
+}
+
+bkt(k, v ,n, out sol, sum) {
+  if (k == n) {
+    return false;
+  }
+
+  for (d = 0; d <= 1; d++) {
+    sol[k] = d;
+
+    r = checkSol(k, v, sol, sum);
+
+    if (r == 0) {
+      return false;
+    }
+
+    if (r == 1) {
+      for (l = k + 1; l < n; l++) {
+        sol[l] = 0;
+      }
+      print(sol);
+      return true;
+    }
+
+    if (bkt(k + 1, v, n, sol, sum) == true) {
+      return true;
+    }
+
+  }
+
+  return false;
+
+}
+
+print(bkt(0, v, n, sol, sum));
+print("");
+
+
+// alki.bat -a subsum.alk -i subsum.in

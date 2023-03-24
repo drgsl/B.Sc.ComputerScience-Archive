@@ -1,0 +1,1115 @@
+<html lang="en">
+<head>
+  <title>OS course -- Laboratory #3</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h2><font color="blue">Laboratory #3 :</font> Training exercises</h2>
+
+<b>Summary:</b>
+<h4>I) <a href="lab3_en.html#sec_1">Exercises with chained commands</a></h4>
+<h5><a href="lab3_en.html#sec_1a">Solved exercises</a></h5>
+<h5><a href="lab3_en.html#sec_1b">Exercises given for solving</a></h5>
+<h5><a href="lab3_en.html#sec_1c">Supplimentary exercises, given for solving</a></h5>
+<h4>II) <a href="lab3_en.html#sec_2">Experiments with the initialization file for a working session</a></h4>
+<h4>III) <a href="lab3_en.html#sec_3">Experiments with redirecting the I/O standard streams</a></h4>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<p>
+<i>Note</i>: The following exercises will require you to write chained commands that perform various processing / processing of information from the following types of sources:
+<ul>
+<li>static source, i.e. database files <tt>/etc/passwd</tt> with information about <b>system's users</b>;</li>
+<li>dynamic sources, e.g. the output of a simple command that provides certain dynamic information, e.g. <b>users connected to the system </b>
+(at the time of execution of that command).</li>
+</ul>
+Read the statement of each exercise carefully to understand which source of information needs to be processed according to the requirements of that statement!
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade />
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exercises with pipelines (i.e., chained commands):</span></p>
+</a>
+
+
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Solved exercises:</p>
+</a>
+
+
+<ol>
+<li>
+<p><big>[Login shells]</big>
+<br />Write the chained command that displays (uniquely) all login shells used by your system's users.
+<br />
+<small>(Hint: <span class="stil_hint">use a chain of simple commands and information from the file  <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex4')">Show / Hide the solution</button>
+<div id="lab3_ex4" style="display: none" class="stil_solutie">
+The solution idea is to first obtain the list of values that appear in the 7th field in the <tt>/etc/passwd</tt> file, which can be done with the simple command:
+<pre>
+cut -f7 -d: /etc/passwd
+</pre>
+And then, we will have to process the output of this command to eliminate duplicate occurrences of the / bin / bash shell (and possibly duplicates of other shells). We can do this with the simple sort -u command, where the -u option, after sorting, eliminates consecutive duplicate lines in the output it produces. In other words, we build the chain of commands:
+<pre>
+cut -f7 -d: /etc/passwd | sort -u
+</pre>
+which shows us what is required by the problem.
+<br /><br />
+<i>Detailed explanation</i>, about the list displayed:
+<button onclick="myToggle('lab3_ex4a')">Show / Hide the full details</button>
+<div id="lab3_ex4a" style="display: none" class="stil_explicatie_detaliata">
+Specifically, the list displayed on the <i> fenrir </i> server by this chained command is the following, at this time (i.e., <i> as of February 2020 </i>):
+<pre class="stil_output">
+
+/bin/bash
+/bin/false
+/bin/sh
+/bin/sync
+/dev/null
+/usr/sbin/nologin
+</pre>
+Of the programs listed above, only <tt>/bin/bash</tt> and <tt>/bin/sh</tt> represent interactive command interpreters (i.e. shell),
+the rest are other types of programs, non-interactive, associated with certain system accounts (i.e., non-interactive accounts, with different sets of rights and privileges,
+which run various daemon processes (i.e., processes that &quot;host&quot; various system services) associated with those system accounts),
+plus the word &quot;empty&quot;, in the first position in the list, corresponding to the lines of &quot;empty&quot; text that are present, at this moment, in the file <tt> /etc/passwd </tt>.
+<br /><br />
+<i>Note</i>:<tt> / bin / bash </tt> is the executable &quot;containing&quot; the most popular <i> Bourne Again Shell </i> shell, but not the only shell available for Linux.
+<br />
+And <tt> /bin/sh </tt> was, in older versions of UNIX, the executable that &quot;contained&quot; the <i> Bourne Shell </i> shell (subsequently, the GNU project developed
+<i> Bourne Again Shell </i>, inspired by <i> Bourne Shell </i> and two other shells, <i> C Shell </i> and <i> Korn Shell </i>).
+In Linux distributions, typically, <tt> /bin/sh </tt> is just a symbolic link to another pre-installed shell, e.g. <tt> /bin/bash </tt> or <tt> /bin/dash </tt>.
+<br />
+As features offered, the <tt>/bin/dash</tt> shell, i.e. <i> Debian Almquist Shell </i>, is a very simplified version of the <tt>/bin/bash</tt> shell
+(for more details, read on <a href="https://www.cyberciti.biz/faq/debian-ubuntu-linux-binbash-vs-bindash-vs-binshshell/">here</a>).
+<br /><br />
+<i>Additional details</i>:
+<button onclick="myToggle('lab3_ex4a1')">Show / Hide the details</button>
+<div id="lab3_ex4a1" style="display: none" class="stil_explicatie">
+For example, at this point (ie <i> as of February 2020 </i>), on the <i> fenrir </i> <tt> /bin/sh </tt> server refers to the <tt> /bin/dash </tt>
+and the only accounts on the <i> fenrir </i> that associated <tt> /bin/sh </tt>, i.e. <tt> /bin/dash </tt>, as the login shell,
+are namely the 17 accounts, which you can convince yourselves by looking at the output of the following command:
+<pre>
+grep /bin/sh /etc/passwd
+</pre>
+<pre class="stil_output">
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:1002:1002:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+</pre>
+<i> Conclusion </i>: From the above it appears that all interactive accounts (i.e. accounts &quot;owned&quot; by human users, including the root account) on
+the <i> fenrir </i> server has now associated the login shell <tt> /bin/bash </tt>, although each user has the option to change it according to their preferences to any other login shell using the chsh command
+(<small> But this has probably never happened in the past, i.e. I have never noticed such a situation,
+over the years, when we solved this problem in laboratories with the promotion of students of that year ... </small>).
+<br /><br />
+But the other way around? That is, the login shell <tt> /bin/bash </tt> is only associated with interactive accounts, no system account associated with it?
+<br />
+To answer this question, we need to visually inspect the output of the following command:
+<pre>
+grep /bin/bash /etc/passwd | cut -f1 -d: | less
+</pre>
+by looking more closely at the 2810 lines of text with usernames displayed and trying to see if there are usernames that &quot;seem&quot; to be system accounts.
+<br />
+Thus, as a result of this visual inspection, we find that, at this time (i.e., <i> as of February 2020 </i>), on the <i> fenrir </i> server
+There does NOT appear to be any system account that has <tt> /bin/bash </tt> associated as a login shell!
+<br />
+Keep this conclusion for the next exercise !!!
+</div>
+<br /><br />
+The chsh command can be used by each user to change their login shell configured / stored in the file <tt> / etc / passwd </tt>
+(for details read the <tt> man 1 chsh </tt> page).
+<br />
+The list of <u> valid </u> values for the login shell, i.e. the list of those <i> pathnames </i> that you can specify as an argument to this command,
+is stored in another &quot;database&quot;, i.e. the configuration file <tt> / etc / shells </tt> (for details read the <tt> man 5 shells </tt> page).
+<br /><br />
+<i>Additional details</i>:
+<button onclick="myToggle('lab3_ex4a2')">Show / Hide the details</button>
+<div id="lab3_ex4a2" style="display: none" class="stil_explicatie">
+For example, at this time (i.e., as of February 2020), the following list of valid login shells is configured on the <i> fenrir </i> server:
+<pre>
+cat /etc/shells
+</pre>
+<pre class="stil_output">
+# /etc/shells: valid login shells
+/bin/csh
+/bin/sh
+/usr/bin/es
+/usr/bin/ksh
+/bin/ksh
+/usr/bin/rc
+/usr/bin/tcsh
+/bin/tcsh
+/usr/bin/esh
+/bin/dash
+/bin/bash
+/bin/rbash
+/usr/bin/screen
+</pre>
+
+340/5000
+<i> Attention </i>: The term valid here refers, as I said above, to the fact that only those <i> pathnames </i> in this file can be used as an argument to the chsh command.
+<br /> Everything else is the list of existing shells (i.e., installed) in the system, which we can obtain, for example, with a properly specified search command:
+<pre>
+find /bin /usr/bin -name &quot;*sh&quot;
+</pre>
+The output of this command, running at this time (i.e., <i> as of February 2020 </i>) on the <i> fenrir </i> server, is as follows:
+<pre class="stil_output">
+/bin/dash
+/bin/bash
+/bin/sh
+/bin/rbash
+/bin/csh
+/bin/bsd-csh
+/usr/bin/c_rehash
+/usr/bin/rsh
+/usr/bin/instmodsh
+/usr/bin/ssh
+/usr/bin/texhash
+/usr/bin/ppmflash
+/usr/bin/tclsh
+/usr/bin/gettext.sh
+/usr/bin/chsh
+</pre>
+</div>
+</div>
+<br /><br />
+<i> Note </i>: Another possible solution is the following command chain, which contains an additional chain command:
+<pre>
+cut -f7 -d: /etc/passwd | sort | uniq
+</pre>
+<div class="stil_QandA"><i>Question</i>:
+even if both of the above solutions are correct, i.e. &quot;calculates&quot; what is required in our problem,
+which of them do you think is more efficient (ie, the runtime and / or the consumption of system resources for its execution)?
+</div>
+<br />
+<i>Observation</i>:we cannot give up using &quot;sort&quot; and use only uniq, i.e.
+<pre>
+cut -f7 -d: /etc/passwd | uniq
+</pre>
+
+because the result produced, as you can check for yourself, is not what is required in the statement.
+</div>
+
+</li>
+
+
+<li>
+<p><big>[Human users]</big>
+<br /> Write the chained command that calculates how many (human) user accounts exist in the system.
+<br />
+(<i> Attention to the formulation of the question in the statement </i>: it is not required to calculate how many human users, i.e. distinct persons, have accounts in the system!)
+<br />
+<i> Additional requirement </i>: Filter the accounts associated with system programs (i.e., those that do not have <tt> / bin / bash </tt> configured as login shell).
+<br />
+<small> (Note: <span class="stil_hint"> use the wc command and the information in the <tt> /etc/passwd </tt> file;
+for the extra part, use the grep command for the required filtering and link it with the wc command. </span>) </small>
+</p>
+
+<button onclick="myToggle('lab3_ex1')">Show / Hide the solution</button>
+
+<div id="lab3_ex1" style="display: none" class="stil_solutie">
+The solution idea is to calculate the number of accounts that have assigned the value <tt> /bin/bash </tt> as the login shell.
+(taking into account that the result will be only a <u> rough estimate </u> of the number of interactive accounts,
+review the conclusion formulated in solving the previous exercise):
+<pre>
+grep /bin/bash /etc/passwd | wc -l
+</pre>
+Or, another solution would be to use only a single simple command (i.e., a &quot;chain&quot; of commands consisting of a single command):
+<pre>
+grep -c /bin/bash /etc/passwd
+</pre>
+<div class="stil_QandA"><i>Question</i>:
+even if both of the above solutions are correct, i.e. &quot;calculates&quot; what is required in our problem,
+which of them do you think is more efficient (ie, the runtime and / or the consumption of system resources for its execution)?
+</div>
+<br />
+For the additional requirement in the statement:
+if we want to count only non-interactive accounts, i.e. those that are associated with various system programs,
+then a possible solution (again, based on the conclusion formulated in solving the previous exercise) would be the following linked command:
+<pre>
+grep -v /bin/bash /etc/passwd | wc -l
+</pre>
+Or, as above, another solution would be to use only one simple command:
+<pre>
+grep -v /bin/bash /etc/passwd -c
+</pre>
+</div>
+
+</li>
+
+
+<li>
+<p><big>[How many students?]</big>
+  <br /> Write the chained command that shows the total number of users who are members of the studs group.
+  <br />
+  (<i> Attention to the formulation of the question in the statement </i>: it is not required to calculate how many students are enrolled at FII in the current academic year!
+  Such information can only be obtained from the school management system used by the faculty secretaryship  ...)
+  <br />
+  <small> (Note: <span class="stil_hint"> use the command from an exercise in the first lab,
+  chained to the cut and wc commands, each called with the appropriate options. </span>) </small>
+  </p>
+
+<button onclick="myToggle('lab3_ex2')">Show / Hide the solution</button>
+
+<div id="lab3_ex2" style="display: none" class="stil_solutie">
+To begin with, I will resume the discussion I had in class when solving the exercise [grep #2] in lab #1.
+<br />
+A first idea discussed was to select the lines in <tt> /etc/passwd </tt> containing the &quot;studs&quot; (or &quot;/fenrir/studs&quot;) template,
+starting from the observation that home directories of student accounts have <tt>/fenrir/studs/<i>username</i> </tt> on the <i> fenrir </i> server:
+<pre>
+grep studs /etc/passwd
+or
+grep /fenrir/studs /etc/passwd
+</pre>
+And then, the solution idea is to count the text lines of the output produced by either of the two commands above.
+And counting we do the same thing as in the previous exercise, either with a linked command, namely:
+<pre>
+grep studs /etc/passwd | wc -l
+</pre>
+..., or with the simplified version, where we use only one simple command:
+<pre>
+grep studs /etc/passwd -c
+</pre>
+<i>Observation</i>:
+as we discussed in class, the number displayed by the above chains does not reflect reality,
+which we can convince ourselvs if we replace the &quot;studs&quot; template with the &quot;202&quot; template,
+starting from the observation that the GID of the student group on the <i> fenrir </i> server is 202:
+<pre>
+grep 202 /etc/passwd | wc -l
+or
+grep 202 /etc/passwd -c
+</pre>
+But now, what is the reality?
+Is the number displayed by the latter variant the correct one?
+Not necessarily, because this will also include lines that contain a UID, or a GID, or a registration number in the personal data field,
+form 3202, 2024, 10202, 12027, etc. (i.e. numbers in which 202 appears as subquantum).
+<br />
+To eliminate such numbers, we discussed that we can force 202 to be &quot;whole word,&quot; either with the -w 202 option or the template: 202: (i.e., 202 be preceded and followed by the field delimiter character of <tt> /etc/passwd </tt>:
+<pre>
+grep :202: /etc/passwd | wc -l
+or
+grep -w 202 /etc/passwd | wc -l
+</pre>
+But now, what is the reality?
+But now we have no guarantee of the correct answer, because theoretically the above chain would count a possible user with the UID 202 and located in another group.
+<br />
+<i>Additional details</i>:
+<button onclick="myToggle('lab3_ex2a')">Show / Hide the details</button>
+<div id="lab3_ex2a" style="display: none" class="stil_explicatie">
+I wrote <i> theoretically </i> in the previous sentence, because this is practically not the case, for the simple reason that,
+at this time (i.e., as of February 2020), there is no account with UID 202 on the <i> fenrir </i> server,
+which we can convince ourselvs from the output produced by the command:
+<pre>
+cut -f3 -d: /etc/passwd | grep -w 202 -c
+</pre>
+and which outputs the value 0. Obviously, the only value you could theoretically display, is the value 1,
+because UIDs are assigned to users in a unique way.
+</div> 
+<br /><br /><br />
+To conclude, the chain that counts <b> correctly </b> (i.e., taking into account all possible situations described above)
+how many users are in the studs group on the <i> fenrir </i> server, is as follows:
+<pre>
+cut -f4 -d: /etc/passwd | grep -w 202 | wc -l
+</pre>
+Or, equivalent, but with fewer simple chain commands, we can write:
+<pre>
+cut -f4 -d: /etc/passwd | grep -w 202 -c
+</pre>
+<pre class="stil_output">
+2799
+</pre>
+The displayed value represents the number of user members of the studs group, at this time (i.e., <i> as of February 2020 </i>).
+<br />
+<i> Note </i>: not to confuse this value, I remind you of the distinction made from the statement of this exercise,
+with the number of students who are enrolled at FII in the current academic year!
+<br /><br />
+<div class="stil_QandA"><i>Question</i>:
+Even if both of the above solutions are correct, i.e. &quot;calculates&quot; what is required by our problem,
+which of them do you think is more efficient (ie, the runtime and / or the consumption of system resources for its execution)?
+</div>
+<br />
+<br />
+<i> Additional questions </i>, related to the discrepancy between numbers calculated with different templates:
+<button onclick="myToggle('lab3_ex2b')">Show / Hide the details</button>
+<div id="lab3_ex2b" style="display: none" class="stil_explicatie">
+Following the discussion in the classroom when solving the exercise [grep #2] in the laboratory #1, we drew two conclusions:
+<br />
+i) there are user accounts in the studs group whose home directories are not of the form <tt>/fenrir/studs/<i>username</i> </tt>;
+we can obtain the list of these users, for example, with the following linked command:
+<pre>
+cut -f1,4,6 -d: /etc/passwd | grep -w 202 | grep -v /fenrir/studs/ | cut -f1 -d:
+</pre>
+ii) and vice versa, there are user accounts that have home directories of the form <tt>/fenrir/studs/<i>username</i> </tt>, but which are not part of group 202;
+we can obtain the list of these users, for example, with the following linked command:
+<pre>
+cut -f1,4,6 -d: /etc/passwd | grep /fenrir/studs/ | grep -v -w 202 | cut -f1 -d:
+</pre>
+</div>
+</div>
+
+</li>
+
+
+<li>
+<p><big>[How many Anna?]</big>
+<br /> Write the linked command that shows how many of the system users contain &quot;ana&quot; in the account name, but not in the &quot;diana&quot; context.
+<br />
+<small>(Hint: <span class="stil_hint">use chains of simple commands and the information in the <tt> /etc/passwd </tt> file.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex5')">Show / Hide the solution</button>
+
+<div id="lab3_ex5" style="display: none" class="stil_solutie">
+A first solution idea you might think of would be the following command:
+<pre>
+grep -w ana /etc/passwd -c
+</pre>
+Only, in this case, it will be counted other than what is required in the statement (ie, you will count how many users have exactly &quot;ana&quot; as a first or last name).
+<br /><br />
+<u> The idea of solving is to take the following steps to &quot;discover&quot; the chained command that solves the given problem </u>:
+<br /><br />
+- first, we read the statement very carefully to understand what is the source of the information that is to be processed (e.g., in this exercise, this is
+about the contents of the file <tt> /etc/passwd </tt> and, respectively, what is the processing that is intended to be applied to that source of information.
+<br />
+-- then, we start by extracting from the file <tt> /etc/passwd </tt> only the list of account names of all users of the system:
+<pre>
+cut -d: -f1 /etc/passwd
+</pre>
+-- regarding the output of the above command, we plan to continue by selecting only the lines containing &quot;ana&quot;, which we do by adding the command:
+<pre>
+cut -d: -f1 /etc/passwd | grep ana
+</pre>
+-- now, regarding the output of the above chain, we see that we have selected all the lines containing &quot;ana&quot; regardless of context,
+e.g. the lines containing the name: ana, ioana, roxana, stefana, tiganasu, panainte and many others, including Diana.
+Therefore, we now plan to continue filtering this output, in the sense of removing only the lines containing &quot;diana&quot;,
+and we can do this by adding the command:
+<pre>
+cut -d: -f1 /etc/passwd | grep ana | grep -v diana
+</pre>
+-- and the last step we have to do, regarding the output of the command chain from the previous step, we deduce that it is to display
+not the entire list produced by that chain, but only the number of lines in that list,
+which we do similar to two of the previous exercises, adding to the respective chain any of the following:
+<pre>
+cut -d: -f1 /etc/passwd | grep ana | grep -v diana | wc -l
+or
+cut -d: -f1 /etc/passwd | grep ana | grep -v diana -c
+</pre>
+<div class="stil_QandA"><i>Question</i>:
+even if both of the above solutions are correct, i.e. &quot;calculates&quot; what is required in our problem,
+which of them do you think is more efficient (ie, the runtime and / or the consumption of system resources for its execution)?
+</div>
+<br />
+<i>Observation</i>: in any of the two order chains above, which solves this problem, we can reverse the order of the two orders grep,
+thus obtaining two other solutions, i.e. chains of commands that give the same result, so they also solve the given problem correctly:
+<pre>
+cut -d: -f1 /etc/passwd | grep -v diana | grep ana | wc -l
+or
+cut -d: -f1 /etc/passwd | grep -v diana | grep ana -c
+</pre>
+But each of these two solutions, compared to the corresponding solution (ie, the one from which we obtained by reversing the order of the two orders grep)
+it is less efficient, as in execution time, due to the larger volume of information that propagates through the chain of commands!
+<br />
+<br />
+<div class="stil_explicatie"><i>Important observation</i>:
+<br>Remember the reasoning I described in the above,
+i.e. <b> how to build a chain of commands &quot;step by step&quot;, starting from the source of information and gradually applying
+processing obtained with simple commands for the purpose </b>,
+and apply it appropriately to all the exercises proposed below, which are solved by building simple command chains!
+<br /><br />
+<i>Note</i>: even if, in the exercises that are solved below, I will no longer detail step by step how I built the chain of commands that solves this problem,
+but I will only give you its final form,
+<u> to understand the reasoning behind building that chain </u>,
+I recommend you break it down and check, step by step, the effect produced by its intermediate forms,
+executing them, step by step, on the server <i> fenrir </i> !!!
+</div>
+</div>
+
+</li>
+
+
+
+<li>
+<p><big>[Connected users #1]</big>
+<br />Write the linked command that will write, in the users-logati.txt file, the account name of all users
+present in the system at the time of order execution, in alphabetical (and unique) order.
+<br />
+<small>(Hint: <span class="stil_hint">Use any of the who or finger commands, linked with the cut command and then the sort command, each called with the appropriate options. Alternatively, you can start the chain with the users command, in which case you will also need the tr command. </span>) </small>
+</p>
+
+<button onclick="myToggle('lab3_ex3')">Show / Hide the solution</button>
+
+<div id="lab3_ex3" style="display: none" class="stil_solutie">
+The idea is to apply the type of reasoning detailed to the previous exercise!
+<br />
+Thus, the first step is: identifying the source of the information that is to be processed. In this case it is no longer a file with static information,
+but about a dynamic source of information, i.e. <b> users connected to the system </b> (at the time of execution of that command).
+<br />
+We already know, from the presentations of the simple commands used at the first two laboratories,
+that there are several commands that give us such information, namely the who, finger, users and w commands (but in the end we will avoid using it,
+because I saw that the column with usernames is truncated to 8 characters.
+Also, we can also obtain this information with the ps command, called with certain conveniently chosen options, and by properly processing its output.
+<br /><br />
+i) Therefore, here is a first solution - a chain of commands that starts from the who command:
+<pre>
+who | cut -f1 -d&quot; &quot; | sort -u -o utilizatori-logati.txt
+</pre>
+ii) A second possible solution - a chain of commands that starts from the finger command:
+<pre>
+finger | grep -v Login | cut -f1 -d&quot; &quot; | sort -u &gt; utilizatori-logati.txt
+</pre>
+Here the simple command 'grep -v Login' from the chain has the function of removing the header displayed by the finger command.
+But are we always guaranteed the correct answer? If there is another line containing the word 'Login', will this solution be correct?
+<br />
+To correct this shortcoming, we can use, instead of that grappling, the tail command, with an argument specifying the display of all lines,
+starting from the second line to the end of the file received as input, ie the following solution:
+<pre>
+finger | tail -n +2 | cut -f1 -d&quot; &quot; | sort -u -o utilizatori-logati.txt
+</pre>
+iii) Here is a solution based on the third command mentioned above as a source of information - a chain of commands that starts with the users command,
+and in which we replace the spaces with newlines in the output of the users command, so that we can then apply the sort command:
+<pre>
+users | tr &quot; &quot; &quot;\n&quot; | sort -u &gt; utilizatori-logati.txt
+</pre>
+<i>Additional observation</i>:
+<button>Show / Hide the details</button>
+<div id="lab3_ex3a" style="display: none" class="stil_explicatie">
+Another idea you might have, to replace spaces with newlines in the output of users, might be to use the cut command
+with the --output-delimiter option, ie the following command chain:
+<pre>
+users | cut -f1- -d&quot; &quot; --output-delimiter=&quot;\n&quot; | sort -u &gt; utilizatori-logati.txt
+</pre>
+But this variant does not work correctly, ie. in the sense we want
+(because the cut command does not &quot;get&quot; its newline in the string with which it replaces the delimiter).
+</div>
+<br /><br />
+iv) Finally, as I said above, the ps command can be used as a starting point,conveniently choosing from among its options the one(s) that display information(s) about the owners of the processes selected for display,
+respectively the one(s) that selects only processes belonging to users connected to the system at that time.
+Here are some variants, each has certain &quot;disadvantages&quot; (which can be corrected by more complex processing):
+<pre>
+ps a --no-header -o ruser | sort -u -o utilizatori-logati.txt
+sau
+ps -C bash --no-header -o ruser | sort -u &gt; utilizatori-logati.txt
+sau
+ps -G 202 --no-header -o ruser | sort -u -o utilizatori-logati.txt
+</pre>
+<i>Additional explanation</i>:
+<button>Show / Hide the details</button>
+<div id="lab3_ex3b" style="display: none" class="stil_explicatie">
+First variant: the product list will also contain the root user, whether or not the system administrator is actually connected to the system
+with the root account at that time.
+<br />
+The reason: the 6 instances of the <tt>/sbin/getty </tt> system process, executed as root, which are always started
+(they &quot;manage&quot; the 6 text terminals / sessions that can be started on the physical console of the <i> fenrir </i> server).
+<br /><br />
+The second option: the product list will not include any logged in users who have set as login shell other than <tt> /bin/bash </tt>.
+<br />
+In practice, however, there are no such users on the <i> fenrir </i> server at this time (review the conclusion formulated in solving the first exercise
+from this lab).<br /><br />
+The third option: the product list refers only to users in the studs group, and the output contains not only the student users who have opened
+interactive work sessions on the server, but also those who have opened sessions differently (e.g. imap processes - correspond to the sessions to read the e-mail).
+<br />
+</div>
+</div>
+
+</li>
+
+
+
+<li>
+<p><big>[Connected users #2]</big>
+<br />Write the chained command that displays the date and time of the login, as well as the computer on which the login was made,
+for all open sessions, at the time of the execution of the command, by a user specified as command argument.
+<br />
+<small>(Hint: <span class="stil_hint">use simple command chains, processing information about users connected to the system
+  at that time.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex8')">Show / Hide the solution</button>
+
+<div id="lab3_ex8" style="display: none" class="stil_solutie">
+The solution idea is to apply the type of reasoning detailed to a previous exercise!
+<br />
+Thus, the first step is: identifying the source of the information that is to be processed. This is not even a static file,
+but a dynamic source of information, i.e. <b> users connected to the system </b> (at the time of execution of that command).
+<br />
+We already know, from the presentations of the simple commands used at the first two laboratories,
+that there are several commands that give us such information, namely the who, finger, users and w commands (but in the end we will avoid using it,
+because I saw that the column with 8 usernames displayed is truncated to 8 characters.
+Also, we can also obtain this information with the ps command, called with certain conveniently chosen options, and by properly processing its output.
+<br /><br />
+i) Therefore, here is a first solution - a chain of commands that starts from the finger command:
+<pre>
+finger | grep <i>arg_utilizator</i> | cut -b 44-
+</pre>
+(<i> Note </i>: here we used the fact that the information columns displayed by the finger command are constant in length,
+and I have determined / calculated on the screen the position from which the fields that are required to be displayed start, i.e. position 44.)
+<br /><br />
+ii) A second possible solution - a chain of commands that starts from the who command:
+<pre>
+who | grep <i>arg_utilizator</i> | tr -s &quot; &quot; | cut -d &quot; &quot; -f 3-
+</pre>
+(<i> Note </i>: here we used the fact that the columns of information displayed by the who command are of variable length, not constant,
+and then we have to do &quot;cutting&quot; after fields separated by the space separator, i.e. &quot; &quot;, in this case.
+But there is another problem: the variable number of consecutive spaces displayed by who, which we solved using the <tt> tr -s &quot;&quot; </tt> command,
+the effect of which was to replace any sequence of consecutive spaces by a single space.)
+<br /><br />
+<i>Additional comments</i>:
+<button>Show / Hide the details</button>
+<div id="lab3_ex8a" style="display: none" class="stil_explicatie">
+i) Another idea you might have is to start with the who command and use the idea applied above to your finger,
+that is, you type the following chain of commands:
+<pre>
+who | grep <i>arg_utilizator</i> | cut -b <i>N</i>-
+</pre>
+where <i>N</i> is an experimentally determined value.
+<br />
+But this variant does not work correctly, ie. in the sense we want, because we cannot determine a unique value for <i> N </i>,
+whereas the who command produces columns of variable dimensions, i.e. uneven!
+<br />
+<br />
+ii) Similarly, another idea you might have is to start with the finger command and use the idea applied above to who,
+that is, you type the following chain of commands:
+<pre>
+finger | grep <i>arg_utilizator</i> | tr -s &quot; &quot; | cut -d &quot; &quot; -f <i>N</i>-
+</pre>
+where <i>N</i> is an experimentally determined value.
+<br />
+But this variant does not work properly either. in the sense we want, because we cannot determine a unique value for <i> N </i>,
+whereas the number of words in the <b> real name </b> (which is still stored in older records in the <tt> /etc/passwd </tt> database, in the 5th field)
+of the users is variable (the real name being made up of 2, 3 or 4 words,
+as you can see by yourself by visually inspecting the contents of the file <tt> /etc/passwd </tt>).
+</div>
+</div>
+</li>
+
+
+
+<li>
+<p><big>[Running tasks #1]</big>
+<br />Write the chained command that displays the total number of processes (run in all open sessions) of the user
+with the account name specified as the command parameter.
+<br />
+<small>(Hint: <span class="stil_hint">process the results displayed by the ps command, called with the appropriate options.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex6')">Show / Hide the solution</button>
+
+<div id="lab3_ex6" style="display: none" class="stil_solutie">
+The solution idea is to apply the type of reasoning detailed to a previous exercise!
+<br />
+Thus, the first step is: identifying the source of the information that is to be processed. This is not even a static file,
+but a dynamic source of information, i.e. <b> processes that &quot;run&quot; in the system </b> (at the time of execution of that command).
+<br />
+We already know, from the presentations of the simple commands made at the first two laboratories,
+that such information can be obtained using the command ps.
+It remains to &quot;discover&quot; with what options, conveniently chosen, to call the ps command, and what additional processing of its output is still needed.
+<br /><br />
+i) Therefore, here is a first form of calling the command ps, which requires, as well as further processing of its output, just a simple count:
+<pre>
+ps -U <i>arg_utilizator</i> -o pid= | wc -l
+</pre>
+<i>Further explanation</i>:
+<button onclick="myToggle('lab3_ex6a')">Show / Hide the details</button>
+<div id="lab3_ex6a" style="display: none" class="stil_explicatie">
+Read the <tt> man 1 ps </tt> page to learn that:
+<br /> the -U option of the ps command selects only the processes run by the user specified after -U,
+<br /> and the -o pid= option sets only one information field as display columns, which will list the PIDs of the selected processes,
+and without a first header line with the displayed field names.
+</div>
+<br /><br />
+ii) Here is a second form of calling the ps command, which is still needed, as further processing of its output,
+eliminating the header line with the displayed field names, which we can do with grep or tail
+(similar to the example of the chain constructed from the finger command, in the [Connected users # 1] exercise above) &quot;
+<pre>
+ps -U <i>arg_utilizator</i> | grep -v PID -c
+sau
+ps -U <i>arg_utilizator</i> | tail -n +2 | wc -l
+</pre>
+iii) Here is a third form of calling the ps command, which uses the --no-headers option (about whose existence you can find by reading carefully
+page <tt> man 1 ps </tt>), and the additional processing that remains to be done is just a simple count, as in solution i):
+<pre>
+ps --no-headers -U <i>arg_utilizator</i> | wc -l
+</pre>
+<i>Further observation</i>:
+<button onclick="myToggle('lab3_ex6b')">Show / Hide the details</button>
+<div id="lab3_ex6b" style="display: none" class="stil_explicatie">
+Another idea we could have, would be to use BSD-style syntax of process selection options in ps command, i.e. ps axis,
+thus obtaining the following chain of commands:
+<pre>
+ps axu | grep <i>arg_utilizator</i> -c
+</pre>
+But this variant does not work correctly, ie. in the sense we want.
+The reason - read the <tt> man 1 ps </tt> page to find out that:
+<br /> the options ax select all processes in the system, all users, including those without associated terminal,
+<br /> and option u displays a series of information columns, of which the first column is the USER.
+However, the username is not displayed for all users, but for some users the UID is displayed in this column.
+And for this reason, stringing the grep command by user name will not work for any user.
+</div>
+</div>
+</li>
+
+
+
+<li>
+<p><big>[Regex #1 / Connected users #3]</big>
+  <br /> Write the chained command that writes in the a.txt file, the account name of all users connected to the system,
+  whose account name starts with the letter 'a'.
+  <br />
+  <i> Additional requirement </i>: Write the chained command that writes in the escu.txt file, the account name of all users connected to the system,
+  whose account name ends with the suffix 'escu'.
+  <br />
+  <small> (Note: <span class="stil_hint"> use chains of simple command, processing information about users logged in to the system at that time.
+  For the first part, call the grep command with a simple regular expression, which states that the <u> line of text starts with a certain template </u>, i.e. letter a.
+  <br /> For the extra part, call the grep command with a simple regular expression, which states that the <u> line of text ends with a certain template </u>,
+  i.e. letter u. </span>) </small>
+  </p>
+<button onclick="myToggle('lab3_ex11+12')">Show / Hide the solution</button>
+
+<div id="lab3_ex11+12" style="display: none" class="stil_solutie">
+The solution idea is to apply the type of reasoning detailed to a previous exercise!
+<br />
+Thus, the first step is: identifying the source of the information that is to be processed. This is not even a static file,
+but a dynamic source of information, i.e. <b> users connected to the system </b> (at the time of execution of that command).
+<br />
+We already know, from the presentations of the simple commands used at the first two laboratories
+(or from previous exercises [Connected users # 1, # 2]),
+that we can obtain such information using any of the who, finger or users commands.
+<br />
+<br />
+First, let's build a command chain that displays, on a single column, the names of the users connected to the system at that time.
+<br />
+We can do this with any of the following chains (see Exercise [Connected users # 1]):
+<pre>
+who | cut -f1 -d&quot; &quot;
+or
+finger | tail -n +2 | cut -f1 -d&quot; &quot;
+or
+users | tr &quot; &quot; &quot;\n&quot;
+</pre>
+Now, we still have to &quot;filter&quot; the output of any of the 3 command chains above,
+in the sense of selecting only the lines containing the letter 'a' in the first position of the line,
+and then redirect the output produced on the screen to the file indicated in the statement.
+<br />
+<br />
+To solve the &quot;filtering&quot; problem explained above,
+we study the <tt> man 1 grep </tt> page and carefully read the section on &quot;REGULAR EXPRESSIONS&quot; and observe
+the two special characters in the subtitle &quot;Anchoring&quot;: <tt> ^ </tt> and <tt> $ </tt>, with their meanings.
+<br />
+So, for the filtering we need, just use the grep command with the <tt> ^ a </tt> template,
+thus obtaining the following chains of 3 commands that solve the first part of our problem statement:
+<pre>
+# A chain that starts from the who command:
+
+who | cut -f1 -d&quot; &quot; | grep ^a &gt; a.txt
+
+# Or, a chain that starts from the finger command:
+
+finger | tail -n +2 | cut -f1 -d&quot; &quot; | grep ^a &gt; a.txt
+
+# Or, a chain that starts from the users command:
+
+users | tr &quot; &quot; &quot;\n&quot; | grep ^a &gt; a.txt
+</pre>
+<br />
+For the additional requirement in the statement: the beginning is the same, we start with any of the 3 commands to get,
+on a single column, the names of the users connected to the system at that time.
+<br />
+Then we continue with a filter where we select only the lines containing the word 'escu' at the end of the text line
+(a selection we can obtain if you have been careful with the ones explained above, using the grep command with the <tt> escu $ </tt> template),
+and then we redirect the output produced on the screen to the file indicated in the statement.
+<br />
+We thus build the following 3 chains of commands that solve the second part of our problem statement:
+<pre>
+# A chain that starts from the who command:
+
+who | cut -f1 -d&quot; &quot; | grep escu$ &gt; escu.txt
+
+# Sau, un lanț ce pornește de la comanda finger:
+
+finger | tail -n +2 | cut -f1 -d&quot; &quot; | grep escu$ &gt; escu.txt
+
+# Or, a chain that starts from the users command:
+
+users | tr &quot; &quot; &quot;\n&quot; | grep escu$ &gt; escu.txt
+</pre>
+</div>
+
+</li>
+
+
+
+<li>
+<p><big>[Regex #2 / User accounts #1]</big>
+  <br /> Write the chained command that displays all system users that have a UID greater than (or equal to) 5000.
+  <br />
+  <small> (Note: <span class="stil_hint"> use chains of simple commands and the information in the <tt> /etc/passwd </tt> file.
+  To describe numbers greater than or equal to 5000, you can use the grep command with a regular expression template. </span>) </small>
+</p>
+
+<button onclick="myToggle('lab3_ex13')">Show / Hide the solution</button>
+
+<div id="lab3_ex13" style="display: none" class="stil_solutie">
+The solution idea is to apply the type of reasoning detailed to a previous exercise!
+<br />
+Thus, the first step is: identifying the source of the information that is to be processed. In this case it is a file with static information,
+i.e. &quot;database&quot; <tt> /etc/passwd </tt> with information about <b> system users </b>.
+<br />
+<br />
+Therefore, we will first start by filtering (selecting) the username and UID fields in <tt> /etc/passwd </tt>, using the following command:
+<pre>
+cut -d: -f1,3 /etc/passwd
+</pre>
+Thus we obtain as an output of the command an information column of the form username: UID.
+<br />
+Then we have to process this column, according to the following idea:
+we use the UID field to select only lines that have numbers greater than or equal to 5000, then we only keep the username field for the final display.
+<br />
+For the desired selection we will build a regular expression that we will use as a search template for the grep command.
+Open the <tt> man 1 grep </tt> page and carefully review the entire &quot;REGULAR EXPRESSIONS&quot; section,
+to understand the following!
+<br />
+Namely, an idea would be to describe the multitude of words as follows:
+&quot;<span class="stil_black_BGcolor"> character ':', followed by a number from 5 to 9, followed by at least 3 digits </span>&quot;,
+that is, the set of sequences of numbers in base 10 that describe &quot;numbers&quot; whose integer value is greater than or equal to 5000.
+Thus we make sure that the &quot;number&quot; selected by the expression will be greater than or equal to 5000
+(<small> or at least that's how we feel now, we'll discuss below that something else is needed ... </small>).
+<br /><br />
+<b> Syntactically </b>, the set described can be expressed by the following extended regular expression:
+<span class="stil_black_BGcolor"><tt>  :[5-9][0-9][0-9][0-9] </tt></span> ,
+that is, the chain of commands that we build looks like this:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E :[5-9][0-9][0-9][0-9] | cut -d: -f1
+</pre>
+Or, we can use other equivalent syntactic forms, for example we can write:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E :[5-9][[:digit:]]{3\,} | cut -d: -f1
+</pre>
+<i> Observation </i>: The two equivalent regular expressions indicated above have a shortcoming, namely:
+they also do not select numbers between 10000 and 49999 (on the <i> fenrir </i> server there are already accounts with UIDs over 10,000),
+nor those between 100,000 and 499999,
+nor those between 1000000 and 4999999, etc.<br />
+To &quot;fix&quot; this shortcoming, we need a regular expression that describes a lot of words as follows:
+&quot;<span class="stil_black_BGcolor"> (character ':', followed by a number from 5 to 9, followed by exactly 3 digits)
+   OR (the ':' character, followed by a number from 1 to 9, and this followed by at least 4 digits </span> &quot;.
+<br />
+So the correct solution would be:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E  :[5-9][0-9][0-9][0-9]\|:[1-9][0-9][0-9][0-9][0-9]  | cut -d: -f1
+</pre>
+Or, we can use other equivalent syntactic forms, for example we can write:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E  :[5-9][[:digit:]]{3}\|:[1-9][[:digit:]]{4\,}  | cut -d: -f1
+sau
+cut -d: -f1,3 /etc/passwd | grep -E  &quot;:[5-9][[:digit:]]{3}|:[1-9][[:digit:]]{4,}&quot;  | cut -d: -f1
+</pre>
+<i> Note </i>: '|' characters and ',' from the regular expressions above must be protected (i.e., preceded by the character \ or placed between &quot;&quot;)
+not to be interpreted especially by the bash shell.
+<br />
+<br />
+<i>Additional question</i>:
+<button onclick="myToggle('lab3_ex13a')">Show / Hide the details</button>
+<div id="lab3_ex13a" style="display: none" class="stil_explicatie">
+  If instead of the minimum limit 5000 specified in the statement, there would be a more &quot;irregular&quot; number, that is to say made up of various figures, what could we do?
+  <br />
+  For example, let's say that the limit specified in the statement would be number 5432.
+  How do we describe by regular expressions that &quot;... have a UID greater than, or equal to, 5432&quot;?
+  <br />
+  A regular expression variant that describes the set of words formed from sequences of numbers in base 10,
+  associated with the textual representation (based on 10) of integers greater than or equal to the whole value 5432, is the following:
+<br />
+<span class="stil_black_BGcolor"><tt>  :5[4-9][3-9][2-9]|:[6-9][0-9][0-9][0-9]|:[1-9][0-9][0-9][0-9][0-9] </tt></span> .
+<br />
+Or, another syntactic form, equivalent to the first, is the following:
+<br />
+<span class="stil_black_BGcolor"><tt>  :5[4-9][3-9][2-9]|:[6-9][[:digit:]]{3}|:[1-9][[:digit:]]{4,} </tt></span> .
+<br /><br />
+The two regular expressions above, different syntactically but semantically equivalent, both have the following meaning:
+&quot;Select numbers from 5432 to 5999, or from 6000 to 9999, or all numbers greater than 10,000.&quot;
+</div>
+</div>
+
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exercises proposed for solving:</p>
+</a>
+
+<p>Access the proposed set of exercises to be solved, which the lab assistant will indicate in the classroom, and try to solve them yourself:</p> 
+
+
+<button onclick="mySetToggle('setCV')">Set #CV</button>
+<button onclick="mySetToggle('setRB')">Set #RB</button>
+<!--
+<button onclick="mySetToggle('setBP')">Set #BP</button>
+<button onclick="mySetToggle('setDA')">Set #DA</button>
+<button onclick="mySetToggle('setAG')">Set #AG</button>
+-->
+<button onclick="mySetToggle('setVU')">Set #VU</button>
+
+
+<div id="setCV" style="display: none" class="stil_explicatie">
+<ol>
+<li>
+<p><big>[#1: Some file/database processing]</big>
+<br /> Write the chained commands that displays the number of &quot;students&quot; in the file <tt>/etc/passwd</tt>
+(here, &quot;students&quot; means those users who have GID 202)
+which contain the word mihai in the second username (e.g., andrei.mihaila).
+<br />
+<small> (Hint: <span class="stil_hint2"> use chains of simple commands and the information in the <tt>/etc/passwd</tt> file. </span>) </small>
+</p>
+</li>
+
+<li>
+<p><big>[#2: Connected users]</big>
+<br />Write the chained commands that writes in the useri.txt file, in the unique way,
+the usernames of the users who are connected to the system at the moment and have the surname Bogdan.
+<br />
+<small> (Hint: <span class="stil_hint2"> use chains of simple commands that process information about users currently logged in to the system. </span>) </small>
+</p>
+</li>
+
+<li>
+<p><big>[#3: Running tasks]</big>
+<br /> Write the chained commands that displays the PIDs of the processes in the system, which run instances of the bash interpreter,
+and only by users whose names appear in numeric format (i.e., are replaced by their UIDs) in the fixed-length USER column
+produced by the process display command.
+<br />
+<small>(Hint: <span class="stil_hint2">process the results displayed by the ps command, called with the appropriate options.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+
+<div id="setRB" style="display: none" class="stil_explicatie">
+<ol>
+<li>
+<p><big> [# 1: Some file / database processing] </big> 
+<br /> Write the chained commands that writes in the users25.txt file, only the usernames of those accounts
+stored in the first 25 lines of the file with the user account database on the server,
+users whose username starts with a letter in the range 'm' .. 'z', and which uses the /bin/sh program as the login interpreter.
+<br />
+<small> (Hint: <span class="stil_hint2">use chains of simple commands and the information in the <tt>/etc/passwd</tt> file.</span>) </small>
+</p>
+</li>
+
+<li>
+<p><big>[#2: Connected users]</big>
+<br />Write the chained commands that writes in the filterIPs.txt file, in a unique way,
+only the IPs of the originating computers (i.e., from which they were connected to the server)
+of students who are logged on to the server at the moment.
+<br />
+<small> (Hint: <span class="stil_hint2">use chains of simple commands that process information about users currently logged in to the system.</span>) </small>
+</p>
+</li>
+
+<li>
+<p><big>[#3: Running tasks]</big>
+<br /> The /proc directory contains, among others, a series of subdirectories with names consisting only of numbers,
+the respective numbers representing the PIDs of the processes that are currently being executed.
+<br /> Write the chained commands that displays the cardinal of the set resulting from the names of the subdirectories in /proc,
+consisting only of numbers, by eliminating the first digit of each of these names.
+<br />
+<small>(Hint: <span class="stil_hint2">process the results displayed by the command ls /proc.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<div id="setBP" style="display: none" class="stil_explicatie">
+Not yet! (See the ro version.)
+</div>
+
+<div id="setDA" style="display: none" class="stil_explicatie">
+Not yet! (See the ro version.)
+</div>
+
+<div id="setAG" style="display: none" class="stil_explicatie">
+Not yet! (See the ro version.)
+</div>
+
+<div id="setVU" style="display: none" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Write the chained commands that displays the IDs of the partitions using the ext4 filesystem that were mounted with the nosuid option.
+<br>
+<small>(Hint: <span class="stil_hint2">use chains of simple commands and the information in the <tt>/etc/fstab</tt> file.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Write the chained commands that writes to the IPs.txt file, the IPs from which the most recently 5 logged in users,
+which are still logged in, connected to the server.
+<br>
+<small>(Hint: <span class="stil_hint2">use chains of simple commands that process information about users currently logged in to the system.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setVU_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Write the chained commands that writes to the others_procs.txt file, the command lines of the processes spawned by any user other than
+the one currently logged in or the root.
+<br>
+<small>(Hint: <span class="stil_hint2">process the results displayed by the ps command, called with the appropriate options.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Additional exercises, proposed to be solved:</p>
+</a>
+
+<p>Here are some other exercises with chained commands that you can try to solve on your own:</p> 
+
+<ol>
+
+<li>
+<p><big>[User accounts #2]</big>
+<br />Write the chained commands that displays the data: username, UID and GID, in the format &quot;username -&gt; UID -&gt; GID&quot;,
+For all system users, sort by UID.
+<br />
+<small> (Note: <span class="stil_hint"> use chains of simple commands and the information in the <tt> /etc/passwd </tt> file. </span>) </small>
+</p>
+</li>
+
+
+<li>
+<p><big>[Last connected users]</big>
+<br /> Write the chained commands that shows the last 15 users connected to the system, depending on the time of connection,
+as well as the date, time and station from which they connected.
+<br />
+<small>(Indicație: <span class="stil_hint">process the output of the last command.</span>)</small>
+</p>
+
+
+</li><li>
+<p><big>[Connected users #4]</big>
+  <br /> Write the chained commands that displays, for each user connected to the system, the following information:
+  account name, the station from which it was connected and the process running in foreground, ordered in alphabetical order of account names.
+<br />
+<small>(Hint: <span class="stil_hint">use chains of simple commands, processing user information connected to the system at that time.</span>)</small>
+</p>
+
+
+</li><li>
+<p><big>[Regex #3 / User accounts #3]</big>
+<br /> Write the chained commands that displays all system users that have a UID greater (strictly) than 4681.
+<br />
+<small>(Hint: <span class="stil_hint">use chains of simple commands and the information in the file<tt>/etc/passwd</tt>.
+  To describe numbers greater than or equal to 4682, you can use the grep command with a regular expression template. </span>) </small>
+</p>
+
+
+</li></ol>
+
+
+<hr size="3" width="100%" noshade />
+
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Experiments with the initialization file for a working session</span></p>
+</a>
+
+<p><big>[Experimental exercise]</big>
+<br />
+i) Test what happens when you have both <tt>.bash_profile</tt> and <tt>.profile</tt> initialization files in your home directory.
+How are they executed, in what order? Or which one is executed, if only one is executed?
+<br />
+ii) What happens if you only have the <tt>.profile</tt> file, not the <tt>.bash_profile</tt> file?
+<br />
+iii) But in the opposite situation, when only the <tt>.bash_profile</tt> file is present?
+<br />
+iv) But if neither file is present in the home directory, what happens?
+</p>
+
+<button onclick="myToggle('lab3_exII')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab3_exII" style="display: none" class="stil_explicatie">
+Solution idea -- add to the aforementioned files a command to print on the screen a message simmilar to the following:
+<pre>
+echo &quot;Now the file X... is being executed&quot;
+</pre>
+and then, to test each of the four cases described,
+&quot;create&quot; on a case-by-case basis (renaming the file (s) to be missing / missing in that case),
+open a new work session and watch what messages appear on the screen.
+</div>
+
+
+<hr size="3" width="100%" noshade />
+
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Experiments with redirecting the I/O standard streams:</span></p>
+</a>
+
+<p><big>[Experimental exercise]</big>
+<br />
+What will be the three standard I / O devices during the execution of a command for each of the following command lines:
+</p><pre>command 2&gt;&amp;1 &gt;file
+<br />command 2&gt;&gt;&amp;1 &gt;file
+<br />command 2&gt;&amp;1 &gt;&gt;file
+<br />command 2&gt;&gt;&amp;1 &gt;&gt;file
+<br />command &gt;file 2&gt;&amp;1
+<br />command &gt;file 2&gt;&gt;&amp;1
+<br />command &gt;&gt;file 2&gt;&amp;1
+<br />command &gt;&gt;file 2&gt;&gt;&amp;1
+</pre>
+What actually happens in each case? Is there something lost, and if the answer is yes, then what is lost?
+</p>
+
+<button onclick="myToggle('lab3_exIII')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab3_exIII" style="display: none" class="stil_explicatie">
+Solution idea - test the 8 ways to use the redirects in the statement,
+using a command that produces both output on the standard normal output and error messages, such as the command:
+<pre>
+ls -l ~/.bashrc ~/MailulMeu
+</pre>
+and observe the effect produced in each of the 8 cases.
+</div>
+
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>
+

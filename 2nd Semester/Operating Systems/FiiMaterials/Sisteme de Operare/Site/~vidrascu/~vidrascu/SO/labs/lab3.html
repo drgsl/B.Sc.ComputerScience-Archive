@@ -1,0 +1,1240 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #3</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h2><font color="blue">Laborator #3 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab3.html#sec_1">Exerciții cu comenzi înlănțuite</a></h4>
+<h5><a href="lab3.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab3.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab3.html#sec_1c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+<h4>II) <a href="lab3.html#sec_2">Experiment cu fișierele de inițializare a unei sesiuni de lucru</a></h4>
+<h4>III) <a href="lab3.html#sec_3">Experiment cu redirectările fluxurilor I/O standard</a></h4>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<p>
+<i>Observație</i>: exercițiile ce urmează vă vor cere să construiți lanțuri de comenzi ce realizează diverse procesări/prelucrări ale informațiilor
+care provin din următoarele tipuri de surse:
+<ul>
+<li>surse statice, e.g. un fișier, cum ar fi "baza de date" <tt>/etc/passwd</tt> cu informații despre <b>utilizatorii sistemului</b>;</li>
+<li>surse dinamice, e.g. outputul unei comenzi simple ce oferă anumite informații cu caracter dinamic,
+    e.g. <b>utilizatorii conectați la sistem</b> (la momentul execuției acelei comenzi).
+</li>
+</ul>
+Citiți cu atenție enunțul fiecărui exercițiu, pentru a înțelege care este sursa de informații ce trebuie prelucrată conform cerințelor din acel enunț!
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții cu comenzi înlănțuite:</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+
+<ol>
+<li><!-- Problema: lab3_ex4 ---------------------------------------------------------------------------------------------->
+<p><big>[Login shells]</big><!--[lanț de procesare a unui fișier #1]-->
+<br>Să se scrie comanda înlănțuită care afișează (în mod unic) toate shell-urile de login folosite de utilizatorii sistemului.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex4')">Show / Hide the solution</button>
+<div id="lab3_ex4" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a obține, mai întâi, lista valorilor ce apar pe câmpul al 7-lea în fișierul <tt>/etc/passwd</tt>, ceea ce se poate realiza cu comanda simplă:
+<pre>
+cut -f7 -d: /etc/passwd
+</pre>
+Iar apoi, va trebui să prelucrăm output-ul acestei comenzi astfel încât să eliminăm aparițiile duplicate ale shell-ului /bin/bash (și, eventual, duplicatele altor shell-uri).
+Lucrul acesta îl putem obține cu comanda simplă sort -u, unde opțiunea -u elimină, după sortare, liniile consecutive duplicate în outputul pe care-l produce.
+Cu alte cuvinte, construim lanțul de comenzi:
+<pre>
+cut -f7 -d: /etc/passwd | sort -u
+</pre>
+care ne afișează ceea ce se cere în enunțul acestei probleme.
+<br><br>
+<i>Explicație detaliată</i>, despre lista afișată:
+<button onclick="myToggle('lab3_ex4a')">Show / Hide the full details</button>
+<div id="lab3_ex4a" style="display:none;" class="stil_explicatie_detaliata">
+Mai precis, lista afișată pe serverul <i>fenrir</i> de această comandă înlănțuită este următoarea, la acest moment (i.e., <i>as of February 2020</i>):
+<pre class="stil_output">
+
+/bin/bash
+/bin/false
+/bin/sh
+/bin/sync
+/dev/null
+/usr/sbin/nologin
+</pre>
+Dintre programele listate mai sus, doar <tt>/bin/bash</tt> și <tt>/bin/sh</tt> reprezintă interpretoare de comenzi interactive (i.e. shell-uri),
+restul sunt alte tipuri de programe, neinteractive, asociate anumitor conturi de sistem (i.e., conturi neinteractive, cu seturi diferite de drepturi și privilegii,
+sub care rulează diverse procese de tip daemon (i.e., procese ce "găzduiesc" diverse servicii de sistem) asociate acelor conturi de sistem),
+plus cuvântul "vid", pe prima poziție în listă, corespunzător liniilor de text "vide" ce sunt prezente, la acest meoment, în fișierul <tt>/etc/passwd</tt>.
+<br><br>
+<i>Notă</i>: <tt>/bin/bash</tt> este executabilul ce "conține" shellul <i>Bourne Again Shell</i>, cel mai popular, dar nu și singurul shell disponibil pentru Linux.
+<br>
+Iar <tt>/bin/sh</tt> era, în versiunile vechi de UNIX, executabilul ce "conținea" shellul <i>Bourne Shell</i> (ulterior, proiectul GNU a dezvoltat
+<i>Bourne Again Shell</i>, inspirat din <i>Bourne Shell</i> și alte două shelluri, <i>C Shell</i> și <i>Korn Shell</i>).
+În distribuțiile de Linux, de regulă, <tt>/bin/sh</tt> este doar o legătură simbolică către alt shell preinstalat, e.g. <tt>/bin/bash</tt> sau <tt>/bin/dash</tt>.
+<br>
+Ca și funcționalități oferite, shellul <tt>/bin/dash</tt>, i.e. <i>Debian Almquist Shell</i>, este o versiune foarte simplificată a shellului <tt>/bin/bash</tt>
+(pentru mai multe detalii, citiți <a href="https://www.cyberciti.biz/faq/debian-ubuntu-linux-binbash-vs-bindash-vs-binshshell/">aici</a>).
+<br><br>
+<i>Detalii suplimentare</i>:
+<button onclick="myToggle('lab3_ex4a1')">Show / Hide the details</button>
+<div id="lab3_ex4a1" style="display:none;" class="stil_explicatie">
+Spre exemplu, la acest moment (i.e., <i>as of February 2020</i>), pe serverul <i>fenrir</i> <tt>/bin/sh</tt> referă shellul <tt>/bin/dash</tt>,
+iar singurele conturi de pe <i>fenrir</i> care au asociat <tt>/bin/sh</tt>, adică <tt>/bin/dash</tt>, ca și shell de login,
+sunt doar câteva conturi de sistem, mai exact 17 conturi, lucru de care vă puteți convinge privind outputul comenzii următoare:
+<pre>
+grep /bin/sh /etc/passwd
+</pre>
+<pre class="stil_output">
+daemon:x:1:1:daemon:/usr/sbin:/bin/sh
+bin:x:2:2:bin:/bin:/bin/sh
+sys:x:3:3:sys:/dev:/bin/sh
+games:x:5:60:games:/usr/games:/bin/sh
+man:x:6:12:man:/var/cache/man:/bin/sh
+lp:x:7:7:lp:/var/spool/lpd:/bin/sh
+mail:x:8:8:mail:/var/mail:/bin/sh
+news:x:9:9:news:/var/spool/news:/bin/sh
+uucp:x:10:10:uucp:/var/spool/uucp:/bin/sh
+proxy:x:13:13:proxy:/bin:/bin/sh
+www-data:x:1002:1002:www-data:/var/www:/bin/sh
+backup:x:34:34:backup:/var/backups:/bin/sh
+list:x:38:38:Mailing List Manager:/var/list:/bin/sh
+irc:x:39:39:ircd:/var/run/ircd:/bin/sh
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/bin/sh
+nobody:x:65534:65534:nobody:/nonexistent:/bin/sh
+libuuid:x:100:101::/var/lib/libuuid:/bin/sh
+</pre>
+<i>Concluzie</i>: din cele de mai sus reiese faptul că toate conturile interactive (i.e. conturi "deținute" de utilizatori umani, inclusiv contul root) de pe
+serverul <i>fenrir</i> au asociat, la acest moment, shellul de login <tt>/bin/bash</tt>, deși fiecare utilizator are posibilitatea să-și seteze după
+preferințe orice alt shell de login folosind comanda chsh
+(<small>Dar acest lucru nu s-a întâmplat nici în trecut, i.e. nu am observat vreodată o astfel de situație,
+pe parcursul anilor, când rezolvam această problemă la laboratoarele cu promoția de studenți din anul respectiv...</small>).
+<br><br>
+Dar invers? Adică, shellul de login <tt>/bin/bash</tt> este asociat doar la conturi interactive, niciun cont de sistem nu-l are asociat?
+<br>
+Pentru a răspunde la această întrebare, trebuie să inspectăm vizual outputul comenzii următoare:
+<pre>
+grep /bin/bash /etc/passwd | cut -f1 -d: | less
+</pre>
+uitându-ne, cu atenție sporită, prin cele 2810 de linii de text cu username-uri afișate și încercând să observăm dacă există nume de utilizatori ce "par" a fi conturi de sistem.
+<br>
+Astfel, în urma acestei inspecții vizuale, constatăm că, la acest moment (i.e., <i>as of February 2020</i>), pe serverul <i>fenrir</i>
+NU PARE să existe nici un cont de sistem care să aibă asociat <tt>/bin/bash</tt> drept shell de login!
+<br>
+Rețineți această concluzie pentru exercițiul următor!!!
+</div>
+<br><br>
+Comanda chsh poate fi folosită, de fiecare utilizator, pentru a-și schimba shellul de login configurat/stocat în fișierul <tt>/etc/passwd</tt>
+(pentru detalii citiți pagina <tt>man 1 chsh</tt>).
+<br>
+Lista de valori <u>valide</u> pentru shellul de login, i.e. lista acelor <i>pathnames</i> pe care le puteți specifica ca argument al acestei comenzi,
+este stocată într-o altă "bază de date", i.e. fișierul de configurare <tt>/etc/shells</tt> (pentru detalii citiți pagina <tt>man 5 shells</tt>).
+<br><br>
+<i>Detalii suplimentare</i>:
+<button onclick="myToggle('lab3_ex4a2')">Show / Hide the details</button>
+<div id="lab3_ex4a2" style="display:none;" class="stil_explicatie">
+Spre exemplu, la acest moment (i.e., <i>as of February 2020</i>), pe serverul <i>fenrir</i> este configurată următoarea listă de shelluri de login valide:
+<pre>
+cat /etc/shells
+</pre>
+<pre class="stil_output">
+# /etc/shells: valid login shells
+/bin/csh
+/bin/sh
+/usr/bin/es
+/usr/bin/ksh
+/bin/ksh
+/usr/bin/rc
+/usr/bin/tcsh
+/bin/tcsh
+/usr/bin/esh
+/bin/dash
+/bin/bash
+/bin/rbash
+/usr/bin/screen
+</pre>
+<i>Atenție</i>: termenul de valid se referă aici, precum spuneam mai sus, la faptul că doar acele <i>pathnames</i> din acest fișier pot fi folosite ca argument la comanda chsh.
+<br>Cu totul altceva este lista shellurilor existente (i.e., instalate) în sistem, pe care o putem obține, de exemplu, cu o comandă de căutare specificată adecvat:
+<pre>
+find /bin /usr/bin -name "*sh"
+</pre>
+Outputul acestei comenzi, rulate la acest moment (i.e., <i>as of February 2020</i>), pe serverul <i>fenrir</i>, este următorul:
+<pre class="stil_output">
+/bin/dash
+/bin/bash
+/bin/sh
+/bin/rbash
+/bin/csh
+/bin/bsd-csh
+/usr/bin/c_rehash
+/usr/bin/rsh
+/usr/bin/instmodsh
+/usr/bin/ssh
+/usr/bin/texhash
+/usr/bin/ppmflash
+/usr/bin/tclsh
+/usr/bin/gettext.sh
+/usr/bin/chsh
+</pre>
+</div>
+</div>
+<br><br>
+<i>Notă</i>: o altă rezolvare posibilă este următoarea înlănțuire de comenzi, ce conține o comandă suplimentară în lanț:
+<pre>
+cut -f7 -d: /etc/passwd | sort | uniq
+</pre>
+<div class="stil_QandA"><i>Întrebare</i>:
+chiar dacă ambele soluții de mai sus sunt corecte, i.e. "calculează" ceea ce se cere în problema noastră,
+care dintre ele credeți că este mai performantă (d.p.d.v. al timpului de execuție și/sau consumului de resurse ale sistemului pentru execuția sa) ?
+</div>
+<br>
+<i>Observație</i>: nu putem renunța la sort și să folosim doar uniq, i.e.
+<pre>
+cut -f7 -d: /etc/passwd | uniq
+</pre>
+deoarece rezultatul produs, după cum puteți verifica și singuri, nu este ceea ce se cere în enunț.
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab3_ex1 ---------------------------------------------------------------------------------------------->
+<p><big>[Human users]</big><!--[lanț de procesare a unui fișier #2]-->
+<br>Să se scrie comanda înlănțuită care calculează câte conturi de utilizatori (umani) există în sistem.
+<br>
+(<i>Atenție la formularea întrebării din enunț</i>: nu se cere să se calculeze câți utilizatori umani, i.e. persoane distincte, au conturi în sistem!)
+<br>
+<i>Cerință suplimentară</i>: filtrați conturile asociate la programe de sistem (i.e., cele care nu au <tt>/bin/bash</tt> configurat drept shell de login).
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda wc și informațiile din fișierul <tt>/etc/passwd</tt> ;
+pentru partea suplimentară, folosiți comanda grep pentru filtrarea cerută și înlănțuiți-o cu comanda wc.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex1')">Show / Hide the solution</button>
+
+<div id="lab3_ex1" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a calcula numărul de conturi care au asignată valoarea <tt>/bin/bash</tt> ca și shell de login
+(ținând cont de faptul că rezultatul obținut va fi doar o <u>estimare aproximativă</u> a numărului de conturi interactive,
+a se revedea concluzia formulată în rezolvarea exercițiului precedent):
+<pre>
+grep /bin/bash /etc/passwd | wc -l
+</pre>
+Sau, o altă soluție ar fi să folosim doar o singură comandă simplă (i.e., un "lanț" de comenzi format dintr-o singură comandă):
+<pre>
+grep -c /bin/bash /etc/passwd
+</pre>
+<div class="stil_QandA"><i>Întrebare</i>:
+chiar dacă ambele soluții de mai sus sunt corecte, i.e. "calculează" ceea ce se cere în problema noastră,
+care dintre ele credeți că este mai performantă (d.p.d.v. al timpului de execuție și/sau consumului de resurse ale sistemului pentru execuția sa) ?
+</div>
+<br>
+Pentru cerința suplimentară din enunț:
+dacă dorim să numărăm doar conturile neinteractive, i.e. cele care sunt asociate la diverse programe de sistem,
+atunci o soluție posibilă (din nou, pe baza concluziei formulate în rezolvarea exercițiului precedent) ar fi următoarea comandă înlăntuiță:
+<pre>
+grep -v /bin/bash /etc/passwd | wc -l
+</pre>
+Sau, ca și mai sus, o altă soluție ar fi să folosim doar o singură comandă simplă:
+<pre>
+grep -v /bin/bash /etc/passwd -c
+</pre>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab3_ex2 ---------------------------------------------------------------------------------------------->
+<p><big>[How many students?]</big><!--[lanț de procesare a unui fișier #3]-->
+<br>Să se scrie comanda înlănțuită care afișează numărul total al utilizatorilor care sunt membri ai grupului studs.
+<br>
+(<i>Atenție la formularea întrebării din enunț</i>: nu se cere să se calculeze câți studenți sunt înmatriculați la FII în anul universitar curent!
+O astfel de informație se poate obține doar din sistemul de gestiune a școlarității folosit de secretariatul facultății...)
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți comanda dintr-un exercițiu din primul laborator,
+înlănțuită cu comenzile cut și wc, fiecare apelată cu opțiunile adecvate.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex2')">Show / Hide the solution</button>
+
+<div id="lab3_ex2" style="display:none;" class="stil_solutie">
+Pentru început, voi relua discuția avută în clasă la rezolvarea exercițiului [grep #2] din laboratorul #1.
+<br>
+O primă idee discutată a fost să selectăm liniile din <tt>/etc/passwd</tt> care conțin șablonul "studs" (sau "/fenrir/studs"),
+plecând de la observația că directoarele acasă al conturilor de studenți au forma <tt>/fenrir/studs/<i>username</i></tt> pe serverul <i>fenrir</i>:
+<pre>
+grep studs /etc/passwd
+sau
+grep /fenrir/studs /etc/passwd
+</pre>
+Și atunci, ideea de rezolvare constă în a număra liniile de text ale outputului produs de oricare dintre cele două comenzi de mai sus.
+Iar numărarea o facem similar ca la exercițiul precedent, fie cu o comandă înlănțuită, și anume:
+<pre>
+grep studs /etc/passwd | wc -l
+</pre>
+..., fie cu varianta simplificată, în care folosim doar o singură comandă simplă:
+<pre>
+grep studs /etc/passwd -c
+</pre>
+<i>Observație</i>:
+precum am discutat în clasă, numărul afișat de lanțurile de mai sus nu reflectă însă realitatea,
+lucru de care ne putem convinge dacă înlocuim șablonul "studs" cu șablonul "202",
+plecând de la observația că GID-ul grupului studenților de pe serverul <i>fenrir</i> este 202:
+<pre>
+grep 202 /etc/passwd | wc -l
+sau
+grep 202 /etc/passwd -c
+</pre>
+Dar acum, care este realitatea?
+Oare numărul afișat de această ultimă variantă este cel corect?
+Nu neapărat, pentru că astfel se vor număra și liniile care conțin un UID, sau un GID, sau un număr matricol în câmpul cu date personale,
+de forma 3202, 2024, 10202, 12027, etc. (i.e. numere în care 202 apare ca și subcuvânt).
+<br>
+Pentru a elimina astfel de numere, am discutat că putem forța ca 202 să fie "cuvânt întreg",
+fie cu opțiunea -w 202, fie șablonul :202: (i.e., 202 să fie precedat și urmat de caracterul delimitator de câmpuri din <tt>/etc/passwd</tt>:
+<pre>
+grep :202: /etc/passwd | wc -l
+sau
+grep -w 202 /etc/passwd | wc -l
+</pre>
+Dar acum, care este realitatea?
+Nici acum nu avem însă garanția răspunsului corect, deoarece teoretic lanțul de mai sus ar număra și un eventual utilizator cu UID-ul 202 și aflat într-un alt grup.
+<br>
+<i>Detalii suplimentare</i>:
+<button onclick="myToggle('lab3_ex2a')">Show / Hide the details</button>
+<div id="lab3_ex2a" style="display:none;" class="stil_explicatie">
+Am scris <i>teoretic</i> în propoziția anterioară, deoarece practic nu se întâmplă acest lucru, din simplu motiv că,
+în acest moment (i.e., <i>as of February 2020</i>), pe serverul <i>fenrir</i> nu există vreun cont cu UID-ul 202,
+lucru de care ne putem convinge privind outputul produs de comanda:
+<pre>
+cut -f3 -d: /etc/passwd | grep -w 202 -c
+</pre>
+și care afișează valoarea 0. Evident, singura valoare pe care ar fi mai putut, teoretic, să o afișeze, este valoarea 1,
+căci UID-urile se asignează utilizatorilor în manieră unică!
+</div> 
+<br><br><br>
+Ca să concluzionăm, lanțul care numără <b>corect</b> (i.e., luând în considerare toate situațiile posibile descrise în cele de mai sus)
+câți utilizatori sunt în grupul studs de pe serverul <i>fenrir</i>, este următorul:
+<pre>
+cut -f4 -d: /etc/passwd | grep -w 202 | wc -l
+</pre>
+Sau, echivalent, dar cu mai puține comenzi simple în lanț, putem scrie:
+<pre>
+cut -f4 -d: /etc/passwd | grep -w 202 -c
+</pre>
+<pre class="stil_output">
+2799
+</pre>
+Valoarea afișată reprezintă numărul de utilizatori membri ai grupului studs, în acest moment (i.e., <i>as of February 2020</i>).
+<br>
+<i>Notă</i>: a nu se confunda această valoare, vă reamintesc distincția făcută încă din enunțul acestui exercițiu,
+cu numărul de studenți ce sunt înmatriculați la FII în anul universitar curent!
+<br><br>
+<div class="stil_QandA"><i>Întrebare</i>:
+chiar dacă ambele soluții de mai sus sunt corecte, i.e. "calculează" ceea ce se cere în problema noastră,
+care dintre ele credeți că este mai performantă (d.p.d.v. al timpului de execuție și/sau consumului de resurse ale sistemului pentru execuția sa) ?
+</div>
+<br>
+<br>
+<i>Întrebări suplimentare</i>, legate de discrepanța între numerele calculate cu șabloane diferite:
+<button onclick="myToggle('lab3_ex2b')">Show / Hide the details</button>
+<div id="lab3_ex2b" style="display:none;" class="stil_explicatie">
+În urma discuției avute în clasă la rezolvarea exercițiului [grep #2] din laboratorul #1, am tras două concluzii:
+<br><br>
+i) există conturi de utilizatori din grupul studs a căror directoare home nu sunt de forma <tt>/fenrir/studs/<i>username</i></tt>;
+lista acestor utilizatori o putem obține, spre exemplu, cu următoarea comandă înlănțuită:
+<pre>
+cut -f1,4,6 -d: /etc/passwd | grep -w 202 | grep -v /fenrir/studs/ | cut -f1 -d:
+</pre>
+ii) și invers, există conturi de utilizatori ce au directoare home de forma <tt>/fenrir/studs/<i>username</i></tt>, dar care nu fac parte din grupul 202;
+lista acestor utilizatori o putem obține, spre exemplu, cu următoarea comandă înlănțuită:
+<pre>
+cut -f1,4,6 -d: /etc/passwd | grep /fenrir/studs/ | grep -v -w 202 | cut -f1 -d:
+</pre>
+</div>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab3_ex5 ---------------------------------------------------------------------------------------------->
+<p><big>[How many Anna?]</big><!--[lanț de procesare a unui fișier #4]-->
+<br>Să se scrie comanda înlănțuită care afișează câți dintre utilizatorii sistemului conțin "ana" în numele de cont, dar nu în contextul "diana".
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex5')">Show / Hide the solution</button>
+
+<div id="lab3_ex5" style="display:none;" class="stil_solutie">
+O primă idee de rezolvare la care v-ați putea gândi, ar fi următoarea comandă:
+<pre>
+grep -w ana /etc/passwd -c
+</pre>
+numai că, în acest caz, se va număra altceva decât se cere în enunț (și anume, veți număra câți utilizatori au exact "ana" drept nume sau prenume).
+<br><br>
+<u>Ideea de rezolvare constă în parcurgerea următorilor pași pentru a "descoperi" comanda înlânțuită ce rezolvă problema dată</u>:
+<br><br>
+-- mai întâi, citim cu mare atenție enunțul pentru a înțelege care este sursa informațiilor ce se dorește a fi prelucrate (e.g., în acest exercițiu, este vorba
+despre conținutul fișierului <tt>/etc/passwd</tt> și, respectiv, care este procesarea/prelucrarea ce se dorește a se aplica asupra acelei surse de informații.
+<br>
+-- apoi, începem prin a extrage din fișierul <tt>/etc/passwd</tt> doar lista cu numele de cont ale tuturor utilizatorior sistemului:
+<pre>
+cut -d: -f1 /etc/passwd
+</pre>
+-- privind outputul comenzii de mai sus, ne gândim să continuăm prin selectarea doar a liniilor care conțin "ana", lucru pe care îl facem adăugând comanda:
+<pre>
+cut -d: -f1 /etc/passwd | grep ana
+</pre>
+-- acum, privind outputul lanțului de mai sus, vedem că am selectat toate liniile care conțin "ana" indiferent de context,
+e.g. liniile ce contine numele: ana, ioana, roxana, stefana, tiganasu, panainte și multe altele, inclusiv diana.
+Prin urmare, acum ne gândim să continuăm prin filtrarea acestui output, în sensul de a elimina doar liniile care conțin "diana",
+iar acest lucru îl putem face adăugând comanda:
+<pre>
+cut -d: -f1 /etc/passwd | grep ana | grep -v diana
+</pre>
+-- iar ultimul pas pe care-l mai avem de făcut, privind outputul lanțului de la pasul anterior, deducem că este acela de a afișa
+nu toată lista produsă de lanțul respectiv, ci doar numărul de linii ale acestei liste,
+lucru pe care îl facem similar ca la două dintre exercițiile precedente, ađăugând la lanțul respectiv oricare dintre următoarele:
+<pre>
+cut -d: -f1 /etc/passwd | grep ana | grep -v diana | wc -l
+sau
+cut -d: -f1 /etc/passwd | grep ana | grep -v diana -c
+</pre>
+<div class="stil_QandA"><i>Întrebare</i>:
+chiar dacă ambele soluții de mai sus sunt corecte, i.e. "calculează" ceea ce se cere în problema noastră,
+care dintre ele credeți că este mai performantă (d.p.d.v. al timpului de execuție și/sau consumului de resurse ale sistemului pentru execuția sa) ?
+</div>
+<br>
+<i>Observație</i>: în oricare dintre cele două lanțuri de comenzi de mai sus, ce rezolvă problema dată, putem inversa ordinea celor două comenzi grep,
+obținându-se astfel alte două soluții, i.e. lanțuri de comenzi ce dau același rezultat, deci rezolvă și ele corect problema dată:
+<pre>
+cut -d: -f1 /etc/passwd | grep -v diana | grep ana | wc -l
+sau
+cut -d: -f1 /etc/passwd | grep -v diana | grep ana -c
+</pre>
+Însă fiecare din aceste două soluții, comparată cu soluția corespondentă (i.e, cea din care am obținut-o inversând ordinea celor două comenzi grep)
+este mai puțin eficientă, ca și timp de execuție, datorită volumului mai mare de informații care se propagă prin lanțul de comenzi!
+<br>
+<br>
+<div class="stil_explicatie"><i>Observație importantă</i>:
+<br>Rețineți modul de raționament pe care l-am descris în cele de mai sus,
+ î.e. <b>cum construim un lanț de comenzi "pas cu pas", plecând de la sursa de informații și aplicând treptat
+procesări obținute cu comenzi simple potrivite scopului urmărit</b>,
+și aplicați-l în mod corespunzător la toate exercițiile propuse de mai jos, ce se rezolvă prin construirea unor lanțuri de comenzi simple!
+<br><br>
+<i>Notă</i>: chiar dacă, în exercițiile rezolvate ce urmează, nu voi mai detalia pas cu pas cum am construit lanțul de comenzi ce rezolvă problema dată,
+ci doar vă voi da forma finală a acestuia,
+<u>pentru a înțelege raționamentul efectuat pentru a construi lanțul respectiv</u>,
+vă recomand să-l descompuneți și să verificați, pas cu pas, efectul produs de formele intermediare ale acestuia,
+executându-le, pas cu pas, pe serverul <i>fenrir</i> !!!
+</div>
+</div>
+</br></br>
+</li>
+
+
+
+<li><!-- Problema: lab3_ex3 ---------------------------------------------------------------------------------------------->
+<p><big>[Connected users #1]</big><!--[lanț de procesare a outputului unei comenzi #1]-->
+<br>Să se scrie comanda înlănțuită care va scrie, în fișierul utilizatori-logati.txt, numele de cont ale tuturor utilizatorilor
+prezenți în sistem la momentul execuției comenzii, în ordine alfabetică (și unică).
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți oricare dintre comenzile who sau finger, înlănțuită cu comanda cut și apoi cu comanda sort,
+fiecare apelată cu opțiunile adecvate. Alternativ, puteți începe lanțul cu comanda users, caz în care veți avea nevoie și de comanda tr.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex3')">Show / Hide the solution</button>
+
+<div id="lab3_ex3" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a aplica tipul de raționament detaliat la exercițiul precedent!
+<br>
+Astfel, primul pas este: identificarea sursei informațiilor ce se dorește a fi prelucrate. În acest caz nu mai este vorba despre un fișier cu informații statice,
+ci despre o sursă dinamică de informații, i.e. <b>utilizatorii conectați la sistem</b> (la momentul execuției acelei comenzi).
+<br>
+Știm deja, din prezentările comenzilor simple realizate la primele două laboratoare,
+că există mai multe comenzi ce ne oferă astfel de informații, și anume comenzile who, finger, users și w (dar pe ultima vom evita să o folosim,
+deoarece am văzut că trunchiază la 8 caractere coloana cu username-uri afișate).
+De asemenea, mai putem obține aceste informații și cu comanda ps, apelată cu anumite opțiuni alese în mod convenabil, și prelucrând adecvat outputul ei.
+<br><br>
+i) Prin urmare, iată o primă soluție -- un lanț de comenzi ce pornește de la comanda who:
+<pre>
+who | cut -f1 -d" " | sort -u -o utilizatori-logati.txt
+</pre>
+ii) O a doua soluție posibilă -- un lanț de comenzi ce pornește de la comanda finger:
+<pre>
+finger | grep -v Login | cut -f1 -d" " | sort -u > utilizatori-logati.txt
+</pre>
+Aici comanda simplă 'grep -v Login' din lanț are rolul de a elimina header-ul afisat de comanda finger.
+Avem însă garanția răspunsului corect întotdeauna? Dacă există și vreo altă linie care conține cuvântul 'Login', va mai fi corectă această soluție?
+<br>
+Pentru a corecta acest neajuns, putem folosi, în loc de acel grep, comanda tail, cu un argument care să specifice afișarea tuturor liniilor,
+începând de la a doua linie și până la finalul fișierului primit ca input, adică următoarea soluție:
+<pre>
+finger | tail -n +2 | cut -f1 -d" " | sort -u -o utilizatori-logati.txt
+</pre>
+iii) Iată și o soluție bazată pe a treia comandă amintită mai sus ca sursă de informații -- un lanț de comenzi ce începe cu comanda users,
+și în care înlocuim spațiile cu newline-uri în outputul comenzii users, pentru a putea aplica apoi comanda de sortare:
+<pre>
+users | tr " " "\n" | sort -u > utilizatori-logati.txt
+</pre>
+<i>Observație suplimentară</i>:
+<button onclick="myToggle('lab3_ex3a')">Show / Hide the details</button>
+<div id="lab3_ex3a" style="display:none;" class="stil_explicatie">
+O altă idee pe care ați putea-o avea, pentru înlocuirea spațiilor cu newline-uri în outputul comenzii users, ar putea fi folosirea comenzii cut
+cu opțiunea --output-delimiter, adică următorul lanț de comenzi:
+<pre>
+users | cut -f1- -d" " --output-delimiter="\n" | sort -u > utilizatori-logati.txt
+</pre>
+Însă această variantă nu funcționează corect, i.e. în sensul dorit de noi
+(deoarece comenzii cut nu îi "priește" newline-ul în string-ul cu care înlocuiește delimitatorul).
+</div>
+<br><br>
+iv) Iată, în sfârșit, după cum spuneam mai sus, că se poate porni în construcția lanțului și de la comanda ps,
+alegând în mod convenabil, dintre opțiunile ei, pe cea/cele care afișează informații (și) despre proprietarii proceselor selectate spre afișare,
+respectiv pe cea/cele care selectează doar procese ce aparțin unor utilizatori conectați la sistem, în acel moment.
+Iată câteva variante, fiecare are anumite "dezavantaje" (ce pot fi corectate eventual prin procesări mai complexe):
+<pre>
+ps a --no-header -o ruser | sort -u -o utilizatori-logati.txt
+sau
+ps -C bash --no-header -o ruser | sort -u > utilizatori-logati.txt
+sau
+ps -G 202 --no-header -o ruser | sort -u -o utilizatori-logati.txt
+</pre>
+<i>Explicație suplimentară</i>:
+<button onclick="myToggle('lab3_ex3b')">Show / Hide the details</button>
+<div id="lab3_ex3b" style="display:none;" class="stil_explicatie">
+Prima variantă: lista produsă va conține și utilizatorul root, indiferent dacă administratorul de sistem este sau nu este efectiv conectat la sistem
+cu contul de root, în acel moment.
+<br>
+Motivul: cele 6 instanțe ale procesului de sistem <tt>/sbin/getty</tt>, executate ca root, ce sunt în permanență pornite
+(ele "gestionează" cele 6 terminale/sesiuni în mod text ce pot fi pornite la consola fizică a serverului <i>fenrir</i>).
+<br><br>
+A doua variantă: lista produsă nu va include și eventualii utilizatori conectați care au setat drept shell de login altceva decât <tt>/bin/bash</tt>.
+<br>
+Practic, însă, nu există astfel de utilizatori pe serverul <i>fenrir</i>, în acest moment (a se revedea concluzia formulată în rezolvarea primului exercițiu
+din acest laborator).
+<br><br>
+A treia variantă: lista produsă se referă doar la utilizatorii din grupul studs, iar outputul conține nu doar utilizatorii studenți ce au deschise
+sesiuni interactive de lucru pe server, ci și pe cei care au deschise altfel de sesiuni (e.g. procese imap - corespund sesiunilor de citit poșta electronică).
+</div>
+<br><br>
+v) Putem totuși folosi și comanda w? Da, dacă-i "inhibăm" comportamentul implicit de trunchiere la 8 caractere a coloanei cu username-uri afișate, în felul următor:
+<pre>
+export PROCPS_USERLEN=20
+w -h | cut -f1 -d" " | sort -u -o utilizatori-logati.txt
+</pre>
+<i>Explicație suplimentară</i>:
+<button onclick="myToggle('lab3_ex3c')">Show / Hide the details</button>
+<div id="lab3_ex3c" style="display:none;" class="stil_explicatie">
+Consultând documentația despre comanda w (i.e., pagina <tt>man 1 w</tt>), la secțiunea ENVIRONMENT, puteți citi că dimensiunea predefinită, cu valoarea 8, a coloanei cu username-uri afișată de comanda w,
+poate fi schimbată, cu ajutorul variabilei de mediu PROCPS_USERLEN. Despre variabile de mediu și despre comanda export, vom discuta în lecția următoare.
+</div>
+</div>
+</br></br>
+</li>
+
+
+<li><!-- Problema: lab3_ex8 ---------------------------------------------------------------------------------------------->
+<p><big>[Connected users #2]</big><!--[lanț de procesare a outputului unei comenzi #3]-->
+<br>Să se scrie comanda înlănțuită care afișează data și ora logării, precum și calculatorul de pe care s-a făcut logarea,
+pentru toate sesiunile deschise, la momentul execuției comenzii, de un utilizator specificat ca argument al comenzii.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem
+în acel moment.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex8')">Show / Hide the solution</button>
+
+<div id="lab3_ex8" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a aplica tipul de raționament detaliat la un exercițiu precedent!
+<br>
+Astfel, primul pas este: identificarea sursei informațiilor ce se dorește a fi prelucrate. Nici în acest caz nu este vorba despre un fișier cu informații statice,
+ci despre o sursă dinamică de informații, i.e. <b>utilizatorii conectați la sistem</b> (la momentul execuției acelei comenzi).
+<br>
+Știm deja, din prezentările comenzilor simple realizate la primele două laboratoare,
+că există mai multe comenzi ce ne oferă astfel de informații, și anume comenzile who, finger, users și w.
+De asemenea, mai putem obține aceste informații și cu comanda ps, apelată cu anumite opțiuni alese în mod convenabil, și prelucrând adecvat outputul ei.
+<br><br>
+i) Prin urmare, iată o primă soluție -- un lanț de comenzi ce pornește de la comanda finger:
+<pre>
+finger | grep <i>arg_utilizator</i> | cut -b 44-
+</pre>
+(<i>Notă</i>: aici ne-am folosit de faptul că, coloanele de informații afișate de comanda finger sunt de lungime constantă,
+și am determinat/calculat pe ecran poziția de la care încep câmpurile ce se cer a fi afișate, i.e. poziția 44.)
+<br><br>
+ii) O a doua soluție posibilă -- un lanț de comenzi ce pornește de la comanda who:
+<pre>
+who | grep <i>arg_utilizator</i> | tr -s " " | cut -d " " -f 3-
+</pre>
+(<i>Notă</i>: aici ne-am folosit de faptul că, coloanele de informații afișate de comanda who sunt de lungime variabilă, nu constantă,
+și atunci trebuie să facem "tăiere" după câmpuri separate prin separatorul spațiu, i.e. " ", în acest caz.
+Însă mai e o problemă: numărul variabil de spații consecutive afișate de who, pe care am rezolvat-o folosind comanda <tt>tr -s " "</tt>,
+al cărei efect a fost acela de a înlocui orice secvență de spații consecutive printr-un singur spațiu.)
+<br><br>
+<i>Observații suplimentare</i>:
+<button onclick="myToggle('lab3_ex8a')">Show / Hide the details</button>
+<div id="lab3_ex8a" style="display:none;" class="stil_explicatie">
+i) O altă idee pe care ați putea-o avea, ar fi să porniți cu comanda who și să utilizați ideea aplicată mai sus la finger,
+adică să scrieți următorul lanț de comenzi:
+<pre>
+who | grep <i>arg_utilizator</i> | cut -b <i>N</i>-
+</pre>
+unde <i>N</i> este o valoare determinată experimental.
+<br>
+Însă această variantă nu funcționează corect, i.e. în sensul dorit de noi, deoarece nu putem determina o valoare unică pentru <i>N</i>,
+întrucât comanda who produce coloane de dimensiuni variabile, i.e. inegale!
+<br>
+<br>
+ii) Similar, o altă idee pe care ați putea-o avea, ar fi să porniți cu comanda finger și să utilizați ideea aplicată mai sus la who,
+adică să scrieți următorul lanț de comenzi:
+<pre>
+finger | grep <i>arg_utilizator</i> | tr -s " " | cut -d " " -f <i>N</i>-
+</pre>
+unde <i>N</i> este o valoare determinată experimental.
+<br>
+Însă nici această variantă nu funcționează corect, i.e. în sensul dorit de noi, deoarece nu putem determina o valoare unică pentru <i>N</i>,
+întrucât numărul de cuvinte din <b>numele real</b> (care încă mai este stocat în înregistrările mai vechi din baza de date <tt>/etc/passwd</tt>, în câmpul al 5-lea)
+al utilizatorilor este variabil (numele real fiind format din 2, 3 sau 4 cuvinte,
+după cum puteți constata și singuri inspectând vizual conținutul fișierului <tt>/etc/passwd</tt>).
+</div>
+<br>
+<br>
+iii) Am putea folosi alte comenzi ca și "punct de start" al lanțului construit?
+<br>
+Comanda users nu oferă niciun fel de informații asociate utilizatorilor conectați, deci nu.
+Comanda ps nu o putem folosi căci nu avem posibilitatea să afișăm IP-urile, cu niciuna dintre opțiunile ei.
+<br>
+Dar comanda w, am putea să o folosim? Da, cu observația că obținem doar ora logării, nu și data -- iată o posibilă rezolvare:
+<pre>
+w -h <i>arg_utilizator</i> | cut -b 19-43
+sau
+w -h <i>arg_utilizator</i> | tr -s " " | cut -f 3,4 -d " "
+</pre>
+(<i>Notă</i>: aici nici nu mai contează faptul că, dimensiunea implicită a primei coloane afișate de comanda w este de 8 caractere, i.e. că username-urile sunt trunchiate.
+Dacă ar fi contat acest fapt, pentru rezultatul final, atunci am fi putut să reconfigurăm dimensiunea coloanei -- revedeți ultima explicație suplimentară
+de la exercițiul [Connected users #1].)
+</div>
+</br></br>
+</li>
+
+
+
+<li><!-- Problema: lab3_ex6 ---------------------------------------------------------------------------------------------->
+<p><big>[Running tasks #1]</big><!--[lanț de procesare a outputului unei comenzi #2]-->
+<br>Să se scrie comanda înlănțuită care afișează numărul total de procese (rulate în toate sesiunile deschise) ale utilizatorului
+cu numele de cont specificat ca parametru al comenzii.
+<br>
+<small>(Indicație: <span class="stil_hint">prelucrați rezultatele afișate de comanda ps, apelată cu opțiunile adecvate.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex6')">Show / Hide the solution</button>
+
+<div id="lab3_ex6" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a aplica tipul de raționament detaliat la un exercițiu precedent!
+<br>
+Astfel, primul pas este: identificarea sursei informațiilor ce se dorește a fi prelucrate. Nici în acest caz nu este vorba despre un fișier cu informații statice,
+ci despre o sursă dinamică de informații, i.e. <b>procesele ce "rulează" în sistem</b> (la momentul execuției acelei comenzi).
+<br>
+Știm deja, din prezentările comenzilor simple realizate la primele două laboratoare,
+că astfel de informații putem obține cu ajutorul comenzii ps.
+Rămâne să "descoperim" cu ce opțiuni, alese în mod convenabil, să apelăm comanda ps, și ce prelucrări suplimentare ale outputului ei mai sunt necesare.
+<br><br>
+i) Prin urmare, iată o primă formă de apelare a comenzii ps, ce mai necesită, ca și prelucrări suplimentare ale outputului ei, doar o simplă numărare:
+<pre>
+ps -U <i>arg_utilizator</i> -o pid= | wc -l
+</pre>
+<i>Explicație suplimentară</i>:
+<button onclick="myToggle('lab3_ex6a')">Show / Hide the details</button>
+<div id="lab3_ex6a" style="display:none;" class="stil_explicatie">
+Citiți pagina <tt>man 1 ps</tt>, pentru a afla că:
+<br>opțiunea -U a comenzii ps selectează doar procesele rulate de utilizatorul specificat după -U,
+<br>iar opțiunea -o pid= setează drept coloane de afișare doar un singur câmp de informații, ce va lista PID-urile proceselor selectate,
+și fără o primă linie de header cu denumirile câmpurilor afișate.
+</div>
+<br><br>
+ii) Iată o a doua formă de apelare a comenzii ps, ce mai necesită, ca și prelucrări suplimentare ale outputului ei,
+eliminarea liniei de header cu denumirile câmpurilor afișate, lucru pe care-l putem face cu grep sau tail
+(similar ca la exemplul de lanț construit pornind de la comanda finger, la exercițiul [Connected users #1] de mai sus)"
+<pre>
+ps -U <i>arg_utilizator</i> | grep -v PID -c
+sau
+ps -U <i>arg_utilizator</i> | tail -n +2 | wc -l
+</pre>
+iii) Iată și o a treia formă de apelare a comenzii ps, ce folosește opțiunea --no-headers (despre a cărei existență ați putea afla citind cu atenție
+pagina <tt>man 1 ps</tt>), iar procesarea suplimentară ce rămâne de făcut este doar o simplă numărare, la fel ca la soluția i):
+<pre>
+ps --no-headers -U <i>arg_utilizator</i> | wc -l
+</pre>
+<i>Observație suplimentară</i>:
+<button onclick="myToggle('lab3_ex6b')">Show / Hide the details</button>
+<div id="lab3_ex6b" style="display:none;" class="stil_explicatie">
+O altă idee pe care am mai putea-o avea, ar fi să folosim sintaxa BSD-style a opțiunilor de selecție a mulțimii de procese în comanda ps, i.e. ps axu,
+obținând astfel următorul lanț de comenzi:
+<pre>
+ps axu | grep <i>arg_utilizator</i> -c
+</pre>
+Însă această variantă nu funcționează corect, i.e. în sensul dorit de noi.
+Motivul -- citiți pagina <tt>man 1 ps</tt>, pentru a afla că:
+<br>opțiunile ax selectează toate procesele din sistem, ale tuturor utilizatorilor, inclusiv cele fără terminal asociat, 
+<br>iar opțiunea u afișează o serie de coloane de informații, dintre care prima coloană este USER-ul.
+Numai că, nu pentru toți utilizatorii se afișează username-ul, ci pentru unii utilizatori se afișează UID-ul în această coloană.
+Iar din acest motiv, înlănțuirea cu comanda grep după numele utilizatorului nu va funcționa pentru oricare utilizator.
+</div>
+</div>
+</br></br>
+</li>
+
+
+
+<li><!-- Problema: lab3_ex11&12 ------------------------------------------------------------------------------------------->
+<p><big>[Regex #1 / Connected users #3]</big><!--[lanț de procesare a outputului unei comenzi #4 / expresii regulate #1]-->
+<br>Să se scrie comanda înlănțuită care scrie în fișierul a.txt, numele de cont ale tuturor utilizatorilor conectați la sistem,
+al căror nume de cont începe cu litera 'a'.
+<br>
+<i>Cerință suplimentară</i>: Să se scrie comanda înlănțuită care scrie în fișierul escu.txt, numele de cont ale tuturor utilizatorilor conectați la sistem,
+al căror nume de cont se termină cu sufixul 'escu'.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.
+Pentru prima parte, apelați comanda grep cu o expresie regulată simplă, ce exprimă faptul că <u>linia de text începe cu un anumit șablon</u>, i.e. litera a.
+<br>Pentru partea suplimentară, apelați comanda grep cu o expresie regulată simplă, ce exprimă faptul că <u>linia de text se termină cu un anumit șablon</u>,
+i.e. litera u.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex11+12')">Show / Hide the solution</button>
+
+<div id="lab3_ex11+12" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a aplica tipul de raționament detaliat la un exercițiu precedent!
+<br>
+Astfel, primul pas este: identificarea sursei informațiilor ce se dorește a fi prelucrate. Nici în acest caz nu este vorba despre un fișier cu informații statice,
+ci despre o sursă dinamică de informații, i.e. <b>utilizatorii conectați la sistem</b> (la momentul execuției acelei comenzi).
+<br>
+Știm deja, din prezentările comenzilor simple realizate la primele două laboratoare
+(sau din rezolvările exercițiilor precedente [Connected users #1,#2]),
+că putem obține astfel de informații folosind oricare dintre comenzile who, finger sau users.
+<br>
+<br>
+Mai întâi, să construim un lanț de comenzi care să afișeze, pe o singură coloană, numele utilizatorilor conectați la sistem în acel moment.
+<br>
+Putem face aceasta cu oricare dintre lanțurile următoare (a se revedea exercițiul [Connected users #1]):
+<pre>
+who | cut -f1 -d" "
+sau
+finger | tail -n +2 | cut -f1 -d" "
+sau
+users | tr " " "\n"
+</pre>
+Acum, ne mai rămâne să "filtrăm" outputul oricăruia dintre cele 3 lanțuri de mai sus,
+în sensul de a selecta doar liniile care conțin litera 'a' pe prima poziție din linie,
+iar apoi să redirectăm outputul produs pe ecran către fișierul indicat în enunț.
+<br>
+<br>
+Pentru a rezolva problema "filtrării" explicate mai sus,
+studiem pagina <tt>man 1 grep</tt> și citim cu atenție secțiunea referitoare la "REGULAR EXPRESSIONS" și observăm astfel
+cele două caractere speciale din subtitlul "Anchoring": <tt>^</tt> și <tt>$</tt>, cu semnificațiile lor.
+<br>
+Astfel, pentru filtrarea de care avem nevoie, este suficient să folosim comanda grep cu șablonul <tt>^a</tt> ,
+obținând astfel următoarele 3 lanțuri de comenzi ce rezolvă prima parte din enunțul problemei noastre:
+<pre>
+# Un lanț ce pornește de la comanda who:
+
+who | cut -f1 -d" " | grep ^a > a.txt
+
+# Sau, un lanț ce pornește de la comanda finger:
+
+finger | tail -n +2 | cut -f1 -d" " | grep ^a > a.txt
+
+# Sau, un lanț ce pornește de la comanda users:
+
+users | tr " " "\n" | grep ^a > a.txt
+</pre>
+<br>
+Pentru cerința suplimentară din enunț: începutul este același, pornim cu oricare dintre cele 3 comenzi pentru a obține,
+pe o singură coloană, numele utilizatorilor conectați la sistem în acel moment.
+<br>
+Apoi continuăm cu o filtrare prin care selectăm doar liniile care conțin cuvântul 'escu' la finalul liniei de text
+(selecție pe care o putem obține, dacă ați fost atenți la cele explicate mai sus, folosind comanda grep cu șablonul <tt>escu$</tt> ),
+iar apoi redirectăm outputul produs pe ecran către fișierul indicat în enunț.
+<br>
+Construim astfel următoarele 3 lanțuri de comenzi ce rezolvă a doua parte din enunțul problemei noastre:
+<pre>
+# Un lanț ce pornește de la comanda who:
+
+who | cut -f1 -d" " | grep escu$ > escu.txt
+
+# Sau, un lanț ce pornește de la comanda finger:
+
+finger | tail -n +2 | cut -f1 -d" " | grep escu$ > escu.txt
+
+# Sau, un lanț ce pornește de la comanda users:
+
+users | tr " " "\n" | grep escu$ > escu.txt
+</pre>
+</div>
+</br></br>
+</li>
+
+
+
+<li><!-- Problema: lab3_ex13 --------------------------------------------------------------------------------------------->
+<p><big>[Regex #2 / User accounts #1]</big><!--[lanț de procesare a unui fișier #5 / expresii regulate #2]-->
+<br>Să se scrie comanda înlănțuită care afișează toți utilizatorii sistemului care au UID-ul mai mare decât (sau egal cu) 5000.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.
+Pentru a descrie numere mai mari sau egale cu 5000, se poate folosi comanda grep cu un șablon de tip expresie regulată.</span>)</small>
+</p>
+
+<button onclick="myToggle('lab3_ex13')">Show / Hide the solution</button>
+
+<div id="lab3_ex13" style="display:none;" class="stil_solutie">
+Ideea de rezolvare constă în a aplica tipul de raționament detaliat la un exercițiu precedent!
+<br>
+Astfel, primul pas este: identificarea sursei informațiilor ce se dorește a fi prelucrate. În acest caz este vorba despre un fișier cu informații statice,
+i.e. "baza de date" <tt>/etc/passwd</tt> cu informații despre <b>utilizatorii sistemului</b>.
+<br>
+<br>
+Prin urmare, vom începe mai întâi prin filtrarea (selectarea) câmpurilor username și UID din <tt>/etc/passwd</tt>, folosind comanda următoare:
+<pre>
+cut -d: -f1,3 /etc/passwd
+</pre>
+Astfel obținem ca output al comenzii o coloană de informații de forma username:UID .
+<br>
+Apoi trebuie să prelucrăm această coloană, conform următoarei idei:
+folosim câmpul UID ca să selectăm doar liniile ce conțin numere mai mari sau egale cu 5000, apoi păstrăm doar câmpul username pentru afișarea finală.
+<br>
+Pentru selecția dorită vom construi o expresie regulată pe care o vom folosi ca șablon de căutat pentru comanda grep.
+Deschideți pagina <tt>man 1 grep</tt> și recitiți cu mare atenție întreaga secțiune referitoare la "REGULAR EXPRESSIONS",
+pentru a înțelege cele de urmează!
+<br>
+Și anume, o idee ar fi să descriem mulțimea cuvintelor de forma următoare:
+"<span class="stil_black_BGcolor">caracterul ':', urmat de o cifră de la 5 la 9, iar aceasta urmată de măcar 3 cifre oarecare</span>" ,
+adică mulțimea secvențelor de cifre în baza 10 care descriu "numere" a căror valoare întreagă este mai mare decât sau egală cu 5000.
+Astfel ne asigurăm că "numărul" selectat de expresie va fi mai mare decât sau egal cu 5000
+(<small>sau cel puțin așa avem impresia acum, vom discuta mai jos că mai trebuie ceva...</small>).
+<br><br>
+<b>Sintactic</b>, mulțimea descrisă astfel se poate exprima prin expresia regulată extinsă următoare:
+<span class="stil_black_BGcolor"><tt>&nbsp; :[5-9][0-9][0-9][0-9] </tt></span> ,
+adică lanțul de comenzi pe care-l construim arată astfel:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E :[5-9][0-9][0-9][0-9] | cut -d: -f1
+</pre>
+Sau, putem folosi alte forme sintactice echivalente, de exemplu mai putem scrie:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E :[5-9][[:digit:]]{3\,} | cut -d: -f1
+</pre>
+<i>Observație</i>: cele două expresii regulate echivalente indicate mai sus au un neajuns, și anume:
+ele nu selectează și numerele cuprinse între 10000 și 49999 (pe serverul <i>fenrir</i> sunt deja conturi cu UID-uri peste 10000),
+nici pe cele cuprinse între 100000 și 499999,
+nici pe cele cuprinse între 1000000 și 4999999, ș.a.m.d.
+<br>
+Pentru a "repara" acest neajuns, ne trebuie o expresie regulată care să descrie o mulțime de cuvinte de forma următoare:
+"<span class="stil_black_BGcolor">(caracterul ':', urmat de o cifră de la 5 la 9, iar aceasta urmată de exact 3 cifre oarecare)
+  SAU  (caracterul ':', urmat de o cifră de la 1 la 9, iar aceasta urmată de cel puțin 4 cifre oarecare</span>" .
+<br><br>
+Deci soluția corectă ar fi următoarea:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E  :[5-9][0-9][0-9][0-9]\|:[1-9][0-9][0-9][0-9][0-9]  | cut -d: -f1
+</pre>
+Sau, putem folosi alte forme sintactice echivalente, de exemplu mai putem scrie:
+<pre>
+cut -d: -f1,3 /etc/passwd | grep -E  :[5-9][[:digit:]]{3}\|:[1-9][[:digit:]]{4\,}  | cut -d: -f1
+sau
+cut -d: -f1,3 /etc/passwd | grep -E  ":[5-9][[:digit:]]{3}|:[1-9][[:digit:]]{4,}"  | cut -d: -f1
+</pre>
+<i>Notă</i>: caracterele '|' și ',' din expresiile regulate de mai sus trebuie protejate (i.e., precedate de caracterul \ sau puse între " ")
+pentru a nu fi interpretate special de către shellul bash.
+<br>
+<br>
+<i>Întrebare suplimentară</i>:
+<button onclick="myToggle('lab3_ex13a')">Show / Hide the details</button>
+<div id="lab3_ex13a" style="display:none;" class="stil_explicatie">
+Dacă în loc de limita minimă 5000 specificată în enunț, ar fi un număr mai "neregulat", adică format din diverse cifre, ce-am putea face?
+<br>
+Spre exemplu, să zicem că limita specificată în enunț ar fi numărul 5432.
+Cum descriem prin expresii regulate faptul că "... au UID-ul mai mare decât, sau egal cu, 5432"?
+<br><br>
+O variantă de expresie regulată ce descrie mulțimea cuvintelor formate din secvențe de cifre în baza 10,
+asociate reprezentării textuale (în baza 10) a numerelor întregi ce sunt mai mari sau egale decât valoarea întreagă 5432, este următoarea:
+<br>
+<span class="stil_black_BGcolor"><tt>&nbsp; :5[4-9][3-9][2-9]|:[6-9][0-9][0-9][0-9]|:[1-9][0-9][0-9][0-9][0-9] </tt></span> .
+<br>
+Sau, o altă formă sintactică, echivalentă cu prima, este următoarea:
+<br>
+<span class="stil_black_BGcolor"><tt>&nbsp; :5[4-9][3-9][2-9]|:[6-9][[:digit:]]{3}|:[1-9][[:digit:]]{4,} </tt></span> .
+<br><br>
+Cele două expresii regulate de mai sus, diferite sintactic dar echivalente semantic, au ambele următoarea semnificație:
+"Selectează numerele cuprinse între 5432 și 5999, sau cele cuprinse între 6000 și 9999, sau toate numerele mai mari decât 10000".
+</div>
+</div>
+</br></br>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some file/database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Să se scrie comanda înlănțuită care afișează numărul de "studenți" din fișierul <tt>/etc/passwd</tt>
+care conțin cuvântul mihai în al doilea nume din username (e.g., andrei.mihaila).
+<!--
+care conțin cuvântul stefan în al doilea nume din username (e.g., iulian.astefanesei).
+care conțin cuvântul pop în al doilea nume din username (e.g., roxana.apopei).
+-->
+(Aici, prin "studenți" înțelegem acei utilizatori care au GID-ul 202.)
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setCV_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care scrie în fisierul useri.txt, în maniera unică,
+username-urile utilizatorilor ce sunt conectați la sistem la momentul curent și au prenumele Bogdan.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setCV_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care afișează PID-urile proceselor din sistem, ce rulează instanțe ale interpretorului bash,
+și doar de către utilizatori ai căror nume apare în format numeric (i.e., sunt inlocuite cu UID-urile lor) în coloana USER de lungime fixă
+produsă de comanda de afișare a proceselor.
+<br>
+<small>(Indicație: <span class="stil_hint2">prelucrați rezultatele afișate de comanda ps, apelată cu opțiunile adecvate.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setRB_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some file/database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Să se scrie comanda înlănțuită care scrie în fișierul users25.txt, doar numele de utilizatori ale acelor conturi
+stocate în primele 25 linii ale fișierului cu baza de date despre conturile de utilizatori de pe server,
+utilizatori al caror username începe cu o literă din intervalul 'm'..'z', și care folosesc ca și interpretor de login programul /bin/sh.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setRB_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care scrie în fișierul filtruIPs.txt, în manieră unică,
+doar IP-urile calculatoarelor de proveniență (i.e., de pe care s-au conectat pe server)
+ale studenților ce sunt conectați pe server la momentul curent.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setRB_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Directorul /proc conține, printre altele, și o serie de subdirectoare cu nume formate numai din cifre,
+numerele respective reprezentând PID-urile proceselor care sunt în curs de execuție la momentul respectiv.
+<br>Să se scrie comanda înlănțuită care afișează cardinalul mulțimii rezultate din numele subdirectoarelor din /proc,
+formate numai din cifre, prin eliminarea primei cifre din fiecare dintre aceste nume.
+<br>
+<small>(Indicație: <span class="stil_hint2">prelucrați rezultatele afișate de comanda ls /proc.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setBP_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some file/database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Să se scrie comanda înlănțuită care afișează numerele matricole al studenților ce au numele de familie LUPU. 
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setBP_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care afișează numărul de <i>fete</i> conectate la serverul fenrir la momentul curent.
+(Ipoteză: se consideră a fi <i>fete</i> exact acele persoane care au prenumele terminat cu litera 'a'.)
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setBP_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care scrie, în fișierul output.txt, toate procesele utilizatorilor ce folosesc <tt>bash</tt> drept interpretor de comenzi,
+care lucrează la stații de lucru (terminale) desemnate prin ID-uri (i.e., pts/XY) ce încep cu cifrele 1, 2 sau 3,
+iar ordinea de scriere în fișier să fie: sortate după PID-uri, în ordine crescătoare (numerică!).
+<br>
+<small>(Indicație: <span class="stil_hint2">prelucrați rezultatele afișate de comanda ps, apelată cu opțiunile adecvate.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setDA_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some file/database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Să se scrie comanda înlănțuită care afișează, în ordine alfabetică, doar numele utilizatorilor care nu se află în grupul de studenți ai facultății
+(i.e., grupul cu ID-ul 202).
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setDA_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care afișează doar prenumele acelor utilizatori care sunt conectați pe server de la adrese IP ce încep cu "194."
+și, în plus, filtrați aceste prenume pentru a le afișa doar pe acelea care încep cu litera 'g'.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setDA_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care afișează PIDurile proceselor care încă rulează în sistem, fiind pornite într-o zi anterioară din luna martie,
+și, în plus, filtrați aceste rezultate pentru a afișa doar PIDurile acelor procese care rulează comanda "ssh" cu opțiunea -p pentru specificarea portului,
+iar portul să fie un număr mai mare decat 65000.
+<br>
+<small>(Indicație: <span class="stil_hint2">prelucrați rezultatele afișate de comanda ps, apelată cu opțiunile adecvate.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setAG_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some file/database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Să se scrie comanda înlănțuită care afișează numărul de utilizatori al căror nume conține caracterul 'a' și care fac parte din grupul sudo.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/group</tt>, nu din <tt>/etc/passwd</tt>!</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setAG_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care adaugă la finalul fișierului FirstLogins.txt, cele mai mici 3 ore (HH:MM) la care s-au logat utilizatorii
+ce sunt prezenți la momentul curent pe server.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setAG_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care afișează, în fișierul CMDs.txt, toate comenzile (afișate inclusiv cu argumente,
+i.e. întreaga linie de comandă pentru fiecare dintre ele) ce sunt rulate cu drepturi de root și care nu sunt instanțe
+ale daemonului de SSH (i.e., care nu încep cu sshd:) și nici instanțe ale serviciului de email IMAP (i.e., care nu încep cu imap).
+<br>
+<small>(Indicație: <span class="stil_hint2">prelucrați rezultatele afișate de comanda ps, apelată cu opțiunile adecvate.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_explicatie">
+<ol>
+<li><!-- Problema: lab3_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[#1: Some file/database processing]</big><!--[lanț de procesare a unui fișier]-->
+<br>Să se scrie comanda înlănțuită care afișează ID-urile partițiilor ce folosesc sistemul de fisiere ext4 și au fost montate cu opțiunea nosuid.
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/fstab</tt>.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>[#2: Connected users]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care scrie în fișierul IPs.txt, IP-urile de la care s-au conectat cei mai recent conectați 5 utilizatori,
+din acest moment, de pe server."
+<br>
+<small>(Indicație: <span class="stil_hint2">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii conectați la sistem în acel moment.</span>)</small>
+</p>
+</li>
+
+<li><!-- Problema: lab3_setVU_ex3 ---------------------------------------------------------------------------------------->
+<p><big>[#3: Running tasks]</big><!--[lanț de procesare a outputului unei comenzi]-->
+<br>Să se scrie comanda înlănțuită care scrie în fișierul others_procs.txt liniile de commandă ale proceselor rulate de orice alt utilizator,
+în afara utilizatorului curent logat și a root-ului.
+<br>
+<small>(Indicație: <span class="stil_hint2">prelucrați rezultatele afișate de comanda ps, apelată cu opțiunile adecvate.</span>)</small>
+</p>
+</li>
+</ol>
+</div>
+<!------------------------------------------------------------------------------------------------------------------------>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Iată alte câteva exerciții cu comenzi înlănțuite, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab3_ex7 ---------------------------------------------------------------------------------------------->
+<p><big>[User accounts #2]</big><!--[lanț de procesare a unui fișier #6]-->
+<br>Să se scrie comanda înlănțuită care afișează datele: numele de utilizator, UID-ul și GID-ul, în formatul "username -> UID -> GID",
+pentru toți utilizatorii sistemului, sortați crescător după UID.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.</span>)</small>
+</p>
+</li>
+
+
+<li><!-- Problema: lab3_ex9 ---------------------------------------------------------------------------------------------->
+<p><big>[Last connected users]</big><!--[lanț de procesare a outputului unei comenzi #5]-->
+<br>Să se scrie comanda înlănțuită care afișează ultimii 15 utilizatori conectați la sistem, în funcție de ora conectării,
+precum și data, ora și stația de la care s-au conectat.
+<br>
+<small>(Indicație: <span class="stil_hint">procesați outputul comenzii last.</span>)</small>
+</p>
+
+
+<li><!-- Problema: lab3_ex10 ---------------------------------------------------------------------------------------------->
+<p><big>[Connected users #4]</big><!--[lanț de procesare a outputului unei comenzi #6]-->
+<br>Să se scrie comanda înlănțuită care afișează, pentru fiecare utilizator conectat la sistem, următoarele informații:
+numele de cont, stația de la care s-a conectat și procesul rulat în foreground, ordonate în ordinea alfabetică a numelor de cont.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple, prelucrând informațiile despre utilizatorii
+conectați la sistem în acel moment.</span>)</small>
+</p>
+
+
+<li><!-- Problema: lab3_ex14 --------------------------------------------------------------------------------------------->
+<p><big>[Regex #3 / User accounts #3]</big><!--[lanț de procesare a unui fișier #7 / expresii regulate #3]-->
+<br>Să se scrie comanda înlănțuită care afișează toți utilizatorii sistemului care au UID-ul mai mare (strict) decât 4681.
+<br>
+<small>(Indicație: <span class="stil_hint">folosiți înlănțuiri de comenzi simple și informațiile din fișierul <tt>/etc/passwd</tt>.
+Pentru a descrie numere mai mari sau egale cu 4682, se poate folosi comanda grep cu un șablon de tip expresie regulată.</span>)</small>
+</p>
+
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Experiment cu fișierele de inițializare a unei sesiuni de lucru:</span></p>
+</a>
+
+<p><big>[Exercițiu experimental]</big>
+<br>
+i) Testați ce se întâmplă când aveți în directorul home propriu ambele fișiere de initializare <tt>.bash_profile</tt> și <tt>.profile</tt>.
+Cum sunt ele executate, în ce ordine? Sau care dintre ele este executat, în caz că numai unul este executat?
+<br>
+ii) Ce se întâmplă dacă aveți doar fișierul <tt>.profile</tt>, nu și fișierul <tt>.bash_profile</tt>?
+<br>
+iii) Dar în situația inversă, când este prezent numai fișierul <tt>.bash_profile</tt>?
+<br>
+iv) Dar dacă nici unul dintre cele două fișiere nu este prezent în directorul home, ce se întâmplă?
+</p>
+
+<button onclick="myToggle('lab3_exII')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab3_exII" style="display:none;" class="stil_explicatie">
+Ideea de rezolvare -- adăugați mai întâi în fișierele amintite o comandă de afișare pe ecran a unui mesaj de genul
+<pre>
+echo "Acum se execută fișierul X..."
+</pre>
+iar apoi, pentru a testa fiecare dintre cele patru cazuri descrise,
+"creați" pe rând cazul respectiv (redenumind fișierul/fișierele care trebuie să fie absent/absente în acel caz),
+deschideți o nouă sesiune de lucru și urmăriți ce mesaje apar pe ecran.
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_3">
+<p><span class="stil_set_exercitii">III) Experiment cu redirectările fluxurilor I/O standard:</span></p>
+</a>
+
+<p><big>[Exercițiu experimental]</big>
+<br>
+Care vor fi efectiv cele trei dispozitive I/O standard în timpul execuției unei comenzi, pentru fiecare dintre liniile de comandă următoare:
+<pre>comanda 2>&1 >fisier
+<br>comanda 2>>&1 >fisier
+<br>comanda 2>&1 >>fisier
+<br>comanda 2>>&1 >>fisier
+<br>comanda >fisier 2>&1
+<br>comanda >fisier 2>>&1
+<br>comanda >>fisier 2>&1
+<br>comanda >>fisier 2>>&1
+</pre>
+Ce se întâmplă de fapt în fiecare caz? Se pierde ceva, iar dacă răspunsul este afirmativ, atunci ce anume se pierde?
+</p>
+
+<button onclick="myToggle('lab3_exIII')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab3_exIII" style="display:none;" class="stil_explicatie">
+Ideea de rezolvare -- testați cele 8 forme de folosire a redirectărilor din enunț,
+folosind o comandă care să producă atât output afișat pe ieșirea normală standard, cât și mesaje de eroare,
+cum ar fi de exemplu comanda:
+<pre>
+ls -l ~/.bashrc ~/MailulMeu
+</pre>
+și observați efectul produs în fiecare dintre cele 8 cazuri.
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<script src="script.js"></script>
+</body>
+</html>

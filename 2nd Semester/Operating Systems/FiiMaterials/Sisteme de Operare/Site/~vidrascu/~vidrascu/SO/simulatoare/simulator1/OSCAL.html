@@ -1,0 +1,150 @@
+﻿<html>
+<head>
+    <title>Simulator grafic pentru algoritmii studiați la curs</title>
+    <!-- pentru diacritice -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+
+<h2>Simulator grafic pentru algoritmii studiați la curs</h2>
+
+<h3>Aplicație: OSCAL, i.e. Operating System Concept Animation Library</h3>
+
+<p>
+Este o aplicație formată din mai multe applet-uri Java, realizată în 2002 sub coordonarea profesorului
+<a href="http://www.ecs.csus.edu/csc/iac/docs/program/CSC139_syllabus.htm">Du Zhang</a>, de la California State University, US.
+<br>
+Explicație: un applet Java este un program Java care "rulează" în cadrul unui browser de Internet, realizând de obicei o animație în cadrul paginii html în care este inclus.
+</p>
+
+
+<p>
+<i>Notă</i>: aplicația are unele neajunsuri, în sensul că nu a mai fost "întreținută", iar tehnologia Java a evoluat mult de atunci.
+<br>
+<u>Datorită riscurilor de securitate pe care tehnologia applet-urilor Java le presupunea, pe măsura trecerii timpului, principalele browsere de Internet existente au introdus
+restricții din ce în ce mai puternice referitor la rularea applet-urilor de Java în cadrul acestora.</u>
+<br>
+Astfel, dacă în urmă cu mai mulți ani animațiile din OSCAL funcționaseră fără nicio problemă,
+mai apoi a fost nevoie de aprobarea explicită a utilizatorului pentru execuția unui applet în pagina pe care o viziona,
+iar în anii mai recenți se introduseseră mecanisme de tipul <i>white-list</i> prin care se configura browserul să accepte execuția de appleturi doar
+dacă proveneau dintr-o listă de adrese specificate explicit.
+<br>
+Iar începând din primăvara lui 2017, majoritatea browser-elor populare au renunțat complet la suportul pentru execuția de applet-uri Java!
+Singura soluție în acest caz, în afara aceleia de a folosi o versiune mai veche de browser ce nu are dezactivat suportul pentru plugin-ul de Java,
+este de a folosi comanda <tt>appletviewer</tt> la linia de comandă.
+</p>
+
+
+<p>
+<u>Modul de utilizare a aplicație OSCAL în prezent, ținând cont de restricțiile tehnologiei Java amintite mai sus</u>:
+<br>
+- instalați un mediu Java (i.e., Oracle Java 8 SE) pe calculatorul local, ceea ce va instala și comanda <tt>appletviewer</tt>.
+<br>
+- descărcați de <a href="oscal.zip">aici</a> arhiva cu aplicația OSCAL și dezarhivați-o pe discul local, într-un director ales după dorință.
+<br>
+- pentru fiecare dintre exemplele enumerate mai jos, porniți animația de la linia de comandă, în directorul ales mai sus, introducând comanda:
+<tt>appletviewer</tt> <i>calea-catre-applet</i>
+, unde <i>calea-catre-applet</i> este calea, absolută sau relativă, către fișierul html ce conține applet-ul respectiv.
+</p>
+
+<hr>
+<p>
+Puteți încerca acest simulator pentru a vă fixa sau pentru a aprofunda cunoștințele legate de subiectele abordate la curs.
+</p>
+
+<ol>
+
+<li>Animația #1: <b>Simulator grafic pentru algoritmii de planificare a proceselor</b>
+<br>
+Funcționalitatea oferită: Algoritmii de planificare FCFS, SJF clasic (ne-preemtiv), SRTF (SJF preemptiv) și RR (cu cuanta=1 și cuanta=4).
+<br>
+Calea relativă către applet: <tt>oscal/pscheduling.html</tt>
+<br>
+Notă: deschideți și într-un browser acest fișier html, pentru a citi explicații suplimentare despre această animație.
+<br><br>
+</li>
+
+
+<li>Animația #2: <b>Simulator grafic pentru problema secțiunii critice</b>
+<br>
+Funcționalitatea oferită: Algoritmul Eisenberg-McGuire.
+<br>
+Calea relativă către applet: <tt>oscal/EMFiles/EM.htm</tt>
+<br><br>
+</li>
+
+<li>Animațiile #3: <b>Simulator grafic pentru problemele clasice de sincronizare</b>
+<br>
+i) Funcționalitatea oferită: Problema producător-consumator.
+<br>
+Calea relativă către applet: <tt>oscal/ProducerConsumer/ProducerConsumer.html</tt>
+<br>
+ii) Funcționalitatea oferită: Problema cititori și scriitori.
+<br>
+Calea relativă către applet: <tt>oscal/ReaderWriter/ReaderWriter.html</tt>
+<br>
+iii) Funcționalitatea oferită: Problema bărbierului adormit.
+<br>
+Calea relativă către applet: <tt>oscal/BarberShop/BarberShop.html</tt>
+<br>
+iv) Funcționalitatea oferită: Problema producător-consumator rezolvată folosind semafoare.
+<br>
+Calea relativă către applet: <tt>oscal/semaphore/semaphore.html</tt>
+<br>
+Notă: deschideți și într-un browser acest fișier html, pentru a citi explicații suplimentare despre această animație.
+<br>
+v) Funcționalitatea oferită: Problema producător-consumator rezolvată cu un monitor.
+<br>
+Calea relativă către applet: <tt>oscal/monitor/monitor.html</tt>
+<br>
+Notă: deschideți și într-un browser acest fișier html, pentru a citi explicații suplimentare despre această animație.
+<br>
+vi) Funcționalitatea oferită: Mecanismul lock Read&amp;Write din Solaris.
+<br>
+Calea relativă către applet: <tt>oscal/SolarisRWLock/SolarisRWLock.html</tt>
+<br>{<small>Notă: Solaris-ul este un sistem de operare din familia UNIX, dezvoltat de firma SUN Microsystems (în prezent de către Oracle)</small>}
+<br><br>
+</li>
+
+<li>Animațiile #4: <b>Simulator grafic pentru IPC și interblocaj</b>
+<br>
+i) Funcționalitatea oferită: Problema producător-consumator rezolvată cu comunicație indirectă.
+<br>
+Calea relativă către applet: <tt>oscal/message/message.html</tt>
+<br>
+Notă: deschideți și într-un browser acest fișier html, pentru a citi explicații suplimentare despre această animație.
+<br>
+ii) Funcționalitatea oferită: Algoritmul bancherului.
+<br>
+Calea relativă către applet: <tt>oscal/Banker/Banker.html</tt>
+<br><br>
+</li>
+
+<li>Animația #5: <b>Simulator grafic pentru algoritmii de înlocuire a paginilor</b>
+<br>
+Funcționalitatea oferită: Algoritmii de înlocuire a paginilor FIFO, LRU, MFU.
+<br>
+Calea relativă către applet: <tt>oscal/PagingApplet.html</tt>
+<br>
+Notă: deschideți și într-un browser acest fișier html, pentru a citi explicații suplimentare despre această animație.
+<br><br>
+</li>
+
+<li>Animația #6: <b>Simulator grafic pentru administrarea discurilor</b>
+<br>
+Funcționalitatea oferită: Algoritmii de planificare a discului FCFS, SSTF, SCAN, C-SCAN, LOOK și C-LOOK.
+<br>
+Calea relativă către applet: <tt>oscal/DiskApplet.html</tt>
+<br>
+<i>Restricții pentru datele de intrare</i>: secvența de cereri să aibă maxim 21 de cilindri, iar cilindrii să fie între 0 și 500.
+<br>
+Notă: deschideți și într-un browser acest fișier html, pentru a citi explicații suplimentare despre această animație.
+<br><br>
+</li>
+
+</ol>
+
+</body>
+</html>

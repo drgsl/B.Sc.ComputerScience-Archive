@@ -1,0 +1,227 @@
+﻿<html>
+<head>
+    <title>Operating Systems course</title>
+    <meta name="description" content="Sisteme de operare - curs - suport electronic">
+    <meta name="keywords"    content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author"      content="Cristian Vidrașcu">
+    <meta name="owner"       content="Cristian Vidrașcu">
+
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma"        content="no-cache">
+    <meta http-equiv="Expires"       content="-1">
+
+    <!-- pentru diacritice -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body bgcolor="#DDDDDD" text="black" link="blue" vlink="blue" alink="blue">
+
+<a name="top">
+
+<!------------------------------------------------------------------------------------->
+
+<p><b>Material didactic:</b></p>
+
+<p>
+Pentru componenta practică a disciplinei SO puteți consulta cartea "<i>Sisteme de operare</i>", manual pentru ID, autor C.Vidrașcu, editura Universității "Alexandru Ioan Cuza", 2006.
+<br>O copie electronică a acestei cărți o puteți găsi <a href="books/ManualID-SO.pdf">aici</a>.
+</p>
+
+<p><u>Bibliografie suplimentară</u>:
+<br>
+<ul>
+  <li>Pentru prima parte, <b>Ghid de utilizare Linux :</b> &nbsp;
+	a se consulta <a target="_blank" href="http://www.gnu.org/software/bash/manual/bashref.html">manualul de referință</a> pentru interpretorul bash.
+	Două tutoriale despre bash, recomandate oficial de Proiectul "<a target="_blank" href="http://tldp.org/guides.html">Linux Documentation Project Guides</a>",
+	puteți găsi <a target="_blank" href="http://tldp.org/LDP/Bash-Beginners-Guide/html/index.html">aici</a> + 
+	<a target="_blank" href="http://tldp.org/LDP/abs/html/">aici</a>.
+    Alte tutoriale despre bash puteți găsi
+	<a target="_blank" href="http://www.ss64.com/bash/">aici</a> ,
+	<a target="_blank" href="http://www.arachnoid.com/linux/shell_programming.html">aici</a> și
+	<a target="_blank" href="http://www.panix.com/~elflord/unix/bash-tute.html">aici</a> .
+	Un ghid ce descrie toate comenzile de bază din Linux puteți consulta
+	<a target="_blank" href="http://tldp.org/LDP/GNU-Linux-Tools-Summary/html/index.html">aici</a>.
+	Consultați și depozitul de cărți amintit la <a href="index_bib.html">bibliografie</a>.
+	<br><br>
+  </li>
+  <li>Pentru a doua parte, <b>Programare concurentă în C sub Linux :</b> &nbsp;
+    a se citi cartea "<i>Advanced Programming in the UNIX Environments</i>", autori W. Richard Stevens, Stephen A. Rago, editura Addison-Wesley Professional, 2013.
+	Consultați și depozitul de cărți amintit la <a href="index_bib.html">bibliografie</a>.
+	<br><br>
+  </li>
+  <li>Pentru ambele părți, recomand bibliografia oficială, i.e. Proiectul "<a target="_blank" href="https://www.kernel.org/doc/man-pages/">The Linux man-pages</a>",
+	ce oferă inclusiv o interfață web navigabilă pentru conținutul paginilor de manual pentru Linux, disponibilă
+	<a target="_blank" href="http://man7.org/linux/man-pages/index.html">aici</a>.
+	Un site alternativ este cel de <a target="_blank" href="https://linux.die.net/man/">aici</a>
+	(<small>însă acesta nu a mai fost actualizat la zi, precum cel oficial</small>).
+  </li>
+</ul>
+</p>
+
+<!--
+<p><i>Observație</i>:
+limbajul de programare C este un subset al limbajului C++ : pe scurt, lipsesc din el clasele (și toate conceptele legate de clase),
+stream-urile (cin, cout, etc.) {lucrăm în schimb cu biblioteca stdio.h: scanf, printf, etc.}, operatorii new și delete {lucrăm în schimb cu malloc și free}.
+<br>
+Spre deosebire de bash, care este un <u>limbaj interpretat</u>, limbajele C și C++ sunt <u>limbaje compilate</u>,
+i.e. fluxul de lucru cu un program C/C++ este format din următorii 3 pași:
+	1) editarea fișierului sursă în care scriem programul C/C++ respectiv;
+    2) compilarea fișierului sursă C/C++ pentru a obține programul executabil;
+    3) execuția programului executabil.
+</p>
+-->
+
+
+<p><hr size="3" width="95%" noshade></p>
+<!------------------------------------------------------------------------------------->
+
+<p><b>Laboratoare:</b></p>
+
+<p><i>Observație</i>: link-urile către laboratoarele individuale din tabelul de mai jos vor deveni disponibile pe parcursul semestrului...</p>
+
+<p align="center">
+<table border="1" cellpadding="5">
+<tr>
+  <th>Săpt.</th><th>Curs practic</th><th>Prezentare PPT</th><th>Exerciții de laborator</th>
+</tr>
+<tr>
+  <td align="center">1</td>
+  <td rowspan="2">- Introducere în UNIX/Linux<br>- Comenzi de bază. Sistemul de fișiere</td>
+  <td rowspan="2"><a target="_blank" href="cursuri/P1a_intro.pdf">P1a_intro</a><br><a target="_blank" href="cursuri/P1b_command+filesys.pdf">P1b_command+filesys</a></td>
+  <td><a href="labs/lab1.html">Lab 1</a></td>
+</tr>
+<tr>
+  <td align="center">2</td>
+  <!--td>- Comenzi de bază. Sistemul de fișiere</td-->
+  <!--td><a target="_blank" href="cursuri/P1b_command+filesys.pdf">P1b_command+filesys</a></td-->
+  <td><a href="labs/lab2.html">Lab 2</a></td>
+</tr>
+<tr>
+  <td align="center">3</td>
+  <td rowspan="3">- Interpretoare de comenzi (partea I-a)
+	<br>- Interpretoare de comenzi (partea a II-a)
+  </td>
+  <td rowspan="3"><a target="_blank" href="cursuri/P2_shell.pdf">P2_shell</a><br><a target="_blank" href="cursuri/P3_shellprg.pdf">P3_shellprg</a></td>
+  <td><a href="labs/lab3.html">Lab 3</a></td>
+</tr>
+<tr>
+  <td align="center">4</td>
+  <!--td>- Interpretoare de comenzi (partea I-a)<br>- Interpretoare de comenzi (partea a II-a)</td-->
+  <!--td><a href="cursuri/P2_shell.pdf">P2_shell</a><br><a href="cursuri/P3_shellprg.pdf">P3_shellprg</a></td-->
+  <td><a href="labs/lab4.html">Lab 4</a></td>
+</tr>
+<tr>
+  <td align="center">5</td>
+  <!--td>- Interpretoare de comenzi (partea I-a)<br>- Interpretoare de comenzi (partea a II-a)</td-->
+  <!--td><a href="cursuri/P2_shell.pdf">P2_shell</a><br><a href="cursuri/P3_shellprg.pdf">P3_shellprg</a></td-->
+  <td><a href="labs/lab5.html">Lab 5</a></td>
+</tr>
+<tr>
+  <td align="center">6</td>
+  <td>- Programare: lucrul cu fișiere, folosind API-ul POSIX
+	<br> &nbsp; și biblioteca Standard I/O din C
+  </td>
+  <td><a target="_blank" href="cursuri/P4_file_web-ro.pdf">P4_file</a>{<a target="_blank" href="cursuri/P4_file_print-ro.pdf">handout</a>}</td>
+  <td><a href="labs/lab6.html">Lab 6</a></td>
+</tr>
+<tr>
+  <td align="center">7</td>
+  <td>- Programare: acces exclusiv folosind blocaje pe fișiere</td>
+  <td><a target="_blank" href="cursuri/P5_lock.pdf">P5_lock</a></td>
+  <td><a href="labs/lab7.html">Lab 7</a></td>
+</tr>
+<!--tr>
+  <td align="center">7</td>
+  <td colspan="3" align="center"><del>Primul test practic</del> ???</td>
+</tr>
+<tr>
+  <td align="center">8</td>
+  <td colspan="3" align="center" bgcolor="#AAAAAA"><del>Săptămâna de examene parțiale (la alte discipline)</del> ???</td>
+</tr-->
+<tr>
+  <td align="center">8</td>
+  <td>- Programare: lucrul cu fișiere mapate în memorie</td>
+  <td><!--a target="_blank" href="cursuri/P14_mmap.pdf">P14_mmap</a--></td>
+  <td><a href="labs/lab8.html">Lab 8</a></td>
+</tr>
+<tr>
+  <td align="center">9</td>
+  <td>- Programare: lucrul cu mai multe procese secvențiale (I): fork și wait</td>
+  <td><a target="_blank" href="cursuri/P6_fork+wait.pdf">P6_fork+wait</a></td>
+  <td><a href="labs/lab9.html">Lab 9</a></td>
+</tr>
+<tr>
+  <td align="center" colspan="4" bgcolor="#AAAAAA">Vacanța de Paști (săptămâna 20-26 aprilie 2020)</td>
+</tr>
+
+<tr>
+  <td align="center">10</td>
+  <td>- Programare: lucrul cu mai multe procese secvențiale (II): exec</td>
+  <td><a target="_blank" href="cursuri/P7_exec_web-ro.pdf">P7_exec</a>{<a target="_blank" href="cursuri/P7_exec_print-ro.pdf">handout</a>}</td>
+  <td><a href="labs/lab10.html">Lab 10</a></td>
+</tr>
+<tr>
+  <td align="center">11</td>
+  <td>- Programare: IPC -- comunicații prin canale anonime și canale fifo</td>
+  <td><a target="_blank" href="cursuri/P9_pipe+fifo_web-ro.pdf">P9_pipe+fifo</a>{<a target="_blank" href="cursuri/P9_pipe+fifo_print-ro.pdf">handout</a>}</td>
+  <td><a href="labs/lab11.html">Lab 11</a></td>
+</tr>
+<tr>
+  <td rowspan="2" align="center">12</td>
+  <td>- Programare: semnale, pentru programare asincronă și tratarea excepțiilor<br>- Programare: UI în mod text, folosind biblioteca ncurses</td>
+  <td>(*) <a target="_blank" href="cursuri/P10_signal.pdf">P10_signal</a><br>(*) <a target="_blank" href="cursuri/P11_ncurses.pdf">P11_ncurses</a></td>
+  <td>(*) <a href="labs/lab12.html">Lab 12</a></td>
+</tr>
+</tr>
+<tr>
+  <!--td align="center">12</td-->
+  <td>Evaluarea materiei despre comenzi și scripting bash</td>
+  <td rowspan="2" colspan="2"><a href="news/pinned-msg_evaluare.html">Probele de evaluare</a></td>
+</tr>
+<tr>
+  <td align="center">13-14</td>
+  <td>Evaluarea materiei despre programare de sistem în Linux</td>  
+</tr>
+<!--tr>
+  <td rowspan="2" align="center">14</td>
+  <td colspan="3" align="center"><del>Al doilea test practic</del> ???</td>
+</tr-->
+<tr>
+  <td align="center">15-16</td>
+  <td align="center" colspan="3" bgcolor="#AAAAAA">Sesiunea normală de evaluare <!--(trei săptămâni, include și vechea săptămână a 8-a de examene parțiale)--></td>
+</tr>
+</table>
+(*) <small><i>Notă</i>: prezentările marcate cu asterisc tratează subiecte suplimentare, pe care le puteți aprofunda după dorință, în vacanța de vară...</small>
+</p>
+
+
+<p>
+<b>Observație:</b> prezentările în format PDF cu lecțiile de programare din tabelul de mai sus conțin hiper-legături <tt>http</tt> către fișierele sursă C cu
+  exemplele de programe demonstrative ilustrate la cursuri.
+  <br>
+  Programul Acrobat Reader recunoaște aceste hiper-legături; este suficient să dați click pe aceste hiper-legături și veți putea salva local (sau deschide într-un editor) fișierele respective.
+  Dacă lucrați sub Ubuntu (sau orice altă distribuție de Linux), programul instalat implicit pentru vizualizarea fișierelor PDF nu este Acrobat Reader
+  (deoarece nu este <i>open-source</i>), ci programul Evince, sau pot exista alte programe instalate implicit pentru a vizualiza documente PDF.
+  Programul Evince recunoaște și el aceste hiper-legături, dar numai dacă nu sunteți în modul de prezentare <i>full-screen</i>.
+  <br>
+  Atât sub Windows, cât și sub distribuția de Linux pe care o folosiți, s-ar putea să aveți însă configurat un alt program pentru vizualizat documente PDF,
+  și nu este exclusă posibilitatea ca acel program să nu știe să recunoască hiper-legăturile <tt>http</tt>.
+  Soluția în acest caz este următoarea: luați de pe ultimul slide al fiecărei prezentări, cu <i>copy-paste</i>, adresa <tt>http</tt> a directorului specificat,
+  ce conține toate programele demonstrative din acea lecție, și introduceți-o în navigatorul de Internet pe care-l folosiți în mod uzual.
+</p>
+
+
+<br><br>
+<p><hr size="3" width="95%" noshade></p>
+<!------------------------------------------------------------------------------------->
+
+<center>
+<table border="0" cellpadding="3" width="95%">
+<tr><td align="center" valign="center">
+<button name="lastUpdButton" onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);">Last Update</button>
+</td></tr>
+</table>
+</center>
+
+</body>
+</html>

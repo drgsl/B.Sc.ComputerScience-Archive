@@ -1,0 +1,336 @@
+<html>
+<head>
+    <title>Operating Systems course</title>
+    <meta name="description" content="Sisteme de operare - curs - suport electronic">
+    <meta name="keywords"    content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author"      content="Cristian Vidrașcu">
+    <meta name="owner"       content="Cristian Vidrașcu">
+
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma"        content="no-cache">
+    <meta http-equiv="Expires"       content="-1">
+
+    <!-- pentru diacritice -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body bgcolor="#DDDDDD" text="black" link="blue" vlink="blue" alink="blue">
+
+<!------------------------------------------------------------------------------------->
+<!-- pinned page with messages -->
+
+<h4>Informații pe scurt, în format <i>pinned</i> (rezumate extrase din anunțurile detaliate din această pagină) :</h4>
+
+<pre>
+Total max laborator:
+4p(TP1a) + 5p(Bonus1) + 5p(Bonus2a) + 5p(Bonus2b) = 19p
+testul TP1b: 21p
+testul TP2: 26p
+=> total lab maximul posibil: 19+21+26 = 66p
+Condiția de promovare a laboratorului: punctajul dvs. de laborator să fie minim 1/3 din maximul posibil: 1/3 * 66 = 22p
+<!--
+Examen teorie: max 31p  => Total disciplina: maxim 97p (notă: nu-i chiar 100, dar e pe aproape...)
+-->
+</pre>
+
+
+<h3>Anunțuri referitoare la probele de evaluare la disciplina SO în noul context pandemic, afișate în ordinea cronologică a publicării lor:</h3>
+
+<font color="#0000A0">
+<ul>
+
+<li>
+  [23.V] <big>Precizări despre al doilea test online</big> [text ce sintetizează și informații comunicate anterior, pe diverse canale de comunicație] :
+  <br>
+  Ziua și ora celui de-al doilea test online: miercuri 27.05, de la ora 16.
+  Formatul de examinare: similar ca la primul test -- toti studentii de la toate grupele simultan intr-o singura serie, pe GoogleForms si pe Discord (pe canalul vocal al profesorului de laborator al fiecăruia), deci fara supraveghere prin Zoom si cate 2 serii/pe laborator, la ore diferite (precum la POO).
+  <br>
+  <b>Modalitatea de examinare</b>: vor fi doua feluri de teste, iar fiecare dintre dvs. va putea să-și aleagă după preferințele personale unul dintre ele:
+  </br></br>
+  <ul>
+  <li>Un <b>test de programare</b>, ce va consta în scrierea unui program (modularizat) care să acopere majoritatea conceptelor de bază.
+    Va fi punctat cu maxim 25p, pe baza unui barem precis (similar pentru toate variantele de enunțuri), barem pe care îl puteți consulta în link-ul de mai jos.
+    Și va avea o durată mai mare decât celălalt fel de test; mai precis, durata va fi de 70 de minute.
+    Acest test este gândit pentru studenții care urmăresc să obțină la final note bune la această disciplină, pe baza cunoștințelor și deprinderilor acumulate
+	la această disciplină, utile pentru pregătirea lor ulterioară ca programatori.
+    </br>Mai multe detalii despre acest test puteți citi <a href="info_test_programare.txt">aici</a>.
+  </br></br>
+  </li>
+  <li>Un <b>test grilă</b>, ce va consta într-un formular cu diverse întrebări (teoretice și aplicative) din materia practică despre
+    programare de sistem în C sub Linux, dar fără cerința de a scrie un întreg program, pe baza unor specificații date.
+    Va fi punctat cu maxim 15p și va avea o durată de 35 de minute.
+	Acest test este gândit doar ca o alternativă pentru studenții care urmăresc doar să obțină la final o notă de trecere la această disciplină, nu reprezintă
+	o evaluare obiectivă a capacității dvs. de a aplica în practică, i.e. în dezvoltarea de aplicații, a cunoștințelor acumulate la această disciplină.
+    </br>Mai multe detalii despre acest test: toate precizările făcute mai jos, în anunțurile din [14.V] și [16.V] referitoare la primul test,
+	rămân valabile și pentru acest test grilă, cu următoarele amendamente (diferențe):
+	<br>i) <u>Procentajul de întrebări mai simple va fi mai mare, și vor fi evidențiate mai clar</u>: vor fi doar două pagini în formular,
+	una cu întrebări mai simple (ce necesită puțin timp de gândire și/sau de revizitat documentația), care va "acoperi" 2/3 din punctajul testului grilă,
+	și una cu întrebări mai puțin simple (ce necesită ceva mai mult timp de gândire și/sau de revizitat documentația), care va "acoperi" cealaltă 1/3 din punctajul testului grilă.
+	<br>ii) <u>Durata de test am calculat-o să fie mai "îndestulătoare" decât la primul test</u>, dar păstrând totuși constrângerile amintite în precizările făcute la primul test (e.g., nu veti avea timp suficient la dispozitie ca sa rezolvati chiar TOATE intrebarile căutând răspunsurile prin carti/documentatii, trebuie sa va bazati si pe cunostinte asimilate anterior, etc., etc. -- revedeți precizările de la primul test).
+	<br>iii) Valoarea "punctului relativ" din formular este o fracție mult mai simplă: 15/30 = 1/2, deci 1 pct.relativ valorează 0.5 pct.normale, în punctajul final de la laborator. Cu alte cuvinte, scorul brut pe care-l veti obține pe baza "punctajelor relative" din formularul acestui test grilă, reprezentând un număr întreg cuprins în intervalul [0,30], va fi translatat în scala punctajelor pentru această probă de evalaure, i.e. intervalul [1,26], după formula de translatare: punctaj = 1 + scor * 1/2.
+	<br>iv) Observație: nu am găsit o posibilitate tehnică să vă afișăm un timer; putem doar să vă avertizăm din când în când cât timp a mai rămas,
+	însă dvs. sunteți direct răspunzători să vă gestionați timpul avut la dispoziție (similar ca în cazul unui examen offline (!), din vremurile ante-pandemie).
+	Tot similar ca și în cazul unui examen offline, dvs. sunteți responsabili să "întoarceți pagina și pe verso", pentru a vedea/citi toate întrebările și a decide în ce ordine doriți să le abordați.
+  </li>
+  </ul>
+  <br>
+  O precizare despre datele personale (și întrebării de tip CAPTCHA), legată și de unele mesaje primite după primul test:
+  <u>DA, este important să introduceți datele corect și să răspundeți corect la acea întrebare !!</u>
+  <br>La primul test am tolerat "greșelile", involuntare sau poate voite (?), pe care unii dintre dvs. le-au făcut,
+  dar începând cu al doilea test de laborator, și apoi și la examenele de curs, vă avertizez că NU voi mai tolera așa ceva (i.e.,
+  voi anula "teza" respectivă cu astfel de greșeli!).
+  <u>Este sarcina dvs. să vă asigurați că nu greșiți introducerea lor corectă (din neatenție/stres sau alte motive),
+  acum că v-am și avertizat în privința importanței corectitudinii datelor și răspunsului</u>.
+  </br></br>
+</li>
+
+
+<li>
+  [21.V] <font STOP_color="red" size="+1">Proba TP1b</font>:
+  rezultatele la testul de laborator de duminică le puteți vizualiza <a href="../rezultate/TP1b.pdf" target="_top">aici</a>
+  &nbsp; (sortate după numărul matricol).
+  <br>Pe scurt, câteva observații și concluzii:
+  <br>
+  i) Punctajele din tabel sunt deja translatate pe scala globală a disciplinei (i.e., scorul brut obținut pe baza "punctajelor relative" din formular, reprezentând un număr întreg cuprins în intervalul [0,35], a fost translatat în scala punctajelor pentru această probă, i.e. intervalul [1,21], anunțată anterior în pagina de evaluare;
+  formula de translatare: punctaj = 1 + scor * 20/35). 
+  <br>
+  ii) Am atașat la finalul tabelei un grafic cu distribuția punctajelor, care se poate observa că aproximează suficient de bine distribuția gaussiană (i.e.,
+  celebrul "clopot al lui Gauss"). Prin urmare, obiectivul principal al testului a fost atins:
+  o <b>ierarhizare a studenților corectă (i.e., "gaussiană"), în condiții echitabile pentru toți</b> (i.e., toți ați avut șanse egale, din punctul de vedere al
+  gradului de dificultate a subiectelor și al momentului testării -- același pentru toți).
+  <br>
+  iii) Am atașat la final și un grafic cu valorile la feedback-ul din formular. Ele sunt în concordanță cu așteptările noastre vis-a-vis de impresia pe care
+  o veți avea despre test, întrucât testul a fost gândit să asigure și alte obiective importante (asigurarea identitatii studentului testat,
+  cu o eroare cât mai mică; asigurarea unui număr cât mai mic posibil de fraudări ale examenului; ș.a.),
+  pe lângă obiectivul principal amintit mai sus (realizarea unei ierarhizări "gaussiene" a studenților).
+  Iar una dintre modalitățile pentru a asigura îndeplinirea acestor obiective a fost alegerea unei valori adecvate pentru durata testului,
+  care să asigure un compromis rezonabil între două obiective antagonice:
+  un procentaj cât mai mare de studenți care să poate finaliza testul (ceea ce presupune o durată cât mai mare)
+  versus un număr cât mai mic de posibile tentative de copiat (ceea ce presupune o durată cât mai mică).
+  <br>
+  Din aceste motive, testul a fost gândit nu ca dvs. să-l terminați neapărat, ci să faceți cât mai mult din el pentru a vă asigura un punctaj cât mai mare față de cei care pierd timpul pentru a copia.
+  Faptul că nu l-ați terminat, nu are un impact semnificativ prin prisma notei finale, pentru că nu este o evaluare absolută, ci relativă (i.e., o ierarhizare "gaussiană"),
+  precum v-am mai explicat anterior (<small>doar celor care au răbdare să citească "compunerile" mele...</small>),
+  iar, pe de altă parte, nu ar fi fost corect pentru niciunul dintre dvs. să alegem o valoare prea mare pentru durata testului și să lăsăm astfel posibilitatea unora să o folosească pentru a obține punctaje mari prin copiat.
+  Am încercat să mitigăm aceste aspecte prin durata scurtă + test cu multe întrebări, și poate această variantă de testare nu e cea mai bună soluție (însă o soluție perfectă nu există în contextul actual), dar a oferit totuși atingerea obiectivelor urmărite (în primul rând, distribuția corectă a punctajelor,
+  plus celelalte obiective amintite mai sus).
+  <br><br>
+  [L.E.] Precizare suplimentară, referitoare la întrebările din test ce aveau ca tip de răspuns "text liber de introdus":
+  <br>
+  Subiectul ce presupunea scrierea unei comenzi inlantuite, precum si cele ce presupuneau scrierea unei comenzi find,
+  au fost corectate automat si nu au fost acordate punctaje partiale.
+  Corectarea a fost facuta extrăgând comanda respectivă din formular și executând-o pe un server Linux, comparând output-ul obținut cu cel așteptat conform cerinței din enunțul subiectului respectiv. Așadar, scrierea parțială a comenzii, sau nerespectarea întocmai a cerinței din enunț (de exemplu, afișarea
+  mai multor câmpuri din fișierul /etc/passwd deși cerința specifica afișarea doar a exact două dintre ele) a condus la acordarea de 0 puncte la subiect respectiv.
+  Eventualele cereri individuale de recorectare vor fi recorectate în aceeași manieră, deci vor produce același punctaj!
+  <br>
+  [L.E.2] Durata aproximată pentru test (în conformitate cu cele spuse mai sus) a luat în calcul completarea tuturor câmpurilor
+  din formular (deci inclusiv completarea câmpurilor cu date personale, citirea cu atentie și asumarea declarației, etc.),
+  și nu doar întrebările evaluative (adică, la fel ca în cazul unui examen offline (!), unde nu vi se dă un timp suplimentar pentru
+  a vă semna pe fiecare foaie...).
+  <br>
+  [L.E.3] V-am anunțat dinaintea testului că veți avea posibilitatea de a naviga înainte/înapoi prin paginile formularului.
+  Însă, similar ca și în cazul unui examen offline, dvs. sunteți responsabili să "întoarceți pagina și pe verso",
+  pentru a vedea/citi toate întrebările și a decide în ce ordine doriți să le abordați.
+  Nu trebuia să vă așteptați să vi se indice explicit pe care pagină sunt întrebările mai dificile.
+  <br><br>
+</li> 
+
+<li>
+  [16.V] Alte câteva precizări suplimentare, despre primul test online:
+  <br>Mâine voi publica aici linkul de acces la formularul GoogleForms pentru test, dar va fi inactiv până la ora exactă de început.
+  La ora 12 să intrați fiecare pe canalele Discord ale profesorului de laborator al fiecăruia, care vă va da ultimele indicații, iar apoi,
+  cand ne asigurăm ca sunteti toti pregatiti, voi activa formularul si va voi transmite ora exactă din acel moment, prin intermediul colegilor mei,
+  pe canalele Discord. Sa va sincronizati ceasurile locale de pe laptopul propriu cu "ora de început" comunicată de noi.
+  (<small>Durata testului o voi decide mâine dimineată, împreună cu colegii mei, după ce facem niște simulări;
+  abia în această seară am terminat de elaborat subiectele si nu am mai reusit sa facem si simularile...</small>)
+  <br><br>
+  Precum spuneam si mai jos, formularul este structurat in mai multe pagini, intre care puteti naviga înainte și înapoi.
+  Pagina de inceput e pentru introducerea datelor personale (acestea sunt intrebari cu raspunsuri obligatorii).
+  Întrebarile efective pentru evaluarea dvs. sunt grupate in 4 pagini, si raspunsurile nu sunt obligatorii,
+  adica puteti naviga intr-o alta pagina (anterioară sau posterioară celei curente)
+  si puteti apasa butonul de submit, chiar daca nu ati raspuns la unele intrebari neobligatorii.
+  <br>
+  Butonul de submit se afla pe ultima pagina, impreuna cu o intrebare obligatorie de feedback.
+  Il veti apasa doar la final, dupa ce veți raspunde la toate intrebarile pe care puteți să le rezolvați (puteti submite o singura data formularul!),
+  iar pana la momentul apasarii lui, toata informatia introdusa de dvs. ca și răspunsuri in formular, este stocata doar in memoria browserului dvs., nu pe server (!),
+  așa încât sunteți direct responsabili de păstrarea integrității informației (în acest sens, revedeți ce v-am spus in anunturile de mai jos, pentru a minimiza
+  riscurile de crash / pierdere a raspunsurilor introduse in formular).
+  <br>
+  Întrebările efective din cele 4 pagini, prin care sunteti evaluați la această probă,
+  sunt întrebări cu raspunsuri (toate neobligatorii) de mai multe feluri: de tip test-grilă (cu selecție unică,
+  multiplă sau de tip matricial, dintr-o mulțime predefinită de raspunsuri) si de tip "text liber de introdus". Acestea din urmă trebuie corectate
+  manual de către noi, iar din acest motiv nu puteti primi rezultatele pe loc, la finalul testului, ci le veti primi mai târziu (după ce le corectăm noi).
+  <br>
+  De asemenea, o mică parte dintre aceste întrebări, au configurată validarea răspunsului, acolo unde a fost posibil.
+  Spre exemplu, într-un câmp de tip "text liber de introdus", folosit la o întrebare de genul "Care este comanda care realizează ...(functionalitatea X )... ?",
+  se va valida automat, printr-o expresie regulată, faptul că introduceți doar un singur cuvânt,
+  nu mai multe (caz in care veți fi atenționați pe loc, pentru a vă corecta).
+  <br>
+  Datorită constrângerilor platformei, întrebările efective din cele 4 pagini, au alocate fiecare câte un număr întreg ca și punctaj relativ in formular,
+  totalul adunat fiind de 35 "puncte relative". Acestea le voi transforma in "puncte normale", conform relației 35 "puncte relative" = 20 de "puncte normale"
+  (acel 1p din oficiu se adauga separat, la final), pentru a corespunde cu punctajele asignate fiecărei probe de evaluare, anunțate anterior.
+  <br><br>
+  <b>Avertisment</b>: vă repet ce v-am mai spus și in anunturile anterioare:
+  testul este cu timp limitat, incercati sa economisiti timpul (revedeti ce-am spus mai jos,
+  despre gandirea mintala a rezolvarii) si nu irosiți timpul ca să discutati cu colegii pe diverse canale de comunicatie!
+  Oricum, intrebarile sunt afisate in ordine aleatoare,
+  iar variantele multiple de raspuns la o intrebare sunt de asemenea afisate in ordine aleatoare de la un student la altul.
+  Prin urmare, sa nu va inchipuiti ca puteti sa-ntrebati vreun coleg, pe vreun canal de comunicare gen facebook/etc., intrebari de genul
+  "Care varianta X de răspuns ai ales la intrebarea Y din pagina Z?", caci X, Y și Z vor varia de la un student la altul !!!
+  <br>
+  Adica, sigur, puteti s-o faceti, dar veti irosi foarte mult timp, si astfel va veti plasa, cu probabilitate foarte mare, "la coada ierarhiei" rezultatelor la test.
+  Mai degrabă cei care vor incerca sa rezolve singuri intrebarile, au o probabilitate mai mare de a lua un punctaj mai bun (evident,
+  fiecare după abilitățile/cunoștiințele proprii), macar la intrebarile mai simple, unde citirea unei pagini de man sau gandirea directa a unei comenzi, plus
+  testarea ei eventuala la prompter, vor dura mai putin decât încercarea de a rezolva "ecuația cu trei necunoscute X,Y,Z" pomenită mai sus (!).
+  <br>
+  De asemenea, o avertizare pentru studenții buni: nu vă irosiți timpul (rezolvând aceeași ecuație în necunoscutele X,Y,Z pomenită mai sus)
+  ca să le furnizați răspunsurile colegilor mai slabi care vă vor contacta in timpul testului,
+  căci astfel veți avea mai puțin timp să găsiți/gândiți răspunsurile corecte la cât mai multe dintre întrebările testului, deci veți obține un punctaj mai mic
+  decât v-ar permite potențialul dvs. (i.e., abilitățile și cunoștiințele pe care le aveți) în privința acestei discipline.
+  <br>
+  În concluzie, modul acesta de testare este gândit, după cum am mai spus, pentru o ierarhizare <b>relativă</b> a dvs. (i.e.,
+  <b>sunteți în competiție cu colegii dvs.</b>, pentru a vă situa pe "locurile fruntașe ale podiumului" în condiții de întrecere echitabile pentru toți)
+  și nu o ierahizare <b>absolută</b>. Practic, statistic vorbind, cei care veți irosi timpul încercând să colaborați între voi, vă veți regăsi,
+  cu o probabilitate foarte mare, "la coada clasamentului" și cu șanse mari de a nu îndeplini, la final, punctajul minim pentru promovare.
+  <br><br>
+</li>
+  
+<li>
+  [14.V] Câteva precizări, despre primul test online [text actualizat, pe baza întrebărilor formulate pe Discord]:
+  <br>Veti primi un link catre formularul GoogleForms, înainte de examen, pe care-l veti accesa din browser, si in care veți răspunde la întrebările din chestionarul respectiv.
+  <br>Testul de laborator nu este nici OpenBook, nici ClosedBook, ci o combinatie: Nu vom folosi Zoom si nu avem cum sa verificam 400+ studenti ca nu consulta documentatii,
+  dar aceasta nu inseamna ca veti avea timp suficient la dispozitie ca sa rezolvati TOATE intrebarile uitandu-va prin carti/documentatii,
+  trebuie sa va bazati si pe cunostintele asimilate/repetate anterior.
+  <br>Vom păstra legatura cu voi pe durata testului, pe Discord, pentru situatii de urgenta.
+  <br>Durata aproximativa va fi de 30 de minute (voi reveni cu <b>durata exacta</b>, dupa ce vom finaliza noi pregatirea intrebarilor
+  si vom face si niste simulari sa vedem cam care ar fi timpul necesar).
+  <br>Pentru unele intrebari, puteti accesa si mediul de lucru din Linux (linia de comanda, respectiv documentia man).
+  <b>Va recomand sa folositi, in acest scop, Linuxul local de pe propriul laptop,
+  nu va bazati pe folosirea serverului fenrir (daca veți lucra prea multi pe el, îl veți supra-aglomera și va răspunde greoi la comenzi...)</b>
+  <br><br>
+  Reamintesc și aici, ziua și ora primului test online (conform deciziei voastre) este duminică 17.05, de la ora 12.
+  <br><br>
+  Intrebarile vor fi inclusiv cu text liber de introdus, nu doar gen test grila. Spre exemplu, veti avea si de scris/corectat cod bash,
+  pe care il veti insera intr-un astfel de camp in format 'text liber de introdus' din formular.
+  <br>
+  Intrebarile vor fi afisate, toate de la inceput, in ordine aleatoare, grupate in mai multe pagini, intre care <b>puteti naviga in ambele sensuri,
+  cu butoanele Next / Back ale formularului</b> (nu cele din meniul browser-ului).
+  Deci practic, veti avea posibilitatea sa raspundeti la ele in ce ordine doriti (i.e. puteti incepe cu cele care vi se par mai simple si sa va intoarceti
+  apoi sa raspundeti la cele care vi se par mai complicate).
+  <br>
+  Intrebarile vor fi legate de ce s-a facut la laborator; vor fi si intrebari de natura mai "teoretica" (exemplu:
+  "Care este comanda care realizează ...(functionalitatea X )... ?"), cât și de natura mai "aplicativa" (exemplu:
+  "Apelati comanda find cu parametrii adecvati pentru a obtine ...(rezultatul Y)...").
+  <br><br>
+  <b>Testul va fi cu timp limitat</b>, prin urmare ar trebui sa economisiti timpul avut la dispozitie -- <u>la unele execitii puteti gandi si doar mintal rezolvarea,
+  nu va bazati doar pe faptul ca veti avea timp sa testati toate rezolvarile, la toate exercitiile</u> (!).
+  <br>
+  De asemenea, <u>rezolvarea trebuie sa fie corecta indiferent pe ce calculator va fi rulata</u> (laptop vs server),
+  i.e. să producă outputul corespunzator (descris in enunt) indiferent de sursa (originea) inputului specificat in enunt.
+  Cu alte cuvinte, daca vi se da, spre exemplu, o intrebare formulata in legatura cu fisierul /etc/passwd, solutia trebuie sa fie generala,
+  sa nu depinda strict de continutul particular al fisierului /etc/passwd de pe serverul fenrir.
+  În plus, ținând cont de probabilitatea ca serverul fenrir sa devina supra-aglomerat in timpul testului (deoarece probabil nu toti dintre dvs.
+  imi veti urma sfatul de mai sus, de a lucra pe Linuxul propriu), aveti doua abordari posibile, in cazul exemplificat:
+  fie rezolvati mintal problema (doar stiti deja formatul informatiei din fisierul /etc/passwd de pe server),
+  fie va puteti face o copie locala pe laptop a fisierului de pe server si sa o folositi pentru testarea solutiei,
+  ca sa nu fiți nevoiți neaparat sa-l accesati direct de pe server in timpul examenului.
+  <br><br>
+  <b>Important de reținut</b>: raspunsurile voastre sunt stocate local (in memoria browserului) de catre platforma GoogleForms,
+  pana la momentul apasarii butonului de Submit, aflat pe ultima pagina a formularului.
+  <u>Abia in acel moment (cand veti naviga la ultima pagina a formularului și veti apasa Submit)
+  toate raspunsurile voastre vor fi transmise si salvate pe serverele Google</u>.
+  Ca atare, aveti grija sa nu crash-uiți browserul sau sistemul propriu; pentru a minimiza sansele de crash / pierdere a raspunsurilor introduse in formular,
+  puteti lua o <u>serie de măsuri preventive</u>:
+  i) in browser, pastrati deschise cat mai putine taburi posibil, doar cele strict necesare pentru a rezolva testul (e.g.,
+  inchideti toate taburile cu facebook / instagram / alte canale de comunicare);
+  ii) pe sistemul propriu, pastrati deschise cât mai putine aplicații posibil, doar cele strict necesare pentru a rezolva testul (e.g.,
+  inchideti toate aplicatiile de mesagerie/comunicare cu "prietenii", aplicatii de ascultat muzica, etc.);
+  iii) sa aveti bateria laptopului fully charged la inceputul testului (ca măsura de prevenție, dacă apare vreo pană de curent la domiciliul dvs.);
+  iv) sa aveti bateria telefonului fully charged la inceputul testului si sa fiti pregatiti sa comutati rapid telefonul pe hot-spot, pentru a va reconecta la net
+  (ca măsura de prevenție, în caz ca "pica" routerul internetului prin cablu dacă apare vreo pană de curent la domiciliul dvs., sau din alte motive).
+  <br><br>
+</li>
+
+<li>
+  [10.V] Mai multe anunțuri:
+<br><br>
+  <big>Despre ponderile celor trei probe de evaluare în nota finală și conditiile de promovare</big>:
+  după cum știți deja, datorită condițiilor actuale, felul probelor de evaluare și ponderile lor anunțate la începutul semestrului nu mai sunt valabile;
+  am decis să le ajustez după cum urmează:
+  <br>
+  Proba din săptămâna a 12-a, de evaluare a materiei practice din prima parte a semestrului,
+  se va face printr-un test online și va avea ponderea de 21p (din care 1p se va acorda din oficiu, pentru participarea la test).
+  Legat de ziua în care se va da acest test, aștept un răspuns de la șefii grupelor de anul 1 (care probabil deja v-au contactat ître timp, legat de acest subiect).
+  <br>
+  Proba din săptămânile 13-14, de evaluare a materiei practice din a doua parte a semestrului,
+  se va face printr-un test online și va avea ponderea de 26p (din care 1p se va acorda din oficiu, pentru participarea la test).
+  Mai multe detalii despre acest test vă voi comunica ulterior.
+  <br>
+  Proba din săptămânile 15-16, de evaluare a materiei teoretice (i.e., examenul de curs),
+  se va face printr-un test online și va avea ponderea de 31p (din care 1p se va acorda din oficiu, pentru participarea la test).
+  <b>Toți studenții</b> (care promovează laboratorul) vor susține această probă. Mai multe detalii despre acest test vă voi comunica ulterior.  
+  <br><br>
+  La probele de mai sus, se mai adaugă probele deja desfășurate:
+  proba TP1a (de testare a abilității dvs. de a vă instala sistemul de operare Linux pe laptopul/calculatorul personal) cu ponderea de 4p,
+  proba 'bonusul opțional Ex1' (acordat pentru activitatea pe care ați desfășurat-o la laboratoarele din primele 5 săptămâni) cu ponderea de 5p,
+  și proba 'bonusul opțional Ex2a' (acordat pentru activitatea pe care ați desfășurat-o la primele 4 laboratoare din partea de programare a materiei practice, dinaintea vacanței de Paști) cu ponderea de 5p.
+  <br>
+  Plus, pe 13.IV anunțasem și 'bonusul opțional Ex2b' de maxim 5p pentru activitatea pe care urma să o desfășurați la ultimele 4 laboratoare din partea de programare a materiei practice, cele de după vacanța de Paști.
+  Între timp, programul s-a schimbat, și din 4 laboratoare am mai făcut doar 2. Ca urmare, am decis să micșorăm acest bonus -- vă vom calcula un bonus de maxim <del>3p</del> 4p
+  pentru activitatea pe care ați desfășurat-o la ultimele 2 laboratoare de programare, cele de după vacanța de Paști.
+  Totuși, vă voi oferi șansa să puteți câștiga și cele 2p diferență, prin realizarea unei teme suplimentare în săptămâna a 13-a; voi reveni cu detalii în acest sens
+  ulterior, după primul test online.
+  [L.E.] Am revenit cu detalii: citiți cu atenție informarea din acest <a href="msg1.txt">mesaj</a> despre 'bonusul 2b', transmis șefilor de grupă de la anul 1.
+  <br><br>
+  <b>Punctajul de laborator</b>: se va obține prin însumarea punctajelor de la toate probele practice amintite mai sus (i.e.,
+  cu excepția probei de evaluare a materiei teoretice).
+  <br>
+  <b>Condiția de promovare a laboratorului</b>: punctajul dvs. de laborator să fie minim 1/3 din maximul posibil (i.e.,
+  suma ponderilor tuturor probelor practice  amintite mai sus). Adică aceeași condiție (sub formă de raport) precum cea anunțată la începutul semestrului.
+  <br>
+  <!--(P.S. pentru restanțieri: în cazul acelora dintre dvs. cu care am discutat la începutul semestrului despre echivalarea laboratorului promovat anul trecut,
+  rămâne valabil ceea ce am discutat. -->
+  <br>
+  <b>Punctajul de curs</b>: va fi cel obținut la proba de evaluare a materiei teoretice amintită mai sus.
+  <br>
+  <b>Condiția de promovare a cursului</b>: punctajul dvs. de curs să fie minim 11 din maximul posibil, 31p, anunțat mai sus (i.e.,
+  deci tot raportul 1/3, dacă ignorați acel 1p din oficiu).
+  <br><br>  
+  Pentru <b>promovarea disciplinei SO</b>: trebuie să promovați laboratorul și cursul.
+  Punctajul final îl veți obține prin însumarea punctajului de laborator și a punctajului de curs.
+  Apoi se aplică "curba lui Gauss" pe ierarhia punctajelor finale ale celor promovați, conform celor anunțate la începutul semestrului, în prezentarea disciplinei.
+  <br><br>
+  În concluzie, ca și până acum (i.e., înainte de pandemie), punctajele au un caracter <b>relativ</b> (i.e.,
+  <b>sunteți în competiție cu colegii dvs.</b>, pentru a vă situa pe "locurile fruntașe ale podiumului" în condiții de întrecere echitabile pentru toți)
+  și nu un caracter <b>absolut</b> (precum se făcea evaluarea înainte de trecerea la învățământul după sistemul Bologna).
+  <br><br>
+  P.S. Voi reveni curând cu informații suplimentare despre testul online de evaluare a materiei practice din prima parte a semestrului. Aștept vești de la șefii dvs. de grupe.
+  <br><br>
+</li>
+
+<li>
+  [8.V] - Anunțuri publicate mai întâi, parțial, pe Discord și apoi în tabelul din pagina laboratoarelor: 
+  <br>În săptămâna 12 vom evalua materia practică din prima parte a semestrului (i.e., comenzi și scripturi bash).
+  <br>În săptămânile 13-14 vom evalua materia practică din a doua parte a semestrului (i.e., partea de programare de sistem în C pe platforma Linux).
+  <br>În săptămânile 15-16 voi evalua materia teoretică (i.e., examenul de curs).
+  <br><br>
+  Fiecare dintre dvs. are propriul ritm de lucru, prin urmare vă recomand să <b>utilizați în mod eficient timpul liber pe care îl aveți</b>,
+  începând, încă de pe acum, să recapitulați materiile respective, în ritmul propriu specific fiecăruia.
+  <br><br>
+</li>
+
+<li>
+  [4.V] - <font STOP_color="red" size="+1">Despre evaluare</font>:
+  începând de săptămâna viitoare (a 12-a), nu vom mai face lecții noi, ci vom începe partea de evaluare.
+  Forma exactă de evaluare o voi decide împreună cu colegii mei și vă voi comunica-o ulterior, la finalul acestei săptămâni.
+  <br>Până atunci însă, vă recomand să <b>utilizați în mod eficient timpul liber pe care îl aveți,
+  recapitulând, pe parcursul acestei săptămâni, în special materia practică din prima parte a semestrului (i.e., comenzi și scripturi bash)</b>,
+  ca să vi-o reamintiți, căci a trecut destul de mult timp de atunci.
+  <br><br>
+</li>
+
+</ul>
+</font>
+
+</body>
+</html>

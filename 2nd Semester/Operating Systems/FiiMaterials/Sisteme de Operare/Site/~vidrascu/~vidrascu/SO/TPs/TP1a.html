@@ -1,0 +1,106 @@
+﻿<html>
+
+<head>
+<title>Proba practică #1A : prima componentă a probei de evaluare pe parcurs TP1</title>
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma"        content="no-cache">
+    <meta http-equiv="Expires"       content="-1">
+
+    <!-- pentru diacritice -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<h2><font color="blue">Proba de evaluare pe parcurs TP1 - prima componentă a acesteia, TP1a:</font></h2>
+
+
+<big>
+<p>
+Scopul acestei componente este de acela de a evalua <u>abilitatea dvs. de a vă instala sistemul de operare Linux pe laptopul/calculatorul personal</u>,
+urmând indicațiile din documentul indicat la curs, intitulat 'Instrucțiuni pentru instalare Linux', pe care îl găsiți în pagina cursurilor la coloana cu suplimente,
+document ce prezintă într-o manieră detaliată secvența de pași de urmat pentru a vă instala Linuxul pe calculatorul personal, în mod dual-boot cu Windows.
+<br>
+Cu alte cuvinte, această probă NU evaluează faptul că aveți un laptop/calculator personal pe care l-ati achiziționat, posibil, cu Linux preinstalat pe el,
+ci evaluează efortul depus de dvs. de a executa procedura de instalare a unei distribuții de Linux, măcar o dată.
+</p>
+
+<p>
+<i>Observație</i>: această probă practică are un caracter <i>offline</i>, în sensul că instalarea propriu-zisă o veți realiza fiecare individual în timpul liber, "acasă", și nu în timpul laboratoarelor.
+Iar la laboratoarele din săptămâna a 4-a vom evalua, practic, rezultatul obținut și nu executarea efectivă a procedurii de instalare.
+</p>
+
+<pre>
+Baremul de evaluare - maxim 4p, după cum urmează:
+--------------------------------------------------------------------------------------------------------------------------------------------------
+i) Pentru o distribuție de Linux pe care o instalați pe laptopul/calculatorul personal, direct pe hardware (i.e. în mod dual-boot) : 4p
+ii) Pentru o distribuție de Linux pe care o instalați pe laptopul/calculatorul personal în manieră virtualizată (i.e. într-o mașină virtuală) : 3p
+iii) Pentru instalarea, în Windows 10, a subsistemului WSL (Windows Subsystem for Linux): 0p
+iv) Rularea unei distribuții live de Linux, indiferent de tipul suportului de stocare pe care este stocată: 0p
+--------------------------------------------------------------------------------------------------------------------------------------------------
+</pre>
+
+<p>
+<i>Notă</i>: pentru fiecare săptâmână de întârziere, după laboratoarele din săptămâna a 4-a, în prezentarea Linuxului pe care îl veți instala pe laptopul/calculatorul personal,
+punctajul primit va fi diminuat cu câte 50% din punctajul maxim amintit mai sus, la cazurile i) și ii).
+</p>
+
+<p><u>Explicații suplimentare la pct. i)</u>
+<ul>
+<li>Dacă, în loc de Windows, pe laptopul/calculatorul personal aveți deja pre-instalat SO-ul macOS, tot va trebui să instalați o distribuție de Linux în mod dual-boot pentru a primi cele 4p.
+Procedura de instalare în acest caz este similară cu cea descrisă în documentul indicat, doar că va trebui să o adaptați în mod corespunzător, i.e. să utilizați uneltele disponibile
+în macOS în loc de cele din Windows, pentru diversele operațiuni descrise în procedura din document.</li>
+<li>Dacă, în loc de Windows, pe laptopul/calculatorul personal aveți deja pre-instalată o distribuție de Linux, tot va trebui să instalați o <b>altă distribuție</b> de Linux în mod dual-boot
+pentru a primi cele 4p. În acest caz, vă recomand să alegeți fie Linux Mint, fie Ubuntu, drept a doua distribuție, astfel încât să nu coincidă cu cea pre-instalată.</li>
+<li>Dacă laptopul/calculatorul personal l-ați achiziționat fără sistem de operare pre-instalat și la momentul achiziției ați optat să vă instalați singuri pe el Linux în loc de Windows,
+atunci, NUMAI în situația că nu puteți demonstra (pe baza informațiilor din actele de achiziție) că acel laptop/calculator nu v-a fost vândut cu Linux deja pre-instalat pe el,
+va trebui să mai instalați o <b>altă distribuție</b> de Linux în mod dual-boot pentru a primi cele 4p.
+Și în acest caz, ca și mai sus, vă recomand să alegeți fie Linux Mint, fie Ubuntu, drept a doua distribuție, astfel încât să nu coincidă cu cea pre-instalată.</li>
+</ul>
+<i>Observație</i>: în toate situațiile descrise mai sus, este necesar să eliberați suficient spațiu pe discul intern (urmând pocedura descrisă în documentul indicat),
+pentru a face loc pentru distribuția de Linux pe care o veți instala. În cazul, puțin probabil, că nu puteți sub nicio formă elibera suficient spațiu pe discul intern,
+puteți încerca să suplimentați spațiul de stocare instalat adăugând un card de memorie flash (de dimensiune suficientă) sau un disc extern, și să instalați distribuția de Linux pe acesta din urmă.
+(<i>Notă</i>: SO-ul Linux nu are restricția de a putea fi instalat numai pe discul intern, și numai pe o partiție primară a acestuia, precum este cazul Windows-ului!)
+</p>
+
+<p><u>Explicații suplimentare la pct. ii)</u>
+<br>Dacă veți folosi un mediu de virtualizare (e.g. VirtualBox, WMware, HyperV, etc.) pentru a instala o distribuție de Linux pe orice SO <i>host</i> posibil
+preinstalat (Windows/macOS/Linux) pe calculatorul personal, atunci procedura de instalare se va simplifica considerabil,
+NU veți mai depune efortul de a elibera suficient spațiu pe discul intern și de a instala Linux-ul direct pe hardware-ul propriu,
+motiv pentru care veți fi penalizați cu 1p (i.e., veți primi maxim 3p în loc de 4p).
+<br>
+În plus, rularea virtualizată a SO-ului Linux peste un alt SO cu rol de host (Windows, macOS, etc.) va introduce și o penalizare de performanță, în sensul că aplicațiile rulate
+în SO-ul din mașina virtuală se vor "mișca" mai lent, lucru sesizabil deseori utilizatorului uman, decât atunci când sunt rulate în SO-ul host.
+<br>
+Din acest motiv, nu vă recomand să adoptați această variantă de instalare a Linux-ului pe laptopul personal, decât în cazuri de strictă necesitate (i.e., dacă nu vă descurcați să
+instalați Linux-ul direct pe hardware, nu virtualizat).
+</p>
+
+<p><u>Explicații suplimentare la pct. iii)</u>
+<br>Subsistemului WSL (Windows Subsystem for Linux) disponibil în Windows 10 nu este un SO de tip Linux, ci doar <i>userland</i>-ul (i.e., suita de programe de sistem, dar fără nucleu)
+unei distribuții de Linux.
+<br>
+WSL-ul este o tehnologie imatură, în curs de dezvoltare, ce are o serie de restricții și de lipsuri care-l fac <u>impropriu de folosit pentru scopurile urmărite la această disciplină</u>.
+Ca urmare, descurajez folosirea sa și NU veți primi niciun punct la această probă dacă optați să vă instalați WSL-ul în locul unei distribuții de Linux.
+<br>
+(<i>Notă</i>: voi face o prezentare a subsistemului WSL la unul dintre cursurile viitoare și veți vedea atunci ce restricții și lipsuri are această tehnologie.)
+</p>
+
+<p><u>Explicații suplimentare la pct. iv)</u>
+<br>Descărcarea fișierului iso al unei distribuții și "salvarea" sa pe un dispozitiv de stocare de orice fel (e.g., stick USB, card SD, disc extern sau disc intern),
+într-o formă direct boot-abilă, i.e. ce permite rularea live a acelei distribuții de Linux, este o operațiune suficient de simplă, nu presupune efortul implicat de
+instalarea, în sensul clasic, a unei distribuții, i.e. instalare "customizată" pe harware-ul calculatorului destinație.
+Ca atare, NU veți primi niciun punct la această probă dacă optați să vă prezentați cu o distribuție live de Linux.
+</p>
+
+</big>
+
+
+<p>
+<i>Notă</i>: <!--recitiți și informațiile, afișate în pagina de știri a disciplinei SO,-->
+revedeți și informațiile prezentate la curs,
+despre motivația folosirii SO-ului Linux pe calculatoarele personale la această disciplină.
+</p>
+
+</body>
+</html>

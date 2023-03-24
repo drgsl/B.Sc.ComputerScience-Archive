@@ -1,0 +1,519 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #11</title>
+  <link rel="stylesheet" type="text/css" href="../stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="../script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #11, partea a II-a :</font> IPC folosind canale de comunicație fifo</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="../lab11.html#sec_0" class="button_href">Recapitularea unor cunoștințe dobândite în lecția practică despre canale de comunicație</a></h4>
+<h4>I) <a href="lab11_pipe.html#sec_1" class="button_href">Exerciții de programare C cu comunicații între procese (prima parte, folosind canale de comunicație anonime)</a></h4>
+<h4>II) <a href="lab11_fifo.html#sec_2" class="button_href">Exerciții de programare C cu comunicații între procese (partea a doua, folosind canale de comunicație fifo)</a></h4>
+<h5><a href="lab11_fifo.html#sec_2a" class="button_href">Exerciții rezolvate</a></h5>
+<h5><a href="lab11_fifo.html#sec_2b" class="button_href">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab11_fifo.html#sec_2c" class="button_href">Exerciții suplimentare</a></h5>
+<h5><a href="lab11_fifo.html#sec_2d" class="button_href">Exercițiu complex de programare: un joc <i>multi-player</i></a></h5>
+<h4>III) <a href="../prg_perf/lab11perf.html#sec_3" class="button_href">Studiul experimental al performanței unor programe C mai complexe</a></h4>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_exercitii">II) Exerciții de programare C cu comunicații între procese (partea a doua, folosind canale de comunicație fifo):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab13_ex1.c -------------------------------------------------------------------------------------------->
+<p><big>['Producer-consumer' pattern #1, <small>using fifos for IPC</small>]</big>
+<br>
+Să se rescrie exemplele de programe <tt>pipe_ex1.c</tt> și <tt>pipe_ex2.c</tt> demonstrate la lecția practică despre canale anonime
+(a se vedea <a href="../../cursuri/P9_pipe+fifo_web-ro.pdf">aici</a>),
+folosind canale fifo pentru comunicația între procese, în loc de canale anonime.
+</p>
+
+<button onclick="myToggle('lab12_ex1')">Show / Hide a possible solution</button>
+
+<div id="lab12_ex1" style="display:none;" class="stil_rezolvare">
+<i>Ideea de rezolvare</i>: se înlocuiește apelul <tt>pipe()</tt> cu un apel <tt>mkfifo()</tt> cu parametrii specifici,
+iar apoi pe fiecare ramură de execuție părinte vs. fiu se deschide doar capătul necesar al canalului fifo
+(în locul închiderii capătului nenecesar, precum în prima variantă cu canale anonime).
+<br><br>
+
+<button onclick="myToggle('lab12_ex1_src1')">Show / Hide the solution for the 1st example</button> &nbsp; &nbsp; &nbsp;
+<pre id="lab12_ex1_src1" style="display:none;" class="stil_codC"><div w3-include-MyCode="fifo_ex1.c">See the code from <a
+target="_blank" href="fifo_ex1.c">here</a>.</div></pre>
+
+<button onclick="myToggle('lab12_ex1_src2')">Show / Hide the solution for the 2nd example</button>
+<pre id="lab12_ex1_src2" style="display:none;" class="stil_codC"><div w3-include-MyCode="fifo_ex2.c">See the code from <a
+target="_blank" href="fifo_ex2.c">here</a>.</div></pre>
+</div>
+<br><br>
+</li>
+
+
+
+<li><!-- Problema: lab13_ex2.c -------------------------------------------------------------------------------------------->
+<p><big>[A fifo's capacity]</big>
+<br>
+Să se scrie un program C care să determine capacitatea unui canal fifo.
+<br>
+(Indicație: <span class="stil_hint">setați caracterul neblocant pentru capătul de scriere în canal și apoi scrieți în el până se umple,
+în același timp numărând câți octeți au fost scriși.</span>)
+</p>
+
+<button onclick="myToggle('lab12_ex2')">Show / Hide a possible solution</button>
+
+<div id="lab12_ex2" style="display:none;" class="stil_rezolvare">
+Ideea de rezolvare este similară cu cea de la exercițiul rezolvat <b>[A pipe's capacity]</b> din <a href="lab11_pipe.html#sec_1a">prima parte a laboratorului</a>,
+cea dedicată canalelor anonime.
+<br>
+Prin urmare, iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-MyCode="fifo_capacity.c">See the code from <a target="_blank" href="fifo_capacity.c">here</a>.</div></pre>
+
+<p>
+<i>Observație</i>: outputul afișat pe ecran de o instanță de execuție a acestui program, ar putea arăta în felul următor:
+<br>
+<pre class="stil_output">
+Începem să scriem în canal, până la umplerea sa!
+
+Progresul scrierii:  1 Ko ...,  2 Ko ...,  3 Ko ...,  4 Ko ...,  5 Ko ...,  6 Ko ...,  7 Ko ...,  8 Ko ...,  9 Ko ...,  10 Ko ...,  11 Ko ...,  12 Ko ...,  13 Ko ...,  14 Ko ...,
+  15 Ko ...,  16 Ko ...,  17 Ko ...,  18 Ko ...,  19 Ko ...,  20 Ko ...,  21 Ko ...,  22 Ko ...,  23 Ko ...,  24 Ko ...,  25 Ko ...,  26 Ko ...,  27 Ko ...,  28 Ko ...,  29 Ko ...,
+  30 Ko ...,  31 Ko ...,  32 Ko ...,  33 Ko ...,  34 Ko ...,  35 Ko ...,  36 Ko ...,  37 Ko ...,  38 Ko ...,  39 Ko ...,  40 Ko ...,  41 Ko ...,  42 Ko ...,  43 Ko ...,  44 Ko ...,
+  45 Ko ...,  46 Ko ...,  47 Ko ...,  48 Ko ...,  49 Ko ...,  50 Ko ...,  51 Ko ...,  52 Ko ...,  53 Ko ...,  54 Ko ...,  55 Ko ...,  56 Ko ...,  57 Ko ...,  58 Ko ...,  59 Ko ...,
+  60 Ko ...,  61 Ko ...,  62 Ko ...,  63 Ko ...,  64 Ko ...,
+Eroare (posibil umplere pipe ?). Cauza erorii: Resource temporarily unavailable
+errno = 11
+Intr-adevar, cauza erorii este umplerea canalului!
+
+Capacitatea, calculată, a canalului fifo este de 65536 octeti.
+
+Capacitatea, aflată cu fcntl(), a canalului fifo este de 65536 octeti.
+</pre>
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab11_ex6-part1.c, reformulat cu fifo ------------------------------------------------------------------>
+<p><big>[Pipe commands #2 (<small>v2, using fifos</small>)]<!--Lanțuri de comenzi #2--></big>
+<br>
+Să se rescrie programul de la exercițiul rezolvat <b>[Pipe commands #2 (<small>v1, using pipes</small>)]</b> din
+<a href="lab11_pipe.html#sec_1a">prima parte a laboratorului</a>,
+utilizând însă canale fifo în loc de canale anonime.
+</p>
+
+<button onclick="myToggle('lab12_ex2cmds')">Show / Hide a possible solution</button>
+<div id="lab12_ex2cmds" style="display:none;" class="stil_rezolvare">
+<p>
+Iată o posibilă soluție:
+</p>
+<!--button onclick="myToggle('lab12_ex2cmds-src')">Show / Hide the 1st solution</button>
+<pre id="lab12_ex2cmds-src" style="display:none;" class="stil_codC"-->
+<pre class="stil_codC"><div w3-include-MyCode="fifo_cmds_ex2.c">See the code from <a target="_blank" href="fifo_cmds_ex2.c">here</a>.</div></pre>
+
+<p>
+<i>Observație</i>: aceasta este o rescriere a celei de-a doua soluții prezentate în exercițiul pomenit mai sus,
+i.e. soluția care ilustra o ierarhie de tipul un părinte cu un copil și un nepot.
+Însă, la fel de ușor se putea rescrie cu canale fifo și prima soluție prezentată acolo, i.e. cea bazată pe o ierarhie de tipul un părinte cu doi fii.
+</p>
+
+<p>
+<b><i>Concluzie</i>:</b> față de varianta cu canale anonime, unde era relativ dificil (d.p.d.v. al scrierii programului fără a face greșeli din neatenție)
+de generalizat ideea de rezolvare pentru lanțuri de comenzi de lungime din ce în ce mai mare,
+se observă că dispare acea dificultate în cazul folosirii canalelor fifo.
+</p>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab13_ex3.c -------------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #2 : "<i>Heigh-Ho, Heigh-Ho, ...</i>" (<small>v2, using fifos for IPC</small>)]</big>
+<br>
+Să se scrie două programe C, numite <tt>hi.c</tt> și <tt>ho.c</tt>, care să implementeze următoarea funcționalitate:
+primul să scrie pe ecran textul "hi-" în mod repetat, iar al doilea să scrie pe ecran testul "ho, " în mod repetat,
+<br>
+În plus, cele două programe trebuie să se sincronizeze conform șablonului 'Ping-pong',
+atunci când sunt executate simultan (în paralel) și neînlănțuite,
+astfel încât pe ecran să apară exact succesiunea:
+<font color="blue"><a target="_blank"
+href="https://en.wikipedia.org/wiki/Heigh-Ho">hi-ho,</a> hi-ho, hi-ho, hi-ho, ...</font>
+și nu alte combinații posibile de "interclasare" a mesajelor afișate de cele două procese aflate în execuție simultană.
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul meu --> acum e rândul tău --> acum e rândul meu --> acum e rândul tău --> ... ș.a.m.d.</small>",
+folosind comunicații prin intermediul canalelor de comunicație cu nume, în locul unui fișier obișnuit.
+<br>
+<i>Notă</i>: după cum spuneam în preambulul <a href="../lab9sync.html#sec_0">laboratorului #9</a>,
+șablonul 'ping-pong' este de fapt o instanță cu <tt>p=2</tt> procese,
+pentru un șablon mai general de sincronizare între <tt>p</tt> procese,
+cunoscut în literatura de specialitate sub denumirea de șablonul de sincronizare <i>token ring</i>.
+<br>
+<i>Observație</i>: mai târziu vom relua ideea acestui șablon de sincronizare, folosind semnale.</span>)
+</p>
+
+<button onclick="myToggle('lab12_ex3')">Show / Hide some suggestions for solving the problem</button>
+<div id="lab12_ex3" style="display:none;" class="stil_sugestie_de_rezolvare">
+<p>
+Ideea de rezolvare este similară cu cea de la exercițiul 
+<b>['Ping-pong' pattern #4 (<small>v1, using anonymous pipes for IPC</small>)]</b>
+propus spre rezolvare în <a href="lab11_pipe.html#sec_1c">prima parte a laboratorului</a>,
+cu deosebirea că se folosesc canale fifo, în loc de canale anonime, pentru sincronizările necesare între cele două procese.
+<br>
+<I>Sfat</i>: revedeți ideea de rezolvare prezentată la acel exercițiu și adaptați-o pentru rezolvarea acestei probleme,
+în sensul că veți folosi două canale fifo:
+un canal "fifo_hi2ho", prin care programul hi îl anunță pe celălalt că este rândul acestuia să scrie pe <u>ecran (i.e., resursa partajată de cele două procese)</u>,
+și un alt canal "fifo_ho2hi", prin care programul ho îl anunță pe celălalt că este rândul acestuia să scrie pe ecran.
+</p>
+
+<br>
+<p>
+Sumarizând ideea de rezolvare expusă la acel exercițiu, avem pentru problema prezentă următoarea <b><i>arhitectură a aplicației</i></b>,
+i.e. procesele și canalele de comunicație dintre ele, plus sensul de "scurgere" a informației prin canale,
+schematizate în următoarea diagramă:
+<br>
+<div align="center"><img src="diagrams/Lab12_ex2__IMG_20190502_182848_cr.jpg" width="50%" class="stil_image_frame"></div>
+<br><br>
+Iată și o versiune mai detaliată a diagramei de mai sus (în caz că aceasta nu este suficient de explicită):
+<button onclick="myToggle('lab12_ex2aa')">Show / Hide the diagram</button>
+	<pre id="lab12_ex2aa" style="display:none;" class="stil_detalii_suplimentare1">
+	<div align="center"><img src="diagrams/Lab12_ex2__IMG_20190502_183050_cr.jpg" width="50%" class="stil_image_frame"></div>
+	</pre>
+</p>
+
+<br>
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+Încercați, mai intâi, să rezolvați singuri această problemă, pe baza indicațiilor date mai sus.
+</p>
+.<br>.<br>.<br>.<br>.<br>.
+<p>
+Totuși, dacă nu reușiți să rezolvați singuri problema, atunci puteți să consultați rezolvarea de mai jos.
+
+<button onclick="myToggle('lab12_ex3rez')">Show / Hide a possible solution</button>
+<div id="lab12_ex3rez" style="display:none;" class="stil_rezolvare">
+Iată o posibilă rezolvare -- soluția este formată din două programe sursă C, și anume:
+</p>
+<dl>
+<dt style="display:list-item; list-style-type:circle;">Programul #1: hi.c</dt>
+<dd>	
+<!--button onclick="myToggle('lab11_ex3rez_src1')">Show / Hide the "Hi" program</button>
+<pre id="lab11_ex3rez_src1" style="display:none;" class="stil_codC"--><pre class="stil_codC">
+<div w3-include-MyCode="fifo_ex3_HI.c">See the code from <a target="_blank" href="fifo_ex3_HI.c">here</a>.</div></pre>
+</dd>
+<br>
+<dt style="display:list-item; list-style-type:circle;">Programul #2: ho.c</dt>
+<dd>	
+<!--button onclick="myToggle('lab11_ex3rez_src2')">Show / Hide the "Ho" program</button>
+<pre id="lab11_ex3rez_src2" style="display:none;" class="stil_codC"--><pre class="stil_codC">
+<div w3-include-MyCode="fifo_ex3_HO.c">See the code from <a target="_blank" href="fifo_ex3_HO.c">here</a>.</div></pre>
+</dd>
+</dl>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+
+<p>
+<b><i>Ghid de utilizare</i>:</b> cele două programe trebuie lansate simultan în execuție paralelă neînlănțuită, i.e. cu o linie de comandă de felul următor:
+<br><br>
+<tt class="stil_cmdBash">UNIX> ./hi.exe & ./ho.exe &</tt>
+</p>
+
+<p>
+<b><i>Observații</i>:</b>
+<ul>
+<li>#1: Prin modul de lansare în execuție paralelă descris mai sus, cele două procese nu mai sunt înrudite (în mod direct),
+    restricție ce ne era necesară la problemele similare din <a href="lab11_pipe.html">partea I a laboratorului</a>, ce foloseau canale anonime pentru IPC.
+    <br><br>
+</li>
+<li>#2: <u>Ordinea în care se deschid cele două canale fifo în cele două programe este <b>esențială</b></u> -- trebuie deschise în aceeași ordine
+    în ambele programe, căci altfel s-ar produce <u>fenomenul de inter-blocaj</u>:
+	fiecare proces ar aștepta la infinit, fiind blocat la primul apel open() din program.
+	<br>
+	<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>): testați singuri această afirmație -- schimbați ordinea celor două apeluri open()
+	doar într-unul dintre cele două programe, și vedeți apoi ce se întâmplă cănd le rulați simultan în execuție paralelă neînlănțuită.
+    <br><br>
+</li>
+<li>#3: Deoarece în cele două programe am ales, ca ordine de deschidere, să deschidem mai întâi canalul "fifo_hi2ho" și apoi canalul "fifo_ho2hi",
+    <u>au fost suficiente doar 1+2=3 apeluri mkfifo()</u>, dispuse ca în programele de mai sus (<u>în loc de 4 apeluri, dispuse câte 2 în fiecare program (!)</u>),
+    pentru a garanta faptul că, la orice execuție paralelă posibilă a celor două programe (i.e., indiferent de <i>interleaving</i>-ul pe procesor),
+    apelurile open() nu vor eșua datorită motivului "fișier inexistent".
+	<br><br>
+    <i>Remarcă</i>: mai sunt și alte modalități posibile pentru a garanta acest fapt, prin care se pot folosi chiar și numai 2 apeluri mkfifo().
+    <br>
+	<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>): încercați să descoperiți singuri aceste modalități alternative.
+</li>
+</ul>
+</p>
+
+</div>
+
+</div>
+<br><br>
+</li>
+
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab13_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #7: <i>A coordinated distributed sum #1N</i> (<small>v3, using fifos for IPC</small>)]</big>
+<br>
+Să se modifice programul din exercițiul
+<b>['Supervisor-workers' pattern #1N: <i>A coordinated distributed sum #1N</i> (<small>v1, using regular files for IPC</small>)]</b>
+prezentat în <a href="../lab10sync.html#sec_2a">laboratorul #10</a>
+astfel încât comunicațiile între procese să se realizeze prin canale fifo, în loc de fișiere obișnuite.
+<br>
+În plus, citirea numerelor de la tastatură se va muta în cod după apelurile fork(), lucru posibil deoarece sincronizările ce erau necesare
+în varianta cu fișiere obișnuite, se vor realiza acum în mod automat (prin faptul că citirea din canale este, în mod implicit, blocantă).
+<br>
+(Indicație: <span class="stil_hint">sunt suficiente doar 3+1 canale fifo, în locul celor 3+3 fișiere de intrare și de ieșire.</span>)
+</p>
+
+<button onclick="myToggle('lab12_ex5')">Show / Hide some suggestions for solving this problem</button>
+<div id="lab12_ex5" style="display:none;" class="stil_sugestie_de_rezolvare">
+Încercați să rezolvați singuri problema, iar dacă nu reușiți, puteți consulta problema
+<b>['Supervisor-workers' pattern #6: <i>A coordinated distributed sum #1N</i> (<small>v2, using anonymous pipes for IPC</small>)]</b>
+propusă spre rezolvare în <a href="lab11_pipe.html#sec_1c">prima parte a acestui laborator</a>,
+care este foarte similară cu aceasta, singura diferență fiind folosirea de canale anonime în loc de canale fifo.
+<br>
+Prin urmare, dacă ați rezolvat deja problema amintită, atunci este foarte simplu să adaptați rezolvarea ei pentru problema prezentă,
+înlocuind canalele anonime cu canale fifo, într-o manieră similară cu cea demonstrată în exercițiul rezolvat
+<b>['Producer-consumer' pattern, <small>using fifos for IPC</small>]</b>
+de la începutul acestei <a href="lab11_fifo.html#sec_2a">a doua părți a laboratorului</a>.
+<br>
+De asemenea, ca sursă de inspirație, mai puteți consulta <!--rezolvarea disponibilă la adresa-->
+și programul demonstrativ <a target="_blank" href="../../cursuri/C-programs/fifo/suma_fifos.c">suma_fifos.c</a>,
+cu observația că în acel program se folosesc doar două procese worker,
+deci trebuie să-l adaptați pentru cazul cu un număr variabil de procese worker, corespunzător acestei probleme.
+<br>
+<br>
+P.S. Putem rezuma, într-o singură imagine, ideea de rezolvare a problemei, astfel:
+<br><b><i>Arhitectura aplicației</i></b>, i.e. procesele și canalele de comunicație dintre ele,
+plus sensul de "scurgere" a informației prin canale, se pot desprinde din următoarea diagramă:
+<br><br>
+<div align="center"><img src="diagrams/Lab12_ex5__IMG_20190502_183103_cr.jpg" width="50%" class="stil_image_frame"></div>
+<br>
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab13_ex5.c -------------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #3 (<small>v2, using fifos for IPC</small>)]</big>
+<br>
+<!--
+Se presupune că în două fișiere, <i>nume.txt</i> și <i>telefon.txt</i>, sunt scrise, pe câte o linie,
+numele și respectiv numerele de telefon ale unor persoane, existând o corespondență la nivel de linie între cele două fișiere.
+Să se scrie două programe C, <i>nume.c</i> și <i>telefon.c</i>, ce realizează următoarele operații:
+primul program citește linie cu linie datele din fișierul <i>nume.txt</i>, iar al doilea program va citi linie cu linie datele din fișierul <i>telefon.txt</i>.
+Ambele programe vor afișa pe ecran linie cu linie datele citite.
+Cele două procese trebuie să-și sincronizeze execuția (utilizând canale fifo de comunicație),
+astfel încât pe ecran să apară, pe câte o linie distinctă, numele și numărul de telefon corespunzătoare aceleiași persoane.
+-->
+Să se scrie un program C care să rezolve problema <b>['Ping-pong' pattern #3 (<small>v1, using anon mmap for IPC</small>)]</b>
+propusă spre rezolvare în <a href="../lab9sync.html#sec_2b">'Setul AG' din partea a doua a laboratorului #9</a>,
+folosind însă, în loc de mapări anonime, comunicații prin canale fifo.
+</p>
+
+<button onclick="myToggle('lab12_ex4')">Show / Hide some suggestions for solving the problem</button>
+<p id="lab12_ex4" style="display:none;" class="stil_sugestie_de_rezolvare">
+Ideea de rezolvare -- este asemănătoare cu cea de la problema <b>['Ping-pong' pattern #4 (<small>v1, using anonymous pipes for IPC</small>)]</b>
+propusă spre rezolvare în <a href="lab11_pipe.html#sec_1c">prima parte a acestui laborator</a>,
+vă rămâne doar să revedeți schița, ce descrie pașii ce trebuie implementați pentru rezolvare, prezentată la acea problemă
+și să o adaptați în mod corespunzător pentru rezolvarea acestei probleme!
+</p>
+<br><br>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu comunicații prin canale fifo, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab13_ex7.c -------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #8: <i>A simple instance, with only one worker</i>]</big>
+<br>
+Să se scrie două programe C care folosesc comunicații prin canale fifo pentru a realiza comportamentul descris în continuare.
+<br>
+Un program va juca rolul de supervisor<!--master-->: va citi, dintr-un fișier de intrare numit <i>comenzi.sh</i>,
+o secvență de comenzi UNIX (comenzi simple cu parametri, e.g. <font color="blue">ls -l <i>dirname</i></font>),
+pe care le va trimite, pe rând, celuilalt proces printr-un canal fifo numit "socket".
+<br>
+Al doilea program va juca rolul de worker<!--sclav-->: va parsa fiecare comandă primită (i.e., va realiza <i>tokenizarea</i> ei)
+și o va executa folosind funcții din familia exec(),
+returnând apoi statusul (i.e., codul ei de terminare) prin canalul "socket" procesului supervisor.
+<br>
+Acesta, după ce primește statusul de la worker, îi va trimite următoarea comandă citită din fișier, ș.a.m.d.
+până la terminarea citirii liniilor din fișierul de intrare.
+<br>
+<i>Cerință</i>: sfârșitul procesării va fi semnalizat printr-o modalitate oarecare în așa fel încât ambele programe să se termine natural (i.e.,
+fără să rămână vreunul într-o așteptare infinită).
+</p><br>
+</li>
+
+
+<li><!-- Problema: lab13_ex8.c -------------------------------------------------------------------------------------------->
+<p><big>[MyShell v3, with distributed processing (<small>using the 'Supervisor-workers' pattern</small>)]</big>
+<br>
+Incorporați în programele realizate anterior,
+la exercițiul <b>[MyShell v1]</b> propus spre rezolvare în <a href="../lab10sync.html#sec_2c">a doua parte a laboratorului #10</a>
+sau la exercițiul <b>[MyShell v2, with pipe commands]</b> propus spre rezolvare în <a href="lab11_pipe.html#sec_1c">prima parte a acestui laborator</a>,
+ideea generalizată de la exercițiul <b>['Supervisor-workers' pattern #8]</b> de mai sus:
+<br>
+Să se dezvolte două programe C, unul cu rol de supervisor și celălalt cu rol de worker, ce vor realiza comportamentul descris în continuare.
+<br>
+Supervisorul va comunica printr-un canal fifo numit "socket_s2w" cu procesele workers, folosind șablonul de comunicație "unul-la-mulți",
+trimițându-le comenzi simple cu argumente, pe care le va citi dintr-un fișier de intrare numit <i>comenzi.sh</i>,
+ce conține pe fiecare linie câte o comandă simplă cu argumente.
+<br>
+Astfel, fiecare comandă va fi procesată de unul (oricare) dintre procesele workers (și anume, de cel care reușește să o citească primul din canal).
+<br>
+Workerul care a citit din canal comanda curentă, o va parsa (i.e., va realiza <i>tokenizarea</i> ei) pentru a construi componentele pentru apelul exec()
+cu care o va executa. După executarea comenzii, workerul respectiv va transmite înapoi supervisorului statusul (i.e., codul de terminare) returnat de acea comandă,
+folosind un al doilea canal fifo numit "socket_w2s".
+<br>
+Supervisorul va aștepta să primească statusul comenzii transmise, înainte de a continua cu transmiterea următoarei comenzi citite din fișierul de intrare,
+exceptând situația când comanda respectivă era terminată cu caracterul '&amp;' în fișierul de intrare, caz în care va continua direct, fără să mai aștepte.
+<br>
+<i>Cerință</i>: în plus, se va scrie un script bash care va lansa în execuție, mai întâi, <tt>N</tt> instanțe ale programului worker,
+iar apoi va porni o singură instanță a programului supervisor, căreia îi va transmite la linia de comandă numărul <tt>N</tt> al proceselor worker.
+</p>
+
+<button onclick="myToggle('lab12_ex8')">Show / Hide some remarks</button>
+<div id="lab12_ex8" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Observația</i> #1:</b> trebuie să rezolvați problemele discutate la șablonul de comunicație "unul-la-mulți", prezentat în lecția practică despre
+<a target="_blank" href="../../cursuri/P9_pipe+fifo_web-ro.pdf">canale de comunicație</a>,
+și anume:
+<br>Mesajul cu textul unei comenzi va fi scris în canal precedat de un header ce conține un număr întreg reprezentând lungimea textului comenzii
+(de exemplu, "<font color="blue">ls -l /etc</font>" este o comandă pe care o poate trimite supervisorul, prefixată cu lungimea textului ei, în acest caz 10),
+iar citirea de mesaje din canal de către clienți trebuie realizată folosind un lacăt pentru acces exclusiv la fișierul fifo "socket_s2w",
+pentru a garanta că procesul worker care apucă să citească un întreg, este tot cel care va citi și textul propriu-zis ce urmează după acel număr întreg!
+<br><br>
+<b><i>Observația</i> #2:</b> pentru a permite și execuția în paralel, de către procese worker diferite, a comenzilor terminate cu caracterul '&amp;' în
+fișierul de intrare, va trebui să mai adaugați la mesajul propriu-zis transmis de către supervisor și un număr unic,
+e.g. indexul comenzii curente în secvența de comenzi citite, număr care să fie transmis înapoi de worker împreună cu codul de terminare al acelei comenzi,
+executate de către acel worker. Astfel supervisorul va putea ști care comandă s-a terminat cu acel cod de terminare (deoarece ordinea de terminare a execuției
+mai multor comenzi în "background" nu coincide neapărat cu ordinea în care au fost startate acele comenzi!).
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab13_ex6.c -------------------------------------------------------------------------------------------->
+<p><big>['Producer-consumer' pattern #2: <small><i>Some distributed processing by three workers</i></small>]</big>
+<br>
+Se dă un fișier, <i>text.txt</i>, ce conține un text scris exclusiv cu litere mici și, în plus, textul conține erori comune de tehnoredactare
+(două spații consecutive, fără spațiu după semnele de punctuație, etc.).
+<br>Să se scrie trei programe C, ce realizează următoarele operații:
+<ul>
+<li>Primul program corectează erorile (elimină spațiile consecutive, lăsând numai un spațiu; pune spații după semnele de punctuație după care
+    nu sunt spații; etc.) și transmite textul corectat printr-un canal fifo celui de al doilea program.</li>
+<li>Al doilea program transformă litera de început a fiecărei propoziții (i.e., litera aflată după <i>"."</i>-ul propoziției anterioare)
+    în literă mare și transmite textul transformat astfel printr-un alt canal fifo către cel de-al treilea program.</li>
+<li>Al treilea program creează un fișier numit <i>statistica.txt</i> în care va scrie numărul de linii și numărul de caractere din textul primit
+    și, în plus, va identa paragrafele adăugând câte un caracter TAB după fiecare caracter ENTER (acolo unde nu există deja),
+    iar la final va scrie textul corectat în fișierul <i>text_corectat.txt</i>.</li>
+</ul>
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2d">
+<p><span class="stil_ex_propuse">Exercițiu complex de programare: un joc <i>multi-player</i></span></p>
+</a>
+
+<ul>
+
+<li><!-- Problema: lab13_sec2 -------------------------------------------------------------------------------------------->
+<p><big>[A multi-player game]</big>
+<br>
+Implementați un joc <i>multi-player</i> "în rețea" la alegere.
+<br>
+(Indicație: <span class="stil_hint2">jocul se va desfășura între mai mulți jucători, doar simulând faptul ca aceștia ar fi într-o rețea, 
+prin folosirea de canale fifo pentru comunicație și a mai multor procese rulate pe același calculator/server,
+fiecare jucător având un proces client dedicat, prin care interacționează cu procesul supervisor, cu rol de administrator al jocului.</span>)
+</p>
+<button onclick="myToggle('lab12_sec2')">Show / Hide some suggestions for solving this problem</button>
+
+<div id="lab12_sec2" style="display:none;" class="stil_explicatie">
+Încercați să rezolvați singuri problema, iar pentru a înțelege modul de simulare amintit în enunț,
+recitiți slide-urile despre "Aplicații de tip client/server" din lecția practică despre
+<a target="_blank" href="../../cursuri/P9_pipe+fifo_web-ro.pdf">canale de comunicație</a>.
+</div>
+<br><br>
+</li>
+
+</ul>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr>
+<!--td align="center" valign="center" width="35%">
+<a href="#top" class="button_href">Înapoi la sumar / Back to local index</a>
+</td-->
+<td align="right" valign="center" width="30%">
+<button onClick="javascript: window.location='#top';">Back to top of page</button>
+</td>
+<td align="center" valign="center">
+<button name="lastUpdButton" onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);">Last Update</button>
+</td>
+<!--td align="center" valign="center" width="35%">
+<a href="../lab11.html" class="button_href">Înapoi la Lab#11 / Back to main page</a>
+</td-->
+<td align="left" valign="center" width="30%">
+<button onClick="javascript: window.location='../lab11.html';">Back to main page</button>
+</td>
+</tr>
+</table>
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<script src="../script.js"></script>
+<script>includeMyCode();</script>
+<!--script>includeHTML();</script-->
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+/*
+Scrietti in Alk algoritmul cautarii binare, care rezolva urmatoarea problema:
+Input: a - numar intreg si x - un vector de numere intregi, ordonat crescator
+Output: o pozitie i pe care se gaseste a in x sau −1, daca nu se gaseste
+si testati algoritmul pe cateva exemple.
+*/
+
+binarySearch(x, l, r, a) 
+{ 
+    if (r >= l) { 
+        middle = l + (r - l) / 2; 
+  
+        if (x[middle] == a) 
+            return middle; 
+        if (x[middle] > a) 
+            return binarySearch(x, l, middle - 1, a); 
+
+
+        return binarySearch(x, middle + 1, r, a); 
+    } 
+    return -1; 
+} 
+
+arr = [1, 4, 6, 7, 9, 10, 14, 200, 401, 550, 1001];
+
+print(binarySearch(arr,0,11,1));
+print(binarySearch(arr,0,11,2));
+print(binarySearch(arr,0,11,4));
+print(binarySearch(arr,0,11,200));
+print(binarySearch(arr,0,11,1002));
+print(binarySearch(arr,0,11,1001));

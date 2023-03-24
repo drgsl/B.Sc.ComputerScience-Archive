@@ -1,0 +1,50 @@
+//Exercitiul 4
+//Sa se scrie un algoritm care genereaza prime cu ciurul lui Eratosthenes
+
+// Input: n - numar natural 
+// Output: primele n numere x care satisfac conditia: prim(x) : forall i. (i > 2) /\ (i < sqrt(x)) -> x % i =/= 0.
+
+//T_primeleNPrime() = 1 + 1 +
+//                    1 + (n+1)*(1 + 1 + 1) + 1 + 1 + 
+//                    1 + (n+1)*(1+1+1) +
+//                    1 + sqrt(n)/2 * ( 3 + 2 + 1 + n/2 * 3 ) + 
+//                    1 + 1 + n/2 * 5 + 1
+//                  = 3 + 3n + 3 + 3 + 3n + 3 + 1 + sqrt(n)/2 * (6 + 3n/2) + 2 + 5n/2 + 1
+//                  = 16 + 6n + 5n/2 + sqrt(n)*(12+3n)/4
+//                  = 16 + 17n/2 + sqrt(n)*(12+3n)/4
+
+primeleNprime(n){
+
+    ciur = [];
+    prime = emptyList;
+
+    for(i = 0; i<=n; i++)
+        ciur[i] = false;
+
+    ciur[0] = true;
+    ciur[1] = true;
+
+        //tratam multiplii de 2 separat
+    for (j = 4; j <= n; j += 2) 
+        ciur[j] = true;
+
+        //cautam doar in nr impare
+    for (i = 3; i * i <= n; i += 2) 
+        if (ciur[i] == false)
+            for (j = i * i; j <= n; j += 2 * i)
+                ciur[j] = true;
+
+    prime.pushBack(2);
+    for (i = 3; i <= n; i += 2)
+        if (ciur[i] == false)
+            prime.pushBack(i);
+
+    print(prime);
+
+}
+primeleNprime(-1);
+primeleNprime(0);
+primeleNprime(10);
+primeleNprime(100);
+primeleNprime(1000);
+//primeleNprime(50000);

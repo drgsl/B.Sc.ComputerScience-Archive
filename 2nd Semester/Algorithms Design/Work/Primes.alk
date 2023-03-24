@@ -1,0 +1,29 @@
+FirstNPrimes(n){
+    x = 2;
+    l = emptyList;
+        while(l.size() < n){
+            if(isPrime(x)){
+                l.pushBack(x); // x is prime
+            }
+            x++;
+        }
+    return l;
+}
+
+isPrime(x){
+
+    if(x<2)
+        return false;
+    for(i = 2; i<= sqrt(x); i++){
+        if(x % i == 0)
+            return false;
+    }
+    return true;
+}
+
+print(FirstNPrimes(0));
+print(FirstNPrimes(1));
+print(FirstNPrimes(10));
+print(FirstNPrimes(1000));
+
+print(FirstNPrimes(-1));

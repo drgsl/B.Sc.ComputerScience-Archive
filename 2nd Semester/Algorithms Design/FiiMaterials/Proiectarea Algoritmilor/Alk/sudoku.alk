@@ -1,0 +1,54 @@
+a = [1 .. 81];
+for (i = 0; i < 81; i++) {
+  a[i] = 0;
+}
+
+check(k, out a, n) {
+  i = k / 9;
+  j = k % 9;
+
+  e = a[k];
+
+  for (lin = 0; lin < 9; lin++) {
+    if (lin != i) {
+      if (a[lin * 9 + j] == e) {
+        return 0;
+      }
+    }
+  }
+
+  for (col = 0; col < 9; col++) {
+    if (col != j) {
+      if (a[9 * i + col] == e) {
+        return 0;
+      }
+    }
+  }
+  
+  return 1;
+
+}
+
+bkt(k, out a, n) {
+  if (k == n) {
+    return true;
+  }
+
+  for (i = 1; i <= 9; i++) {
+    a[k] = i;
+
+    if (check(k, a, n) == 1) {
+      if (bkt(k + 1, a, n) == true) {
+        return true;
+      } 
+    }
+  }
+
+  a[k] = 0;
+  return false;
+
+}
+
+print(bkt(0, a, 81));
+
+// alki.bat -a sudoku.alk

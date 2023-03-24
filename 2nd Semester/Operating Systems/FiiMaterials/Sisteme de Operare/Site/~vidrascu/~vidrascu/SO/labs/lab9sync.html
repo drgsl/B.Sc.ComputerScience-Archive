@@ -1,0 +1,1338 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #9</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #9, partea a II-a :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>Prolog: <a href="lab9sync.html#sec_0">Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile fork și wait</a></h4>
+<h5><a href="lab9sync.html#sec_0">Programe demonstrative</a></h5>
+<h5><a href="lab9sync.html#sec_0b">Șabloane de cooperare și sincronizare</a></h5>
+<h4>I) <a href="lab9sync.html#sec_1">Exerciții de programare C cu mai multe procese secvențiale (prima parte - creare diverse ierarhii de procese, folosind apeluri fork și wait)</a></h4>
+<h4>II) <a href="lab9sync.html#sec_2">Exerciții de programare C cu mai multe procese secvențiale (a doua parte - diverse procesări, folosind apeluri fork și wait)</a></h4>
+<h5><a href="lab9sync.html#sec_2a">Exerciții rezolvate</a></h5>
+<h5><a href="lab9sync.html#sec_2b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab9sync.html#sec_2c">Exerciții suplimentare, propuse spre rezolvare</a></h5>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0">
+<p><span class="stil_set_exercitii">Prolog: Recapitularea unor cunoștințe dobândite în lecția practică despre apelurile fork și wait:</span></p>
+</a>
+
+<h3>i) Informații despre apelurile de sistem <tt>fork()</tt> și <tt>wait()</tt> din API-ul POSIX:</h3>
+<!--
+
+[...]
+
+<a name="sec_0a">
+<!--
+<p class="stil_ex_rezolvate">Programe demonstrative:</p>
+</a>
+[...]
+-->
+<p>
+Lista cu aceste informații și programe demonstrative este disponibilă <a href="lab9.html#sec_0">aici</a>.
+</p>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_0b">
+&nbsp;<!--p class="stil_ex_rezolvate">Șabloane de cooperare și/sau sincronizare:</p-->
+</a>
+<h3>ii) Câteva șabloane de cooperare și sincronizare între procese multiple</h3>
+
+<button onclick="myToggle('lab9_prolog2')">Show / Hide the presentation</button>
+<div id="lab9_prolog2" style="display:none;" class="stil_prezentare">
+
+<dl>
+
+<!-- Modelul arhitectural "supervisor-workers" ...  -->
+<dt style="display: list-item;"><big>Șablonul de cooperare 'Supervisor/workers'</big>, cunoscut și prin denumirea alternativă de 'Master/slaves':</dt>
+<dd><br>Este un șablon de calcul paralel/distribuit utilizat des în practică,
+aplicabil atunci când avem o problemă complexă (i.e., un volum mare de calcule)
+a cărei rezolvare se poate "diviza" în mai multe sub-probleme (i.e., "distribuim" volumul inițial în mai multe sub-volume mai mici de calcule)
+<u>ce pot fi apoi rezolvate, în paralel, independent una de alta</u>,
+iar la final rezultatele parțiale obținute (i.e., soluțiile sub-problemelor) pot fi "agregate" pentru a obține rezultatul final al problemei inițiale.
+<br><br>
+<i>Importanța acestui șablon de calcul paralel</i>:
+etapa de "divizare" în sub-probleme și cea de "agregare" a rezultatele parțiale obținute sunt intrinsec de natură secvențială,
+în schimb sub-problemele, fiind independente una de alta, pot fi "rezolvate" <u>în paralel</u>,
+de aici rezultând sporul de performanță (i.e., un timp de execuție mai mic) față de algoritmul secvențial de rezolvare a acelei probleme.
+<br><br>
+<i>Remarcă</i>: puteți privi acest șablon de calcul paralel ca un fel de "Divide et Impera" aplicat în paralel.
+<br><br>
+Pentru exemplificare, a se vedea problemele
+<b>['Supervisor-workers' pattern #1 : <i>A coordinated distributed sum #1</i> (<small>v1, using regular files for IPC</small>)]</b>
+și <b>['Supervisor-workers' pattern #2]</b> de mai jos.
+<br><br>
+</dd>
+
+<dt style="display: list-item;"><big>Șablonul de sincronizare 'Token ring'</big>:</dt>
+<dd><br>Este un șablon de sincronizare care surprinde următoarea situație:
+avem un număr oarecare <tt>p</tt> de procese, fiecare având de executat, în mod repetitiv, câte o acțiune specifică <tt>A<sub>i</sub></tt> ,
+cu <tt>i=1,...,p</tt> , și se cere sincronizarea (i.e., controlul) execuției lor în paralel, astfel încât
+ordinea de execuție a acelor acțiuni individuale (i.e., <i>trace</i>-ul execuției) să fie precis următoarea:
+<tt>A<sub>1</sub> , A<sub>2</sub> , ... , A<sub>p</sub></tt>, repetată de un anumit număr de ori,
+și nu vreun alt "amestec" în orice altă ordine a acțiunilor specifice executate de fiecare proces.
+<br>
+Denumirea de 'Token ring' provine de la faptul că acele <tt>p</tt> procese pot fi aranjate într-o topologie virtuală de tip inel (i.e.,
+conectăm cele <tt>p</tt> procese într-un graf format exact dintr-un singur circuit orientat, adică un "inel"),
+iar apoi generăm un token (e.g., o monedă) care va fi transferat de la un proces la următorul, de-a lungul acestui inel, astfel:
+<br>
+Fiecare proces <tt>i</tt> (dintre cele <tt>p</tt> procese) așteaptă mai întâi să-i vină rândul (i.e., așteaptă să primească tokenul de la predecesorul lui din inel),
+apoi execută acțiunea sa specifică <tt>A<sub>i</sub></tt>, iar apoi transmite tokenul mai departe, către succesorul lui din inel; după care reia această buclă.
+<br><br>
+Spre exemplu, pentru cazul particular cu <tt>p=2</tt> procese, trebuie să sincronizăm procesele astfel încât, prin execuția lor în paralel,
+să se observe următorul <i>trace</i> al execuției:
+<tt>A<sub>1</sub> , A<sub>2</sub> , A<sub>1</sub> , A<sub>2</sub> , ... , A<sub>1</sub> , A<sub>2</sub></tt> .
+<br>
+Exemple de <i>trace</i>-uri invalide (i.e., nesincronizate conform acestui șablon) ar fi:
+<tt>A<sub>1</sub> , A<sub>1</sub> , A<sub>1</sub> , A<sub>2</sub> , A<sub>2</sub> , A<sub>1</sub> , ... ...</tt> ;
+sau: <tt>A<sub>2</sub> , A<sub>1</sub> , A<sub>2</sub> , A<sub>2</sub> , A<sub>1</sub> , A<sub>1</sub> , ... ...</tt> ;
+sau: <tt>A<sub>1</sub> , A<sub>1</sub> , A<sub>1</sub> , A<sub>1</sub> , A<sub>2</sub> , A<sub>1</sub> , ... ...</tt> ;
+ș.a.m.d. (i.e., orice ordine alta decât cea de mai sus).
+<br><br>
+<i>Remarcă</i>: în exercițiile care vor urma, mă voi referi la cazul particular cu <tt>p=2</tt> procese al acestui
+șablon mai general, întâlnit în literatura de specialitate sub denumirea de <i>token ring</i>, de sincronizare între <tt>p</tt> procese,
+prin denumirea alternativă, stabilită ad-hoc, de "șablonul 'ping-pong' de sincronizare",
+care este suficient de sugestivă pentru acest caz particular cu <tt>p=2</tt>,
+prin analogie cu regula de joc ce se aplică în unele sporturi jucate între doi jucători, precum ar fi:
+<u>tenisul de masă</u> (aka 'ping-pong'), tenisul de câmp, badminton-ul, șahul, ș.a.
+În toate aceste sporturi, este reglementată următoarea regulă, ce descrie, practic, ordinea în care se joacă
+(i.e., descrie o anumită sincronizare între acțiunile jucătorilor):
+"<small>Acum e rândul meu --> acum e rândul tău --> acum e rândul meu --> acum e rândul tău --> ... ș.a.m.d.</small>".
+<br><br>
+Pentru exemplificare, a se vedea problemele <b>['Ping-pong' pattern #1, #2 și #3]</b> și <b>['Token ring' pattern #1 și #2]</b> de mai jos.
+<br><br>
+</dd>
+
+<dt style="display: list-item;"><big>Alte șabloane de cooperare/sincronizare</big>:</dt>
+<dd><br>Șablonul 'Producer-Consumer', șablonul 'CREW', ș.a. -- pentru detalii, (re)citiți cursul teoretic #6.
+<br><br>
+</dd>
+
+</dl>
+
+</div>
+<br><br>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">I) Exerciții de programare C cu mai multe procese secvențiale (prima parte - creare diverse ierarhii de procese, folosind apeluri fork și wait):</span></p>
+</a>
+
+<p>
+Lista cu aceste exerciții este disponibilă <a href="lab9.html#sec_1">aici</a>.
+</p>
+
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2">
+<p><span class="stil_set_exercitii">II) Exerciții de programare C cu mai multe procese secvențiale (a doua parte - diverse procesări, folosind apeluri fork și wait):</span></p>
+</a>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: suma_files.c ------------------------------------------------------------------------------------------>
+<p><big>['Supervisor-workers' pattern #1 : <i>A coordinated distributed sum #1</i> (<small>v1, using regular files for IPC</small>)]</big>
+<br>
+Să se implementeze șablonul de cooperare 'Supervisor-workers' în maniera următoare:
+supervisorul va citi o secvență de numere de la tastatură și o va diviza în două sub-secvențe de lungimi aprox. egale,
+pe care le va transmite la două procese workeri,
+aceștia vor calcula sumele parțiale și le vor transmite înapoi supervisorului,
+care va calcula si afișa suma finală.
+<br>
+<i>Cerință</i>: comunicațiile între supervisor și workeri se vor realiza prin intermediul
+scrierii și citirii informației de transmis în fișiere obișnuite,
+folosind interfața clasică (i.e., funcțiile de citire/scriere din API-ul POSIX sau din biblioteca stdio) pentru accesul la fișiere.
+<br>
+(Observație: <span class="stil_hint2">scopul acestui exercițiu este acela de a ilustra implementarea unui calcul paralel/distribuit
+pe modelul arhitectural "supervisor-workers", numit uneori și "master-slaves".</span>)
+</p>
+
+<button onclick="myToggle('lab9_demoSW1')">Show / Hide a possible solution</button>
+
+<div id="lab9_demoSW1" style="display:none;" class="stil_rezolvare">
+Iată o posibilă soluție:
+<pre class="stil_codC"><div w3-include-MyCode="../cursuri/C-programs/fork/suma_files.c">See the code from <a target="_blank"
+href="../cursuri/C-programs/fork/suma_files.c">here</a>.</div></pre>
+</div>
+<br><br>
+</li>
+
+<li>
+<p><big>[Demo 'data race'_shmem #1 : <i>A custom example of the 'Producer-Consumer' pattern</i>
+<!--(<font color="red">Var.1: non-syncronized !!!</font> &amp; <font color="blue">Var.2: syncronized !!!</font>)-->
+(<small>v2, using anon mmap for IPC</small>)]</big>
+<br>
+Vom reconsidera exemplul demonstrativ
+<b>[Demo 'data race'_shmem #1 : <i>A custom example of the 'Producer-Consumer' pattern</i> <font color="red">(non-syncronized !!!)</font> (<small>v1, using mmap-file for IPC</small>)</b>,
+ce a fost prezentat în <a href="lab8sync&perf.html#sec_2z">partea a doua a laboratorului #8</a>
+și ilustra o cooperare specifică dintre două programe, unul cu rol de producător, și altul cu rol de consumator,
+care își transmiteau o serie de mesaje specifice, de la producător spre celălalt,
+prin intermediul unui fișier mapat în memorie (ce asigura astfel o zonă de memorie partajată între cele două procese).
+<br>
+De data aceasta, vom rescrie acel exemplu astfel încât să "înglobăm" cele două programe într-unul singur,
+practic programul nostru va crea un proces fiu, iar apoi tatăl va juca rolul de producător, iar fiul va juca rolul de consumator.
+De asemenea, <u>vom ilustra folosirea unei mapări anonime partajate</u>, în locul unui fișier mapat în memorie, pentru comunicația dintre cele două procese.
+<br>În plus, de data aceasta vom prezenta și o soluție de sincronizare a execuției celor două procese,
+pentru a garanta obținerea rezultatului ce se urmărea a fi obținut.
+<br>
+<b><i>De reținut</i>:</b> această soluție de sincronizare este particularizată pentru datele acestei probleme, după cum veți vedea,
+și prin urmare <u>ea NU poate fi aplicată și pentru alte situații mai generalizate decât cea descrisă în problema noastră</u>.
+</p>
+
+<button onclick="myToggle('lab9_demoDataRace1')">Show / Hide the solution(s)</button>
+<div id="lab9_demoDataRace1" style="display:none;" class="stil_prezentare">
+
+<p>
+În cele ce urmează, vom prezenta două variante ale acestui program, și anume:
+<br><br>
+i) În prima variantă, nu vom folosi niciun mecanism de sincronizare,
+pentru a ilustra ce se întâmplă când executăm în paralel cele două procese (i.e., producătorul și consumatorul),
+și anume rezultatul final va fi imprevizibil (la fel ca în exemplul amintit din laboratorul #8). 
+<i>Concluzie</i>: din această variantă veți putea deduce, din nou, necesitatea de folosire a unor mecanisme de sincronizare,
+pentru a obține, întotdeauna, rezultatul așteptat.
+<br>
+ii) Apoi vom adăuga un mecanism de sincronizare, în a doua variantă a programului, pentru a obține, întotdeauna, rezultatul așteptat.
+</p>
+
+
+<p>
+<b>i)</b> Iată care este <b>prima variantă, <font color="red">nesincronizată</font>,</b> a acestui program:
+<!--b>i) Prima variantă, <font color="red">nesincronizată</font>, a acestui program</b> este următoarea:-->
+</p>
+
+<button onclick="myToggle('lab9_demoDataRace1_src1')">Show / Hide the 1st program</button>
+<div id="lab9_demoDataRace1_src1" style="display:none;" class="stil_rezolvare">
+<p>
+1. Porniți editorul de texte preferat și scrieți programul de mai jos,
+apoi salvați-l într-un fișier cu numele <tt>lab9_data-race1_prod+cons.c</tt>:
+</p>
+
+<pre class="stil_codC"><div w3-include-MyCode="lab9_c/lab9_data-race1_prod+cons.c">See the code from <a target="_blank"
+href="lab9_c/lab9_data-race1_prod+cons.c">here</a>.</div></pre>
+
+<p>
+2. Compilați fișierul sursă pentru a obține programul executabil (<small>în formatul ELF64 pentru platforma Linux pe 64 biți</small>),
+utilizând următoarea comandă:
+<br>prompt> <tt class="stil_cmdBash"> gcc -Wall lab9_data-race1_prod+cons.c -o lab9_data-race1_prod+cons.exe</tt>
+</p>
+
+<p>
+3. Și acum, să vedem ce se întâmplă când rulăm programul, printr-o comandă de forma:
+<br>prompt> <tt class="stil_cmdBash"> ./lab9_data-race1_prod+cons.exe</tt>
+<br><br>
+<i>Explicație</i>: practic, cele două procese, <u>tatăl (producătorul) și fiul (consumatorul), se vor executa în paralel</u> (i.e., simultan, adică în același timp),
+<u>și concurent</u> (i.e., vor "concura" pentru accesarea resursei partajate, reprezentată în acest exemplu de
+<u>maparea anonimă în memorie creată de tată înaintea creării fiului</u>).
+<br><br>
+Pentru exemplificare, outputul afișat pe ecran de o instanță de execuție a programului, ar putea fi următorul:
+<pre class="stil_output">
+Notification: The page size on your hardware system is: 4096 bytes.
+Notification: An anonymous shared mapping in memory was created, with read/write permmission, and with the length: 200.
+Notification:   Actually, the length/size of the mapping in memory is: 1 page(s).
+[Producer] Notification: sunt procesul tata, cu PID-ul: 11232.
+[Producer] Notification: I wrote the 0th text, "Textul  0", in the mapping.
+[Producer] Notification: I wrote the 1th text, "Textul  1", in the mapping.
+[Consumer] Notification: sunt procesul fiu, cu PID-ul: 11233.
+[Producer] Notification: I wrote the 2th text, "Textul  2", in the mapping.
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Producer] Notification: I wrote the 3th text, "Textul  3", in the mapping.
+[Producer] Notification: I wrote the 4th text, "Textul  4", in the mapping.
+[Producer] Notification: I wrote the 5th text, "Textul  5", in the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Producer] Notification: I wrote the 6th text, "Textul  6", in the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Producer] Notification: I wrote the 7th text, "Textul  7", in the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "", from the mapping.
+[Consumer] Notification: I read the 9th text, "", from the mapping.
+[Producer] Notification: I wrote the 8th text, "Textul  8", in the mapping.
+[Consumer] Notification: I read the 10th text, "", from the mapping.
+[Consumer] Notification: I read the 11th text, "", from the mapping.
+[Consumer] Notification: I read the 12th text, "", from the mapping.
+[Producer] Notification: I wrote the 9th text, "Textul  9", in the mapping.
+[Producer] Notification: I wrote the 10th text, "Textul 10", in the mapping.
+[Producer] Notification: I wrote the 11th text, "Textul 11", in the mapping.
+[Consumer] Notification: I read the 13th text, "", from the mapping.
+[Producer] Notification: I wrote the 12th text, "Textul 12", in the mapping.
+[Producer] Notification: I wrote the 13th text, "Textul 13", in the mapping.
+[Consumer] Notification: I read the 14th text, "", from the mapping.
+[Producer] Notification: I wrote the 14th text, "Textul 14", in the mapping.
+[Producer] Notification: I wrote the 15th text, "Textul 15", in the mapping.
+[Consumer] Notification: I read the 15th text, "Textul 15", from the mapping.
+[Producer] Notification: I wrote the 16th text, "Textul 16", in the mapping.
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Producer] Notification: I wrote the 17th text, "Textul 17", in the mapping.
+[Producer] Notification: I wrote the 18th text, "Textul 18", in the mapping.
+[Producer] Notification: I wrote the 19th text, "Textul 19", in the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Producer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului parinte.
+
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Consumer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului fiu.
+
+</pre>
+din care, extrăgând doar liniile afișate de consumator, obținem outputul următor:
+<pre class="stil_output">
+[Consumer] Notification: sunt procesul fiu, cu PID-ul: 11233.
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "", from the mapping.
+[Consumer] Notification: I read the 9th text, "", from the mapping.
+[Consumer] Notification: I read the 10th text, "", from the mapping.
+[Consumer] Notification: I read the 11th text, "", from the mapping.
+[Consumer] Notification: I read the 12th text, "", from the mapping.
+[Consumer] Notification: I read the 13th text, "", from the mapping.
+[Consumer] Notification: I read the 14th text, "", from the mapping.
+[Consumer] Notification: I read the 15th text, "Textul 15", from the mapping.
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Consumer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului fiu.
+
+</pre>
+</p>
+
+<p>
+Prin urmare, se observă că și acest program "suferă" de fenomenul <i>race conditions</i>, ce cauzează rezultate imprevizibile,
+la fel ca și versiunea originală a acestuia, 
+prezentată în <a href="lab8sync&perf.html#sec_2z">partea a doua a laboratorului #8</a>.
+<br>
+Recitiți explicația detaliată dată <a href="lab8sync&perf.html#sec_2z">acolo</a> despre acest fenomen și manifestarea sa în cadrul programului
+(i.e., cele 200 de "race"-uri care există între cele două procese), care se aplică întocmai și în cazul acestei prime variante de rescriere a acelui program.
+</p>
+</div>
+
+<p>
+<b>ii)</b> Iată care este <b>a doua variantă, <font color="blue">sincronizată</font>,</b> a acestui program:
+</p>
+
+<button onclick="myToggle('lab9_demoDataRace1_src2')">Show / Hide the 2nd program</button>
+<div id="lab9_demoDataRace1_src2" style="display:none;" class="stil_rezolvare">
+<p>
+<b>I) Proiectarea unei soluții de sincronizare</b>, care să fie adecvată pentru problema noastră.
+</p>
+<p>
+
+Vom ține cont de faptul esențial că programul nostru este o variantă simplificată a șablonului general "Producer-Consumer",
+în sensul că <i>bufferul</i> de stocare a informației partajate nu este "refolosit" (i.e., nu se supra-scriu informațiile deja stocate în el),
+ci este de tipul <i>write-once</i>, adică:
+<br>la inițializarea mapării anonime, pagina de memorie alocată ei este "umplută" cu zero-uri,
+iar apoi producătorul scrie o singură dată, câte o valoare non-zero, la fiecare adresă din primele 200 de adrese din această pagină
+(mai precis, la fiecare a 10-a adresă, va scrie tot zero, peste zero-ul original)
+-- prin acea buclă for, în care scrie cele 20 de texte, care sunt formate fiecare <del>din 10 caractere diferite de zero</del>
+din 9 caractere (valori) diferite de zero, urmate pe poziția a 10-a de caracterul zero (i.e., '\0'), folosit ca și terminator de string-uri
+conform convenției din limbajul C utilizate de funcțiile ce lucrează cu stringuri din bilioteca standard de C (aka "librăria" <tt>string.h</tt>).
+<br>
+<br>
+Și atunci, <b>ideea pentru sincronizarea celor două procese</b>,
+adică pentru asigurarea faptului că producătorul câștigă fiecare "race" cu consumatorul, dintre cele 20x10 "race"-uri,
+este aceea ca, <u>în consumator, la fiecare iterație de citire a unui text,
+să așteptăm până când producătorul va scrie acel al i-lea text, înainte de a-l citi (!)</u>.
+Ceea ce, conform celor spuse mai sus, revine la a aștepta până când nu mai "vedem" zerouri la primele 9 din cele 10 adrese
+corespunzătoare "poziției" din mapare unde se stochează textul respectiv...
+</p>
+<p>
+Mai mult, este suficient <!--să testăm dacă "vedem" zero--> să așteptăm până când nu mai "vedem" zero
+DOAR la prima adresă, dintre cele 10 adrese consecutive de memorie, folosite în program pentru a stoca textul al i-lea.
+Motivația este următoarea:
+<button onclick="myToggle('lab9_demoDataRace1_src2_a')">Show / Hide the explanation</button>
+<div id="lab9_demoDataRace1_src2_a" style="display:none;" class="stil_explicatie_detaliata">
+Putem face aceasta deoarece, probabilitatea ca la prima adresă să "vedem" non-zero și la vreunele dintre următoarele 9 adrese să "vedem" zero,
+este neglijabilă, tinzând spre zero, lucru datorat acelor apeluri sleep() de durate random din buclele for din producător și din consumator => fiecare
+iterație a buclei for va fi executată, în întregime, pe câte o cuantă diferită și ca urmare, dacă producătorul a apucat să scrie peste zero-ul de la prima adresă,
+nu va fi întrerupt (preemptat de pe CPU) înainte de a apuca să scrie și peste zero-urile de la următoarele 9 adrese.
+</div>
+Pe baza acestei simplificări, așteptarea necesară pentru sincronizare, explicată mai sus, poate fi implementată prin următoarea linie de cod:
+<tt class="stil_instrC">do{ } while( *(map_addr + i*dim_texte) == 0);</tt> ,
+pe care o vom adăuga în bucla for din consumator, înaintea liniei de cod în care se citește textul al i-lea.
+</p>
+<div class="stil_QandA">Oare chiar este suficient să așteptăm până când nu mai "vedem" zero DOAR la prima adresă,
+dintre cele 10 adrese corespunzătoare textului al i-lea, pentru a realiza sincronizarea dorită?
+<br><br>
+<i>Răspuns</i>: nu, nu este suficient! Explicația este următoarea:
+<button onclick="myToggle('lab9_demoDataRace1_src2_b')">Show / Hide the explanation</button>
+<div id="lab9_demoDataRace1_src2_b" style="display:none;" class="stil_explicatie_detaliata">
+De ce nu este suficient?
+<br>
+Pentru că, argumentația dată mai sus, pe lângă faptul că este exprimată în termeni de probabilități neglijabile, și nu în termeni de certitudini,
+conține și o greșeală de raționament...<!-- mai are un "viciu ascuns"...-->
+<br>
+Și anume, argumentația este validă doar în ipoteza că cele două operații "conflictuale" (i.e., aflate în "întrecere"),
+și anume scrierea textului al i-lea de către producător și, respectiv, citirea acestuia de către consumator,
+sunt executate prin "paralelism aparent" (!).
+<br>
+Altfel, dacă sunt executate prin "paralelism real", atunci se poate întâmpla, cu o probabilitate diferită de zero,
+ca acele două operații "conflictuale" să se execute efectiv în paralel
+(i.e., producătorul rulează o cuantă pe un core/CPU și face acea scriere, iar <b>simultan</b> consumatorul rulează o cuantă pe un alt core/CPU și face acea citire).
+Și atunci, deoarece <u>acele două operații "conflictuale" NU sunt atomice (!)</u>, ci fiecare constă dintr-o secvență de 10 accese la memorie,
+pentru scrierea, respectiv, citirea celor 10 octeți individuali (i.e., cele 10 adrese de memorie consecutive) din care este format textul al i-lea,
+rezultă că, doar pentru textul al i-lea, avem 10 "race"-uri între producător și consumator,
+și atunci faptul că noi așteptăm să vedem în consumator o valoare non-zero DOAR la prima adresă,
+ne garantează faptul că producătorul va câștiga DOAR primul "race" dintre cele 10 "race"-uri corespunzătoare textului al i-lea.
+Însă NU ne garantează și faptul că le va câștiga și pe toate celelalte 9 (!).
+<br>
+Mai mult, argumentația de mai sus rămâne valabilă și în cazul în care cele două operații "conflictuale" descrise mai sus
+(i.e., scrierea textului al i-lea de către producător și citirea acestuia de către consumator),
+sunt executate prin "paralelism aparent", pentru că totuși probabilitatea de care spuneam mai sus că este neglijabilă, înseamnă de fapt
+"<i>un mic epsilon strict mai mare decât zero</i>", deci nu avem o certitudine (!). În plus, probabilitatea respectivă va crește chiar,
+dacă eliminăm acele apeluri sleep() de durate random din buclele for din producător și din consumator.
+</div>
+<p>
+În concluzie, nu este suficient să așteptăm până când nu mai "vedem" zero DOAR la prima adresă.
+Și atunci, ce facem, suntem obligați să așteptăm până când nu mai "vedem" zero la FIECARE dintre cele 10 adrese?
+<br>
+Răspunsul este, din fericire, negativ. Și anume, putem face o altă simplificare...
+</p>
+</div>
+
+<p>
+O altă simplificare pe care am putea-o face, este să așteptăm până când nu mai "vedem" zero <del>la ultima adresă, i.e. a 10-a adresă,</del>
+la penultima adresă, i.e. a 9-a adresă, dintre cele 10 adrese consecutive folosite în program pentru a stoca textul al i-lea.
+Motivația este următoarea:
+<button onclick="myToggle('lab9_demoDataRace1_src2_c')">Show / Hide the explanation</button>
+<div id="lab9_demoDataRace1_src2_c" style="display:none;" class="stil_explicatie_detaliata">
+Putem face aceasta deoarece, atât scrierea făcută de producător, cât și citirea făcută de consumator, sunt efectuate "de la stânga la dreapta",
+adică cele 10 adrese consecutive folosite în program pentru a stoca textul al i-lea, sunt accesate în ordinea: de la prima adresă, spre ultima adresă.
+<br>
+Și atunci, dacă așteptăm în consumator până când nu mai "vedem" zero la penultima adresă,
+înainte de a citi textul al i-lea (adică, înainte de a citi toate cele 10 adrese),
+vom avea certitudinea (adică, siguranța cu o probabilitate de 100%) că vom citi ceea ce ne dorim,
+i.e. că producătorul a câștigat toate cele 10 "race"-uri aferente textului al i-lea.
+Mai precis, fix al 10-a "race" nu contează, pentru că pe poziția a 10-a producătorul va scrie tot zero, peste zero-ul original;
+contează doar primele 9 "race"-uri din cele 10 "race"-uri aferente textului al i-lea, adică cele corespunzătoare primelor 9 caractere non-zero
+pe care le va scrie producătorul la adresele corespunzătoare. De aceea ne "uităm" la penultima adresă, în loc de ultima adresă (!).
+</div>
+Pe baza acestei a doua simplificări, despre care tocmai am demonstrat mai sus că este corectă (!),
+așteptarea necesară pentru sincronizare, explicată mai sus, poate fi implementată prin următoarea linie de cod:
+<tt class="stil_instrC">do{ } while( *(map_addr + i*dim_texte + dim_texte - 2) == 0);</tt> ,
+pe care o vom adăuga în bucla for din consumator, înaintea liniei de cod în care se citește textul al i-lea.
+</p>
+
+
+<p>
+<b>II) Implementarea soluției de sincronizare</b> proiectate la pasul anterior.
+</p>
+
+<p>
+1. Așadar, conform primei etape, de proiectare, am găsit o soluție de sincronizare care este <b>corectă</b> (i.e.,
+ne garantează tipul de sincronizare de care aveam nevoie în situația concretă din prima variantă a programului nostru).
+Ea constă în a adăuga doar o singură linie de cod suplimentară în prima variantă a programului nostru,
+și anume vom adăuga linia de cod <tt class="stil_instrC">do{ } while( *(map_addr + (i+1)*dim_texte - 2) == 0);</tt> 
+în bucla for din consumator, înaintea liniei de cod în care se citește textul al i-lea.
+</p>
+
+<div class="stil_QandA">Soluția de sincronizare proiectată am văzut că este corectă.
+Însă, este ea și eficientă? Sau se poate și mai bine?
+<br><br>
+Pentru a răspunde la această întrebare, să înțelegem mai întâi ce se întâmplă la execuția acestei linii de cod:
+<br>
+<tt class="stil_instrC">do{ } while( *(map_addr + (i+1)*dim_texte - 2) == 0);</tt> 
+<br>
+Practic, este un exemplu de buclă de "așteptare ocupată", i.e. "<i>I am 'spinning' on the CPU, testing repeatedly for zero...</i>"
+(recitiți cursul teoretic #5, în care am discutat aceste aspecte).
+<br>
+<br>
+Tot de la teorie, știm că putem eficientiza folosirea sistemului de calcul, înlocuind "așteptarea ocupată" cu un "sleeping blocant" (i.e.,
+renunțăm la procesor și trecem în starea waiting, de unde vom fi treziți de către SO, sau un alt proces, atunci când condiția așteptată devine adevărată).
+<br>
+Din păcate, cu cunoștiințele dobândite până acum, nu puteți implementa această idee. Însă, o puteți "simula", de exemplu, astfel:
+<br>
+<tt class="stil_instrC">do{ sleep(1); } while( *(map_addr + (i+1)*dim_texte - 2) == 0);</tt>
+ // I will sleep for 1 second in the waiting state, then I will become ready, then running and test again for zero...
+<br>
+Practic, ne "blocăm" (i.e., trecem consumatorul în starea waiting) timp de 1 secundă, apoi ne "trezim" și testăm din nou adresa, iar dacă este tot zero,
+ne "blocăm" iarăși pentru 1 secundă, ș.a.m.d.
+<br>Sigur, pentru a fi cel mai eficient, a trebuit să folosim "pauza" cea mai mică permisă de apelul de sistem folosit,
+în cazul de față "pauza" minimă de 1 secundă, permisă de apelul sleep().
+Ea este suficientă în cazul nostru, datorită acelor apeluri sleep() de durate random din buclele for din producător și din consumator.
+<br>
+<br>
+Dacă însă am elimina acele apeluri, atunci durata minimă pentru o "pauză" eficientă este comparabilă ca ordin de mărime cu durata cuantei SO-ului,
+deci de ordinul 10-100 milisecunde. Și atunci în loc de apelul sleep(), am putea folosi apelul usleep(), ce are precizia de ordinul microsecundelor.
+<br>
+<br>
+<u>Ce facem însă dacă nu avem nicio idee despre ordinul de mărime al intervalului de timp la care ar avea sens să tot re-testăm pentru non-zero acea adresă?</u>
+<br>
+Nu este cazul problemei noastre, dar ca idee generală, pe care o veți putea aplica în alte situații, caracterizate prin afirmația de mai sus,
+ceea ce putem face este următorul lucru:
+<br>
+Putem adapta soluția cu așteptarea blocantă, de mai sus, la <u>durata cea mai mică posibil de exprimat</u>,
+care poate fi obținută prin apelul <tt class="stil_instrC">sleep(0);</tt>
+(sau, echivalent, prin apelul <tt class="stil_instrC">usleep(0);</tt>), obținând astfel următoarea soluție de sincronizare:
+<br>
+<tt class="stil_instrC">do{ sleep(0); } while( *(map_addr + (i+1)*dim_texte - 2) == 0);</tt>
+ // the minimal non-spinning waiting: I am going to the ready state (i.e., I preempt myself, but without an effective sleep), then running and test again for zero...
+<br>
+<i>Atenție</i>: durata obținută prin acest apel nu este chiar zero (!), ci este "<i>un mic epsilon strict mai mare decât zero</i>",
+reprezentând timpul necesar SO-ului (<i>overhead</i>-ul) pentru a realiza acțiunea presupusă de acel apel (i.e., intrarea în kernel-mode, saltul la rutina
+ce implementează apelul sleep, execuția acțiunii presupuse de acest apel cu durata zero: "tranziția procesului apelant din starea running în starea ready"), 
+plus timpul de așteptare în coada ready până când planificatorul îl va selecta pentru a-i acorda o nouă cuantă, plus timpul necesar SO-ului pentru
+realizarea context-switch-ului și revenirea apoi în user-mode, unde programul nostru va continua cu testarea condiției din while,
+apoi va relua bucla do-while, în felul descris, posibil de mai multe ori, până când testarea va fi falsă,
+adică până când producătorul va fi reușit să scrie textul al i-lea în memorie la adresele corespunzătoare.
+</div>
+
+
+<p>
+2. Porniți editorul de texte preferat și scrieți programul de mai jos,
+apoi salvați-l într-un fișier cu numele <tt>lab9_data-race1_prod+cons_synced.c</tt>:
+</p>
+
+<pre class="stil_codC"><div w3-include-MyCode="lab9_c/lab9_data-race1_prod+cons_synced.c">See the code from <a target="_blank"
+href="lab9_c/lab9_data-race1_prod+cons_synced.c">here</a>.</div></pre>
+<p>
+<i>Notă</i>: în programul de mai sus am inclus toate cele 3 variante discutate mai sus, d.p.d.v. al eficienței, pentru realizarea sincronizării dorite.
+Doar pe a doua am lăsat-o activă, iar celelalte două sunt comentate.
+<br>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+vă recomand să le testați, pe rând, și pe celelalte două, decomentându-le și recomentându-le în mod corespunzător.
+</p>
+
+<p>
+3. <big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+verificați faptul că această variantă NU mai "suferă" de fenomenul <i>race conditions</i>, ce cauzează rezultate imprevizibile.
+<br>
+Cum anume? Rulați programul de mai multe ori, și anume de oricât de multe ori doriți,
+și observați că <u>de fiecare dată consumatorul va reuși să citească corect toate cele 20 de texte</u>.
+</p>
+
+<p>
+Pentru exemplificare, vedeți aici:
+<button onclick="myToggle('lab9_demoDataRace1_src2_d')">Show / Hide the details</button>
+<div id="lab9_demoDataRace1_src2_d" style="display:none;" class="stil_explicatie_detaliata">
+Outputul afișat pe ecran de o instanță de execuție a programului, ar putea fi următorul:
+<pre class="stil_output">
+Notification: The page size on your hardware system is: 4096 bytes.
+Notification: An anonymous shared mapping in memory was created, with read/write permmission, and with the length: 200.
+Notification:   Actually, the length/size of the mapping in memory is: 1 page(s).
+[Producer] Notification: sunt procesul tata, cu PID-ul: 11342.
+[Producer] Notification: I wrote the 0th text, "Textul  0", in the mapping.
+[Consumer] Notification: sunt procesul fiu, cu PID-ul: 11343.
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Producer] Notification: I wrote the 1th text, "Textul  1", in the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Producer] Notification: I wrote the 2th text, "Textul  2", in the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Producer] Notification: I wrote the 3th text, "Textul  3", in the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Producer] Notification: I wrote the 4th text, "Textul  4", in the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Producer] Notification: I wrote the 5th text, "Textul  5", in the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Producer] Notification: I wrote the 6th text, "Textul  6", in the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Producer] Notification: I wrote the 7th text, "Textul  7", in the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Producer] Notification: I wrote the 8th text, "Textul  8", in the mapping.
+[Producer] Notification: I wrote the 9th text, "Textul  9", in the mapping.
+[Producer] Notification: I wrote the 10th text, "Textul 10", in the mapping.
+[Producer] Notification: I wrote the 11th text, "Textul 11", in the mapping.
+[Consumer] Notification: I read the 8th text, "Textul  8", from the mapping.
+[Producer] Notification: I wrote the 12th text, "Textul 12", in the mapping.
+[Consumer] Notification: I read the 9th text, "Textul  9", from the mapping.
+[Producer] Notification: I wrote the 13th text, "Textul 13", in the mapping.
+[Producer] Notification: I wrote the 14th text, "Textul 14", in the mapping.
+[Consumer] Notification: I read the 10th text, "Textul 10", from the mapping.
+[Producer] Notification: I wrote the 15th text, "Textul 15", in the mapping.
+[Consumer] Notification: I read the 11th text, "Textul 11", from the mapping.
+[Producer] Notification: I wrote the 16th text, "Textul 16", in the mapping.
+[Producer] Notification: I wrote the 17th text, "Textul 17", in the mapping.
+[Consumer] Notification: I read the 12th text, "Textul 12", from the mapping.
+[Consumer] Notification: I read the 13th text, "Textul 13", from the mapping.
+[Consumer] Notification: I read the 14th text, "Textul 14", from the mapping.
+[Consumer] Notification: I read the 15th text, "Textul 15", from the mapping.
+[Producer] Notification: I wrote the 18th text, "Textul 18", in the mapping.
+[Producer] Notification: I wrote the 19th text, "Textul 19", in the mapping.
+[Producer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului parinte.
+
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Consumer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului fiu.
+
+</pre>
+din care, extrăgând doar liniile afișate de consumator, obținem outputul următor:
+<pre class="stil_output">
+[Consumer] Notification: sunt procesul fiu, cu PID-ul: 11343.
+[Consumer] Notification: I read the 0th text, "Textul  0", from the mapping.
+[Consumer] Notification: I read the 1th text, "Textul  1", from the mapping.
+[Consumer] Notification: I read the 2th text, "Textul  2", from the mapping.
+[Consumer] Notification: I read the 3th text, "Textul  3", from the mapping.
+[Consumer] Notification: I read the 4th text, "Textul  4", from the mapping.
+[Consumer] Notification: I read the 5th text, "Textul  5", from the mapping.
+[Consumer] Notification: I read the 6th text, "Textul  6", from the mapping.
+[Consumer] Notification: I read the 7th text, "Textul  7", from the mapping.
+[Consumer] Notification: I read the 8th text, "Textul  8", from the mapping.
+[Consumer] Notification: I read the 9th text, "Textul  9", from the mapping.
+[Consumer] Notification: I read the 10th text, "Textul 10", from the mapping.
+[Consumer] Notification: I read the 11th text, "Textul 11", from the mapping.
+[Consumer] Notification: I read the 12th text, "Textul 12", from the mapping.
+[Consumer] Notification: I read the 13th text, "Textul 13", from the mapping.
+[Consumer] Notification: I read the 14th text, "Textul 14", from the mapping.
+[Consumer] Notification: I read the 15th text, "Textul 15", from the mapping.
+[Consumer] Notification: I read the 16th text, "Textul 16", from the mapping.
+[Consumer] Notification: I read the 17th text, "Textul 17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Textul 18", from the mapping.
+[Consumer] Notification: I read the 19th text, "Textul 19", from the mapping.
+[Consumer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului fiu.
+
+</pre>
+Dacă veți rula programul de mai multe ori, și anume de oricât de multe ori doriți,
+veți observa schimbări, în ouput-urile afișate pe ecran, ce constau doar în ordini diferite de "amestecare" (i.e., interclasare) a mesajelor de notificare
+de la producător și de la consumator.
+Însă, extrăgând doar liniile afișate de consumator din ouput-urile respective,
+veți obține întotdeauna același output (exceptând valoarea PID-ului afișat în prima linie),
+și anume veți constata că procesul consumator reușește de fiecare dată să citească corect cele 20 de texte.
+</div>
+</p>
+
+
+<p>
+<b><i>De reținut</i>:</b> această soluție de sincronizare este particularizată pentru datele acestei probleme, după cum ați putut vedea în cele de mai sus,
+și prin urmare <u>ea NU poate fi aplicată și pentru alte situații mai generalizate decât cea descrisă în problema noastră</u>.
+<br>
+Spre exemplu, această soluție de sincronizare NU se poate aplica (decât cu modificări extensive) dacă textele de scris și de citit au lungimi diferite,
+în loc de texte de aceeași lungime constantă, precum sunt cele descrise în problema noastră.
+</p>
+</div>
+
+<br><br>
+<div class="stil_QandA">
+<i>Întrebare suplimentară</i>:
+Ce credeți, are vreo importanță ce valoare punem la parametrul <tt>length</tt> din apelul <tt>mmap()</tt>,
+în oricare dintre cele două variante de program de mai sus?
+<br><br>
+<i>Răspuns</i>:
+<button onclick="myToggle('lab9_demoDataRace1_src2_e')">Show / Hide the details</button>
+<div id="lab9_demoDataRace1_src2_e" style="display:none;" class="stil_explicatie_detaliata">
+Da, evident că are importanță.
+<br>
+În primul rând, trebuie să fie neapărat strict pozitivă.
+Altfel, dacă apelați <tt>mmap()</tt> cu parametrul <tt>length = 0</tt>, programul vă va da următoarea eroare, evidentă:
+<pre class="stil_output">
+Error at mmap: Invalid argument
+</pre>
+În al doilea rând, nu e obligatoriu să fie egală strict cu dimensiunea efectivă ocupată în memorie de cele 20 de texte, adică 20x10=200 de octeți.
+Poate fi și mai mică, spre exemplu dacă apelați <tt>mmap()</tt> cu parametrul <tt>length = 100</tt>, programul tot va funcționa corect, fără nicio eroare.
+<br>
+Spre exemplu, outputul afișat pe ecran de o instanță de execuție a versiunii sincronizate a programului,
+modificată astfel încât să apeleze <tt>mmap()</tt> cu parametrul <tt>length = 100</tt> (și, în plus, am eliminat acele apeluri sleep() cu durată random),
+a fost următorul:
+<pre class="stil_output">
+Notification: The page size on your hardware system is: 4096 bytes.
+Notification: An anonymous shared mapping in memory was created, with read/write permmission, and with the length: 100.
+Notification:   Actually, the length/size of the mapping in memory is: 1 page(s).
+[Producer] Notification: sunt procesul tata, cu PID-ul: 11640.
+[Producer] Notification: I wrote the 0th text, "Text:   0", in the mapping.
+[Consumer] Notification: sunt procesul fiu, cu PID-ul: 11641.
+[Producer] Notification: I wrote the 1th text, "Text:   1", in the mapping.
+[Consumer] Notification: I read the 0th text, "Text:   0", from the mapping.
+[Producer] Notification: I wrote the 2th text, "Text:   2", in the mapping.
+[Producer] Notification: I wrote the 3th text, "Text:   3", in the mapping.
+[Consumer] Notification: I read the 1th text, "Text:   1", from the mapping.
+[Producer] Notification: I wrote the 4th text, "Text:   4", in the mapping.
+[Producer] Notification: I wrote the 5th text, "Text:   5", in the mapping.
+[Consumer] Notification: I read the 2th text, "Text:   2", from the mapping.
+[Producer] Notification: I wrote the 6th text, "Text:   6", in the mapping.
+[Producer] Notification: I wrote the 7th text, "Text:   7", in the mapping.
+[Consumer] Notification: I read the 3th text, "Text:   3", from the mapping.
+[Producer] Notification: I wrote the 8th text, "Text:   8", in the mapping.
+[Producer] Notification: I wrote the 9th text, "Text:   9", in the mapping.
+[Consumer] Notification: I read the 4th text, "Text:   4", from the mapping.
+[Producer] Notification: I wrote the 10th text, "Text:  10", in the mapping.
+[Producer] Notification: I wrote the 11th text, "Text:  11", in the mapping.
+[Consumer] Notification: I read the 5th text, "Text:   5", from the mapping.
+[Producer] Notification: I wrote the 12th text, "Text:  12", in the mapping.
+[Producer] Notification: I wrote the 13th text, "Text:  13", in the mapping.
+[Consumer] Notification: I read the 6th text, "Text:   6", from the mapping.
+[Producer] Notification: I wrote the 14th text, "Text:  14", in the mapping.
+[Producer] Notification: I wrote the 15th text, "Text:  15", in the mapping.
+[Consumer] Notification: I read the 7th text, "Text:   7", from the mapping.
+[Producer] Notification: I wrote the 16th text, "Text:  16", in the mapping.
+[Producer] Notification: I wrote the 17th text, "Text:  17", in the mapping.
+[Consumer] Notification: I read the 8th text, "Text:   8", from the mapping.
+[Producer] Notification: I wrote the 18th text, "Text:  18", in the mapping.
+[Producer] Notification: I wrote the 19th text, "Text:  19", in the mapping.
+[Consumer] Notification: I read the 9th text, "Text:   9", from the mapping.
+[Producer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului parinte.
+
+[Consumer] Notification: I read the 10th text, "Text:  10", from the mapping.
+[Consumer] Notification: I read the 11th text, "Text:  11", from the mapping.
+[Consumer] Notification: I read the 12th text, "Text:  12", from the mapping.
+[Consumer] Notification: I read the 13th text, "Text:  13", from the mapping.
+[Consumer] Notification: I read the 14th text, "Text:  14", from the mapping.
+[Consumer] Notification: I read the 15th text, "Text:  15", from the mapping.
+[Consumer] Notification: I read the 16th text, "Text:  16", from the mapping.
+[Consumer] Notification: I read the 17th text, "Text:  17", from the mapping.
+[Consumer] Notification: I read the 18th text, "Text:  18", from the mapping.
+[Consumer] Notification: I read the 19th text, "Text:  19", from the mapping.
+[Consumer] Notification: I finished my job!
+Notification: sfarsitul executiei procesului fiu.
+
+</pre>
+Practic, fie că apelăm funcția <tt>mmap()</tt> cu valoarea 200, fie că o apelăm cu valoarea 100 (pe poziția corespunzătoare argumentului <tt>length</tt>),
+în urma execuției acestui apel se va crea o mapare cu dimensiunea de 1 pagină, i.e. 4096 octeți,
+adică vom putea accesa toate cele 4096 de adrese ale mapării fără ca să obținem erori de tipul <i>access violation in memory</i>, i.e.
+erori care se manifestă prin faptul că programul va "crăpa" la execuție cu eroarea "Segmentation fault (core dumped)".
+<br><br>
+În schimb, dacă folosim valori, pentru parametrul <tt>length</tt> din apelul <tt>mmap()</tt>, ce sunt mai mici decât
+"cel mai mare multiplu de dimensiunea paginii, care este mai mic decât dimensiunea informațiilor ce vor fi stocate și accesate în acea mapare",
+atunci sigur vom obține erori de tipul <i>access violation in memory</i>, i.e. "Segmentation fault (core dumped)".
+<br><br>
+Pentru a ilustra ultima afirmație de mai sus, am modificat versiunea sincronizată a programului (dar același lucru se poate face și cu cea nesincronizată)
+astfel încât să utilizeze 500 de texte de câte 10 octeți (deci dimensiunea informațiilor, ce vor fi stocate și accesate în mapare, va fi în total de 5000 de octeți)
+și să apeleze <tt>mmap()</tt> cu parametrul <tt>length = 100</tt> (sau puteam folosi orice altă valoare cuprinsă între 1 și 4095)
+și, în plus, am eliminat acele apeluri sleep() cu durată random (pentru a nu aștepta prea mult execuția celor 500 de iterații ale buclelor for din program).
+<br>
+Apoi am rulat programul astfel modificat și am obținut următorul output pe ecran, pe care-l puteți consulta în întregime
+<a target="_blank" href="lab9_c/lab9_data-race1_output-5000.txt">aici</a>;
+mai jos am extras doar partea semnificativă din acel output, în sprijinul afirmației făcute mai sus:
+<pre class="stil_output">
+Notification: The page size on your hardware system is: 4096 bytes.
+Notification: An anonymous shared mapping in memory was created, with read/write permmission, and with the length: 100.
+Notification:   Actually, the length/size of the mapping in memory is: 1 page(s).
+[Producer] Notification: sunt procesul tata, cu PID-ul: 11590.
+[Consumer] Notification: sunt procesul fiu, cu PID-ul: 11591.
+[Producer] Notification: I wrote the 0th text, "Text:   0", in the mapping.
+[Consumer] Notification: I read the 0th text, "Text:   0", from the mapping.
+[Producer] Notification: I wrote the 1th text, "Text:   1", in the mapping.
+[Consumer] Notification: I read the 1th text, "Text:   1", from the mapping.
+[Producer] Notification: I wrote the 2th text, "Text:   2", in the mapping.
+[Producer] Notification: I wrote the 3th text, "Text:   3", in the mapping.
+[Consumer] Notification: I read the 2th text, "Text:   2", from the mapping.
+[Producer] Notification: I wrote the 4th text, "Text:   4", in the mapping.
+[Consumer] Notification: I read the 3th text, "Text:   3", from the mapping.
+[Producer] Notification: I wrote the 5th text, "Text:   5", in the mapping.
+[Producer] Notification: I wrote the 6th text, "Text:   6", in the mapping.
+[Consumer] Notification: I read the 4th text, "Text:   4", from the mapping.
+[Producer] Notification: I wrote the 7th text, "Text:   7", in the mapping.
+[Consumer] Notification: I read the 5th text, "Text:   5", from the mapping.
+[Producer] Notification: I wrote the 8th text, "Text:   8", in the mapping.
+[Producer] Notification: I wrote the 9th text, "Text:   9", in the mapping.
+[Consumer] Notification: I read the 6th text, "Text:   6", from the mapping.
+[Producer] Notification: I wrote the 10th text, "Text:  10", in the mapping.
+...
+...
+...
+[Consumer] Notification: I read the 209th text, "Text: 209", from the mapping.
+[Producer] Notification: I wrote the 407th text, "Text: 407", in the mapping.
+[Consumer] Notification: I read the 210th text, "Text: 210", from the mapping.
+[Producer] Notification: I wrote the 408th text, "Text: 408", in the mapping.
+    <font color="blue">// Aici părintele a scris la adresele 4080-4089, i.e. ultima scriere(a unui text) care reușește!</font>
+Segmentation fault (core dumped)
+    <font color="red">// Aici părintele a scris la adresele 4090-4099 și a "crăpat".
+    // Mai exact, când a ajuns la scrierea adresei 4096 (i.e. înafara paginii alocate mapării), procesul producător a "crăpat" !</font>
+[Consumer] Notification: I read the 211th text, "Text: 211", from the mapping.
+[Consumer] Notification: I read the 212th text, "Text: 212", from the mapping.
+[Consumer] Notification: I read the 213th text, "Text: 213", from the mapping.
+[Consumer] Notification: I read the 214th text, "Text: 214", from the mapping.
+...
+...
+...
+[Consumer] Notification: I read the 406th text, "Text: 406", from the mapping.
+[Consumer] Notification: I read the 407th text, "Text: 407", from the mapping.
+[Consumer] Notification: I read the 408th text, "Text: 408", from the mapping.
+    <font color="blue">// Aici fiul a citit de la adresele 4080-4089, i.e. ultima citire (a unui text) care reușește!</font>
+    <font color="red">// Apoi fiul trece la următorul text și, mai întâi, verifică dacă poate citi de la adresele 4090-4099,
+    // "blocându-se" în bucla repetitivă în care face acea verificare.
+    // Mai exact, când consumatorul va verifica valoarea de la adresa 4098 (i.e., înafara paginii alocate mapării),
+    // citirea de la acea adresă reușește, dar citește valoarea zero, pe care o va tot citi în mod repetat,
+    // la infinit, în acea buclă, deoarece nu mai are cine să o modifice, producătorul fiind terminat forțat!</font>
+</pre>
+</div>
+</div>
+
+</div>
+<br><br>
+</li>
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<p>Intrați pe setul de exerciții propuse spre rezolvare, pe care vi-l va indica asistentul de laborator în clasă, și încercați să le rezolvați singuri:</p> 
+
+<button onclick="mySetToggle('setCV')">Setul CV</button>
+<button onclick="mySetToggle('setRB')">Setul RB</button>
+<button onclick="mySetToggle('setBP')">Setul BP</button>
+<button onclick="mySetToggle('setDA')">Setul DA</button>
+<button onclick="mySetToggle('setAG')">Setul AG</button>
+<button onclick="mySetToggle('setVU')">Setul VU</button>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setCV" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab9_setCV_ex1 ---------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #2 (<small>v2, using mmap-files for IPC</small>)]</big><!-- CV: enunț nou, 2020 -->
+<br>
+Re-implementați programul care se cere a fi scris la exercițiul <b>['Supervisor-workers' pattern #2 (<small>v1, using regular files for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+astfel încât cele două fișiere folosite pentru comunicații să fie accesate prin maparea lor în memorie.
+</p>
+
+<button onclick="myToggle('lab9_setCV_ex1')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setCV_ex1" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Supervisor-workers' pattern #2 (<small>v1, using regular files for IPC</small>)]</b>.
+</div>
+<br><br>
+</li>
+
+<li><!-- Problema: lab9_setCV_ex2 ---------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #1 (<small>v3, using anon mmap for IPC</small>)]</big><!-- CV: enunț nou, 2020 -->
+<br>
+Re-implementați programul care se cere a fi scris la exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+astfel încât rolul fișierului <tt>flag.bin</tt> să fie îndeplinit de o mapare anonimă în memorie.
+</p>
+
+<button onclick="myToggle('lab9_setCV_ex2')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setCV_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>.
+</div>
+<br><br>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setRB" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab9_setRB_ex1 ---------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #2 (<small>v1, using regular files for IPC</small>)]</big><!-- CV: vechea problemă lab9_ex2.c, formulată mai precis -->
+<br>
+Scrieți un program C care primește ca argument o valoare numerică <tt>N</tt> și creează două procese fii;
+primul proces fiu va genera (pseudo-)aleator <tt>N</tt> perechi de numere întregi, pe care le va scrie într-un fișier binar "operanzi.bin", iar
+al doilea fiu va genera (pseudo-)aleator <tt>N</tt> caractere din mulțimea <tt>{'+', '-', '*', '/'}</tt>, pe care le va scrie într-un fișier text "operatori.txt".
+Procesul părinte va aștepta generarea celor două fișiere de către fii, apoi
+va citi succesiv câte o pereche de numere din fișierul "operanzi.bin" și câte o operație din fișierul "operatori.txt",
+va efectua calculul respectiv și va afișa pe ecran rezultatele operațiilor efectuate. 
+<br>
+<i>Cerință</i>: <u>perechile de numere întregi se vor stoca în fișierul "operanzi.bin" folosind reprezentarea 'binară'</u>
+(și NU cea 'textuală') a numerelor întregi,
+iar accesarea ambelor fișiere se va face prin interfața clasică din API-ul POSIX (i.e., <u>folosind apelurile de sistem read/write</u>,
+și NU prin apelarea la funcțiile din biblioteca stdio).
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa un calcul paralel/distribuit
+pe modelul arhitectural "supervisor-workers", numit uneori și "master-slaves"
+<!--br>
+<i>Observație</i>: un alt exemplu, mai elaborat, de realizare a unui calcul de această formă, din care vă puteți inspira,
+îl găsiți în directorul cu programele demonstrative de la lecția practică <a href="../cursuri/P6_fork+wait.pdf">P6_fork+wait</a-->
+.</span>)
+</p>
+
+<button onclick="myToggle('lab9_setRB_ex1')">Show / Hide some suggestion for solving this problem</button>
+<div id="lab9_setRB_ex1" style="display:none;" class="stil_rezolvare_incompleta">
+<b><i>Ideea de rezolvare</i></b> se poate desprinde din următoarea diagramă (schemă logică), scrisă de mână:
+<br><br>
+<div align="center"><img src="xerox_files/Lab9_ex2b__IMG_20190418_114508_cr.jpg" width="50%"></div>
+<br><br>
+Iată și un posibil șablon de rezolvare a problemei
+(dvs. vă rămâne ca sarcină să implementați singuri funcțiile specificate în program, pe baza diagramei de mai sus):
+<br><br>
+<button onclick="myToggle('lab9_setRB_ex1_src')">Show / Hide the source</button>
+<pre id="lab9_setRB_ex1_src" style="display:none;" class="stil_codC">
+<div w3-include-HTML="lab9_c/lab9_ex5.c.html">See the code from <a target="_blank"
+href="lab9_c/lab9_ex5.c.html">here</a>.</div>
+</pre>
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+implementați singuri funcțiile specificate în program, pe baza diagramei de mai sus,
+și asigurați-vă, prin testarea și depanarea programului, de faptul că funcționează conform specificațiilor din enunț.
+</p>
+</div>
+<br><br>
+</li>
+
+<li><!-- Problema: lab9_setRB_ex2 ---------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</big><!-- CV: vechea problemă lab9_ex1.c, formulată mai precis -->
+<br>
+Scrieți un program C care să creeze un proces fiu cu care să înceapă să discute conform unui dialog salvat în două fișiere,
+câte unul pentru fiecare vorbitor: <tt>replici-parinte.txt</tt> și, respectiv, <tt>replici-fiu.txt</tt>.
+Discuția se va purta ca la un dialog normal: fiecare vorbitor va spune o replică, după care va aștepta răspunsul celuilalt.
+Sincronizarea necesară, specifică acestui șablon, se va realiza astfel: 
+așteptarea răspunsului celuilalt se va încheia cu ajutorul unui flag, păstrat în fișierul <tt>flag.bin</tt>,
+care se va seta într-un mod adecvat, de către celălalt proces, după ce și-a spus replica.
+<br>
+<i>Cerințe</i>: cele două fișiere text cu replici le puteți crea folosind orice editor de texte obișnuit și le puteți citi prin program
+folosind funcțiile din biblioteca stdio.
+În schimb, <u>accesarea fișierului special <tt>flag.bin</tt></u>, utilizat pentru implementarea 'protocolului de sincronizare' specific acestei probleme,
+se va face prin interfața clasică din API-ul POSIX (i.e., <u>folosind apelurile de sistem read/write</u>, și NU prin apelarea la funcțiile din biblioteca stdio).
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul meu --> acum e rândul tău --> acum e rândul meu --> acum e rândul tău --> ... ș.a.m.d.</small>",
+folosind comunicații prin intermediul unui fișier obișnuit.
+<br>
+<i>Notă</i>: după cum spuneam (și) în preambulul acestui laborator, șablonul 'ping-pong' este de fapt o instanță cu <tt>p=2</tt> procese,
+pentru un șablon mai general de sincronizare între <tt>p</tt> procese, cunoscut în literatura de specialitate
+sub denumirea de șablonul de sincronizare <i>token ring</i>.
+<br>
+<i>Observație</i>: mai târziu vom relua ideea acestui șablon de sincronizare, folosind canale de comunicație, respectiv semnale.</span>)
+</p>
+
+<button onclick="myToggle('lab9_setRB_ex2')">Show / Hide some suggestion for solving this problem</button>
+<div id="lab9_setRB_ex2" style="display:none;" class="stil_rezolvare_incompleta">
+<b><i>Ideea de rezolvare</i></b> se poate desprinde din următoarea diagramă (schemă logică), scrisă de mână:
+<br><br>
+<div align="center"><img src="xerox_files/Lab9_ex1b__IMG_20190418_114455_cr.jpg" width="50%"></div>
+<br><br>
+Iată și un posibil șablon <!--o posibilă schiță--> de rezolvare a problemei
+(dvs. vă rămâne ca sarcină să implementați singuri funcțiile specificate în program, pe baza diagramei de mai sus):
+<br><br>
+<button onclick="myToggle('lab9_setRB_ex2_src')">Show / Hide the source</button>
+<pre id="lab9_setRB_ex2_src" style="display:none;" class="stil_codC">
+<div w3-include-HTML="lab9_c/lab9_ex4.c.html">See the code from <a target="_blank"
+href="lab9_c/lab9_ex4.c.html">here</a>.</div>
+</pre>
+<p>
+<big><tt>//TODO</tt></big> (<i style="color: red;">Sarcină pentru dvs.</i>):
+implementați singuri funcțiile specificate în program, pe baza diagramei de mai sus,
+și asigurați-vă, prin testarea și depanarea programului, de faptul că se respectă, la afișarea replicilor pe ecran, tipul de sincronizare cerut în enunț.
+</p>
+</div>
+<br><br>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setBP" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab9_setBP_ex1 ---------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #2 (<small>v3, using anon mmap for IPC</small>)]</big><!-- CV: enunț nou, 2020 -->
+<br>
+Re-implementați programul care se cere a fi scris la exercițiul <b>['Supervisor-workers' pattern #2 (<small>v1, using regular files for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+astfel încât rolul celor două fișiere folosite pentru comunicații să fie îndeplinit de două mapări anonime în memorie
+(sau, se poate rezolva problema și folosind o singură mapare anonimă).
+</p>
+
+<button onclick="myToggle('lab9_setBP_ex1')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setBP_ex1" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Supervisor-workers' pattern #2 (<small>v1, using regular files for IPC</small>)]</b>.
+</div>
+<br><br>
+</li>
+
+<li><!-- Problema: lab9_setBP_ex2 ---------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #1 (<small>v2, using mmap-file for IPC</small>)]</big><!-- CV: enunț nou, 2020 -->
+<br>
+Re-implementați programul care se cere a fi scris la exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+astfel încât fișierul <tt>flag.bin</tt> să fie accesat prin maparea sa în memorie.
+</p>
+
+<button onclick="myToggle('lab9_setBP_ex2')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setBP_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>.
+</div>
+<br><br>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setDA" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab9_setDA_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[Another instance of the 'Supervisor-workers' pattern (<small>using anon mmap for IPC</small>)]</big><!-- CV: 2018TP2var9p3 -->
+<br>Să se scrie un program C care va crea două procese fii.
+Apoi, părintele va genera (pseudo-)aleator 1000 de numere naturale, mai mici decât 101, pe care le va transmite fiilor, astfel:
+numerele impare vor fi trimise primului fiu, iar numerele pare celui de-al doilea fiu (păstrându-le ordinea în care au fost generate).
+Primul fiu va determina care dintre numerele primite sunt numere prime, transmițându-le înapoi părintelui doar pe cele prime (cu păstrarea ordinii lor).
+Al doilea fiu va determina care dintre numerele primite sunt divizibile cu 4, transmițându-le înapoi părintelui doar pe acelea (cu păstrarea ordinii lor).
+Părintele va salva numerele primite de la ambii fii într-un singur vector, pe care-l va sorta crescător și va afișa la final rezultatul sortării.
+<br>
+<i>Cerință</i>: pentru comunicațiile dintre tată și fiecare fiu, se va folosi (câte) o mapare anonimă.
+</p>
+</li>
+
+<li><!-- Problema: lab9_setDA_ex2 ---------------------------------------------------------------------------------------->
+<p><big>['Token ring' pattern #1 (<small>v1, using anon mmap for IPC</small>)]</big><!-- CV: enunț adaptat din problema:
+lab13/2019/['Token-ring pattern' #1 (aka 'Ping-pong' with 3 processes), using signals for syncronization] -->
+<br>
+Se consideră trei fișiere, <tt>nume.txt</tt>, <tt>prenume.txt</tt> și <tt>nota.txt</tt>, în care sunt înregistrate, câte unul pe linie,
+numele, prenumele și respectiv nota obținută de mai mulți studenți la o anumită disciplină
+(se va trata și cazul de excepție când nu există o corespondență bijectivă la nivel de linie între cele trei fișiere). 
+<br>
+Să se scrie un program C care să creeze doi fii, după care se vor realiza următoarele operații:
+tatăl va citi, în mod repetat, câte o linie cu date din fișierul <tt>nume.txt</tt> și o va scrie într-un fișier de ieșire, numit <tt>tabel.txt</tt>,
+primul fiu va citi, în mod repetat, câte o linie cu date din fișierul <tt>prenume.txt</tt> și o va scrie în fișierul <tt>tabel.txt</tt>,
+iar al doilea fiu va citi, în mod repetat, câte o linie cu date din fișierul <tt>nota.txt</tt> și o va scrie în fișierul <tt>tabel.txt</tt>.
+<br>
+În plus, cele trei procese trebuie să se sincronizeze conform șablonului general 'Token-ring' particularizat pentru <tt>p=3</tt> procese,
+folosind o mapare anonimă,
+astfel încât informațiile să apară exact pe câte o linie, sub forma "NUME - PRENUME - NOTA", în fișierul de ieșire <tt>tabel.txt</tt>,
+și nu alte combinații posibile de "interclasare" a informațiilor parțiale scrise de cele trei procese aflate în execuție simultană.
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul jucătorului #1 --> acum e rândul jucătorului #2 --> acum e rândul jucătorului #3 -->
+acum e rândul jucătorului #1 --> acum e rândul jucătorului #2 --> acum e rândul jucătorului #3 -->... ș.a.m.d.</small>",
+folosind comunicații prin intermediul unei zone de memorie partajată (i.e., o mapare anonimă), în locul unui fișier obișnuit..</span>)
+</p>
+
+<button onclick="myToggle('lab9_setDA2_ex2')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setDA2_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+și anume folosiți fișierul <tt>flag.bin</tt> (pe care îl veți înlocui cu o mapare anonimă) în modul descris acolo,
+generalizat pentru cazul a trei procese, în loc de doar două procese,
+pentru a realiza sincronizarea necesară în problema aceasta.
+</div>
+<br><br>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setAG" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab9_setAG_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[Another instance of the 'Supervisor-workers' pattern (<small>using anon mmap for IPC</small>)]</big><!-- CV: 2017TP2var7p3 -->
+<br>Să se scrie un program C care va crea două procese fii.
+Apoi, părintele va citi o secvență de numere întregi strict pozitive de la tastatură, secvență terminată cu Ctrl+D,
+<!-- si va calcula lungimea maxima a reprezentarilor binare ale fiecarui numar citit, implementand urmatorii pasi: -->
+și va transmite fiecărui proces fiu câte jumătate din secvența de numere citită, în felul următor:
+primul fiu va primi numerele aflate pe poziții impare în secvența citită,
+iar al doilea fiu va primi celelalte numere din secvență.
+Transmiterea numerelor către fii se va face sincron cu citirea lor, i.e. pe măsură ce părintele citește câte un număr,
+îl și transmite fiului corespunzător.
+Deci, nu se așteaptă până la finalul introducerii numerelor, pentru a începe să le transmită.
+Astfel, în timp ce se așteaptă utilizatorul ca să introducă următorul număr, în paralel are loc și procesarea numărului precedent introdus (!),
+procesare descrisă în cele de mai jos.
+<br>
+Fiecare fiu va calcula, pentru fiecare număr primit, lungimea reprezentării 'textuale' în baza 2 (!) a acelui număr,
+și va transmite înapoi părintelui lungimile astfel calculate.
+<br>
+Părintele va calcula valoarea maximă a numerelor reprezentând cele două secvențe de lungimi primite de la cei doi fii,
+și va afișa pe ecran această valoare maximă.
+<br>
+<i>Definiție</i>: lungimea reprezentării reprezentării 'textuale' în baza 2 a unui număr întreg strict pozitiv N
+este egală cu cea mai mică putere K a lui 2 astfel încât <tt>2<sup>K-1</sup> < N <= 2<sup>K</sup></tt>.
+<br>
+<i>Exemplificare</i>: lungimea reprezentării 'textuale' în baza 2 a numărului N=12 este K=4,
+iar pentru N=16 obținem K=5. 
+<br>
+<i>Cerință</i>: pentru comunicațiile dintre tată și fiecare fiu, se va folosi (câte) o mapare anonimă.
+</p>
+</li>
+
+<li><!-- Problema: lab9_setAG_ex2 ---------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #3 (<small>v1, using anon mmap for IPC</small>)]</big><!-- CV: enunț adaptat din problema: lab12/2019/['Ping-pong pattern' #4, using fifos for IPC] -->
+<br>
+Se consideră două fișiere, <tt>nume.txt</tt> și <tt>telefon.txt</tt>, în care sunt scrise, pe câte o linie, numele și respectiv numerele de telefon ale unor persoane
+(se va trata și cazul de excepție când nu există o corespondență bijectivă la nivel de linie între cele două fișiere). 
+<br>
+Să se scrie un program C care să creeze un fiu, după care se vor realiza următoarele operații:
+tatăl va citi, în mod repetat, câte o linie cu date din fișierul <tt>nume.txt</tt> și o va scrie în fișierul <tt>agenda_tel.txt</tt>,
+iar fiul va citi, în mod repetat, câte o linie cu date din fișierul <tt>telefon.txt</tt> și o va scrie în fișierul <tt>agenda_tel.txt</tt>.
+<br>
+În plus, cele două procese trebuie să se sincronizeze conform șablonului 'Ping-pong', folosind o mapare anonimă,
+astfel încât informațiile să apară exact pe câte o linie, sub forma "NUME - TELEFON", în fișierul de ieșire <tt>agenda_tel.txt</tt>,
+și nu alte combinații posibile de "interclasare" a informațiilor parțiale scrise de cele două procese aflate în execuție simultană.
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul meu --> acum e rândul tău --> acum e rândul meu --> acum e rândul tău --> ... ș.a.m.d.</small>",
+folosind comunicații prin intermediul unei zone de memorie partajată (i.e., o mapare anonimă), în locul unui fișier obișnuit.
+<br>
+<i>Notă</i>: după cum spuneam (și) în preambulul acestui laborator, șablonul 'ping-pong' este de fapt o instanță cu <tt>p=2</tt> procese,
+pentru un șablon mai general de sincronizare între <tt>p</tt> procese, cunoscut în literatura de specialitate
+sub denumirea de șablonul de sincronizare <i>token ring</i>.</span>)
+</p>
+
+<button onclick="myToggle('lab9_setAG2_ex2')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setAG2_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+și anume folosiți fișierul <tt>flag.bin</tt> (pe care îl veți înlocui cu o mapare anonimă) în modul descris acolo,
+pentru a realiza sincronizarea necesară în problema aceasta.
+</div>
+<br><br>
+</li>
+
+</ol>
+</div>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="setVU" style="display:none;" class="stil_enunt_propus">
+<ol>
+
+<li><!-- Problema: lab9_setVU_ex1 ---------------------------------------------------------------------------------------->
+<p><big>[Another instance of the 'Supervisor-workers' pattern (<small>using anon mmap for IPC</small>)]</big><!-- CV: 2018TP2var4p3 -->
+<br>Să se scrie un program C care va crea 3 procese fii.
+Părintele va primi la linia de comandă un număr natural, pe care îl va transmite fiilor.
+Primul fiu va calcula suma cifrelor pare din reprezentarea 'textuală' a numărului primit de la părinte.
+Al doilea fiu va calcula produsul cifrelor impare din reprezentarea 'textuală' a numărului primit de la părinte.
+Al treilea fiu va număra câte cifre prime există în reprezentarea 'textuală' a numărului primit de la părinte.
+Fiii vor trimite părintelui rezultatele calculate, iar acesta va afișa pe ecran fiecare rezultat în parte, cât și suma lor.
+<br>
+<i>Cerință</i>: pentru comunicațiile dintre tată și fiecare fiu, se va folosi (câte) o mapare anonimă.
+<br>
+<i>Exemplificare</i>: dacă se va executa acest program cu linia de comandă:
+prompt> <tt class="stil_cmdBash"> ./program.exe 123647</tt>
+, atunci, în urma execuției sale, se va afișa pe ecran:
+<tt class="stil_output">12 + 21 + 3 = 36</tt>.
+</p>
+</li>
+
+<li><!-- Problema: lab9_setVU_ex2 ---------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #2 : "<i>Heigh-Ho, Heigh-Ho, ...</i>" (<small>v1, using regular file for IPC</small>)]</big><!-- CV: enunț adaptat din vechea problema: lab13_ex3.c -->
+<br>
+Să se scrie un program C care să creeze un fiu, după care se vor realiza următoarele operații:
+tatăl va scrie pe ecran textul "hi-" în mod repetat, iar fiul va scrie pe ecran textul "ho, " în mod repetat.
+<br>
+În plus, cele două procese trebuie să se sincronizeze conform șablonului 'Ping-pong',
+astfel încât pe ecran să apară exact succesiunea:
+<font color="blue"><a target="_blank"
+href="https://en.wikipedia.org/wiki/Heigh-Ho">hi-ho,</a> hi-ho, hi-ho, hi-ho, ...</font>
+și nu alte combinații posibile de "interclasare" a mesajelor afișate de cele două procese aflate în execuție simultană.
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul meu --> acum e rândul tău --> acum e rândul meu --> acum e rândul tău --> ... ș.a.m.d.</small>",
+folosind comunicații prin intermediul unui fișier obișnuit.
+<br>
+<i>Notă</i>: după cum spuneam (și) în preambulul acestui laborator, șablonul 'ping-pong' este de fapt o instanță cu <tt>p=2</tt> procese,
+pentru un șablon mai general de sincronizare între <tt>p</tt> procese, cunoscut în literatura de specialitate
+sub denumirea de șablonul de sincronizare <i>token ring</i>.
+<br>
+<i>Observație</i>: mai târziu vom relua ideea acestui șablon de sincronizare, folosind canale de comunicație, respectiv semnale.</span>)
+</p>
+
+<button onclick="myToggle('lab9_setVU_ex2')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_setVU_ex2" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+și anume folosiți fișierul <tt>flag.bin</tt> în modul descris acolo, pentru a realiza sincronizarea necesară în problema aceasta.
+</div>
+<br><br>
+</li>
+
+</ol>
+</div>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_2c">
+<p class="stil_ex_propuse">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #1 (<small>v2, using mmap-files for IPC</small>)]</big>
+<br>
+Re-implementați programul prezentat în exercițiul rezolvat
+<b>['Supervisor-workers' pattern #1 : <i>A coordinated distributed sum #1</i> (<small>v1, using regular files for IPC</small>)]</b>
+(din <a target="_blank" href="lab9sync.html#sec_2a">a doua parte a acestui laborator</a>),
+astfel încât cele 4 fișiere folosite pentru comunicații să fie accesate prin maparea lor în memorie.
+</p>
+
+<button onclick="myToggle('lab9_ex4_mmap')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex4_mmap" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se revedea rezolvarea prezentată în exercițiul <b>['Supervisor-workers' pattern #1 (<small>v1, using regular files for IPC</small>)]</b>
+și modificați-o astfel încât cele 4 fișiere folosite pentru comunicații să fie accesate prin maparea lor în memorie.
+</div>
+<br><br>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>['Supervisor-workers' pattern #1 (<small>v3, using anon mmap for IPC</small>)]</big>
+<br>
+Re-implementați programul prezentat în exercițiul rezolvat
+<b>['Supervisor-workers' pattern #1 : <i>A coordinated distributed sum #1</i> (<small>v1, using regular files for IPC</small>)]</b>
+(din <a target="_blank" href="lab9sync.html#sec_2a">a doua parte a acestui laborator</a>),
+astfel încât în locul celor 4 fișiere folosite pentru comunicații să se utilizeze 2 mapări anonime.
+</p>
+
+<button onclick="myToggle('lab9_ex4_anon-mmap')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex4_anon-mmap" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se revedea rezolvarea prezentată în exercițiul <b>['Supervisor-workers' pattern #1 (<small>v1, using regular files for IPC</small>)]</b>
+și modificați-o astfel încât cele 4 fișiere folosite pentru comunicații să fie înlocuite cu 2 mapări anonime.
+<br>
+O mapare anonimă se poate obține prin următorul apel, care trebuie plasat, în program, înaintea apelului fork():
+<pre>
+map_addr = mmap( NULL,                       // Se va crea o mapare începând de la o adresă page-aligned aleasă de kernel (și returnată în map_addr)
+                 length,                     // Lungimea dorită, preferabil multiplu de dimensiunea paginii (o alegeți în funcție de cantitatea de informație ce trebuie partajată)
+                 PROT_READ | PROT_WRITE,     // Tipul de protecție a mapării: paginile mapării vor permite accese în citire și scriere
+                 MAP_SHARED | MAP_ANONYMOUS, // Maparea este anonimă și partajată, pentru a avea memorie comună între procesele tată și fiu
+                 -1,                         // La descriptorul de fișier se pune -1, conform documentației
+                 0                           // Offset-ul (deplasamentul) nu este luat în seamă, conform documentației
+               );
+</pre>
+<i>Indicație</i>: cele două fișiere folosite pentru comunicațiile dintre supervisor și un anumit worker, pot fi "simulate" printr-o singură mapare anonimă,
+astfel:
+rezervați primii <tt>sizeof(int)=4</tt> octeți ai mapării pentru a stoca suma parțială calculată de acel worker,
+iar restul mapării, începând de la adresa <tt>map_addr + sizeof(int)</tt>, o folosiți pentru a stoca secvența de numere scrisă de supervisor pentru acel worker.
+</div>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab9_ex8.c -------------------------------------------------------------------------------------------->
+<p><big>[Another parallel sorting, based on merge-sort (<small>v1, using regular file for IPC</small>)]</big>
+<br>
+Să se implementeze algoritmul de sortare <a href="http://en.wikipedia.org/wiki/Merge_sort">merge sort</a>
+lucrând pe un fișier ce conține o secvență de numere stocate în format binar,
+folosind lacăte pe porțiuni din fișier pentru secțiunile critice din program
+(ca și la exercițiul rezolvat <b>[MyCritSec #2 : Parallel sorting]</b> din <a target="_blank" href="lab7.html#sec_1a">laboratorul #7</a>).
+<br>
+<i>Cerință</i>: în loc de lansări simultane în execuție ale programului de forma, ca la exercițiul amintit mai sus:
+<br>
+<tt>UNIX> ./mergesort 1 &amp; ./mergesort 2 &amp; ./mergesort 3 &amp; ...</tt> ,
+<br>
+acum veți crea prin program procesele necesare, cu apeluri fork
+(și astfel va fi suficientă o singură lansare în execuție a programului).
+<br>
+Practic, programul va crea un arbore binar de procese, "frunzele" făcând comparațiile și inversiunile propriu-zise,
+iar apoi procesele părinte realizează interclasarea secvențelor parțiale, ordonate de procesele copii.
+</p>
+
+<button onclick="myToggle('lab9_ex8')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex8" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se reciti sugestia dată la problema suplimentară <b>[A perfect k-ary tree of processes (<small>v1</small>)]</b>,
+propusă spre rezolvare în <a target="_blank" href="lab9.html#sec_1c">prima parte a acestui laborator</a>).
+</div>
+<br><br>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<p><big>[Another parallel sorting, based on merge-sort (<small>v2, using mmap-file for IPC</small>)]</big>
+<br>
+Re-implementați programul care se cere a fi scris la exercițiul <b>[Another parallel sorting, based on merge-sort (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare mai sus<!-- în <a target="_blank" href="#sec_2c">a doua parte a acestui laborator</a-->),
+astfel încât să utilizeze interfața de prelucrare a fișierelor prin mapare în memorie, plus mecanisme de sincronizare bazate pe memorie partajată,
+în locul interfeței clasice de acces I/O la disc (i.e., apelurile read() și write(), etc.) și a sincronizării bazate pe blocaje pe fișiere.
+</p>
+
+<button onclick="myToggle('lab9_ex8_mmap')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex8_mmap" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se reciti sugestia dată la problema suplimentară <b>[A perfect k-ary tree of processes (<small>v1</small>)]</b>,
+propusă spre rezolvare în <a target="_blank" href="lab9.html#sec_1c">prima parte a acestui laborator</a>).
+</div>
+<br><br>
+</li>
+
+
+<li><!-- CV: enunț nou, 2020 --------------------------------------------------------------------------------------------->
+<!-- CV: enunț adaptat din problema: lab13/2019/["Hi-ho, hi-ho" v3, i.e. 'Token-ring pattern' #2 (aka 'Ping-pong' with 4 processes), using signals for syncronization] -->
+<p><big>['Token ring' pattern #2 : "<i>Eeny, meeny, miny, moe, ...</i>" (<small>v1, using anon mmap for IPC</small>)]</big>
+<br>
+Să se scrie un program C care să creeze trei fii, după care se vor realiza următoarele operații:
+tatăl va scrie pe ecran textul "ini-" în mod repetat,
+primul fiu va scrie pe ecran textul "mini-" în mod repetat,
+al doilea fiu va scrie pe ecran textul "maini-" în mod repetat,
+iar al treilea fiu va scrie pe ecran textul "mo, " în mod repetat.
+<br>
+În plus, cele patru procese trebuie să se sincronizeze conform șablonului 'Token-ring' particularizat pentru <tt>p=4</tt> procese,
+astfel încât pe ecran să apară exact succesiunea:
+<br><font color="blue"><a target="_blank"
+href="https://en.wikipedia.org/wiki/Eeny,_meeny,_miny,_moe">ini-mini-maini-mo,</a> ini-mini-maini-mo, ini-mini-maini-mo, ini-mini-maini-mo, ...</font>
+<br>și nu alte combinații posibile de "interclasare" a mesajelor afișate de cele patru procese aflate în execuție simultană.
+<br>
+(Indicație: <span class="stil_hint2">scopul acestui exercițiu este acela de a implementa corect un mecanism de sincronizare de forma
+"<small>Acum e rândul jucătorului #1 --> acum e rândul jucătorului #2 --> acum e rândul jucătorului #3 --> acum e rândul jucătorului #4 -> 
+acum e rândul jucătorului #1 --> acum e rândul jucătorului #2 --> acum e rândul jucătorului #3 --> acum e rândul jucătorului #4 ->... ș.a.m.d.</small>",
+folosind comunicații prin intermediul unei zone de memorie partajată (i.e., o mapare anonimă), în locul unui fișier obișnuit..</span>)
+</p>
+
+<button onclick="myToggle('lab9_ex9')">Show / Hide some suggestion for this problem</button>
+<div id="lab9_ex9" style="display:none;" class="stil_sugestie_de_rezolvare">
+<b><i>Recomandare</i>:</b> a se citi ideea de rezolvare prezentată în sugestia de rezolvare dată la
+exercițiul <b>['Ping-pong' pattern #1 (<small>v1, using regular file for IPC</small>)]</b>
+(propus spre rezolvare în 'Setul RB' din această <a target="_blank" href="lab9sync.html#sec_2b">a doua parte a laboratorului</a>),
+și anume folosiți fișierul <tt>flag.bin</tt> (pe care îl veți înlocui cu o mapare anonimă) în modul descris acolo,
+generalizat pentru cazul a patru procese, în loc de doar două procese,
+pentru a realiza sincronizarea necesară în problema aceasta.
+</div>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+
+<table border="0" cellpadding="3" width="95%" align="center">
+<tr><td align="center" valign="center">
+    <form><input type="button" name="lastUpdButton" value="Last Update"
+            onClick="javascript:alert('Last update of this page was made on\n' + document.lastModified);"></form>
+</td></tr>
+</table>
+
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<script>includeHTML();</script>
+</body>
+</html>

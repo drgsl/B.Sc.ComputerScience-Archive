@@ -1,0 +1,528 @@
+﻿<html>
+<head>
+  <title>Disciplina SO - Laborator #11</title>
+  <link rel="stylesheet" type="text/css" href="stiluri.css" />
+    <meta name="description" content="Sisteme de operare - curs și laborator - suport electronic">
+    <meta name="keywords" content="Operating Systems, OS, Unix, Linux, România, Iași, infoiasi, Cristian Vidrașcu">
+    <meta name="author" content="Cristian Vidrașcu">
+    <meta name="owner" content="Cristian Vidrașcu">
+    <meta http-equiv="Cache-Control" content="no-cache" >
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+  <!-- pentru diacritice -->
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--meta name="viewport" content="width=device-width, initial-scale=1"-->
+</head>
+<script src="script_include.js"></script>
+
+<body>
+
+<h2><font color="blue">Laborator #12 :</font> exerciții de antrenament</h2>
+
+<b>Sumar:</b>
+<h4>I) <a href="lab12.html#sec_1">Exerciții de programare C cu semnale, pentru programare asincronă și tratarea excepțiilor</a></h4>
+<h5><a href="lab12.html#sec_1a">Exerciții rezolvate</a></h5>
+<h5><a href="lab12.html#sec_1b">Exerciții propuse spre rezolvare</a></h5>
+<h5><a href="lab12.html#sec_1c">Exerciții suplimentare</a></h5>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1">
+<p><span class="stil_set_exercitii">Exerciții de programare C cu semnale, pentru programare asincronă și tratarea excepțiilor :</span></p>
+</a>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1a">
+<p class="stil_ex_rezolvate">Exerciții rezolvate:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab14_ex1.c -------------------------------------------------------------------------------------------->
+<p><big>[Signal processing #1]</big>
+<br>
+Să se scrie un program C care, rulat în background, afișează în mod periodic (e.g., din 20 în 20 de secunde)
+conținutul fișierului <i>remember.txt</i> (se va crea un fișier cu acest nume și un conținut oarecare, înainte de a folosi acest program).
+În plus, ori de câte ori programul va primi semnalul <tt>SIGUSR1</tt>, va executa comanda <font color="blue">finger -p</font>,
+iar la primirea semnalului <tt>SIGINT</tt> programul își va încheia execuția și va afișa un text cu un mesaj de terminare.
+<br>
+(Indicație: <span class="stil_hint">pentru afișarea periodică, se poate trata semnalul <tt>SIGALRM</tt>,
+generat cu apelul alarm() ce setează o alarmă de ceas.</span>)
+</p>
+
+<button onclick="myToggle('lab13_ex1')">Show / Hide a possible solution</button>
+
+<pre id="lab13_ex1" style="display:none;" class="stil_solutie">
+/*
+  Ideea de rezolvare: trebuie tratate cele 3 tipuri de semnale specificate în enunț.
+  
+  Iată deci o posibilă soluție:
+*/
+
+#include &lt;unistd.h>
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+#include &lt;signal.h>
+#include &lt;fcntl.h>
+
+void handle_sigint(int nr_sem)
+{
+	printf("S-a terminat executia procesului.\n");
+	exit(0);
+}
+
+void handle_sigusr1(int nr_sem)
+{
+	system("finger -p");
+}
+
+void handle_sigalrm(int nr_sem)
+{
+	int fd,cod_r;
+	char ch;
+
+	if(-1 == (fd = open("remember.txt",O_RDONLY)) )
+	{
+		perror("Eroare la deschiderea fisierului remembr.txt");  exit(1);
+	}
+
+	printf("Remember:\n");
+	do{
+		if(-1 == (cod_r = read(fd,&ch,sizeof(char))) )
+		{
+			perror("Eroare la citirea din fisier");  exit(2);
+		}
+		if(cod_r == 1) /* daca a citit cu succes un octet, il afisam */
+		{
+			printf("%c",ch);
+			fflush(stdout);
+		}
+	}while(cod_r !=0);  /* until EOF */
+	printf("\n");
+
+	close(fd);
+}
+
+int main()
+{
+	/* mai intai atasam handler-ele pentru cele 3 tipuri de semnale pe care vrem sa le tratam in program */
+	signal( SIGINT, handle_sigint);
+	signal(SIGUSR1, handle_sigusr1);
+	signal(SIGALRM, handle_sigalrm);
+    
+	while(1)
+	{
+		alarm(20); /* setam alarma peste 20 secunde */
+		pause();   /* suspendam executia pana la primirea semnalului urmator */
+	}
+
+	return 0;
+}
+/*
+  *** Ghid de utilizare ***
+
+  În timpul execuției programului, veți genera cele 3 tipuri de semnale specificate în enunț, în felul următor:
+  - semnalul SIGINT îl puteți genera apăsând tastele CTRL+C atunci când programul ruleaza în foreground (sau îl puteți genera cu comanda kill);
+  - semnalul SIGUSR1 îl puteți genera doar explicit, cu o comandă kill executată dintr-o altă instanță de shell (sau din aceeași instanță de shell,
+    dacă porniți programul în background);
+  - iar semnalul SIGALRM va fi generat prin program folosind apeluri alarm().
+*/
+</pre>
+<br><br>
+</li>
+
+
+<li><!-- Problema: lab14_ex2.c -------------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #2 : "Heigh-Ho, Heigh-Ho, ..." (<small>v3, using signals for syncronization</small>)]</big>
+<br>
+Să se rescrie programele hi.c și ho.c de la exercițiul <b>['Ping-pong' pattern #2 : "Heigh-Ho, Heigh-Ho, ..." (v2, using fifos for IPC)]</b> din <a href="lab11_c/lab11_fifo.html#sec_2a">laboratorul 11</a>,
+utilizând semnale în locul canalelor fifo pentru realizarea sincronizărilor necesare.
+<br>
+<i>Remarcă</i>: 'ping-pong' este o denumire ad-hoc, suficient de sugestivă, pentru acest șablon de cooperare între două procese,
+care este de fapt o instanță cu <tt>p=2</tt> procese, pentru un șablon mai general de cooperare între <tt>p</tt> procese,
+întâlnit în literatura de specialitate sub denumirea de <i>token-ring</i>.
+</p>
+
+<p>
+<button onclick="myToggle('lab13_ex2a')">Show / Hide some suggestions for solving the problem</button>
+
+<div id="lab13_ex2a" style="display:none;" class="stil_explicatie">
+<i>Ideea de rezolvare</i>:
+<br>
+Notificarile ce trebuie trimise între cele două procese, ce erau realizate prin transmiterea de mesaje prin intermediul a două canale fifo
+la varianta precedentă a acestei probleme, i.e. exercițiul <b>['Ping-pong' pattern #2 : "Heigh-Ho, Heigh-Ho, ..." (v2, using fifos for IPC)]</b>
+din <a href="lab11_c/lab11_fifo.html#sec_2a">laboratorul #11</a>,
+vor fi acum transmise prin semnale de tip <tt>SIGUSR1</tt> (sau <tt>SIGUSR2</tt>).
+<br>
+În plus, fiecare proces trebuie să cunoască <tt>PID</tt>-ul celuilalt proces pentru a-i putea trimite un semnal.
+Ca atare, trebuie soluționată și această problemă. O posibilă soluție ar fi următoarea:
+fiecare proces își va comunica <tt>PID</tt>-ul propriu celuilalt proces folosind două canale fifo.
+Întrucât scopul acestui exercițiu este deprinderea folosirii semnalelor, și nu a comunicației prin canale fifo,
+vom simplifica soluția aplicată pentru problema aflării identității celuilalt, 
+în sensul că cele două procese nu vor mai fi separate, ci înrudite prin fork(), i.e. unul va fi fiul celuilalt,
+și astfel fiecare va cunoaște <tt>PID</tt>-ul celuilalt.
+<br><br>
+În continuare ne vom îndrepta atenția (și efortul de programare) asupra folosirii corecte a semnalelor pentru a implementa
+modelul de sincronizare cerut în enunțul problemei, i.e. șablonul de sincronizare 'Ping-pong'.
+</div>
+</p>
+
+<button onclick="myToggle('lab13_ex2b')">Show / Hide the 1st solution</button>
+
+<pre id="lab13_ex2b" style="display:none;" class="stil_solutie">
+/*
+  Iată o primă  idee de rezolvare:
+  Fiecare proces trimite celuilalt un semnal SIGUSR1 printr-o cerere explicită cu un apel kill(),
+  și apoi așteaptă primirea semnalului de la celălalt proces printr-un apel pause() (ce cauzează suspendarea execuției până la recepția unui semnal).
+*/
+
+#include &lt;unistd.h>
+#include &lt;signal.h>
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+
+#define NR_AFISARI 100  /* cate perechi hi-ho se doreste a fi afisate */
+
+void handler_sigusr1(int nr_sem)
+{
+	fprintf(stderr,"Debug: procesul cu PID-ul %d a primit semnal.\n",getpid());
+	/*
+		Nota: acesta e un mesaj cu rol de debugging; se poate "ignora" la executie prin redirectare:
+		UNIX> ./a.out  2> /dev/null
+	*/
+}
+
+int main()
+{
+	int pid,i;
+
+	if(SIG_ERR == signal(SIGUSR1,handler_sigusr1) )
+	{
+		perror("Eroare la signal");  exit(1);
+	}
+    
+	if(-1 == (pid=fork()) )
+	{
+		perror("Eroare la fork");  exit(2);
+	}
+
+	if(pid != 0)
+	{ /* tatal : responsabil cu hi-urile */
+
+		for(i = 0; i < NR_AFISARI; i++)
+		{
+			printf("hi-");  fflush(stdout);  /* afisez HI */
+
+			kill(pid,SIGUSR1);               /* trimit notificare catre celalalt proces */
+
+			pause();                         /* astept notificarea de la celalalt proces */
+		}
+	}
+	else
+	{ /* fiul : responsabil cu ho-urile */
+
+		for(i = 0; i < NR_AFISARI; i++)
+		{
+			pause();                          /* astept notificarea de la celalalt proces */
+
+			printf("ho, ");  fflush(stdout);  /* afisez HO */
+
+			kill(getppid(),SIGUSR1);          /* trimit notificare catre celalalt proces */
+		}
+
+        printf("\nSfarsit.\n");
+	}
+    
+	return 0;
+}
+</pre>
+
+<button onclick="myToggle('lab11_ex2b')">Show / Hide a remark about the 1st solution</button>
+
+<p id="lab11_ex2b" style="display:none;" class="stil_explicatie">
+<i>Observație</i>: această primă soluție este incorectă, în sensul că suferă de fenomenul de interblocaj!
+<br>
+Mai precis, poate apare fenomenul de interblocaj:
+repetând execuția programului de un număr suficient de ori, veți observa că uneori afișează corect cele 100 de perechi hi-ho,
+iar alteori se blochează înainte de a termina de afișat cele 100 de perechi.
+<br><br>
+Explicația este următoarea: acele situații de interblocaj apar atunci când unul dintre cele două procese se întâmplă să primească semnalul corespunzător
+unei iterații a buclei, înainte de a fi executat apelul pause() corespunzător acelei iterații.
+Cu alte cuvinte, atunci <u>când un semnal îi este livrat procesului înainte ca acesta să fi început așteptarea corespunzătoare acelui semnal</u>.
+<br>
+Un exemplu de astfel de situație de apariție a interblocajului:
+dacă procesul HI își termină cuanta de timp procesor alocată după ce a executat kill(), dar înainte de a executa pause(),
+atunci planificatorul va continua, în viitorul apropiat, cu o nouă cuantă pentru procesul HO în care acesta e posibil să apuce să execute neîntrerupt
+următoarele operații: i se livrează semnalul, își afișează mesajul "ho, " pe ecran, trimite semnalul către procesul HI și apoi își suspendă execuția
+prin pause(), începând o nouă așteptare a semnalului.
+Apoi planificatorul va aloca, în viitorul apropiat, o nouă cuantă de execuție procesului HI, care va executa următoarele operații:
+i se livrează semnalul, apoi execută apelul pause() și astfel își suspendă și el execuția,
+moment din care ambele procese rămân suspendate indefinit, căci nici unul nu va putea progresa ca să trimită semnal pentru a-l "trezi" pe celălalt.
+<br><br>
+O altă idee de rezolvare, ce elimină posibilitatea fenomenului de interblocaj, va fi ilustrată în a doua soluție pentru această problemă, ce urmează mai jos.
+</p>
+
+<button onclick="myToggle('lab11_ex2c')">Show / Hide the 2nd solution</button>
+
+<pre id="lab11_ex2c" style="display:none;" class="stil_solutie">
+/*
+  A doua idee de rezolvare:
+  Singura modalitate de evitare a fenomenului de interblocaj descris în observația anterioară, care să fie eficientă în 100% din situațiile posibile,
+  este aceea de <u>a garanta că un semnal nu-i este livrat procesului înainte ca acesta să fi început deja așteptarea acelui semnal</u>.
+  Acest lucru se poate realiza doar prin <b>blocarea primirii semnalului</b> (i.e., când se va genera un semnal pentru acel proces, el nu-i va fi livrat imediat,
+  ci va sta în coada de semnale din sistem ce așteaptă să fie livrate, până când acel proces va debloca primirea acelui semnal).
+
+  Concret, vom bloca primirea semnalului SIGUSR1 la începutul execuției proceselor HI și HO, iar apoi în buclele din cele două procese vom realiza
+  așteptarea semnalului printr-un apel sigsuspend(), cu un parametru care va indica așteptarea semnalului SIGUSR1.
+  Corectitudinea solutiei abordate se bazează esențial pe comportamentul funcției sigsuspend(): ea înlocuiește masca curentă de semnale blocate
+  cu cea primită ca parametru și apoi suspendă execuția până la primirea unui semnal din masca dată ca parametru,
+  iar la terminarea așteptării reface masca inițială de semnale blocate înainte de a returna din apel.
+*/
+
+#include &lt;unistd.h>
+#include &lt;signal.h>
+#include &lt;stdio.h>
+#include &lt;stdlib.h>
+
+#define NR_AFISARI 100  /* cate perechi hi-ho se doreste a fi afisate */
+
+void handler_sigusr1(int nr_sem)
+{
+	fprintf(stderr,"Debug: procesul cu PID-ul %d a primit semnal.\n",getpid());
+	/*
+		Nota: acesta e un mesaj cu rol de debugging; se poate "ignora" la executie prin redirectare:
+		UNIX> ./a.out  2> /dev/null
+	*/
+}
+
+int main()
+{
+	int pid,i;
+	sigset_t masca_semnale_usr1_blocat, masca_semnale_usr1_deblocat;
+
+	sigemptyset(&masca_semnale_usr1_blocat);
+	sigaddset(&masca_semnale_usr1_blocat,SIGUSR1);
+
+	sigfillset(&masca_semnale_usr1_deblocat);
+	sigdelset(&masca_semnale_usr1_deblocat,SIGUSR1);
+
+	if(SIG_ERR == signal(SIGUSR1,handler_sigusr1) )
+	{
+		perror("Eroare la signal");  exit(1);
+	}
+
+	if(-1 == sigprocmask(SIG_BLOCK,&masca_semnale_usr1_blocat,NULL) )
+	{
+		perror("Eroare la sigprocmask");  exit(2);
+	}
+    
+	if(-1 == (pid=fork()) )
+	{
+		perror("Eroare la fork");  exit(3);
+	}
+
+	if(pid == 0)
+	{ /* fiul : responsabil cu hi-urile */
+	
+		for(i = 0; i < NR_AFISARI; i++)
+		{
+			printf("hi-");  fflush(stdout);            /* afisez HI */
+
+			kill(getppid(),SIGUSR1);                   /* trimit notificare catre celalalt proces */
+
+			sigsuspend(&masca_semnale_usr1_deblocat);  /* astept notificarea de la celalalt proces */
+		}
+	}
+	else
+	{ /* tatal : responsabil cu ho-urile */
+	
+		for(i = 0; i < NR_AFISARI; i++)
+		{
+			sigsuspend(&masca_semnale_usr1_deblocat);  /* astept notificarea de la celalalt proces */
+
+			printf("ho, ");  fflush(stdout);           /* afisez HO */
+
+			kill(pid,SIGUSR1);                         /* trimit notificare catre celalalt proces */
+		}
+
+		printf("\nSfarsit.\n");
+	}
+    
+	return 0;
+}
+
+/*
+  <i>Observație</i>:
+  Conform celor explicate mai sus, puteți vedea în program că procesele au blocată primirea semnalelor SIGUSR1 pe toată durata
+  de execuție a buclelor de afișare, exceptând intervalele de timp consumate de apelurile sigsuspend() din aceste bucle,
+  intervale în care primirea unui semnal SIGUSR1 este permisă și, mai mult, este și așteptată oricât este nevoie, i.e. apelul
+  sigsuspend() provoacă suspendarea execuției procesului respectiv până la primirea unui astfel de semnal!
+*/
+</pre>
+<br><br>
+</li>
+
+</ol>
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1b">
+<p class="stil_ex_propuse">Exerciții propuse spre rezolvare:</p>
+</a>
+
+<ol>
+
+<li><!-- Problema: lab14_ex3.c -------------------------------------------------------------------------------------------->
+<p><big>[Signal processing #2]</big>
+<br>
+Să se scrie un program C care realizează urmatoarele:
+mai întâi creează două procese fii, după care generează aleator într-un fișier linii de text.
+După închiderea fișierului în care scrie acele linii de text aleatoare, procesul inițial va trimite fiilor creați semnalul <tt>SIGUSR2</tt> (primului fiu)
+și respectiv <tt>SIGUSR1</tt> (celui de-al doilea fiu).
+La recepționarea semnalului, procesul fiu care a primit <tt>SIGUSR1</tt> va calcula numărul de linii de text din fișier (i.e., numărul de caractere '\n')
+și o va afișa pe ecran,
+iar procesul fiu care a primit <tt>SIGUSR2</tt> va sorta liniile de text din fișier în ordine lexicografică crescătoare și va afișa pe ecran rezultatul sortării.
+<br>
+<b><i>Cerință</i>:</b> sortarea să se facă în paralel cu calculul numărului de linii, dar rezultatele să fie afișate pe ecran de cele două procese fii
+în așa fel încât numărul total de linii de text să apară obligatoriu înaintea liniilor de text sortate.
+<br>
+(Indicație: <span class="stil_hint">pentru a realiza acest tip de sincronizare la afișarea pe ecran, procesul care face sortarea va aștepta
+un semnal (e.g. <tt>SIGUSR1</tt>) de la celălalt proces fiu, înainte de a afișa rezultatul sortării.</span>)
+<!--
+Old version: vezi problema [Sum&Sort, using signals for syncronization] de mai jos...
+-->
+</p>
+</li>
+
+
+<li><!-- Problema: lab14_ex6.c -------------------------------------------------------------------------------------------->
+<p><big>[Signal processing #3]</big>
+<br>
+Să se scrie un program C care la execuție va genera un proces fiu și va avea comportamentul descris în continuare.
+<br>
+Procesul părinte numără încontinuu, la intervale de 1 secundă, începând de la 0, până în momentul în care este întrerupt de către utilizator
+prin trimiterea unui semnal <tt>SIGINT</tt> (sau până la terminarea procesului fiu, vezi mai jos).
+De fiecare dată când procesul părinte ajunge la un număr divizibil cu 10, trimite procesului fiu semnalul <tt>SIGUSR1</tt>.
+Iar când primește semnalul <tt>SIGINT</tt>, procesul părinte trimite procesului fiu semnalul <tt>SIGUSR2</tt>.
+La terminarea procesului fiu, procesul părinte își va încheia și el execuția.
+<br>
+Procesul fiu, în momentul primirii semnalului <tt>SIGUSR1</tt>, afișează pe ecran un mesaj de genul "Fiul: am primit USR1",
+iar la primirea semnalului <tt>SIGUSR2</tt>, își încheie execuția, afișând pe ecran un mesaj corespunzător (e.g. "Fiul: sfarsit executie").
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<a name="sec_1c">
+<p class="stil_ex_suplimentare">Exerciții suplimentare, propuse spre rezolvare:</p>
+</a>
+
+<p>Alte câteva exerciții de programare C cu procesări de semnale, pe care să încercați să le rezolvați singuri:</p> 
+
+<ol>
+
+<li><!-- Problema: lab14_ex3{old version}.c -------------------------------------------------------------------------------------------->
+<p><big>[Sum&amp;Sort, <small>using signals for syncronization</small>]</big>
+<br>
+Să se scrie un program C care realizează urmatoarele:
+mai întâi creează două procese fii, după care generează aleator într-un fișier numere întregi.
+După închiderea fișierului în care scrie acele numere aleatoare, procesul inițial va trimite fiilor creați semnalul <tt>SIGUSR1</tt>.
+La recepționarea semnalului, unul dintre procesele fii va calcula suma numerelor și o va afișa pe ecran,
+iar celălalt fiu va sorta numerele din fișier în ordine crescătoare și va afișa pe ecran secvența sortată.
+<br>
+<b><i>Cerință</i>:</b> sortarea să se facă în paralel cu calculul sumei, dar rezultatele să fie afișate pe ecran de cele două procese fii în așa fel încât
+suma numerelor să apară obligatoriu înaintea secvenței ordonate.
+<br>
+(Indicație: <span class="stil_hint">pentru a realiza acest tip de sincronizare la afișarea pe ecran, procesul care face sortarea va aștepta
+un semnal (e.g. <tt>SIGUSR2</tt>) de la celălalt proces fiu, înainte de a afișa rezultatul sortării.</span>)
+</p>
+</li>
+
+
+<li><!-- Problema: lab14_ex4.c -------------------------------------------------------------------------------------------->
+<p><big>[Signal processing #4]</big>
+<br>
+Să se scrie un program C utilizat pentru copierea intrării standard într-un fișier, al cărui nume este specificat în linia de comandă a programului.
+Dacă în intervalul de <tt>3*N</tt> secunde de la începerea execuției programului, nu este introdus nici un caracter de la tastatură,
+atunci programul va fi terminat.
+Valoarea constantei <tt>N</tt> este specificată, de asemenea, ca și argument al programului în linia de comandă.
+În plus, la fiecare interval de <tt>N</tt> secunde neutilizate (i.e., fără input din partea utilizatorului),
+utilizatorul va fi atenționat printr-un mesaj corespunzător.
+<br>
+(Indicație: <span class="stil_hint">pentru măsurarea scurgerii intervalelor de <tt>N</tt> secunde, tratați semnalul <tt>SIGALRM</tt>,
+generat cu apelul alarm().</span>)
+</p>
+</li>
+
+
+<li><!-- Problema: lab14_ex5.c -------------------------------------------------------------------------------------------->
+<p><big>['Ping-pong' pattern #4?, <small>using signals for syncronization</small>]</big>
+<br>
+Două procese, ce nu sunt înrudite (i.e. nu sunt în relația părinte-fiu), trebuie să citească <u>alternativ</u> câte un caracter dintr-un fișier <i>fis.txt</i>.
+Sincronizarea execuției celor două procese, pentru citirea alternativă din fișier, va fi realizată exclusiv prin semnale.
+Comunicarea reciprocă a PID-urilor (PID-urile sunt necesare pentru a putea trimite semnale unul altuia)
+se va face la începutul execuției lor, prin canale de comunicație fifo.
+Caracterele citite de fiecare proces vor fi scrise în fișierele <i>fis1.txt</i> și, respectiv, <i>fis2.txt</i>.
+</p>
+</li>
+
+
+<li><!-- Problema: lab14_ex7.c -------------------------------------------------------------------------------------------->
+<p><big>['Token-ring' pattern #3? (<small>using signals for syncronization</small>)]</big>
+<br>
+Se dau 3 fișiere, <i>nume.txt</i>, <i>prenume.txt</i> și <i>nota.txt</i>,
+în care sunt înregistrate, câte unul pe linie, numele, prenumele și nota obținută de mai mulți studenți la o anumită disciplină.
+<br>
+Să se scrie un program C, prin execuția căruia se generează în total 3 procese, fiecare proces citind datele dintr-unul dintre cele 3 fișiere date
+și le va scrie într-un fișier de ieșire, numit <i>tabel.txt</i>.
+Să se sincronizeze execuția celor 3 procese astfel încât să se scrie pe câte o linie, sub forma "NUME PRENUME NOTA", în fișierul de ieșire,
+informațiile citite de cele 3 procese de pe liniile cu același număr de ordine din cele 3 fișiere de intrare.
+Sincronizarea proceselor va fi realizată exclusiv prin semnale.
+</p>
+</li>
+
+
+<li><!-- Problema: lab14_ex8.c -------------------------------------------------------------------------------------------->
+<p><big>'Token ring' pattern #2 : "Eeny, meeny, miny, moe, ..." (<small>v2, using signals for syncronization</small>)]</big>
+<br>
+Să se scrie patru programe C, care împreună vor afișa textul "ini-mini-maini-mo, " în mod repetat pe ecran,
+fiecare proces fiind responsabil cu afișarea câte unei părți a mesajului
+(primul afișează "ini-", al doilea "mini-", al treilea "maini-" și al patrulea "mo, ").
+Executabilele rezultate în urma compilării programelor vor fi lansate simultan în execuție paralelă (e.g., cu ajutorul unui script bash),
+iar sincronizarea va fi realizată exclusiv prin semnale.
+</p>
+</li>
+
+
+<li><!-- Problema: lab14_ex9.c -------------------------------------------------------------------------------------------->
+<p><big>['Sleeping barber' problem]</big>
+<br>
+Să se scrie un program C care simulează desfășurarea activității într-un cabinet de stomatologie.
+Procesul inițial va genera un prim proces fiu, cu rol de asistent: acesta se va ocupa de intrarea pacienților în sala de așteptare,
+generându-i la intervale de timp fixe sau aleatoare.
+Pentru fiecare pacient intrat în sala de așteptare, procesul asistent va genera un proces fiu separat, care va reprezenta pacientul respectiv.
+Pacientul își va anunța cumva PID-ul procesului principal.
+<br>Procesul principal (ce reprezintă doctorul stomatolog) se va ocupa cu tratarea pacienților, într-o buclă repetitivă, semnalându-le pacienților
+intrarea în cabinet (din sala de așteptare) și apoi ieșirea din cabinet după terminarea tratamentului.
+Durata tratamentului poate fi aleatoare sau fixă.
+<br>Procesele create pentru fiecare pacient în parte vor afișa schimbarea stării pacientului, conform tranzițiilor:
+"intrat în sala de așteptare --&gt; în cabinetul doctorului --&gt; ieșire".
+<br>Pentru comunicarea (sincronizarea) stomatologului cu pacienții vor fi folosite semnale.
+</p>
+</li>
+
+</ol>
+
+
+<!------------------------------------------------------------------------------------------------------------------------>
+<hr size="3" width="100%" noshade>
+<!------------------------------------------------------------------------------------------------------------------------>
+<script src="script.js"></script>
+<script>includeMyCode();</script>
+<!--script>includeHTML();</script-->
+</body>
+</html>

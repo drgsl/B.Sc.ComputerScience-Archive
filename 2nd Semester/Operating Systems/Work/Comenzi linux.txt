@@ -1,0 +1,151 @@
+cd - change directory
+
+ls - list
+ -l permissions
+ -a toate 
+ -A aproape toate
+
+pwd - print working directory
+mkdir - make directory
+touch - create file
+cp - copy
+ln - make link (shortcut)
+mv - move
+rm - remove
+rmdir - remove directory
+cat - print file
+tac - print file backward
+
+head - first part of the file
+tail - last part of the file
+ ( -n first/last n lines)
+
+grep - all lines that contain a word
+  -v all lines that dont contain that word
+  -c count the lines 
+
+cut  - process file vertically
+ -d delimiter
+ -f colums / fields
+ --output-delimiter change delimiter on output
+ 
+stat 
+ -c --format(with newline) --printf(without newline)
+   %U user
+   %n name
+   %s size 
+
+chmod - change permission on a file
+ u = owner
+ g = group
+ o = others
+
+chown - change owner of file 
+
+scp - secure copy
+exit - exit server
+
+wc - word count ( lines words bytes )
+ -l lines
+ -w words
+
+sort
+ -n numeric sort
+ -u uniq
+
+> - redirect output to file
+>> - append output to file
+
+uniq - expects sorted file
+
+find - 
+ -name (ex: "*.exe")
+ -maxdepth
+ -mtime (last modified)
+ -printf 
+   %m permission
+   %p path
+   %s size
+ -exec  ( ex: find . -name "*.exe" -exec stat --printf "%U \n" {} \;
+
+who - users conectati pe sist
+finger -
+
+ps - procesele care ruleaza
+ -e procesele din sistem
+ -o anumite procese
+ -u user
+
+; - separator intre comenzi serial
+| - separator intre comenzi paralel ( outputul comenzii 1 este inputul comenzii 2 )
+
+
+
+read 
+ -p introduce text inainte de citire
+
+$0 - scriptul curent
+$@ - toate argumentele
+$# - nr de argumente
+$? - ultimul return
+
+shift - shifteaza inputurile
+expr = $((  ))
+bc - calcule cu precizie
+
+test 
+ -e exista
+ -f fisier obsinuit
+ -p este fifo
+ -r/-w/-x daca are dreptul respectiv
+ -d fisier este director
+
+
+ declare -a val  - declarare array
+ val[$i]         
+
+
+
+if test ...
+then 
+...
+fi
+
+if [ ... ]
+then 
+...
+fi
+
+until 
+do
+...
+dont
+
+seq 1 10 - toate nr intre 1 si 10
+seq 1 2 10 - toate nr intre 1 si 10 din 2 in 2
+
+for (( ... ))
+do 
+
+done
+
+
+--- --- C++ --- ---
+
+ creat(char* nume_cale, int perm_acces) - creeaza fisier
+ open (char* nume_cale,int tip_desch, int perm_acces) O_RDONLY O_WRONLY ORDWR
+ read (int df, char* buffer, unsigned nr_oct)
+ write(int df, char* buffer, unsigned nr_oct)
+ lseek(int df, long val_ajust, int mod_ajust)
+ close(int df)
+
+ gcc -o fisierul executabil fisier cod
+ -wall all warnings are errors
+
+
+
+
+
+
+
+
