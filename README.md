@@ -1,4 +1,4 @@
-# Bachelor's Degree in Computer Science - Archive
+# Bachelor's Degree in Computer Science - Workspace
 
 <!-- [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=BobuDragos&layout=compact)](https://github.com/BobuDragos) -->
 
