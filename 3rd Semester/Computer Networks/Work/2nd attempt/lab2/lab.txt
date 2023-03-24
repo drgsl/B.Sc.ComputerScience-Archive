@@ -1,0 +1,215 @@
+    1  shutdown
+    2  shutdown -man
+    3  -man shutdown
+    4  shutdown ?
+    5  sudo shutdown
+    6  man shutdown
+    7  shutdown -h
+    8  halt
+    9  iverilog -o introducere.v
+   10  ls
+   11  cd D
+   12  cd Desktop/fii/se/lab7/
+   13  iverilog -o introducere.v
+   14  iverilog
+   15  iverilog -o introducere introducere.v
+   16  iverilog -o hello.v 
+   17  iverilog -o hello hello.v 
+   18  ls
+   19  hello
+   20  cd hello
+   21  nano hello
+   22  vim hello
+   23  sudo apt install vim
+   24  vvp introducere
+   25  sudo add-apt-repository team-electronics/ppa
+   26  sudo add-apt-repository ppa:team-electronics/ppa
+   27  sudo apt-get update
+   28  sudo apt-get install verilog
+   29  sudo apt-get install gtkwave
+   30  python /home/dragos/.vscode/extensions/truecrab.verilog-testbench-instance-0.0.5/out\vTbgenerator.py /home/dragos/Desktop/fii/se/lab7/introducere.v
+   31  python /home/dragos/.vscode/extensions/truecrab.verilog-testbench-instance-0.0.5/out\vTbgenerator.py /home/dragos/Desktop/fii/se/lab7/introducere.v
+   32  cd Desktop/fii/se/lab7/
+   33  vvp hello
+   34  vvp introducere
+   35  cd Desktop/fii/se/lab7/
+   36  iverilog introducere introducere.v
+   37  iverilog -o introducere introducere.v
+   38  vvp introducere
+   39  iverilog -o introducere introducere.v
+   40  vvp introducere
+   41  iverilog -o introducere introducere.v
+   42  vvp introducere
+   43  iverilog -o introducere introducere.v
+   44  vvp introducere[B
+   45  iverilog -o introducere introducere.v
+   46  vvp introducere[B
+   47  vvp introducere
+   48  iverilog -o introducere introducere.v
+   49  vvp introducere
+   50  iverilog -o introducere introducere.v
+   51  vvp introducere
+   52  halt
+   53  sudo apt install -y chromium-browser
+   54  chromium
+   55  sudo apt install ./teamviewer_14.7.48671_i386.deb 
+   56  sudo apt-get update
+   57  sudo apt get
+   58  what
+   59  sudo apt-get install -y qml-module-qtquick-controls
+   60  sudo apt install ./teamviewer_14.7.48671_i386.deb 
+   61  sudo apt-get install -y qt56-teamviewer
+   62  sudo apt-get install -y qml-module-qtquick-controls
+   63  sudo apt install ./teamviewer_14.7.48671_i386.deb 
+   64  sudo apt --fix-broken install
+   65  sudo apt install ./teamviewer_14.7.48671_i386.deb 
+   66  sudo apt-get install -y qml-module-qtquick-controls
+   67  sudo apt-get install -y qml-module
+   68  sudo apt-get install -y qml-module-qtquick
+   69  sudo apt-get install -y qml-module-qtquick-dialogs
+   70  sudo apt install ./teamviewer_14.7.48671_i386.deb 
+   71  sudo apt install ./teamviewer_15.28.8_i386.deb 
+   72  sudo apt-get install -y libminizip1
+   73  sudo apt install ./teamviewer_15.28.8_i386.deb 
+   74  sudo apt-get install -y libminizip1
+   75  sudo apt install ./teamviewer_15.28.8_i386.deb 
+   76  sudo mount /media/dragos/RAM
+   77  sudo unmount
+   78  sudo unmount /media/dragos/RAM/
+   79  sudo umount /media/dragos/RAM
+   80  sudo fdisk -l
+   81  sudo umount /media/dragos/RAM
+   82  sudo mkswap /dev/sdb
+   83  sudo mkswap /dev/sdb1
+   84  sudo swapon -p 32767 /dev/sdb1
+   85  cat /proc/swaps
+   86  sudo swapon -p 32767 /dev/sdb
+   87  cat /proc/swaps
+   88  sudo swapon -p -2 /dev/sdb
+   89  sudo swapon -p -2 /dev/sdb1
+   90  cat /proc/swaps
+   91  sudo swapoff /dev/sdb1
+   92  sudo fdisk -l
+   93  cat /proc/swaps
+   94  sudo swapon -p -2 /dev/sdb
+   95  sudo umount /media/dragos/RAM
+   96  sudo swapon -p -2 /dev/sdb
+   97  sudo swapon -p -2 /dev/sdb1
+   98  sudo fdisk -l
+   99  sudo swapon -p -2 /dev/sdb
+  100  cat /proc/swaps1
+  101  cat /proc/swaps
+  102  sudo swapoff /dev/sdb
+  103  sudo swapon -p -1 /dev/sdb
+  104  sudo fdisk -l
+  105  cat /proc/swaps
+  106  sudo fdisk -l
+  107  sudo swapoff /dev/sdb
+  108  cat /proc/swaps
+  109  sudo swapon -p 0 /dev/sdb
+  110  cat /proc/swaps
+  111  sudo swapon -p 1 /dev/sdb
+  112  sudo swapoff /dev/sdb
+  113  sudo swapon -p 1 /dev/sdb
+  114  cat /proc/swaps
+  115  swapon -s
+  116  free -m
+  117  cat /proc/swaps
+  118  free -m
+  119  sudo swapoff /dev/sdb
+  120  halt
+  121  sudo apt-install sdcc
+  122  sudo apt install sdcc
+  123  kill 21832
+  124  sudo kill 21832
+  125  sudo apt install sdcc
+  126  sudo dpkg-reconfigure -plow unnatended-upgrades
+  127  sudo dpkg-reconfigure -plow unattended-upgrades
+  128  sdcc test.c
+  129  sudo dpgk --configure -a
+  130  sudo dpkg --configure -a
+  131  sudo apt update && sudo apt -f install && sudo apt full-upgrade
+  132  sudo dpkg-reconfigure -plow unattended-upgrades
+  133  sudo apt install sdcc
+  134  halt
+  135  ls
+  136  cd Desktop/fii/se/lab9/
+  137  sdcc timer_inside_while.c 
+  138  sdcc bucla\ cu\ timer
+  139  sdcc
+  140  sdcc timer_inside_while.c 
+  141  unmount /dev/sda
+  142  sudo fdisk -l
+  143  unmount /dev/sdb
+  144  umount /dev/sdb
+  145  umount /dev/sdb1
+  146  sudo swapon -p 1 /dev/sdb
+  147  cat /proc/swaps
+  148  swapoff /dev/sdb
+  149  sudo swapoff /dev/sdb
+  150  neofetch
+  151  sudo apt install neofetch
+  152  neofetch
+  153  cd Desktop/fii/se/lab10
+  154  sdcc ./lab10
+  155  sdcc ./lab10.c
+  156  sdcc lab10.c
+  157  sdcc ./lab10.c
+  158  sdcc
+  159  sdcc ./lab10.c
+  160  sdcc .\lab10.c
+  161  sdcc ./lab10.c
+  162  sdcc ./lab10
+  163  sdcc lab10 
+  164  sdcc lab10 lab10
+  165  sdcc lab10.c
+  166  sdcc lab10
+  167  sdcc lab10.c
+  168  sdcc ./lab10.c
+  169  sdcc ./lab10.c
+  170  touch lab11.c
+  171  ls
+  172  cd /home/dragos/Desktop/fii/se/lab11/lab11.c
+  173  cd /home/dragos/Desktop/fii/se/lab11/
+  174  ls
+  175  sdcc lab11.c 
+  176  uname -a
+  177  df -H
+  178  du -H
+  179  df -h
+  180  touch helloWorld.py
+  181  python3 --version
+  182  py3
+  183  pip
+  184  sudo apt install python3-pip
+  185  pip install pychart
+  186  ls
+  187  cd Desktop/Py/
+  188  py ./helloWorld.py 
+  189  python3 ./helloWorld.py 
+  190  sudo usermod -a -G dialout dragos
+  191  passwd
+  192  ls -l
+  193  ls -p | grep Desktop
+  194  ls -l > output.txt
+  195  ls
+  196  cat output.txxt
+  197  cat output.txt
+  198  output.txt
+  199  /output.txt
+  200  echo $"Hello World" > output.txt
+  201  cat output.txt 
+  202  ls -l > output.txt
+  203  echo $"Hello World" >> output.txt
+  204  cat output.txt 
+  205  cd rnr
+  206  cd rnr >> output.txt
+  207  cat output.txt 
+  208  cd rnr <  output_rnr.txt
+  209  touch output_rnr.txt
+  210  cd rnr <  output_rnr.txt
+  211  cd rnr 2>> output.txt
+  212  cat output.txt 
+  213  cd rnr 2>> output.txt
+  214  cat output.txt 
+  215  history > lab.txt

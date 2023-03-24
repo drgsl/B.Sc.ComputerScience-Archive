@@ -1,0 +1,44 @@
+1.     Realizati o aplicatie pentru calculul indemnizatiilor consilierilor
+municipali Iasi.
+
+	Informatii necesare:
+
+	- consilieri cu partidele si comisiile de lucru din care fac parte
+	- pontaje (numar de sedinte)
+	- comisii lucru (5-6 comisii (De ex. economica, urbanism, prot. sociala, 
+sanatate, juridica, invatamint-cultura etc.)
+	- partidele politice cu reprezentanti in CL
+
+
+	Prezentarea problemei:
+
+	Exista un numar de cca. 20 consilieri, fiecare facƒnd parte dintr-un
+partid (sau independenti), fiecare facƒnd parte din 1-2 maxim 3 comisii 
+de lucru. In timpul fiecarei luni se desfasoara 1-2 sedinte in plen
+si 2-3 sedinte pe comisii. Legea prevede plata a unei sedinte plen si a maxim 
+2 sedinte pe comisii. 
+	Indemnizatia de sedinta este 5% dintr-un salariu de referinta 
+(de ex. 3000 RON !!). 
+	Lunar se introduc pontajele consilierilor SEPARAT pe plen si comisii !!
+Pontajele se pastreaza de la o luna la alta, astfel incit pot fi 
+oricind accesate.
+
+	PROVOCARE
+
+	Aplicatia va permite introducerea automata/individuala a 
+prezentelor in plen/comisii in conditiile in care majoritatea consilierilor au 
+cam acelasi numar de sedinte intr-o anumita comisie, respectiv majoritatea 
+vin la sedinta in plen !!
+
+	Aplicatia va permite urmatoarele liste:
+
+	- consilieri, care beneficiaza, respectiv nu ~ de indemnizatia maxima
+(adica, nu au 1 SEDINTA PLEN, respectiv 2 SEDINTE COMISII cel putin !!)
+	- prezenta pe comisii (cu selectarea comisiei !!) intr-o anumita luna
+	- indemnizatiile cuvenite intr-o anumita luna
+	- 
+
+	Observatii
+
+	NU conteaza data sedintelor sau a absentelor !!
+

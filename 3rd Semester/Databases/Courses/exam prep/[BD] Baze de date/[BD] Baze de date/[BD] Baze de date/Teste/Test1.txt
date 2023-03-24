@@ -1,0 +1,42 @@
+/*1.Creati o tabela numita BIBLIO conform specificatiilor urmatoare:
+
+------------------------------------------------------------------------------
+| Nume coloana  |  ID_CITITOR  |    TITLU     |       GEN    |DATA_IMPRUMUT  |
+------------------------------------------------------------------------------
+| Tipul de cheie|   PK , FK    |              |              |     	     |
+------------------------------------------------------------------------------
+| Null/Unique   |     NN       |       NN     |              |               |
+------------------------------------------------------------------------------
+| Implicit      |              |              |              | data sistem   |                  
+------------------------------------------------------------------------------
+| Tip de data   |     NUMBER   |   VARCHAR2   |  VARCHAR2    |    DATE       | 
+------------------------------------------------------------------------------
+| Lungime       |        6     |      40      |      10      |               |
+------------------------------------------------------------------------------
+Coloana id_cititor din tabela biblio se leaga de coloana empno din tabela emp.
+Modificati tabela adaugind o coloana noua, sex (char(1)) si o constringere de tip check 
+care sa impuna doar valorile 'M' si 'F' in aceasta coloana.
+Vizualizati constringerile (CONSTRAINT_NAME), coloanele asociate 
+(COLUMN_NAME) si tipul lor (CONSTRAINT_TYPE) folosind tabelele 
+USER_CONSTRAINTS si USER_CONS_COLUMNS intr-o singura interogare !!
+Stergeti constringerea nou creata. Stergeti constringerea aferenta coloanei TITLU.
+Stergeti tabelul.
+
+/*2. Afisati angajatii (ename), salariul lor, limita maxima a salariului (hisal)
+ pentru cei care au gradul de salarizare 3 si 4. Gradul si limita maxima a salariului se gasesc
+in tabela grades. Veti numi coloanele Nume, Salariu si MaxSal exact in aceasta forma.
+Afisarea se va face in ordinea descrescatoare a salariului*/
+
+/*Afisati numele angajatilor, numele departamentului si o adresa de mail care are forma:
+"ename_(primele 3 caractere din numele departamentului)@(primele 2 caractere din job).
+Asigurati-va ca apar toti angajatii ! */
+
+
+
+
+
+
+
+
+
+

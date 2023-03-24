@@ -1,0 +1,6 @@
+
+all:
+	yacc tema.y -d
+	lex tema.l 
+	gcc lex.yy.c y.tab.c
+	./a.out text.txt

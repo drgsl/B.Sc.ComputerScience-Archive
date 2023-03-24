@@ -1,0 +1,32 @@
+1.select s.nume,s.prenume
+from studenti s inner join note_studenti n on s.mat=n.mat
+having avg(n.nota)=(select max(avg(n.nota))
+from studenti s inner join note_studenti n on s.mat=n.mat
+group by n.nota)
+group by s.nume,s.prenume;
+
+2.select s.nume,s.prenume
+from studenti s inner join note_studenti n on s.mat=n.mat
+having avg(n.nota)>=5 and s.nume in 
+(
+select s.nume
+from student s inner join note_studenti n on s.mat=n.mat
+where n.nota<5)
+group by s.nume,s.prenume;
+
+3.select denumire_obiect,studenti.nume as nume_strundet,medie_obiect,note_studenti.nota
+from(
+select round(avg(nota),2) as medie_obiect,den as denumire_obiect,ob.cod as CODobiect
+from note_studenti ns,obiecte ob
+where ns.cod=ob.cod
+group by den,ob.cod
+),note_studenti,studenti
+where note_studenti.cod=CODobiect and medie_obiect<note_studenti.nota and note_studenti.mat=studenti.mat;
+
+4.update note_studenti set nota=5 where nota<5 and mat=
+(select mat
+from studenti
+where nume='nume2');
+
+5.alter table note_studenti add data DATE default CURRENT_DATE;
+alter table drop column data;

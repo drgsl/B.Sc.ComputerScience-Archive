@@ -1,0 +1,55 @@
+ex 5
+
+
+SELECT nume, prenume
+from
+(
+    SELECT nume, prenume, count (ore) as nr_ore
+    from angajati a, pontaje b
+    where b.coda = a.coda
+    group by b.coda, nume, prenume
+    order by nr_ore desc
+)
+  Where rownum in(1,2);
+  --0 p
+
+ex 3
+SELECT den
+from
+(
+    SELECT b.den, count (coda) as nr
+    from angajati a, departamente b
+    where b.codd = a.codd and etaj <> 3
+    group by b.den
+    order by nr desc
+)
+  Where rownum in(1,2);
+  --2.5, nu trebuia decat departamentul 1 sa apara !
+
+ex 4
+SELECT d.den, a.nume, a.prenume, a.salariu, media_sal
+FROM
+departamente d, angajati a,
+(SELECT codd, avg(salariu) as media_sal
+FROM angajati
+GROUP BY codd) t
+WHERE t.codd=a.codd AND t.codd=d.codd AND media_sal>=(SELECT AVG(salariu) FROM t WHERE t.codd=d.codd);
+--1 p
+
+ex 2
+SELECT den FROM departamente d,
+(SELECT v.codd as dep, avg(salariu) media_sal
+FROM angajati v
+GROUP BY dep
+ORDER BY media_sal
+) t
+WHERE d.codd = t.dep and rownum in (1,2);
+--0 p
+
+ex 1
+
+total:3.5 
+
+
+
+

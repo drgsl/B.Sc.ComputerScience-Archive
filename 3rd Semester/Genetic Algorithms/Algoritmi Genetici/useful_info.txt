@@ -1,0 +1,131 @@
+-> 
+derivata/panta unei functii - rata de schimbare a unei functii
+
+Ex: derivata = -2 pe un interval
+Ce inseamna? La o schimbare pe axaX, axaY se schimba de doua ori mai mult in sens opus.
+
+Bazin de atractie - intuitiv
+
+Cautare gradient descent - ce este??
+probabilitate de gasire a optim global (p) = nr total de valori din bazinil optim / nr total de valori (LA O SINGURA CAUTARE)
+
+pentru N incercari: 1 - (1-p)^N
+
+10^precizie = nr de puncte dintr un interval (precizie = nr de zecimale dupa 0 ale lui epsilon)
+10^precizie * (b - a) = numarul de puncte din intervalul [a, b]
+M = (10^precizie * (b-a))^N = pt N dimensiuni
+log in baza 2 din M = nr de biti necesari reprezentarii
+
+log2 din M-> se aprox. la ceil(), pentru a pastra precizia
+
+N * ceil(log2 (10^prec * (b - a))) = L (lungimea unui input de dimensiuni N pe biti)
+
+Algoritm optimizat
+B = 0;
+for (int i = 0; i < l; ++i) {
+    B = 2 * B;
+    B += V[i];
+}
+
+
+B apartine intervalului [0, 2^l - 1]
+
+S = B / (2^l - 1), apartine [0, 1]
+
+
+metoda traiectorie - o singura solutie candidat la un moment dat
+
+best imp - scanam si alegem cel mai bun
+first imp - scanam si alegem pe primul mai bun
+
+
+
+
+
+-> 
+O generare uniforma de numere aleatoare determina sume neuniforme ale rezultatelor generarii (exemplul cu 50% sansa de generare pt 1 si -1; sumele rezultatelor se indeparteaza de 0 odata cu cresterea numarului de generari)
+
+Probabilitatea de fals pozitiv (adica suma anterioara sa fie 0) este 1% sau 5%
+
+Pentru algoritmi de Hill Climbing, MAX (numarul de repetari ale algoritmului) apartine [10^6, 10^9]
+
+Cand nu cunoastem distributia unei populatii, trebuie sa facem macar 15 * nr_evenimente extrageri (daca avem 50% bile albe si 50% bile negre, nr de evenimente e 2 => facem cel putin 15 * 2 = 30 de extrageri pentru a ne face o idee despre distributie)
+
+
+
+
+
+-> 
+https://www.youtube.com/watch?v=eBmU1ONJ-os
+https://www.youtube.com/watch?v=boTeFM-CVFw
+
+
+
+-> 
+Ponturi
+- titlul trebuie sa fie sugestiv
+- nu pune cod in raport
+- nu folosi variabile din cod in raport
+- motivatia trebuie sa fie oarecum scurta
+- legendele se pun inainte tabelelor
+- bibliografia trebuie sa fie bine facuta
+- pentru euristic, numarul de teste sa fie FIX
+- orice valoare este sub EPSILON este 0
+(pentru documentatie)
+
+
+
+-> 
+Relieful fitness
+- fct fitness = o alta functie care prelucreaza algoritmul optimizat
+
+Algoritmi genetici
+- sunt metode de populatie (cele dinainte sunt de traiectorie)
+- m.t. la un moment dat avem o singura solutie, la a.g. avem mai multe (de obicei de la 30 in sus)
+
+- natural = tot ce exista
+- nenatural = tot ce nu poate exista, ce nu respecta legile naturii
+
+- evolutie naturala = ce este?
+
+- dim de populatie medie ~100
+- nr generatii maxim = 1.000
+- stopping condition : de ex t <= 1000
+- mutatie = 2 for-uri si avem o probabilitate sa negam un bit
+- destructiv : alegi mereu copii, nedestructiv : alegi copii + parintii
+- punct de taiere = intre 2 si n - 2 (nu vrem doar sa interschimbam cromozomii)
+- probabilitate de cross over = 20%
+- probabilitate mutatie = 0.01 (%?)
+- nr impar de indivizi - 50% il ignori pe ultimul de peste linie, 50% il iei pe primul de sub linie
+
+
+
+
+-> Seminar 7 (sau 8?) - despre algoritmi de cautare
+
+operatorul genetic care face exploatare este crossover (recombinare)
+operatorul genetic care face explorare este mutatia
+explorare = vedem solutiile, insa nu le comparam sau le analizam foarte atent
+exploarate = cautare in vecinatatea solutiilor pe care le avem deja
+
+selectia - cel mai important operator genetic
+
+discutie despre cum crestem / scadem puterea de selectie
+
+explorare = sa cautam, dar nu in vecinatatilor valorilor pe care le avem ( sa incercam ceva nou)
+exploatare = sa imbunatatim ce avem deja
+operatori adaptivi - sa crestem / sa scadem probabilitatea operatorilor in timpul algoritmului
+gen incepi cu mutatie mare si scazi pana la un anumit punct, sau invers pt crossover
+hipermutatia - daca detectam o stagnare, ii dam o singura generatie cu o probabilitate de mutatie foarte mare
+gen 20%
+in loc de 1%
+cum ne dam seama? cand a gasit un nou optim, care e dif intre min si max, depinde de noi
+hibridizarea - de ex cu hc (sa plecam deja din puncte de optim)
+practic, sa initializam populatia de start cu valori foarte bune obtinute de la hc
+algoritm memetic - inainte de fiecare evaluare, sa aplicam gredient decent pe fiecare solutie candidat -> evaluam valoare din optimul local
+
+
+
+
+
+->

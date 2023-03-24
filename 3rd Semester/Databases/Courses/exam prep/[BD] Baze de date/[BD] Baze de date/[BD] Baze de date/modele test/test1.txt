@@ -1,0 +1,119 @@
+GRUPUL 1 DE TABELE:
+1.
+
+select nume,prenume
+from studenti
+where mat=
+(
+select mat from
+(
+select mat,avg(nota)
+from note_studenti
+group by mat 
+having avg(nota) >= all
+(
+select avg(nota) 
+from note_studenti
+group by mat
+)))
+;
+
+
+
+
+2.
+
+select nume,prenume
+			from studenti
+			where mat in 
+			(
+			  select mat 
+			  from note_studenti
+			  where nota <5
+			)
+and mat in 
+(
+select mat
+from (
+select mat,avg(nota)
+from note_studenti
+group by mat 
+having avg(nota)>5 
+)
+)
+;
+
+
+
+
+
+3.
+
+select denumire_obiect,studenti.nume as nume_strundet,medie_obiect,note_studenti.nota
+from(
+select round(avg(nota),2) as medie_obiect,den as denumire_obiect,ob.cod as CODobiect
+from note_studenti ns,obiecte ob
+where ns.cod=ob.cod
+group by den,ob.cod
+) , note_studenti,studenti
+where note_studenti.cod=CODobiect  
+and 
+medie_obiect<note_studenti.nota 
+and
+note_studenti.mat=studenti.mat;
+
+
+
+4.
+
+
+--notele la inceput
+			select *
+			from note_studenti
+			where mat=
+			(
+			select mat
+			from studenti
+			where nume = 'nume2');
+
+-- modificarea notelor
+			update note_studenti
+			set nota =5
+			where (mat,nota) in
+			(
+			select mat,nota
+			from note_studenti
+			where mat=
+			(
+			select mat
+			from studenti
+			where nume = 'nume2')
+			and nota<5);
+
+-- dupa modificare
+			select *
+			from note_studenti
+			where mat=
+			(
+			select mat
+			from studenti
+			where nume = 'nume2');
+  -- revenim:	
+ROLLBACK;
+
+--notele la inceput
+			select *
+			from note_studenti
+			where mat=
+			(
+			select mat
+			from studenti
+			where nume = 'nume2');
+
+
+
+
+5.
+
+alter table note_studenti add data DATE default CURRENT_DATE;
+alter table note_studenti drop column data;

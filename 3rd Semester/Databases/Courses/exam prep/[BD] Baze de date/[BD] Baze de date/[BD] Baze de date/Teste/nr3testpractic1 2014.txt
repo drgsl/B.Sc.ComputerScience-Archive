@@ -1,0 +1,40 @@
+nr 3
+
+//1
+select nume,den
+from angajati a,departamente d
+where (+)a.codd=d.cod?
+
+//2
+select distinct name
+from angajati a,pontaje p
+where a.coda=p.cod and data between '14-MAR-2007' and '17-MAR-2007'
+order by name;
+
+//3
+select den,etaj,count(a.cota)nr_ang
+from angajati a,departamente
+where a.codd=d.cod
+group by den,etaj
+order by den;
+
+//4
+select initcap(nume)Nume,lpad(round(sum salariu*ore),2),7)
+from angaajti a,partaje p
+where a.coda=p.cod
+group by nume
+order by den;
+
+//5
+select nume||' '||prenume
+from angajati a
+inner join departamente d on a.codd=d.cod
+ineer join pontake p on a.code=p.coda
+where etaj=2
+minus 
+select nume||' '||prenume
+from angajati a
+inner join departamente d on a.codd=d.cod
+ineer join pontake p on a.code=p.coda
+where etaj=2 and data ='16-MAR-2007'
+order by name;

@@ -1,0 +1,43 @@
+1.select nume, prenume from (
+select s.nume, s.prenume, (select avg(n.nota) from note_studenti n where n.mat = s.mat) media
+from studenti s
+where (select avg(n.nota) from note_studenti n where n.mat = s.mat) is not null
+order by media desc)
+where rownum = 1;
+--3 p
+
+2.select s.nume, s.prenume
+from studenti s
+where 5 <= (select avg(n.nota) from note_studenti n where n.mat = s.mat)
+and exists (select '1' from note_studenti n where n.mat = s.mat and nota < 5);
+--3 p
+
+3.
+ 
+4. SAVEPOINT SP;
+
+update note_studenti
+set nota = 5
+where mat = (select mat from studenti where nume = 'nume2') and nota < 5;
+
+select s.nume, s.prenume, n.nota
+from studenti s, note_studenti n
+where s.mat = n.mat and nume = 'nume2';
+
+rollback;
+
+select * from note_studenti;
+--3 p
+
+
+5. ALTER TABLE NOTE_STUDENTI
+ADD ( Data_Nota DATE );
+
+UPDATE NOTE_STUDENTI
+SET Data_Nota = sysdate;
+
+ALTER TABLE NOTE_STUDENTI
+DROP COLUMN Data_Nota;
+--3 p
+
+total:12 p...de ce nu ai facut si punctul 3?

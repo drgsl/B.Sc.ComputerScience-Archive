@@ -1,0 +1,34 @@
+4. Realizati o aplicatie pentru evidenta masinilor inchiriate de catre o agentie de profil.
+
+	Informatii necesare:
+
+		- personalul agentiei
+		- masini pentru inchiriat
+		- clienti
+		- tranzactii
+
+     Prezentarea problemei:
+
+     Personalul agentiei (5,6 angajati) imprumuta masini cu anumite caracteristici 
+(marca, culoare, litraj, consum, valoare etc) la clienti de asemenea cu caracteristicile lor 
+(nume, prenume, CNP, adresa, CI etc). 
+     Inchirierea se face pe o perioada oarecare. Se vor  preciza data inchirierii/returnarii !!
+Valoarea din cimpul data poate fi considerata implicit cea curenta, insa sa poata fi modificata !!
+	
+	PROVOCARE
+
+	- in caz de nerestituire a masinii la termenul fixat, ziua urmatoare 
+scadentei se emit somatii. Se aplica penalizari de 0.1% zi din tariful de 
+inchiriere. In caz de accident se percepe o amenda egala cu un coeficient 
+de multiplicare specific fiecarei masini functie de valoarea ei.
+
+	Aplicatia va permite urmatoarele liste:
+
+	- somatii pentru clientii "intirziati"
+	- penalizari/amenzi platite de clienti intr-o luna oarecare
+	- masinile disponibile la un moment dat
+        - lista inchirierilor dintr-o luna oarecare (inclusiv cu suma datorata!!)
+
+Observatie:
+	- pentru simplitate tariful de inchiriere va fi acelasi pentru o masina, 
+indiferent de perioada inchiriata 

@@ -1,0 +1,31 @@
+1.select p.nume
+from profesori p inner join note_elevi n on p.cod=n.cod
+where n.nota=(select min(nota)
+from note_elevi);
+
+2.select e.nume,avg(n.nota)
+from elevi e inner join note_elevi n on e.matricola=n.mat
+where e.nume not in
+(
+select e.nume
+from elevi e inner join note_elevi n on e.matricola=n.mat
+where n.nota<5)
+group by e.nume;
+
+3.select p.nume,e.nume,n.nota,avg(n.nota)
+from elevi e inner join note_elevi n on e.matricola=n.mat inner
+join profesori p on p.cod=n.cod
+where e.nume in
+(select e.nume
+from elevi e inner join note_elevi n on e.matricola=n.mat
+where n.nota<(select avg(nota)
+from note_elevi))
+group by p.nume,e.nume,n.nota;
+
+4.alter table note_elevi add data DATE default CURRENT_DATE;
+
+5.update note_elevi set nota=nota+1 where nota<10 and cod=
+(
+select cod
+from profesori
+where nume='nume1');

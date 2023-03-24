@@ -1,0 +1,53 @@
+--Nistor D Daniel 2A7, nr 3.
+
+--1
+Select nume, 
+from angajati an
+group by nume;
+--0 p
+
+--2 --merge dar nu afiseaza primii 2, ii afiseaa pe toti
+Select den, count(A.Coda) as nr_angajati
+from angajati a inner join departamente d on a.codd=d.codd
+group by a.codd,den;
+--0 p, departe de varianta corecta !
+
+Select coda from angajati order by coda desc;
+
+--3
+select nume, salariu,avg(salariu),den
+from angajati a inner join departamente d on a.codd=d.codd
+where nume > (Select )
+group by den,nume,salariu;
+--0 p
+
+--avg pe departament
+Select den, avg(A.Salariu) as Sal_mediu_pe_departament
+from angajati a inner join departamente d on a.codd=d.codd
+group by den;
+--4 - merge bine
+commit;
+alter table Angajati add (Data_angajarii date default sysdate); 
+select * from angajati;
+alter table Angajati drop column Data_angajarii;
+select * from angajati;
+rollback;
+--3 p
+
+--5
+alter table Angajati add (Data_angajarii date default sysdate); 
+update Angajati a
+set Data_angajarii = (Select data from pontaje where a.Coda = Angajati.codA);
+--1.25 p
+--varianta corecta (cred ca observi diferenta majore !)
+update angajati
+set data_angajarii = 
+  (select min(data)
+  from pontaje p 
+  where p.coda = angajati.coda)
+where 
+  (select min(data)
+  from pontaje p
+  where p.coda = angajati.coda) is not null;
+  
+  total:4.25

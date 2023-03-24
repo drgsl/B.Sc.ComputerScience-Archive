@@ -1,0 +1,42 @@
+3. Realizati o aplicatie pentru evidenta chiriilor incasate pentru spatiile
+comerciale de pe raza municipiului Iasi.
+
+	Informatii necesare
+
+	- societati comerciale care au chioscuri pe terenul orasului (cod 
+fiscal, adresa, administrator etc.)
+	- caracteristicile spatiului (adresa amplasare, suprafata (mp), 
+chirie/mp, nr. contract (unic !!), data inceput, termen etc.)
+	- plati efectuate 
+	- penalizari calculate si platite
+
+		
+	Prezentarea aplicatiei
+
+	O societate poate avea unul sau mai multe chioscuri (i.e contracte 
+aferente !!) pentru care plateste o chirie lunara !!
+	Consideram data de 1 a lunii urmatoare  ca data scadentei. 
+Dupa scadenta se platesc penalizari in valoare de 0.1% pe zi din valoarea chiriei lunare
+RAMASA DE PLATIT. 
+
+	PROVOCARE
+
+	- platile se pot face si in transe in cuantum aleatoriu nu neaparat chiria lunara 
+dar INDIFERENT cit se plateste, penalizarile se calculeaza cum s-a precizat mai sus.
+	- platile se vor introduce PE FIECARE CONTRACT, SEPARAT
+
+	Aplicatie trebuie sa permita urmatoarele liste:
+	
+	- lista contractelor expirate la o data precizata
+	- nota de calcul care contine date generale despre UN contract,
+(societate, amplasament, suprafata, chirie/mp, chirie totala, lista platilor/penalizarilor efectuate si, 
+F. IMPORTANT, modul in care s-a calculat penalizarea (adica de cind pina cind si valoarea !!), 
+iar in final totalul debitului  !!
+	- lista datornicilor la o data selectata (1 a unei luni !!!)
+
+	OBSERVATIE
+
+	- pentru simplitate contractele vor incepe de la 1 a lunii, termenul
+fiind precizat in LUNI, dar NU MAI MULT DE SFIRSITUL ANULUI !!
+
+	

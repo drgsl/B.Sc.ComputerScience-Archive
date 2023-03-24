@@ -1,0 +1,48 @@
+/*1. Creati o tabela numita PERSONAL conform specificatiilor urmatoare:
+
+--------------------------------------------------------------------------------------
+| Nume coloana       | ID_NUME       | LAST_NAME    | HIRE_DATE      |        TIP    |
+--------------------------------------------------------------------------------------
+| Tipul de cheie     |    PK         |              |                |               |
+--------------------------------------------------------------------------------------
+| Null/Unique        |    NN         |              |                |               |
+--------------------------------------------------------------------------------------
+| Implicit           |               |              |   data sistem  |               |
+--------------------------------------------------------------------------------------
+| Tip de data        |  NUMBER       |  VARCHAR2    |  DATE          |     CHAR      |
+--------------------------------------------------------------------------------------
+| Lungime            |    10         |    25        |    25          |       6       |
+--------------------------------------------------------------------------------------
+|Check               |               |              |                |  PENS,SOMER   |
+--------------------------------------------------------------------------------------
+
+Modificati tabela PERSONAL prin adaugarea unei coloane SALAR (NUMBER(6)) si o 
+constringere de tip not null pentru aceasta.
+Vizualizati constringerile (constraint_name), coloanele asociate 
+(column_name) si tipul lor (constraint_type) folosind tabelele 
+user_constraints si user_cons_columns intr-o singura interogare !!
+Stergeti constringerea nou creata. Stergeti constringerea de la coloana TIP. Stergeti tabelul.*/
+
+/*2. Afisati numele (ename), data angajarii si gradul de salarizare pentru salariatii 
+veniti in firma in luna iunie precum sipentru  cei veniti dupa anul 1982 inclusiv. 
+Veti numi coloanele Nume, DataAng, Grad exact in aceasta forma.
+Afisarea se va face descrescator dupa data angajarii.*/
+
+
+/*3. Afisati numele angajatilor (ename), numele departamentului si o adresa de mail de forma:
+"ename(primele 2 caractere din loc)@(primele 3 caractere din numele departamentului)*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

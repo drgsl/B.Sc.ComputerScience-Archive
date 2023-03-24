@@ -1,0 +1,9 @@
+
+
+2.select denumire,cantitate from
+(select p.den as denumire,sum(v.cant) as cantitate from
+produse p,  vinzari v
+where p.codp=v.codp
+GROUP by p.den
+order by cantitate desc)
+where ROWNUM<4;

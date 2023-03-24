@@ -1,0 +1,41 @@
+6. Realizati o aplicatie pentru evidenta medicamentelor compensate/gratuite
+acordate bolnavilor. Aplicatia se refera STRICT la medicii de familie si NU LA O FARMACIE !!!!!!!!!
+
+	Informatii necesare
+
+	- medici de familie (nume, CNP, etc.)
+	- asigurati (idem ...)
+	- lista medicamente compensate/gratuite
+	- retete
+
+	Prezentarea problemei
+
+	Asiguratii vin la medicul de familie care le prescrie o reteta. 
+Reteta poate fi TIP CRONIC valabila toata luna, sau ACUT valabila doar in 
+ziua acordarii !! Numarul MAXIM de medicamente de pe o retea este de 3.
+
+	PROVOCARE
+
+	Se pot prescrie CEL MULT o reteta pe cronic si ORICITE pe 
+acut INTR-O LUNA !! 
+
+	Aplicatie trebuie sa permita urmatoarele liste:
+
+	- lista medicilor in ordinea valorii retetelor prescrise 
+(se vor preciza retetele cu valoarea, tipul si ziua acordarii !!)
+	- lista bolnavilor in ordinea numarului de retete primite, cu
+precizarea datei de acordare si a valorii retetei !!
+	- lista medicamentelor cel mai solicitate (adica in ordine 
+descrescatoare a cantitatii !!) cu precizarea medicilor care le-au prescris, 
+a bolnavului, a cantitatii si a valorii !!
+
+	Observatie
+
+	-  pentru simplitate:
+
+	- medicamentele din cele 2 liste vor fi precizate direct
+la pretul de vinzare (i.e s-a inclus COMPENSAREA !!) 
+	- nu se pune problema unui pret de referinta la care sa se adauge
+plusul dat de provenienta medicamentului !!
+
+	

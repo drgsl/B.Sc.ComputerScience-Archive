@@ -1,0 +1,54 @@
+7. Realizati o aplicatie pentru evidenta personalului intr-o institutie.
+
+	Informatii necesare:
+
+	- personalul cu caracteristici minimale (marca, nume, CNP, vechime,
+angajare, vechime la data angajarii, plecare etc.)
+	- functii de executie (inginer, programator, referent, muncitor etc.)
+	- grile de salarii aferente fiecarei functii (maxim 4 trepte de 
+salarii !!)
+	- servicii 
+
+	Prezentarea problemei
+
+	Se introduce personalul cu datele aferente. Vechimea este precizata
+in ZILE, LUNI, ANI sub forma zz/ll/aa. Programul va calcula, pe baza vechimii
+la data angajarii, vechimea curenta (i.e vechimea la 1 a lunii pentru care se face 
+introducerea/modificarea datelor !!). Programul va afisa sporul de vechime 
+cuvenit, pe baza urmatoarelor transe:
+
+	< 3 ani,  	0%
+	3-5 ani,  	5%
+	5-10 ani  	10%
+	10-15 ani	15%
+	15-20 ani	20%
+	>20		25%
+	
+	Atentie: vechimea care se schimba in mijlocul lunii se acorda 
+incepind cu luna viitoare !!
+	Fiecare serviciu are un sef ; sefii au o indemnizatie de conducere 
+de 30% (de ex.), indiferent de serviciu !!
+	
+	PROVOCARE
+
+	- Salariul se identifica in mod unic, precizind studiile (medii/superioare), apoi se alege functia aferenta
+studiilor. Se intra in grila respectiva si aici se alege gradatia (de ex. grd. I,II, III sau deb.), 
+astfel rezultind salariul.
+	- vechimea se actualizeaza automat si se afiseaza corespunzator datei de 1 a lunii de lucru !!
+
+	Aplicatia va permite urmatoarele liste:
+
+	- stat functii in care se va trece numele, studiile, incadrarea,
+salariul de incadrare, indemnizatie conducere (ptr. sefi), spor vechime, 
+valoare  spor si totalul (salar+indemniz.+spor vechime)
+	- pentru statul de functii personalul va fi ordonat dupa:
+	
+	- prioritatea serviciului
+	- sef 
+	- studii superioare/medii
+	- gradul pe care-l are  
+
+	- lista cu vechimea fiecarui angajat la o anumita data 
+selectata !! (evident, 1 a unei luni !!). Vechimea o precizam atit in 
+zile, luni, ani cit si sporul aferent. Se va preciza si modificarea sporului
+de vechime (daca este cazul) in luna selectata !!

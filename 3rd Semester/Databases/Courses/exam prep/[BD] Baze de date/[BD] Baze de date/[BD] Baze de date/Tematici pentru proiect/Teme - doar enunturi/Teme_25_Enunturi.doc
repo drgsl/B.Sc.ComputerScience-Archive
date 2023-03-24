@@ -1,0 +1,222 @@
+{\rtf1\ansi\ansicpg1252\uc1\deff0\stshfdbch0\stshfloch0\stshfhich0\stshfbi0\deflang1033\deflangfe1033{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f1\fswiss\fcharset0\fprq2{\*\panose 020b0604020202020204}Arial;}
+{\f2\fmodern\fcharset0\fprq1{\*\panose 02070309020205020404}Courier New;}{\f3\froman\fcharset2\fprq2{\*\panose 05050102010706020507}Symbol;}{\f10\fnil\fcharset2\fprq2{\*\panose 05000000000000000000}Wingdings;}
+{\f11\froman\fcharset128\fprq1{\*\panose 02020609040205080304}MS Mincho{\*\falt \'82\'6c\'82\'72 \'96\'be\'92\'a9};}{\f36\fnil\fcharset128\fprq0{\*\panose 00000000000000000000}StarSymbol{\*\falt Arial Unicode MS};}
+{\f38\froman\fcharset128\fprq1{\*\panose 00000000000000000000}@MS Mincho;}{\f39\fnil\fcharset128\fprq0{\*\panose 00000000000000000000}@StarSymbol;}{\f265\froman\fcharset238\fprq2 Times New Roman CE;}{\f266\froman\fcharset204\fprq2 Times New Roman Cyr;}
+{\f268\froman\fcharset161\fprq2 Times New Roman Greek;}{\f269\froman\fcharset162\fprq2 Times New Roman Tur;}{\f270\froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f271\froman\fcharset178\fprq2 Times New Roman (Arabic);}
+{\f272\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f273\froman\fcharset163\fprq2 Times New Roman (Vietnamese);}{\f275\fswiss\fcharset238\fprq2 Arial CE;}{\f276\fswiss\fcharset204\fprq2 Arial Cyr;}{\f278\fswiss\fcharset161\fprq2 Arial Greek;}
+{\f279\fswiss\fcharset162\fprq2 Arial Tur;}{\f280\fswiss\fcharset177\fprq2 Arial (Hebrew);}{\f281\fswiss\fcharset178\fprq2 Arial (Arabic);}{\f282\fswiss\fcharset186\fprq2 Arial Baltic;}{\f283\fswiss\fcharset163\fprq2 Arial (Vietnamese);}
+{\f285\fmodern\fcharset238\fprq1 Courier New CE;}{\f286\fmodern\fcharset204\fprq1 Courier New Cyr;}{\f288\fmodern\fcharset161\fprq1 Courier New Greek;}{\f289\fmodern\fcharset162\fprq1 Courier New Tur;}
+{\f290\fmodern\fcharset177\fprq1 Courier New (Hebrew);}{\f291\fmodern\fcharset178\fprq1 Courier New (Arabic);}{\f292\fmodern\fcharset186\fprq1 Courier New Baltic;}{\f293\fmodern\fcharset163\fprq1 Courier New (Vietnamese);}}{\colortbl;\red0\green0\blue0;
+\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;
+\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}{\stylesheet{\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 \fs24\lang1048\langfe255\cgrid\langnp1048\langfenp255 \snext0 Normal;}{\*\cs10 \additive 
+\ssemihidden Default Paragraph Font;}{\*\ts11\tsrowd\trftsWidthB3\trpaddl108\trpaddr108\trpaddfl3\trpaddft3\trpaddfb3\trpaddfr3\trcbpat1\trcfpat1\tscellwidthfts0\tsvertalt\tsbrdrt\tsbrdrl\tsbrdrb\tsbrdrr\tsbrdrdgl\tsbrdrdgr\tsbrdrh\tsbrdrv 
+\ql \li0\ri0\widctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \fs20\lang1024\langfe1024\cgrid\langnp1024\langfenp1024 \snext11 \ssemihidden Normal Table;}{\s15\ql \li0\ri0\sb240\sa120\keepn\nowidctlpar\faauto\rin0\lin0\itap0 
+\f1\fs28\lang1048\langfe255\cgrid\langnp1048\langfenp255 \sbasedon0 \snext16 Heading;}{\s16\ql \li0\ri0\sa120\nowidctlpar\faauto\rin0\lin0\itap0 \fs24\lang1048\langfe255\cgrid\langnp1048\langfenp255 \sbasedon0 \snext16 Body Text;}{
+\s17\ql \li0\ri0\sa120\nowidctlpar\faauto\rin0\lin0\itap0 \fs24\lang1048\langfe255\cgrid\langnp1048\langfenp255 \sbasedon16 \snext17 List;}{\s18\ql \li0\ri0\sb120\sa120\nowidctlpar\faauto\rin0\lin0\itap0 
+\i\fs24\lang1048\langfe255\cgrid\langnp1048\langfenp255 \sbasedon0 \snext18 \ssemihidden caption;}{\s19\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 \fs24\lang1048\langfe255\cgrid\langnp1048\langfenp255 \sbasedon0 \snext19 Index;}{
+\s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 \f2\fs20\lang1048\langfe255\cgrid\langnp1048\langfenp255 \sbasedon0 \snext20 Text simplu;}{\*\cs21 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 1;}{\*\cs22 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 2;}{\*\cs23 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 3;}{\*\cs24 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 4;}{\*\cs25 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 5;}{\*\cs26 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 6;}{\*\cs27 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 7;}{\*\cs28 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 8;}{\*\cs29 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 9;}{\*\cs30 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 13;}{\*\cs31 \additive 
+\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 23;}{\*\cs32 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 33;}{\*\cs33 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 43;}{\*\cs34 \additive 
+\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 53;}{\*\cs35 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 63;}{\*\cs36 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 73;}{\*\cs37 \additive 
+\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 83;}{\*\cs38 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 93;}{\*\cs39 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 12;}{\*\cs40 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 22;}{\*\cs41 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 32;}{\*\cs42 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 42;}{\*\cs43 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 52;}{\*\cs44 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 62;}{\*\cs45 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 72;}{\*\cs46 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 82;}{\*\cs47 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 92;}{\*\cs48 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 11;}{\*\cs49 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 21;}{\*\cs50 \additive \f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 31;}{\*\cs51 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 41;}{\*\cs52 \additive 
+\f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 51;}{\*\cs53 \additive \lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 61;}{\*\cs54 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 71;}{\*\cs55 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 81;}{\*\cs56 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 RTF_Num 2 91;}{\*\cs57 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 WW8Num1z0;}{\*\cs58 \additive 
+\f2\lang1048\langfe255\langnp1048\langfenp255 WW8Num1z1;}{\*\cs59 \additive \lang1048\langfe255\loch\f2\hich\af2\dbch\af11\langnp1048\langfenp255 WW8Num1z2;}{\*\cs60 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 WW8Num1z3;}{\*\cs61 \additive 
+\lang1048\langfe255\loch\f2\hich\af2\dbch\af11\langnp1048\langfenp255 WW8Num2z0;}{\*\cs62 \additive \f2\lang1048\langfe255\langnp1048\langfenp255 WW8Num2z1;}{\*\cs63 \additive \f10\lang1048\langfe255\langnp1048\langfenp255 WW8Num2z2;}{\*\cs64 \additive 
+\f3\lang1048\langfe255\langnp1048\langfenp255 WW8Num2z3;}{\*\cs65 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 WW8Num3z0;}{\*\cs66 \additive \f2\lang1048\langfe255\langnp1048\langfenp255 WW8Num3z1;}{\*\cs67 \additive 
+\f10\lang1048\langfe255\langnp1048\langfenp255 WW8Num3z2;}{\*\cs68 \additive \f3\lang1048\langfe255\langnp1048\langfenp255 WW8Num5z0;}{\*\cs69 \additive \f2\lang1048\langfe255\langnp1048\langfenp255 WW8Num5z1;}{\*\cs70 \additive 
+\f10\lang1048\langfe255\langnp1048\langfenp255 WW8Num5z2;}{\*\cs71 \additive \lang1048\langfe255\langnp1048\langfenp255 Font de paragraf implicit;}{\*\cs72 \additive \fs18\lang1048\langfe255\loch\f36\hich\af36\dbch\af36\langnp1048\langfenp255 
+Bullet Symbols;}}{\*\latentstyles\lsdstimax156\lsdlockeddef0}{\*\listtable{\list\listtemplateid1{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01\u-3880 ?;}{\levelnumbers;}\f10 
+\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01o;}{\levelnumbers;}\f2 \fi-360\li1440\lin1440 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0
+\levelstartat0\levelspace0\levelindent0{\leveltext\'01-;}{\levelnumbers;}\f2 \fi-360\li2160\lin2160 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01\u-3913 ?;}{\levelnumbers;}\f3 
+\fi-360\li2880\lin2880 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01\u-3880 ?;}{\levelnumbers;}\f10 \fi-360\li3600\lin3600 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0
+\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01\'95;}{\levelnumbers;}\fs18\loch\af36\dbch\af36 \fi-360\li4320\lin4320 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext
+\'01\u-3913 ?;}{\levelnumbers;}\f3 \fi-360\li5040\lin5040 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01o;}{\levelnumbers;}\f2 \fi-360\li5760\lin5760 }{\listlevel\levelnfc23
+\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01\u-3929 ?;}{\levelnumbers;}\f10 \fi-360\li6480\lin6480 }{\listname WW8Num1;}\listid1}{\list\listtemplateid2\listsimple{\listlevel\levelnfc23\levelnfcn23
+\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'01\u-3913 ?;}{\levelnumbers;}\f3 \fi-360\li720\lin720 }{\listname WW8Num3;}\listid2}{\list\listtemplateid3\listsimple{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0
+\levelfollow0\levelstartat1\levelspace0\levelindent0{\leveltext\'02\'00.;}{\levelnumbers\'01;}\fi-360\li900\lin900 }{\listname WW8Num4;}\listid3}{\list\listtemplateid4\listsimple{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0
+\levelstartat1\levelspace0\levelindent0{\leveltext\'01\u-3913 ?;}{\levelnumbers;}\f3 \fi-360\li720\lin720 }{\listname WW8Num5;}\listid4}}{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}
+{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}}{\*\rsidtbl \rsid282856\rsid1191738\rsid4474621\rsid6122309}{\*\generator Microsoft Word 11.0.5604;}{\info{\title Practica - Baze de Date  (Anul III)}
+{\author home}{\operator home}{\creatim\yr2010\mo2\dy21\hr16\min46}{\revtim\yr2010\mo2\dy21\hr17\min3}{\version5}{\edmins17}{\nofpages2}{\nofwords555}{\nofchars3170}{\nofcharsws3718}{\vern24689}}\margl1319\margr720 
+\deftab708\widowctrl\ftnbj\aenddoc\noxlattoyen\expshrtn\noultrlspc\dntblnsbdb\nospaceforul\hyphcaps0\horzdoc\dghspace120\dgvspace120\dghorigin1701\dgvorigin1984\dghshow0\dgvshow3\jcompress\viewkind1\viewscale100\nolnhtadjtbl\rsidroot6122309 \fet0\sectd 
+\sbknone\linex0\sectdefaultcl\sftnbj {\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang {\pntxta .}}{\*\pnseclvl4
+\pnlcltr\pnstart1\pnindent720\pnhang {\pntxta )}}{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}
+{\pntxta )}}{\*\pnseclvl8\pnlcltr\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang {\pntxtb (}{\pntxta )}}\pard\plain \s20\qc \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 
+\f2\fs20\lang1048\langfe255\cgrid\langnp1048\langfenp255 {\b\fs22\ul\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Practica - Baze de Date  (Anul III)
+\par 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\b\fs22\ul\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 {\*\bkmkstart DDE_LINK}\hich\af1\dbch\af11\loch\f1 Tema de casa{\*\bkmkend DDE_LINK}\hich\af1\dbch\af11\loch\f1   :
+\par }{\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Analiza, proiectarea si implementarea unei baze de date si a aplica\'fe\loch\f275 
+iei aferente care sa modeleze procesul din tema aleasa de dvs.
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\f1\fs22\insrsid282856\charrsid282856 
+\par 
+\par }\pard \s20\qj \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\b\fs22\ul\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Specifica\'fe\loch\f275 ii generale tema de casa:
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\f1\fs22\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af3\hich\af3\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af3\dbch\af11\hich\f3 \'b7\tab}}\pard \s20\qj \fi-360\li1077\ri0\sb120\nowidctlpar{\*\pn \pnlvlblt\ilvl0\ls4\pnrnot0
+\pnf3\pnstart1\pnindent360\pnsp120\pnhang {\pntxtb \'b7}}\faauto\ls4\rin0\lin1077\itap0 {\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 realizarea temei va fi f\'e3\loch\f275 
+cuta in limbajului }{\b\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Visual Fox Pro}{\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+, scopul sau fiind verificarea \'ee\loch\f275 \hich\f275 nsu\'ba\loch\f275 irii temenice a acestui limbaj;
+\par {\pntext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af3\hich\af3\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af3\dbch\af11\hich\f3 \'b7\tab}}\pard \s20\qj \fi-360\li1077\ri0\sb120\nowidctlpar{\*\pn \pnlvlblt\ilvl0\ls4\pnrnot0
+\pnf3\pnstart1\pnindent360\pnsp120\pnhang {\pntxtb \'b7}}\faauto\ls4\rin0\lin1077\itap0 {\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 se vor asigna maxim 2-3 studen\'fe\loch\f275 \hich\f275 
+i la o tema cu definirea exacta a responsabilit\'e3\'fe\loch\f275 \hich\f275 ilor fiec\'e3\loch\f275 ruia;
+\par {\pntext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af3\hich\af3\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af3\dbch\af11\hich\f3 \'b7\tab}}\pard \s20\qj \fi-360\li1077\ri0\sb120\nowidctlpar{\*\pn \pnlvlblt\ilvl0\ls4\pnrnot0
+\pnf3\pnstart1\pnindent360\pnsp120\pnhang {\pntxtb \'b7}}\faauto\ls4\rin0\lin1077\itap0 {\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 prezentarea temei se va face a\hich\af1\dbch\af11\loch\f1 stfel:
+\par }\pard \s20\qj \li717\ri0\sb120\nowidctlpar\faauto\rin0\lin717\itap0\pararsid4474621 {\b\fs22\loch\af1\hich\af1\dbch\af11\insrsid4474621\charrsid282856 \hich\af1\dbch\af11\loch\f1 -\hich\af1\dbch\af11\loch\f1  }{
+\b\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 partea scrisa (documenta\'fe\loch\f275 ia)}{\b\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 
+ se va preda pe suport magnetic}{\b\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275  \'ba\loch\f275 \hich\f275 i va con\'fe\loch\f275 ine}{\b\f1\fs22\insrsid282856\charrsid282856 :}{
+\f1\fs22\insrsid282856\charrsid282856 
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}}\pard \s20\qj \fi-360\li1440\ri0\sb60\nowidctlpar\tx1080\faauto\ls1\rin0\lin1440\itap0 {
+\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 numele si grupa realizatorilor
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}\hich\af1\dbch\af11\loch\f1 tema proiectului, descrierea ei
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}}{\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 
+\hich\af275\dbch\af11\loch\f275 \hich\f275 descrierea tabelelor si a rela\'fe\loch\f275 iilor dintre ele cu specificarea cheilor primare
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}}\pard \s20\qj \fi-360\li1440\ri0\sb60\nowidctlpar\faauto\ls1\rin0\lin1440\itap0 {
+\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 modul de lucru a apli}{\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 ca\'fe\loch\f275 iei
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}\hich\af275\dbch\af11\loch\f275 \hich\f275 pa\'ba\loch\f275 \hich\f275 ii care trebuie urma\'fe
+\loch\f275 i pentru rularea proiectului, etc;}{\f1\fs22\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li360\ri0\sb120\nowidctlpar\faauto\rin0\lin360\itap0\pararsid4474621 {\b\fs22\loch\af1\hich\af1\dbch\af11\insrsid4474621\charrsid282856 \hich\af1\dbch\af11\loch\f1        \hich\af1\dbch\af11\loch\f1 - }{
+\b\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 partea practica (Proiectul)
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}}\pard \s20\qj \fi-360\li1437\ri0\sb60\nowidctlpar\tx1080\faauto\ls1\rin0\lin1437\itap0 {
+\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 va fi stocata pe suport magnetic
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}}{\fs22\loch\af275\hich\af275\dbch\af11\insrsid282856\charrsid282856 
+\hich\af275\dbch\af11\loch\f275 \hich\f275 va fi predata \'ee\loch\f275 \hich\f275 mpreuna cu documenta\'fe\loch\f275 ia
+\par {\listtext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af10\hich\af10\dbch\af11\langnp1048\langfenp255\charrsid282856 \loch\af10\dbch\af11\hich\f10 \'d8\tab}\hich\af275\dbch\af11\loch\f275 \hich\f275 va con\'fe\loch\f275 \hich\f275 ine sursele \'ba
+\loch\f275 \hich\f275 i toate fi\'ba\loch\f275 ierele aferente 
+\par }\pard \s20\qj \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1  
+\par }{\b\f275\fs22\ul\lang1048\langfe1033\langfenp1033\insrsid282856\charrsid282856 Specifica\'feii func\'fe}{\b\f1\fs22\ul\lang1048\langfe1033\langfenp1033\insrsid282856\charrsid282856 ionale }{
+\b\f1\fs22\ul\lang1048\langfe1033\langfenp1033\insrsid4474621\charrsid282856 tema casa}{\b\f1\fs22\ul\lang1048\langfe1033\langfenp1033\insrsid282856\charrsid282856 
+\par }{\b\fs22\loch\af1\hich\af1\dbch\af11\insrsid4474621\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\b\f275\fs22\insrsid282856\charrsid282856 Se urm\'e3resc urm\'e3toarele obiective :}{\f1\fs22\insrsid282856\charrsid282856 
+\par Proiectarea unei baza de date care s\'e3 con\'fein\'e3 tabelele specifice tematicii alese
+\par }{\f275\fs22\insrsid282856\charrsid282856 Indexarea si rela\'feionarea tabelelor in func\'feie de cerin\'fee
+\par }{\f1\fs22\insrsid282856\charrsid282856 Introducerea datelor in tabele, modificarea si eventual }{\f1\fs22\insrsid4474621\charrsid282856 s}{\f1\fs22\insrsid282856\charrsid282856 tergerea lor
+\par Realizarea de calcule matematice folosind datele disponibile
+\par Afisarea rezultatelor
+\par Extragerea anumitor informatii in functie de anumite cerinte
+\par Se va pune accent pe diversitatea informatiilor obtinute si nu pe cantitatea de date introdusa in baza;
+\par }\pard \s20\qj \li1080\ri0\nowidctlpar\faauto\rin0\lin1080\itap0 {\fs22\loch\af1\hich\af1\dbch\af11\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\b\fs22\ul\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Nota la }{\b\fs22\ul\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid4474621\charrsid282856 
+\hich\af1\dbch\af11\loch\f1 t\hich\af1\dbch\af11\loch\f1 e\hich\af1\dbch\af11\loch\f1 m\hich\af1\dbch\af11\loch\f1 a\hich\af1\dbch\af11\loch\f1  \hich\af1\dbch\af11\loch\f1 d\hich\af1\dbch\af11\loch\f1 e\hich\af1\dbch\af11\loch\f1  
+\hich\af1\dbch\af11\loch\f1 c\hich\af1\dbch\af11\loch\f1 a\hich\af1\dbch\af11\loch\f1 s\hich\af1\dbch\af11\loch\f1 a}{\b\i\fs22\ul\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 0.5 pct pentru o documenta\'fe\loch\f275 \hich\f275 ie corect \'ee\loch\f275 
+ntocmita;}{\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }{\f275\fs22\cgrid0\insrsid282856\charrsid282856 1.5 pct pentru o aplica\'feie care ruleaz\'e3 corect si tine cont de toate specifica\'feiile func\'feionale defalcat astfel :}{\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\ql \li720\ri0\nowidctlpar\faauto\rin0\lin720\itap0 {\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 0.2}{\f275\fs22\cgrid0\insrsid282856\charrsid282856  pct grupare corect\'e3 a datelor \'een tabele}{
+\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }{\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 0.2}{\f275\fs22\cgrid0\insrsid282856\charrsid282856  pct rela\'feionare corect\'e3 a tabelelor}{\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }{\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 0.1}{\f275\fs22\cgrid0\insrsid282856\charrsid282856  pct constr\'e2ngeri corect enun\'feate (chei primare, str\'e3ine, unicitate, check, etc), indexare }{\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+
+\par }{\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 0.3}{\f275\fs22\cgrid0\insrsid282856\charrsid282856  pct opera\'feiile de manipulare a datelor (inserare, modificare, \'batergere) se efectueaz\'e3 cu succes}{\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+
+\par }{\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 0.2}{\f275\fs22\cgrid0\insrsid282856\charrsid282856  pct opera\'feiile de reg\'e3sire a datelor returneaz\'e3 valori corecte }{\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }{\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 0.5}{\f275\fs22\cgrid0\insrsid282856\charrsid282856  pct interfa\'fea r\'e3spunde cerin\'feelor tematicii \'bai permite efectuarea tuturor opera\'feiilor cu succes (exist\'e3
+ forme, rapoarte, meniu, clase, etc)}{\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li180\ri0\nowidctlpar\faauto\rin0\lin180\itap0 {\b\fs22\ul\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Termen de predare }{
+\b\i\fs22\ul\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af3\hich\af3\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \loch\af3\dbch\af11\hich\f3 \'b7\tab}}\pard \s20\qj \fi-360\li720\ri0\nowidctlpar{\*\pn \pnlvlblt\ilvl0\ls2\pnrnot0
+\pnf3\pnstart1\pnindent360\pnsp120\pnhang {\pntxtb \'b7}}\faauto\ls2\rin0\lin720\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 S\'e3\loch\f275 \hich\f275 pt\'e3\loch\f275 
+\hich\f275 m\'e2\loch\f275 na 4 din semestru}{\b\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af3\hich\af3\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \loch\af3\dbch\af11\hich\f3 \'b7\tab}}\pard \s20\qj \fi-360\li720\ri0\nowidctlpar{\*\pn \pnlvlblt\ilvl0\ls2\pnrnot0
+\pnf3\pnstart1\pnindent360\pnsp120\pnhang {\pntxtb \'b7}}\faauto\ls2\rin0\lin720\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \loch\af275\dbch\af11\hich\f275 \'ce\loch\f275 \hich\f275 nt\'e2\loch\f275 \hich\f275 
+rzierile se penalizeaz\'e3\hich\af275\dbch\af11\loch\f275 \hich\f275  cu 0.1 puncte/s\'e3\loch\f275 \hich\f275 pt\'e3\loch\f275 \hich\f275 m\'e2\loch\f275 \hich\f275 n\'e3}{\b\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \fs22\lang1048\langfe255\loch\af3\hich\af3\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \loch\af3\dbch\af11\hich\f3 \'b7\tab}}\pard \s20\qj \fi-360\li720\ri0\nowidctlpar{\*\pn \pnlvlblt\ilvl0\ls2\pnrnot0
+\pnf3\pnstart1\pnindent360\pnsp120\pnhang {\pntxtb \'b7}}\faauto\ls2\rin0\lin720\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Ultimul termen de predare - s\'e3\loch\f275 
+\hich\f275 pt\'e3\loch\f275 \hich\f275 m\'e2\loch\f275 na 6}{\b\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li180\ri0\nowidctlpar\faauto\rin0\lin180\itap0 {\b\i\fs22\ul\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\b\f1\fs22\cgrid0\insrsid282856\charrsid282856 Tematici - Exemple  }{\b\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li180\ri0\nowidctlpar\faauto\rin0\lin180\itap0 {\b\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }{\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Tematica pe care dori\'fe\loch\f275 \hich\f275 i sa o alege\'fe\loch\f275 
+i pentru proiectul dvs. poate sa fie una dintre cele de mai jos sau o alta, la libera dvs. alegere.}{\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }{\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid4474621\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\f1\fs22\cgrid0\insrsid282856\charrsid282856 Exemplele de mai jos sunt orientative.
+\par }\pard \s20\qj \fi-540\li180\ri0\nowidctlpar\faauto\rin0\lin180\itap0 {\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid1191738\charrsid282856 \hich\af1\dbch\af11\loch\f1 1.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid1191738\charrsid282856 \hich\af1\dbch\af11\loch\f1 G\hich\af1\dbch\af11\loch\f1 e}{
+\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 s}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid1191738\charrsid282856 \hich\af1\dbch\af11\loch\f1 t\hich\af1\dbch\af11\loch\f1 i\hich\af1\dbch\af11\loch\f1 o
+\hich\af1\dbch\af11\loch\f1 n\hich\af1\dbch\af11\loch\f1 a\hich\af1\dbch\af11\loch\f1 r\hich\af1\dbch\af11\loch\f1 e\hich\af1\dbch\af11\loch\f1  \hich\af1\dbch\af11\loch\f1 v\hich\af1\dbch\af11\loch\f1 i\hich\af1\dbch\af11\loch\f1 n
+\hich\af1\dbch\af11\loch\f1 z\hich\af1\dbch\af11\loch\f1 a\hich\af1\dbch\af11\loch\f1 r\hich\af1\dbch\af11\loch\f1 i\hich\af1\dbch\af11\loch\f1  \hich\af1\dbch\af11\loch\f1 m\hich\af1\dbch\af11\loch\f1 a\hich\af1\dbch\af11\loch\f1 g
+\hich\af1\dbch\af11\loch\f1 a\hich\af1\dbch\af11\loch\f1 zin site \hich\af1\dbch\af11\loch\f1 (\hich\af1\dbch\af11\loch\f1 o\hich\af1\dbch\af11\loch\f1 n\hich\af1\dbch\af11\loch\f1 l\hich\af1\dbch\af11\loch\f1 i\hich\af1\dbch\af11\loch\f1 n
+\hich\af1\dbch\af11\loch\f1 e\hich\af1\dbch\af11\loch\f1 )
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 2.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Gestionarea sta\'fe\loch\f275 iilor intr-o firma cu profilul Internet Cafe}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 3.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Gestionarea stocurilor de produse dintr-un magazin
+
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 4.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Evidenta medicamentelor dintr-o farmacie
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 5.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta pacien\'fe\loch\f275 ilor pentru un cabinet medic}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 al
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 6.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta rezerv\'e3\loch\f275 rilor de }{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 bilete}{\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+ intr-o companie de avia\'fe\loch\f275 ie}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 7.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta studen\'fe\loch\f275 ilor dintr-un an (note, puncte, etc.)}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 8.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta camerelor si a clien\'fe\loch\f275 ilor dintr-un hotel}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 9.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Ev\hich\af1\dbch\af11\loch\f1 
+identa componentelor (pieselor de schimb) intr-o firma 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 10.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta pacien\'fe\loch\f275 ilor pentru un medic de familie.}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 11.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta jude\'fe\loch\f275 \hich\f275 elor si a ora\'ba\loch\f275 elor}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 12.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn 
+\pnlvlbody\ilvl0\ls3\pnrnot0\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 
+Evidenta tranzac\'fe\loch\f275 iilor}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1  }{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1  - }{
+\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Agen\'fe\loch\f275 ie imobiliara}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 .}{
+\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1  
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856 \hich\af1\dbch\af11\loch\f1 13.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0\pararsid282856 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 Evidenta }{
+\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \loch\af1\dbch\af11\hich\f1 \'ee\loch\f1 nscrieri admitere la facultate, liceu, etc
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af275\dbch\af11\loch\f275 14.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Abona\'fe\loch\f275 ii unei firme de telefonie 
+\hich\f275 \endash \loch\f275  Agenda telefonica}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af275\dbch\af11\loch\f275 15.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 Agenda legislativa \hich\f275 \endash \loch\f275 \hich\f275 
+ gestionarea abona\'fe\loch\f275 ilor}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af275\dbch\af11\loch\f275 16.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Biblioteca personala (c\'e3\loch\f275 \hich\f275 
+r\'fe\loch\f275 i, CD, casete, filme, etc)}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af1\dbch\af11\loch\f1 17.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Calculul cheltuielilor lunare pentru o familie
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af275\dbch\af11\loch\f275 18.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Cazarea studen\'fe\loch\f275 \hich\f275 ilor in c
+\'e3\loch\f275 mine si costurile aferente}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af1\dbch\af11\loch\f1 19.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Diagnosticarea bolilor pe baza rezultatului analizelor efectuate 
+
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af275\dbch\af11\loch\f275 20.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Ghid de c\'e3\loch\f275 \hich\f275 l\'e3
+\loch\f275 torie \hich\f275 \endash \loch\f275 \hich\f275  costul unei excursii, obiective, informa\'fe\loch\f275 ii}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af275\hich\af275\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af275\dbch\af11\loch\f275 21.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af275\hich\af275\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af275\dbch\af11\loch\f275 \hich\f275 Urm\'e3\loch\f275 \hich\f275 rirea \'ee
+\loch\f275 \hich\f275 ncas\'e3\loch\f275 rii facturilor emise intr-o firma}{\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\charrsid282856 \hich\af1\dbch\af11\loch\f1 22.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 \hich\af1\dbch\af11\loch\f1 Oferte job-uri}{
+\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856 \hich\af1\dbch\af11\loch\f1 23.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 P\hich\af1\dbch\af11\loch\f1 rogramare cash-flow trimestrial, anual
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856 \hich\af1\dbch\af11\loch\f1 24.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 V\hich\af1\dbch\af11\loch\f1 inzare bilete concerete, pies
+\hich\af1\dbch\af11\loch\f1 e de\hich\af1\dbch\af11\loch\f1  t\hich\af1\dbch\af11\loch\f1 eatru\hich\af1\dbch\af11\loch\f1  
+\par {\pntext\pard\plain\s20 \b\fs22\lang1048\langfe255\loch\af1\hich\af1\dbch\af11\cgrid0\langnp1048\langfenp255\insrsid282856 \hich\af1\dbch\af11\loch\f1 25.\tab}}\pard \s20\qj \fi-360\li1260\ri0\nowidctlpar{\*\pn \pnlvlbody\ilvl0\ls3\pnrnot0
+\pndec\pnstart1\pnindent360\pnsp120\pnhang {\pntxta .}}\faauto\ls3\rin0\lin1260\itap0 {\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856 \hich\af1\dbch\af11\loch\f1 Gestionare baza de date site-uri pe categorii si subcategorii}{
+\b\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 {\i\f1\fs22\cgrid0\insrsid282856\charrsid282856 
+\par }\pard \s20\qj \li180\ri0\nowidctlpar\faauto\rin0\lin180\itap0 {\i\fs22\loch\af1\hich\af1\dbch\af11\cgrid0\insrsid282856\charrsid282856 
+\par }}

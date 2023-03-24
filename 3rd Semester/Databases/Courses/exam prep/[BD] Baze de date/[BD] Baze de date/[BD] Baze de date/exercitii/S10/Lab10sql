@@ -1,0 +1,172 @@
+/*– preluate din tutorialul Oracle-5: */
+/*
+1.Write a query to display the employee name and hire date for all employees in the same
+department as Blake. Exclude Blake. */
+SELECT ename,hiredate 
+FROM emp
+WHERE deptno=
+  (SELECT deptno 
+  FROM emp 
+  WHERE ename='BLAKE') 
+AND ename!='BLAKE';
+
+/*2. Create a query to display the employee number and name for all employees who earn more
+than the average salary. Sort the results in descending order of salary. */
+SELECT empno,ename,sal
+FROM emp
+WHERE sal>
+  (SELECT AVG(sal) 
+    FROM EMP)
+ORDER BY sal;
+
+/*3. Write a query that will display the employee number and name for all employees who work in a
+department with any employee whose name contains a T. */
+SELECT empno,ename
+FROM emp
+WHERE deptno in
+  (SELECT deptno
+    FROM emp
+    WHERE ename LIKE '%T%')
+ORDER BY empno;
+
+/*4. Display the employee name, department number, and job title for all employees whose
+department location is Dallas. */
+SELECT e.ename,e.deptno,job
+FROM emp e INNER JOIN dept d on e.deptno=d.deptno 
+WHERE d.loc='DALLAS'
+ORDER BY ename;
+
+SELECT ename,deptno, job
+FROM emp
+WHERE deptno IN 
+  (SELECT deptno 
+    FROM dept
+    WHERE loc='DALLAS');
+    
+/*5. Display the employee name and salary of all employees who report to King. */
+SELECT ename,lpad(sal,7)as SAL 
+FROM emp
+WHERE mgr in
+  (SELECT empno
+    FROM emp
+    WHERE ename='KING');
+    
+/*6. Display the department number, name, and job for all employees in the Sales department. */
+SELECT deptno,ename,job
+FROM emp
+WHERE deptno in 
+  (SELECT deptno
+    FROM dept 
+    WHERE dname='SALES');
+    
+/*7. Display the employee number, name, and salary for all employees who earn more than the
+average salary and who work in a department with any employee with a T in their name. */
+SELECT empno,ename,sal
+FROM emp
+WHERE sal>
+  (SELECT AVG(sal) 
+    FROM EMP)
+    AND deptno in 
+    (SELECT deptno
+    FROM emp
+    WHERE ename LIKE '%T%');
+    
+/*8. Write a query to display the name, department number, and salary of any employee whose
+department number and salary matches both the department number and salary of any
+employee who earns a commission. */
+SELECT ename,deptno,sal
+FROM emp
+WHERE (deptno,sal) in
+  (SELECT deptno,sal 
+    FROM emp
+    WHERE comm IS NOT NULL )
+  ORDER BY sal DESC;
+
+/*9. Display the name, department name, and salary of any employee whose salary and commission
+matches both the salary and commission of any employee located in Dallas. */
+SELECT ename,d.dname,lpad(sal,7)
+FROM emp e,dept d
+where e.deptno=d.deptno 
+AND (sal,nvl(comm,0)) IN
+  (SELECT sal,nvl(comm,0)
+    FROM emp e,dept d
+    WHERE  e.deptno=d.deptno AND d.loc='DALLAS'
+    );
+
+/*10. Create a query to display the name, hire date, and salary for all employees who have both the
+same salary and commission as Scott. */
+SELECT ename,hiredate,lpad(sal,7)
+FROM emp e,dept d
+where e.deptno=d.deptno 
+AND (sal,nvl(comm,0)) IN
+  (SELECT sal,nvl(comm,0)
+    FROM emp 
+    WHERE  ename='SCOTT'
+    );
+
+/*11. Create a query to display the employees that earn a salary that is higher than the salary of any
+of the CLERKS. Sort the results on salary from highest to lowest. */
+SELECT *
+FROM emp
+WHERE sal > ALL
+  (SELECT sal 
+  FROM emp
+  WHERE job='CLERK')
+ORDER BY sal DESC;
+
+/*– preluate din tutorialul Oracle-6: */
+/*1. Write a query to display the top three earners in the EMP table. Display their names and
+salaries. */
+SELECT ename,lpad(sal,7)
+FROM 
+  (SELECT ename,sal
+    from emp
+    ORDER BY sal DESC)
+WHERE rownum<=3;
+/*2. Find all employees who are not a supervisor.
+a. Do this using the EXISTS operator first.
+b. Can this be done using the IN operator? Why, or why not?*/
+SELECT *
+FROM emp e
+WHERE empno not in
+  (SELECT mgr
+    FROM emp
+    WHERE mgr=e.empno);
+    
+SELECT *
+FROM emp e
+WHERE not exists
+  (SELECT 'X'
+    FROM emp
+    WHERE mgr=e.empno);
+
+/*3. Write a query to find all employees who make more than the average salary in their
+department. Display employee number, salary, department number, and the average salary for
+the department. Sort by average salary.*/
+SELECT empno,ename,lpad(sal,7) SAL,deptno,lpad((select round(avg(sal))from emp e1 where e1.deptno=e.deptno),7)AVG_SAL_DEPT
+FROM emp e
+WHERE sal > 
+  (SELECT avg(sal)
+    FROM emp e1
+    WHERE e1.deptno=e.deptno)
+  ORDER BY AVG_SAL_DEPT;
+
+/*4. Write a query to display employees who earn less than half the average salary in their
+department. */
+SELECT ename,dname,lpad(e1.sal,7)SAL
+FROM emp e1 inner join dept d on e1.deptno=d.deptno
+WHERE sal <
+  (SELECT avg(e2.sal/2)
+  from emp e2 where e1.deptno=e2.deptno)
+order by SAL;
+
+/*5. Write a query to display employees who have one or more co-workers in their department with
+later hiredates but higher salaries. */
+SELECT ename,hiredate,lpad(sal,7)SAL
+FROM emp e
+WHERE e.sal<ANY
+  (SELECT sal
+    FROM emp c
+    WHERE e.deptno=c.deptno and c.hiredate>e.hiredate)
+ORDER BY SAL;
+    

@@ -1,0 +1,10 @@
+ select f.den,sum(d.pret) from filme f,distributie d,actori a where f.codf=d.codf and d.coda=a.coda group by f.den ;
+
+ select unique nume from actori where coda not in (select unique coda from distributie);
+
+ select f.den,count(d.coda)Nr_actori,sum(d.pret)cost from actori a,filme f, distributie d where a.coda=d.coda and f.codf=d.codf group by f.den order by f.den;
+
+ select a.nume,f.gen,count(f.den) from actori a,distributie d,filme f where a.coda=d.coda and f.codf=d.codf group by f.gen,a.nume order by a.name;
+
+ select a.nume,f.den from actori a,filme f,distributie d where a.coda=d.coda and f.codf=d.codf ;
+ 

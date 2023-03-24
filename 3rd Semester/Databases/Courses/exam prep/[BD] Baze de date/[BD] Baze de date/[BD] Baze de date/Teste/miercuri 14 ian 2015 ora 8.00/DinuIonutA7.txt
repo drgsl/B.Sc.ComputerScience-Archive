@@ -1,0 +1,61 @@
+--1
+
+select a.nume, (a.salariu * p.ore) as salar 
+from angajati a inner join pontaje p on a.coda = p.coda
+where salar = (select max(suminc) from (select (ang.salariu * pont.ore) as suminc
+											from angajati ang, pontaje pont where ang.coda = pont.coda));
+--greseala grava de sintaxa: salar e alias, nu se pune aliasul in where, doar in order by !!!     
+--0 p
+--oricum nu am ce sa iti dau aici, nu ai folosit having / group by, in exercitiul asta nu puteai rezolva corect decat cu aceste 2 clauze !
+--varianta corecta:
+select nume, sum(salariu*ore) as venit
+from angajati a inner join pontaje p on a.coda = p.coda
+group by nume
+having sum(salariu*ore)=
+  (select max(sum(salariu*ore))
+  from angajati a inner join pontaje p on a.coda = p.coda
+  group by a.coda);
+											
+
+											
+--3
+
+select den, mediedep, ang.nume as numeAng, ang.salariu as salariuAng
+from (select medieDep from (select round(avg(salariu),2) as medieDep from angajati)), departament, angajati ang.
+--0 p
+
+
+--4
+
+alter table angajati
+add ( dataang date default sysdate);
+select * from angajati;
+alter table angajati
+drop column dataang;
+--3 p
+
+--2
+
+select den
+from (select den, count(nrang) from 
+where rownum = 2;
+--0 p
+
+--5
+
+update angajati
+set dataang=data
+where angajati.nume = pontaje.nume;
+--0 p
+--varianta corecta:
+update angajati
+set data_angajarii = 
+  (select min(data)
+  from pontaje p 
+  where p.coda = angajati.coda)
+where 
+  (select min(data)
+  from pontaje p
+  where p.coda = angajati.coda) is not null;
+
+total:3 p

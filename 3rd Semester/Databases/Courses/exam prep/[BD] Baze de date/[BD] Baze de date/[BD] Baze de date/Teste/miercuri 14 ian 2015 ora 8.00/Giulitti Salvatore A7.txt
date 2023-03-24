@@ -1,0 +1,61 @@
+1.SELECT nume,suma
+FROM (SELECT nume,(salariu*ore)suma
+      FROM angajati ,pontaje 
+      WHERE pontaje.CODA = angajati.CODA 
+      ORDER BY suma desc)
+WHERE rownum=1;
+--0.5 p, sper ca observi diferentele, care sunt destul de mari !
+--varianta corecta:
+select nume, sum(salariu*ore) as venit
+from angajati a inner join pontaje p on a.coda = p.coda
+group by nume
+having sum(salariu*ore)=
+  (select max(sum(salariu*ore))
+  from angajati a inner join pontaje p on a.coda = p.coda
+  group by a.coda);
+
+
+2.SELECT den,no FROM(SELECT departamente.den,count(coda)as no
+                     FROM angajati,departamente
+                     WHERE angajati.codd = departamente.codd
+                     GROUP by departamente.den 
+                     ORDER BY no desc
+                     ) 
+WHERE rownum in (1,2);
+--3 p
+
+3.SELECT  ang1.nume nume,
+          ang1.salariu salariu,
+          ang1.codd departamente,
+          ROUND(AVG(ang2.salariu),2) AVG_SALARY
+FROM      angajati ang1
+JOIN      angajati ang2
+ON        ang2.codd = ang1.codd
+HAVING  ang1.salariu > ROUND(AVG(ang2.salariu),2)
+GROUP BY ang1.nume,ang1.salariu,ang1.codd;
+--3 p
+
+
+4.ALTER TABLE angajati ADD data_ang date default sysdate;
+--3 p
+
+5.UPDATE angajati 
+SET angajati.data_incepere_contract = (SELECT pontaje.data
+                                       FROM pontaje
+					INNER JOIN
+                                        ON angajati.coda=pontaje.coda)
+WHERE angajati.coda in (SELECT coda FROM pontaje);
+--0 p
+--varianta corecta:
+--sper ca iti dai seama de diferenta ! chiar nu am ce puncta aici
+update angajati
+set data_angajarii = 
+  (select min(data)
+  from pontaje p 
+  where p.coda = angajati.coda)
+where 
+  (select min(data)
+  from pontaje p
+  where p.coda = angajati.coda) is not null;
+  
+  total:9.5

@@ -1,0 +1,40 @@
+2. Realizati o aplicatie pentru evidenta intrarilor, iesirilor si
+stocurilor de materiale (de ex. RECHIZITE !!) din magazia unei institutii
+
+	Informatii necesare:
+
+	- nomenclator materiale
+	- intrari/iesiri materiale 
+	- stocuri existente
+
+	Prezentarea problemei:
+
+	Initial am stoc (sau nu) din fiecare material din magazie. Pe
+parcursul lunii am intrari, respectiv iesiri pentru anumite materiale. 
+	Intrarile se fac cu factura, iar iesirile pe baza de bon de consum.
+
+	PROVOCARE
+	
+	- se vor afisa la intrari soldul CURENT al unei facturi 
+(pentru verificare !!)
+	- cind se efectueaza MISCARI se vor afisa, stocul curent, 
+intrarile si iesirile deja efectuate in LUNA RESPECTIVA
+	- mesaje de alerta pentru materialele care scad sub cinci bucati 
+in magazie !!
+	-  preluarea AUTOMATA a intrarilor si a iesirilor in fisierul de 
+stocuri (se face acest lucru, UZUAL, la sfirsitul fiecarei luni)
+
+	Aplicatia va permite urmatoarele liste:
+
+	- fisa de magazie lunara: intrari/iesiri pe zile pentru fiecare
+material (cu selectarea materialului)
+	- balanta lunara: stoc initial actualizat lunar, intrari,
+iesiri, stoc ramas CANTITATIV SI VALORIC !!!
+
+	Observatie
+	
+	Pentru simplitate:
+
+	- nu se percepe TVA
+	- materialele au acelasi pret pe acelasi cod de identificare !!
+	- nu se vor preciza data intrarii si iesirii materialelor !!

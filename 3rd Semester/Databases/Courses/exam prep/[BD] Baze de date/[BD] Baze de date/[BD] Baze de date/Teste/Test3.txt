@@ -1,0 +1,35 @@
+/*1. Creati o tabela numita FURNIZOR conform specificatiilor urmatoare:
+
+--------------------------------------------------------------------------------------
+| Nume coloana       	|     MARCA   |    NUME	   |  LOC_ID      |  D_INTRARE       |
+--------------------------------------------------------------------------------------
+| Tipul de cheie     	|      PK     |            |    FK        |                  |
+--------------------------------------------------------------------------------------
+| Null/Unique        	|      NN     |      NN    |              |                  |
+--------------------------------------------------------------------------------------
+| Implicit           	|             |            |              |   data sistem    |
+--------------------------------------------------------------------------------------
+| Tip de data        	|    NUMBER   |  VARCHAR2  |    NUMBER    |	DATE         |
+--------------------------------------------------------------------------------------
+| Lungime            	|       6     |      25    |      5       |                  |
+--------------------------------------------------------------------------------------
+Coloana loc_id este legata de coloana deptno din dept !!
+Modificati tabela, adaugind o coloana cod_fiscal si constringere de cheie unica pentru 
+aceasta.
+Vizualizati constringerile (CONSTRAINT_NAME), coloanele asociate 
+(COLUMN_NAME) si tipul lor (CONSTRAINT_TYPE) folosind tabelele 
+USER_CONSTRAINTS si USER_CONS_COLUMNS intr-o singura interogare !!
+Stergeti constringerea nou creata. Stergeti constringerea de la nume. Stergeti tabelul.*/
+
+
+/*2. Afisati numele angajatilor (ename), numele functiei si comisionul pentru angajatii care au comision, 
+iar pentru ceilalti se va afisa 'Fara comision'. Veti numi coloanele Nume, FctNume, Comision
+exact in aceasta forma. Veti ordona afisarea dupa numele functiei.*/
+
+
+/*3. Afisati numele angajatilor,numele managerilor si o adresa de mail care are forma:
+"ename+(primele 2 caractere din functia managerului)+'@'+ename+'.'+(primele 2 caractere 
+din functia angajatului)unde: primul ename este numele managerului, iar al doilea ename este numele angajatului !! 
+Asigurati-va ca apar toti angajatii !!
+Veti numi ultima coloana Mail.*/
+

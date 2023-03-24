@@ -1,0 +1,55 @@
+select * from contribuabili;
+select * from taxe;
+select * from incasari;
+
+--2
+
+select t.DEN
+from taxe t, incasari i
+where t.cod in (select cod from taxe)
+      and t.cod = i.codt and i.suma < (select avg(suma) from incasari inc, taxe tax where tax.tip = t.tip);
+--0 p      
+  
+--1
+select c.nume,sum(i.suma)Cumulat
+from incasari i,contribuabili c,taxe t
+where i.codc=c.cod and i.codt=t.cod
+group by c.nume;
+--nu, nu ai facut altceva decat niste joinuri ! nu am ce sa iti dau la punctul asta !!
+--0 p
+
+
+--3
+select den, suma
+from (select t.den, sum(i.suma) suma from incasari i, taxe t
+      where i.codt = t.cod
+      group by i.codt, t.den
+      order by suma desc)
+where rownum <=3;
+--3 p
+
+--4
+update incasari i, taxe tax
+set i.suma = i.suma * 10/100
+where tax.tip = 2;
+--greseli grave de sintaxa !
+--0 p
+--varianta corecta:
+update incasari 
+set suma = suma*1.1
+where codt in 
+  (select cod
+  from taxe 
+  where tip = 2);
+
+--5
+alter table contribuabili
+add (adresa varchar2(10) default 'iasi');
+
+alter table contribuabili
+drop column adresa;
+--3 p
+
+total:6 p
+
+

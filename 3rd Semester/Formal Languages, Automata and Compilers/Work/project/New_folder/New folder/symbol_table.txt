@@ -1,0 +1,10 @@
+a int 20 global
+d int -3 global
+varX char  x
+variabilaF int  f
+l const int 3 main
+s string  main
+n int  main
+c1 char  main
+c char  main
+var int 91 main

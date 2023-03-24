@@ -1,0 +1,17 @@
+1.select current_date as "astazi" from dual
+2.select nume, prenume, data_nastere, FLOOR(MONTHS_BETWEEN(TO_DATE(CURRENT_DATE,'dd-mm-yyyy'),TO_DATE(data_nastere,'dd-mm-yyyy'))) from studenti
+3.select nume, prenume, TO_CHAR(data_nastere,'day') from studenti
+4.select 'Elevul '||prenume||' este in grupa '|| grupa from studenti
+5.select RPAD(NVL(TO_CHAR(bursa),'$'),10,'$') from studenti;
+6.select nume,LOWER(SUBSTR(nume,1,1)), UPPER(SUBSTR(nume,2)), LENGTH(nume) from profesori where nume LIKE 'B%'
+select substr(lower(nume),1,1)||substr(upper(nume),2), length(trim(nume)) from profesori where nume like 'B%'
+7.select nume, data_nastere, add_months(data_nastere,trunc(months_between(sysdate,data_nastere)/12+1)*12), next_day(add_months(data_nastere,trunc(months_between(sysdate,data_nastere)/12+1)*12),'Sunday') as "zi nastere" from studenti
+8.select nume, prenume,TO_CHAR(data_nastere,'mm') from studenti where bursa is null order by TO_CHAR(data_nastere,'mm') ASC
+9.select nume, bursa, DECODE(bursa,450,'premiul1', 350,'premiul2',250,'premiul3','mentiune') AS "Premiu" from studenti
+10.select nume, REPLACE(nume,'i','a'), REPLACE(nume,'a','i') from studenti
+select nume, TRANSLATE(nume,'ai','ia') from studenti
+11.select nume,concat(floor(months_between(sysdate,data_nastere)/12),'ani') || CONCAT((mod(floor(months_between(sysdate,data_nastere)/12)),'luni') || concat(floor(months_between(sysdate,data_nastere)-floor(months_between(sysdate,data_nastere)*31),'zile')as "varsta" from studenti
+/ nu e corecta total
+12.select nume, trunc(add_months(sysdate,1),'mm'), decode(bursa,450,bursa*1.1,350,bursa*1.15,250,bursa*1.2,0) from studenti
+13.select nume, prenume,rpad('*',bursa/50,'*') from studenti where bursa is not null
+

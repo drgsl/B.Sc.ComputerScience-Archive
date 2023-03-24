@@ -1,0 +1,57 @@
+--1.Introducerea unei noi inregistrari in tabela dept
+--prima metoda: se precizeaza coloanele
+
+--metoda implicita: omiterea coloanei din lista
+
+--metoda explicita:specificarea cuvantului cheie null in lista de la clauza values
+
+
+--2.Inserarea unor valori speciale
+--pentru introducerea datei si a orei in campul hiredate este folosita functia sysdate
+
+
+--3.Inserarea unor valori specifice de tip data calendaristica
+--adaugarea unui nou angajat
+--in formatul de fata, secolul este implicit cel curent si deoarece data contine de asemenea informatii despre timp, ora este 0
+
+
+--4.Inserarea de valori folosind variabile de substitutie
+
+
+--5.Crearea unui script
+
+
+--6.Folosirea subinterogarilor in comanda insert
+--in cadrul comenzii insert se poate folosi o subinterogare in locul numelui tabelului cu conditia ca instructiunea select a
+--subinterogarii sa aiba acelasi numar de coloane ca si cel din clauza values
+
+
+--7.Transferati angajatul cu numarul 7654 din departamentul 30 in departamentul 50
+
+
+--8.Actualizarea inregistrarilor folosind subinterogari dupa mai multe campuri
+--Sa se modifice pentru angajatul cu numarul 7788 functia si salariul astfel incat ele sa coincida cu cele ale angajatului cu
+--numarul 7844
+
+
+--9.Actualizarea inregistrarilor folosind valori dintr-un alt tabel
+
+
+--10.Stergerea inregistrarilor folosind valori dintr-un alt tabel
+
+
+--11.Folosirea optiunii default explicit
+--este definita o valoare implicita pentru coloana loc, iar daca nu este definita nici o valoare implicita pentru aceasta 
+--coloana se va insera o valoare de null
+
+--folosirea instructiunii update pentru a atribui coloanei loc valoarea implicita pentru cei din departamentul 10
+
+
+
+    
+
+  
+
+
+
+  

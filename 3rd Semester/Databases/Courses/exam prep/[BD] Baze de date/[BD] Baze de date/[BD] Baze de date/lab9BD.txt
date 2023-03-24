@@ -1,0 +1,14 @@
+1.select nume, prenume from studenti where bursa=(select max(bursa) from studenti)
+/
+2.select nume from studenti where (an, grupa) in (select an, grupa from studenti where nume='Arhire')
+/
+3.select nume, grupa from studenti s, note n where s.nr_matricol=n.nr_matricol and (grupa, valoare,an) in (select grupa, min(valoare),an from studenti s, note n where s.nr_matricol=n.nr_matricol group by grupa, an)
+/
+4.select nume, avg(valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by s.nr_matricol,nume having avg(valoare)>(select avg(valoare) from note)
+/
+5.select * from(select s.nume, avg(n.valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by s.nr_matricol,s.nume order by avg(valoare) desc) where rownum<4
+/
+6.select s.nume, avg(n.valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by s.nr_matricol, s.nume having avg(valoare)=(select max(avg(valoare)) from note group by nr_matricol)
+/
+7.select nume, prenume from studenti s, note n where s.nr_matricol=n.nr_matricol and valoare=(select valoare from studenti s, note n, cursuri c where s.nr_matricol=n.nr_matricol and n.id_curs=c.id_curs and s.nume='Ciobotariu' and s.prenume='Ciprian' and c.titlu_curs='Logica') and s.nume<>'Ciobotariu'
+/

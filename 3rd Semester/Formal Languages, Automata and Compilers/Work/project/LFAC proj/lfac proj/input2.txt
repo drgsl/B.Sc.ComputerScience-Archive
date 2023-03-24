@@ -1,0 +1,26 @@
+define Nr 100
+define BULVAL "FALSE"
+define realNumber 3.33
+define char "f"
+real val = 1.5
+function init () {nat j = 5 nat d = 4}
+function f () { nat ok = 2 BOOL s = true}
+function declareReal () { real number = 3.3 }
+function isChar () { character ch = 'e' }
+MAIN ()
+{   
+    real r
+    CLASS A { nat nr }
+    nat x = 4
+    sir calc = "calculator"
+    character a = 'a'
+    CLASS V { sir isClass  }
+    BOOL w = false
+    BOOL c = true
+    CLASS abc { BOOL isFalse }
+    nat y = 3
+    nat z = 7
+    vec 231 nat v = [ 3, 4, 5, 7, 11, 22]
+    vec 100 real v = [ 77.2, 31.11, 50.04, 7.43, 200.444, 1001.37]
+    vec 5 character vectorChar = [ ]
+}

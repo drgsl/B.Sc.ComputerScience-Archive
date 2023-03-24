@@ -1,0 +1,289 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{tkz-graph}
+
+\title{TEMA 1 ALGORITMICA GRAFURILOR}
+
+\author{ Anca Dorneanu Ţuţuianu Corneliu
+\textit{grupa A7}}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\section{Problema 1.}
+\label{sec:problema1}
+\subsection{A}
+ Arătaţi că dacă \textbf{M} este un mers închis impar într-un digraf \textbf{D}, atunci \textbf{M} conţine un circuit impar în \textbf{D}.
+
+Fie \(\textbf{D}\left(V\left(D\right),A\left(D \right) \right)\) un digraf.
+Fie \textbf{M} \(   (v=)v_0,v_0v_1,v_1,\ldots,v_{r-1},v_{r-1}v_r,v_r(=u)\) cu \(v=u\) \(\forall v_i \in V\left(D \right) \) un mers închis,impar de la \(v\) la \(u\).\(E'(M)=\) mulţimea de muchii din M. 
+\[\left|E'(M) \right|=2*k+1,k \forall k \in \mathbb{N}\] 
+\begin{enumerate}
+\item Caz 1: în mers fiecare vârf este parcurs o singură dată, deci prin definiţie mersul închis impar este un circuit impar şi \(M \in D  \)
+
+\(\forall v_i,v_j \in A\left(D \right),\forall v_iv_j \in E'\left( D\right)\) ,muchia  \(v_iv_j\) parcurs o singura data sau varful \( v_i\)(sau \(v_j\)) este parcurs o singura data \(\Rightarrow M\) devine un circuit impar prin definitie.
+
+Ex.	
+
+Fie \(\textbf{D}\) digraful de mai jos
+
+\includegraphics[width=0.5\textwidth]{g1.jpg}
+
+\[M=v_1,v_1v_2,v_2,v_2v_4,v_4,v_4v_5,v_5,v_5v_3,v_3,v_3v_1,v_1\]
+
+Având în vedere faptul că fiercare vârf e parcurs 1 singură dată, mersul închis ,impar \textbf{M} devine circuit şi \(\textbf{M}\subseteq  \textbf{M} \) \(\Rightarrow\) \textbf{M} circuit impar în \textbf{D}.
+
+\item Caz 2: 
+
+În mersul \textbf{M} \(\exists n , n \geq  2  ,n=\) număr de circuite ; si cum mersul \textbf{M} este impar si stiind că impar=impar+par si par=par+par sau impar+impar  \(\exists C \in \textbf{M}\) circuit din \textbf{M} care să fie impar. 
+
+\[M=v_i,v_iv_{i+1},\ldots,v_k,v_kv_{k+1},v_{k+1},\ldots,v_l,v_lv_k,v_k,v_kv_x,v_x,\ldots,v_{j-1},v_{j-1}v_j,v_j \]  cu  \(v_i=v_j v_i,v_j \in V[D]\) 
+
+ 
+În vârful \(v_k\) se produce împărtirea mersului \textbf{M} în 2 circuite distincte, unul din ele având \(2k+1\) muchii si unul \(2k\) muchii cu \(k \in \mathbb{N}\) cu alte cuvinte \textbf{M} va contine 2 circuite , unul par si unul imapar ,deci \(\exists C \in \textbf{M}\) circuit din \textbf{M} care să fie impar. 
+
+Pe caz general , daca mersul \textbf{M} contine mai mult de 2 circuite, vor exista mai multe varfuri \(v_{ki} , cu i \leq \) numarul de circuite din M, deci in mersul \textbf{M} va exista cel putin un \(\exists C \in \textbf{M}\) circuit din \textbf{M} care să fie impar. 
+
+Ex:
+
+\includegraphics[width=0.5\textwidth]{g2_jpg.jpg}
+
+\[M=v_0,v_0v_1,v_1,v_1v_2,v_2,v_2v_0,v_0,v_0v_4,v_4,v_4v_5,v_5,v_5v_3\]
+\[,v_3,v_3v_6,v_6,v_6v_7,v_7,v_7v_8,v_8,v_8v_3,v_3,v_3v_2,v_2,v_2v_0,v_0\]
+
+Mersul prezinta 3 circuite, 2 circuite impare 0-1-2-0 si  0-4-5-3-2-0 , si 1 circuit par 3-6-7-8-3; \(k_0 = v_0\) pt primul circuit, \(k_1 = v_1\) pt circuitul par si \(k_2 = v_0\) pt al doilea circuit impar; deci avem cel putin un \(\exists C \in \textbf{M}\) circuit din \textbf{M} care să fie impar. 
+
+
+\end{enumerate}
+
+\subsection{B}
+
+Demonstrati ca graful suport al unui digraf tare conex care nu are circuite
+impare este un graf bipartit.
+
+Fie \textbf{D} digraf tare conex; \(\textbf{D}=\left(V\left(D\right),A\left(D \right) \right)\) \(A\left(E\left( D\right), E\left( D\right)\right)\) si nu are circuite impare.
+
+\(\forall \left(v,u\right) \in \left(V\left(D \right),V\left(D \right) \right) \exists  \) drum de la \(v\) la \(u\). 
+
+Daca in \textbf{D} nu \(\exists \) circuit impar \(\Rightarrow\) in \textbf{D} \(\exists \) doar circuite pare \(\Rightarrow\) \(\left|V\left(D \right) \right| = 2k\) cu \(k \in \mathbb{N} \).
+
+Daca \(\left|V\left(D \right) \right| = 2k+1\) cu \(k \in \mathbb{N} \) ar insemna ca circuitul care asigura tare conexivitatea ar fi impar (contradictie cu ipoteza).\newline
+
+Dat fiind un digraf \(\textbf{D}=\left(V\left(D\right),A\left(D \right) \right)\) \(A\left(E\left( D\right), E\left( D\right)\right)\), atunci inlocuind fiecare arc \(a = \left(u,v \right)\) cu multimea
+\({u,v}\), se obtine un graf \(G\left(D \right)\) numit graful suport al digrafului D.
+
+Reformuland definitia anterioară, se poate spune ca graful \textbf{G} suport al unui digraf \textbf{ D} se obtine prin eliminarea sensului (sau a orientarii) arcelor.\newline
+
+Un graf \(G = \left(V,E \right)\) este bipartit daca:
+\(V = V_1 \cup V_2 ,a.i. V1 \cap V2 =\emptyset\) si
+\(\forall {i, j}\in E\), atunci \( i\in V_1 , j\in V_2\) sau \(j\in V_1 ,i\in V_2\) .
+
+\begin{enumerate}
+\item Caz 1: \(\left|V\left(D \right) \right| =2 \) banal;
+\item Caz 2: \(\left|V\left(D \right) \right| =4 \) 
+
+\includegraphics[width=0.5\textwidth]{1b1.jpg}
+
+Aflam grafurile suport si varfurile le introducem in 2 multimi distincte si se poate observa ca formeaza grafuri bipartite:
+
+\includegraphics[width=0.5\textwidth]{1b2.jpg}
+ 
+Stiind ca orice digraf tare conex am avea si datorita faptului ca acest digraf are \(2k\) varfuri mereu vom putea organiza varfurile intr-un graf bipartit.
+
+\item Caz general: 
+
+Avem \( \left|V\left(D \right) \right| =n ; n\in \mathbb{N}\) \(n=2k\) 
+
+
+\includegraphics[width=0.5\textwidth]{1bn.jpg}	
+
+
+Graful bipartit se formeaza cu cele \(n\) varfuri ,cate \(n/2\) varfuri in fiecare multime,prin urmare avand un  digraf \(\textbf{D}=\left(V\left(D\right),A\left(D \right) \right)\) \(A\left(E\left( D\right), E\left( D\right)\right)\) tare conex fara circuite impare si pt \(\forall n \in \mathbb{N} \) cu n numar par, graful suport al digrafului este un graf bipartit.
+
+\includegraphics[width=0.5\textwidth]{ggg.jpg}
+
+\end{enumerate}
+
+
+\section{Problema 2}
+\label{sec:problema2}
+
+S-a propus urmatorul algoritm (cu timp de lucru polinomial)
+pentru determinarea numarului de stabilitate \(\alpha \left( \textbf{G}\right)\) al unui graf \textbf{G}:
+
+\textbf{GreedyStab} \(\left( G\right)\)
+	determina un varf de grad minim \(v_0\) in \textbf{G} ;
+    \newline if \(V(G)= {v_0}\cup N_G(v_0)\) then return 1
+    \newline	else return \(1 +\)\textbf{GreedyStab}\((\left( G\right)-{v_0}\cup N_G(v_0))\)
+
+\subsection{A}
+
+ Aratati ca algoritmul propus poate gresi oricat de mult: \(\forall n \in \mathbb{N}\) exista un graf
+\textbf{G} astfel incat \(\alpha \left( \textbf{G}\right)-\)  \textbf{GreedyStab} \(\left( G\right)\) = \(n\).\newline 
+
+Intelegerea algoritmului
+\begin{enumerate}
+\item Pasul 1 : se alege varful de grad minim din \textbf{G};
+\item Clauza IF : verifica daca reuniunea varfului ales la pasul 1 impreuna cu toti vecinii acestuia formeaza multimea de varfuri din \textbf{G};
+\item Ramura true : In caz de adevar returneaza 1;
+\item Ramura false : In caz de fals returneaza 1 si re apeleaza algoritmul pentru graful din care s-au eliminat varful ales la pasul 1 si vecinii acestuia.
+\end{enumerate}
+
+Cazul general al executiei algoritmului:
+
+Fie graful \textbf{G} construit astfel : 
+\begin{itemize}
+\item nivelul 0 : radacina \(v_0\);
+\item nivelul 1 : n fii ai radacinii ,neconectati intre ei;
+\item nivelul 2 : fiecare nod de la nivelul 1 are in nivelul 2 alti n fii; toate nodurile de la nivelul 3 sunt conectate intre ele .
+\end{itemize}
+
+Desen simplificat ( conexiunile frunzelor sunt facute doar pt primele 3 noduri )
+\includegraphics[width=0.7\textwidth]{2.jpg}
+
+\begin{enumerate}
+\item Caz n=1: In G exista 3 noduri, unul pentru fiecare nivel;
+Primul pas : se alege radacina; Se intra pe ramura de false deoarece \(r\cup N_G(r)\neq V(G)\) ,1 + se elimina r si vecinul sau apoi se apeleaza iar GreedyStab pt ultimul nod aflat \(\rightarrow\) se intra pe true deoarece a ramas doar ultimul nod in G \(\Rightarrow\) GreedyStab returneaza valoarea 2 .
+Algoritmul greseste cu 1  : \(\alpha \left( \textbf{G}\right)=1\),\textbf{Greedystab} returneaza 2 , diferenta lor fiind \(-1\). \newline
+
+\item Caz n=2 : avem 1 radacina ,2 fii si 2 x 2 = 4 nepoti .Primul pas : se alege radacina; Se intra pe ramura de false deoarece \(r\cup N_G(r)\neq V(G)\) ,1 + se elimina r si vecinii sai apoi se apeleaza iar GreedyStab pt un nod frunza \(\rightarrow\) se intra pe true deoarece au ramas doar nodurile frunza care sunt conectate intre eele  \(\Rightarrow\) GreedyStab returneaza valoarea 2 .
+Algoritmul greseste cu 2 : \(\alpha \left( \textbf{G}\right)=2\),\textbf{Greedystab} returneaza 2 , diferenta lor fiind \(0\) \newline
+\item Caz n=3 : avem 1 radacina ,3 fii si 3 x 3 = 9 nepoti .Primul pas : se alege radacina; Se intra pe ramura de false deoarece \(r\cup N_G(r)\neq V(G)\) ,1 + se elimina r si vecinii sai apoi se apeleaza iar GreedyStab pt un nod frunza \(\rightarrow\) se intra pe true deoarece au ramas doar nodurile frunza care sunt conectate intre eele  \(\Rightarrow\) GreedyStab returneaza valoarea 2 .
+Algoritmul greseste cu 1 : \(\alpha \left( \textbf{G}\right)=3\),\textbf{Greedystab} returneaza 2 , diferenta lor fiind \(1\). \newline
+
+\item Caz \(\forall n\): avem 1 radacina ,n fii si n x n nepoti .Primul pas : se alege radacina; Se intra pe ramura de false deoarece \(r\cup N_G(r)\neq V(G)\) ,1 + se elimina r si vecinii sai apoi se apeleaza iar GreedyStab pt un nod frunza \(\rightarrow\) se intra pe true deoarece au ramas doar nodurile frunza care sunt conectate intre eele  \(\Rightarrow\) GreedyStab returneaza valoarea 2 .
+Algoritmul greseste cu n-2 : \(\alpha \left( \textbf{G}\right)=n\),\textbf{Greedystab} returneaza 2 , diferenta lor fiind \(n-2\). \newline
+\end{enumerate}
+
+Prin urmare \(\forall n,n\in \mathbb{N} \) \(\exists graf G\) pentru care algoritmul sa greseasca oricat de mult: cu valori de la \(-1\) la \(n-2 \).
+
+\section {Problema 3}
+\label{sec:problema3}
+
+Fie \(G = \left(V,E\right)\) un digraf, \(X\) o multime finita si \(c : E \rightarrow {2}^{X}\) o functie care asociaza fiecarui arc \(e = vw \in E\) o submultime a lui X: \(c\left(vw \right) \subseteq  X\). 
+Functia c poate fi extinsa la drumurile lui \textbf{G}, considerand pentru orice drum \textbf{P} al lui \textbf{G},
+\[c(P) = \emptyset \cup \bigcup_{e \in E(P)}^{} c(e) \]
+ (in particular, daca\( E\left(P \right) = \emptyset\) – adica P este un varf – avem \(c\left(P\right) = \emptyset\)). Pentru orice \(v, w \in V\) , notam
+\(P_{v,w} = \{P|P\) drum in \textbf{G} de la \(v\) la \(w\}\). Notam cu \(\left| A\right|\) numarul de elemente ale multimii A, iar  \#  este un element care nu apartine multimii X. Consideram urmatoarea problema:
+
+P: Dat digraful \(G = \left( V,E\right)\), functia \(c\) si \(s \in V\) , sa se determine pentru fiecare \(v \in V \), un drum \(P_{sv}^{\star}\) astfel incat \(\left|c\left( P_{v,w}^{\star}\right) \right| = min\{ \left|c\left(P\right)\right| : P \in \mathcal{P}_{s,v} \}\)\newline
+
+\textbf{Adevarat sau Fals?} ”\textit{Urmatorul algoritm rezolva problema P}”.\newline
+
+\textbf{1. }\(u\left[s \right] \leftarrow \emptyset\) ; \(parent\left[s \right] \leftarrow 0 ; S \leftarrow \{s\} \);
+
+\textbf{for} \(v \in V - S \)do
+
+\textbf{if} \(sv \in E\) \textbf
+{then} \(\{ u\left[v \right] \leftarrow c\left(sv \right); parent\left[v \right] \leftarrow s \}\)
+
+
+\textbf{else} \(\{ u\left[v \right] \leftarrow X \cup \{\#\} ; parent\left[v \right]\leftarrow -1 \}\) ;
+
+\textbf{2.} \textbf{while} \(S\neq V\) \textbf{do}
+{ 
+	find \(v^{\star} \in V - S \) s.t. \(\left| u\left[ v^{\star}\right]\right|=min\{ \left|u\left[v \right] \right|: v \in V - S \}\)
+	\(S \leftarrow S \cup \{ v^{\star} \}\);
+    \textbf{for} \(v \in V-S\)\textbf{do}\newline
+    
+    	\textbf{if} \(v \star v \in E \& \left|u\left[v \right] \right| >\left| u\left[v^{\star} \right] \cup c\left(v\star v \right)\right| \) \textbf{then} 
+        { \(u\left[ v \right] \leftarrow u\left[ v^{\star} \right] \cup  c\left(v\star v \right) \); parent\( \left[v \right]\leftarrow v^{\star}\) };
+}\newline 
+
+Algoritmul de mai sus in esenta calculeaza un drum de cost minim pentru un digraf \textbf{D},muchiile sale fiind multimi de elemente, insa in anumite cazuri drumul aflat nu este un drum minim.
+
+Presupun prin reducere la absurd ca algoritmul este adevarat si ca rezolva problema P;
+
+Fie urmatorul digraf,luat ca un contra exemplu:
+
+\includegraphics[width=0.7\textwidth]{pr3.jpg}
+
+In digraful de mai sus ,aplicand algoritmul, obtinem urmatorii pasi:
+\begin{itemize}
+\item incepem cu nodul 0;
+\item ne uitam in vecinii sai si alegem drumul cel mai optim, in cazul nostru spre nodul 1 cu costul = 1;
+\item ne uitam in vecinii lui 1 si alegem drumul optim, adica cel spre 2 cu cost =1 ;
+\item suntem in nodul 2, avem un cost al drumului pana acum = 2; ne uitam inapoi in digraf si vedem ca acelasi cost avem si pentru nodul 7 si pentru cele 2 noduri ne uitam la vecini si la costurile eventuale ale drumurilor, ambele sunt de 2 deci alegem unul dintre ele , am ales nodul 2 ,facem drumul pana la nodul 3 si rezulta un cost =4;
+\item suntem in nodul 3 si avem un cost total al drumului =4 ; ne uitam inapoi in digraf si vedem ca si drumul spre 8 are acelasi cost, deci ne uitam la vecinii ambelor noduri si observar costurile spre acei vecini si alegem drumul de la 8 la 4 deoarece are cost =1;
+\item suntem in nodul 4,avem un cost total al drumului = 5 ,mai bun decat celalalt drum care ar fi avut un cost total 6;
+\item din nodul 4 ajungem in nodul 5 cu un cost total = 7 (cardinalul multimii rezultate prin reuniune) si din 5 in 6 cu costul total al drumului= 8 ; 
+\item acesta este rezultatul algoritmului, el fiind presupus optim; insa el este fals deoarece daca am fi ales celalalt drum chiar daca drumul pana in nodul 4 nu era mai bun decat celalalt,in urma parcurgerii ulterioare spre 5 si 6 ar fi rezultat un drum total de cost = 6. Deci algoritmul nu rezolva problema \textbf{P}. 
+\end{itemize}
+
+\section{Problema 4}
+
+Fie \(\textbf{G}=\left(V,E \right) \) graf cu \(\left|V \right|=n\) \(\left|E \right|=m\), reprezentat cu ajutorul listelor de adiacenta. O ordonare a varfurilor lui \textbf{G} este o aplicatie injectiva \(\pi : V \rightarrow  \{ 1,2,3,\cdots,n \} \) , ( \(\pi (\left( v\right)=i \) are semnificatia ca varful \(v\) se afla pe locul \(i\) in ordonarea \(\pi\) )
+\(\pi\) este o ordonare lexicografica daca pentru orice doua
+varfuri \(x, y \in V cu \pi \left(x\right) < \pi\left(y\right)\), daca multimea
+\(D_{x,y} = \{z \in V \| \pi\left(z\right) < \pi\left(x\right)\) si \( z\) este adiacent cu exact unul dintre \(x\) si \(y\) \}
+
+\subsection{A}
+
+ Aratati ca algoritmul de mai jos construieste o ordonare lexicografica:
+
+\(\textbf{Lexicographic}\left(G\right)\)
+initializeaza lista \(\mathbb{L}\) de multimi avand o singura multime: \(\textbf{V}\) ;
+(fiecare multime din \(L\) se reprezinta ca o lista dublu inlantuita)\newline
+\textbf{for} \(i := 1\) to \(n\) do { 
+
+
+	\(v :=\) primul varf al primei multimi din \(\mathbb{L}\);
+    
+    
+	sterge \(v\) din acea multime ;
+    
+    
+	\(\pi\left(v\right) := i\);
+    
+    
+	for each \( L_j \in \mathbb{L}\) do
+		
+        
+        
+        
+        inlocuieste \(L_j\) cu \(L_j \cap N_G\left(v\right)\) urmata de \(L_j - N_G\left(v\right)\);
+        
+        
+	sterge din \(\mathbb{L}\) multimile vide }
+
+
+Fie orice doua varfuri \(x, y \in V\) cu \(\pi\left(x\right)<\pi\left(y\right)\):
+Stim ca \(\pi\) este o ordonare lexicografica daca multimea \(D_{x,y} = \{z \in V \| \pi\left(z\right) < \pi\left(x\right)\) si \( z\) este adiacent cu exact unul dintre \(x\) si \(y\) \} este nevida. Atunci exista un z0 apartinand multimii descrise mai sus, cu \(\pi\left(z_0\right) = min \pi\left(z\right)\), care satisface faptul ca exista muchia \(z_0x\in E\) si muchia \(z_0y nu \in E \) .
+
+Presupunem prin reducere la absurd ca \(\pi\) este o ordonare lexicografica generata incorect de algoritmul \(\textbf{Lexicographic}\left(G\right)\), pentru graful G. Atunci exista doua varfuri \(x, y \in V, \pi\left(x\right) < \pi\left(y\right)\), cu multimea \(D_{x,y}\) descrisa anterior, si exista un \(z_0\) apartinand multimii \(D_{x,y}\) astfel incat \(\pi\left(z_0\right) = min \pi\left(z\right)\), dar care satisface faptul ca exista muchia \(z_0x\) si NU apartine lui \(E\) si muchia \(z_0y\) care apartine lui \(E\) (invers decat in definitie). 
+
+Parcurgand algoritmul pentru graful \textbf{G}, la un moment dat, se va sterge acel \(z_0\), obtinandu-se doua multimi: una care va contine vecinii lui \(z_0\) si una care va contine nodurile ce nu sunt adiacente cu \(z_0\). 
+
+
+Deoarece ordonarea este generata incorect si pentru ca muchia \(z_0y\) exista si apartine multimii de muchii \(E\), inseamna ca \(y\) va fi inclus in prima multime, adica cea cu nodurile vecine, iar pentru ca muchia \(z_0x\) nu apartine multimii de muchii \(E\), \(x\) va fi inclus in cea de-a doua multime, adica in cea care contine nodurile neadiacente cu \(z_0\). Deci mai intai algoritmul va ajunge la nodul \(y\) si mai apoi la nodul \(x\), ceea ce inseamna \(\pi\left(y\right) < \pi\left(x\right)\) \(\Rightarrow\) contradictie la proprietatea de injectivitate.
+
+Asadar, presupunerea este falsa, deci \(\pi\) este o ordonare lexicografica generata corect de algoritmul \(\textbf{Lexicographic}\left(G\right)\) pentru graful \textbf{G}.
+
+
+\subsection{B}
+
+Argumentati ca algoritmul se poate implementa ın timpul \(O \left(n + m\right)\).
+\newline
+
+
+Algoritmul descris parcurge toate nodurile grafului. 
+Deoarece multimile sunt reprezentate cu ajutorul listelor de adiacenta, stergerea ("sterge \(v\) din acea multime") se realizeaza in timp constant, si anume \(O\left(1\right)\). De asemenea, crearea multimii care include vecinii nodului \(v\) si a celei care nu include vecinii nodului \(v\) ("inlocuieste \(L_j\) cu \(L_j \cap N_G\left(v\right)\) urmata de \(L_j - N_G\left(v\right)\)"), este realizata tot in timp constant, ca si stergerea multimilor vide.
+
+
+
+Dat fiind faptul ca multimile sunt reprezentate prin liste de adiacenta, parcurgerea grafului are complexitatea \(O \left(n + m\right)\), astfel ca in cazul cel mai nefavorabil, vor fi explorate toate muchiile si toate nodurile.
+
+
+
+
+\end{document}

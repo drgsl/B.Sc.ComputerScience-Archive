@@ -1,0 +1,71 @@
+-- 1
+
+select nume,suma
+from (
+select nume, (salariu*ore) as suma
+from angajati a,pontaje p
+where p.CODA = a.CODA
+order by suma desc)
+where rownum=1;
+--varianta corecta ! sper ca observi diferentele !
+--0.5 p iti dau, nu am cum sa iti dau mai mult !
+select nume, sum(salariu*ore) as venit
+from angajati a inner join pontaje p on a.coda = p.coda
+group by nume
+having sum(salariu*ore)=
+  (select max(sum(salariu*ore))
+  from angajati a inner join pontaje p on a.coda = p.coda
+  group by a.coda);
+
+-- 2
+
+select den,no
+from (
+select d.den, count(coda) as no
+from angajati a, departamente d
+where d.codd = a.codd
+group by d.den
+order by no desc)
+where rownum in (1,2);
+--3 p
+
+-- 3
+
+select  a1.nume, a1.salariu, a1.codd, round(avg(a2.salariu),2) as avg_sal
+from angajati a1
+join angajati a2
+on a2.codd = a1.codd
+group by a1.nume, a1.salariu, a1.codd
+having a1.salariu > round(avg(a2.salariu),2);
+--3 p
+
+
+-- 4
+
+alter table angajati add data_ang date default sysdate;
+
+alter table angajati drop column data_ang;
+--3 p
+
+-- 5
+
+update angajati a
+set a.data_ang = (
+select p.data
+from pontaje p
+where a.coda = p.coda)
+where a.coda in (
+select coda from pontaje);
+--0.5 p
+--varianta corecta:
+update angajati
+set data_angajarii = 
+  (select min(data)
+  from pontaje p 
+  where p.coda = angajati.coda)
+where 
+  (select min(data)
+  from pontaje p
+  where p.coda = angajati.coda) is not null;
+  
+  total:9

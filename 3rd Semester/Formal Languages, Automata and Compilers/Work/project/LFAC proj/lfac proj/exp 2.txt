@@ -1,0 +1,68 @@
+It is important to note that these functions are used to implement the semantic analysis, symbol table, and other features of the language, such as error handling and type checking.
+
+It looks like the code uses a file to store the variables and their types, which is read by the functions above. These functions are used to check whether a variable has already been declared, to check the type of a variable, and to print the value of an expression. The function Print(char *str, int value) is not related to the requirements.
+
+
+
+
+It seems that the code is trying to fulfill several requirements from the assignment you provided.
+
+It defines a symbol table using the variable 'correct_compilation' to indicate whether the program has passed semantic analysis or not.
+It provides semantic analysis by checking if variable and function names have been defined and if the operands in expressions have the same type.
+It defines a symbol table for variable and constant identifiers, and for function identifiers. This table includes information about the type, value, and parameters of the identifiers.
+It defines a structure for the program with four sections: global variables, functions, user-defined data types, and a special function representing the entry point of the program.
+It defines basic data types (int, float, char, string, bool) and also array types, user-defined data types and variables, constant definitions, and function definitions.
+It also implements control statements (if, for, while, etc.), assignment statements
+It defines a predefined function Eval() which can take an arithmetic expression, variable or number as an argument, which is supposed to return the evaluated expression.
+It also defines a predefined function TypeOf() which can take an argument and return its type.
+It is using a function called "cautaNume" to check if a variable/function has been defined before, and it's using write to write the symbol table to 2 files.
+
+It is defining a main function called 'S' which checks if the compilation is correct and prints the result.
+
+It also uses snprintf to format the string to be written to file, and it's using structs to define the symbol table.
+
+Overall, this code is defining a programming language using YACC and is using semantic analysis to ensure that the language is well-formed, it is also creating a symbol table for the program and implementing several predefined functions such as Eval() and TypeOf().
+
+
+s - entry point
+
+progr - 
+
+declaratii_globale - var globale
+variabila - variabile int float char string bool
+
+
+
+
+
+
+
+Sure, here is a breakdown of the functions in the YACC code and which requirement they fulfill:
+
+The function S: This function serves as the entry point of the program and checks if the compilation is correct by checking the value of the variable correct_compilation. It prints the result of the compilation process, whether the language is accepted or if there is an error.
+
+The function progr: This function defines the structure of the program and its sections: global variables, functions, user-defined data types and a special function representing the entry point of the program.
+
+The function declaratii_globale: This function defines global variables and constants, it also writes the symbol table of the variables to the file 'symbol_table.txt'
+
+The function declaratie: This function defines the different types of declarations that are allowed in the program, including variables, constant definitions, user-defined data types, and function definitions.
+
+The function variabila: This function defines the basic data types (int, float, char, string, bool) and it also writes the symbol table of the variables to the file 'symbol_table.txt'
+
+The function variabila_declarata: This function defines variables that are declared and initialized with a value. It also writes the symbol table of the variables to the file 'symbol_table.txt'
+
+The function obiect: This function defines user-defined data types, similar to classes in object-oriented languages. It also writes the symbol table of the variables to the file 'symbol_table_functions.txt'
+
+The function array: This function defines array types and writes the symbol table of the variables to the file 'symbol_table.txt'
+
+The function definitie: This function defines function definitions and writes the symbol table of the variables to the file 'symbol_table_functions.txt'
+
+The function metoda: This function defines methods for user-defined data types. It also writes the symbol table of the variables to the file 'symbol_table_functions.txt'
+
+The function cautaNume: This function is used to check if a variable/function has been defined before, it helps to fulfill the requirement of checking that variables are defined only once and that functions are defined before being called.
+
+The function Eval: This function takes an arithmetic expression, variable or number as an argument, it is supposed to return the evaluated expression.
+
+The function TypeOf: This function takes an argument and returns its type.
+
+It is important to note that this code may not be complete and may not fully implement all the requirements of the assignment, but it's a good starting point to understand what the code is trying to do.

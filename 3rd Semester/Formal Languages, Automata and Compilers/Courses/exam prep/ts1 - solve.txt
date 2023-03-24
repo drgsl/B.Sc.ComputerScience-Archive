@@ -1,0 +1,55 @@
+a)
+aaabbUaUaUa
+
+
+nonterminal - litere mari aka chestii care se transforma in alte chestii
+teminal - litere mici, nu se transforma
+
+b)
+a2b0a10a
+
+S -> X -> aXZ - aaXZZ - aaYZZ - aabYZZ - aabZZ - aabUaZ - aab0aZ - aab0aUa - aab0a1Ua - aab0a10a
+
+
+2>>
+a)
+
+L(G1):
+S - bX | cX
+X - bX | cX | ε
+
+L(G2):
+S - 
+
+
+a10a10a10
+
+Y - Z00 | Z11
+Z - 
+
+
+a000a111a110XS
+
+
+
+
+
+3) Fie urmatoarea gramatica:
+ S → 0S | 1A
+ A → 1A |0A | 11B  
+ B → 1B | 2B | C
+ C → 2C |  𝜀
+Precizati limbajul generat de gramatica (justificati raspunsul)
+Construiti o expresie regulata echivalenta
+Construiti o gramatica echivalenta , fara reguli cu 𝜀 si redenumiri (puneti in evidenta pasii interdemediari)
+
+
+
+0011011122
+
+
+
+4>
+
+
+

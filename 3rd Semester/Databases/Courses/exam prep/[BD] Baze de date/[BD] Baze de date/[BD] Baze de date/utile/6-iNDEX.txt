@@ -1,0 +1,56 @@
+// JOIN:
+create index ID on Animale(Angajati_codAng);
+select * from Animale, Angajati
+where Animale.Angajati_codAng=Angajati_codAng;
+
+//FUNCTII:
+create index IDNume on Adoptanti(LENGTH(numeAdp));
+select * from Adoptanti where LENGTH(numeAdp)=5;
+
+// WHERE:
+create index IAnimale on Animale(specie);
+select * from Animale where specie='caine';
+
+
+EXPLAIN PLAN FOR
+select * from Animale where specie='caine';
+
+SELECT COST
+FROM PLAN_TABLE;
+
+create index IAnimale on Animale(specie);
+EXPLAIN PLAN FOR
+select * from Animale where specie='caine';
+
+SELECT COST
+FROM PLAN_TABLE;
+
+EXPLAIN PLAN FOR 
+select * from Angajati where LENGTH(numeAdp)=5;
+
+SELECT COST
+FROM PLAN_TABLE;
+
+create index IDNume on Adoptanti(LENGTH(numeAdp));
+EXPLAIN PLAN FOR 
+select * from Angajati where LENGTH(numeAdp)=5;
+
+SELECT COST
+FROM PLAN_TABLE;
+
+EXPLAIN PLAN FOR
+select * from Animale, Angajati
+where Animale.Angajati_codAng=Angajati_codAng;
+
+SELECT COST
+FROM PLAN_TABLE;
+
+create index ID on Animale(Angajati_codAng);
+EXPLAIN PLAN FOR 
+select * from Animale, Angajati
+where Animale.Angajati_codAng=Angajati_codAng;
+
+SELECT COST
+FROM PLAN_TABLE;
+
+SELECT PLAN_TABLE_OUTPUT FROM TABLE(DBMS_XPLAN.DISPLAY());

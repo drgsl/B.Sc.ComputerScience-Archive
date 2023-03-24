@@ -1,0 +1,32 @@
+/*Creati o tabela numita CONCEDII conform specificatiilor urmatoare:
+---------------------------------------------------------------------------
+| Nume coloana    |        MARCA  	|     NUME     |  ZILECO   |  ZILECM  | 
+---------------------------------------------------------------------------
+| Tipul de cheie  |        PK       |      FK      |     	     |          |
+---------------------------------------------------------------------------
+| Null/Unique     |        NN     	|              |           |          | 
+---------------------------------------------------------------------------
+| Implicit        |                 |              |     0     |    0     |
+---------------------------------------------------------------------------
+| Tip de data     |    NUMBER  	|  VARCHAR2    |  NUMBER       | NUMBER   |
+---------------------------------------------------------------------------
+| Lungime         |        10       |      25      |      3    |     3    |
+---------------------------------------------------------------------------
+Coloana nume se leaga de coloana ename din tabela emp.
+Modificati tabela, adaugind o coloana luna (number(3))) si o constringere  not null 
+pentru aceasta.
+Vizualizati constringerile (CONSTRAINT_NAME), coloanele asociate 
+(COLUMN_NAME) si tipul lor (CONSTRAINT_TYPE) folosind tabelele 
+USER_CONSTRAINTS si USER_CONS_COLUMNS intr-o singura interogare !!
+Stergeti constringerea nou creata. Stergeti constringerea de la coloana nume. Stergeti tabelul.*/
+
+    
+/*2.Afisati numele angajatului (ename), numele departamentului, venitul lunar 
+(salariul plus comision) pentru toti angajatii din firma (inclusiv cei care nu au comision !!)
+Veti numi coloanele Nume, DepNume si Venit exact in aceasta forma.
+Asigurati-va ca apar toti angajatii !!
+Sa se ordoneze descrescator dupa venitul lunar*/
+
+
+/*3. Sa se afiseze angajatii (ename) si o adresa de mail de
+forma: initiala numelui+"_"+"@"+codul functiei.*/

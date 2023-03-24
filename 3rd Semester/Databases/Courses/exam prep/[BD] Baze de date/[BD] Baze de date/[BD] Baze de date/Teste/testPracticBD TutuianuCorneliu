@@ -1,0 +1,40 @@
+//Tutuianu Corneliu grupa A7
+
+
+
+//1.
+
+SELECT s.nume,s.prenume,o.den,n.nota 
+FROM studenti s,note_studenti n,obiecte o 
+WHERE s.mat=n.mat(+) AND n.cod=o.cod(+)
+ORDER BY s.nume;
+
+//2.
+
+SELECT initcap(s.prenume)Prenume,substr(s.nume,0,1)Initiala_Numelui,o.den 
+FROM studenti s,obiecte o,note_studenti s 
+WHERE s.mat=n.mat AND n.cod=o.cod AND n.nota<5
+ORDER BY s.prenume;
+
+//3.
+
+SELECT o.den,MIN(n.nota)Minimum,MAX(n.nota)Maximum,CEIL(AVG(n.nota))Media
+FROM obiecte o INNER JOIN note_studenti n ON o.cod=n.cod 
+GROUP BY o.den
+ORDER BY o.den;//order nu era cerut dar am vrut sa ordonez materiile
+
+//4.
+
+SELECT MAX(AVG(n.nota))Media_maxima
+FROM studenti s,note_studenti n,obiecte o
+WHERE s.mat=n.mat AND o.cod=n.cod 
+GROUP BY s.mat;
+
+//5.
+
+SELECT UNIQUE o.den 
+FROM obiecte o 
+WHERE o.cod NOT IN (SELECT UNIQUE cod 
+					FROM note_studenti);
+
+

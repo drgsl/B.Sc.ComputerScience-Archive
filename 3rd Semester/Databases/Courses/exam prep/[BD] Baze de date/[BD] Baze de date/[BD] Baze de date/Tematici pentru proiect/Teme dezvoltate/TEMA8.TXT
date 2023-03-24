@@ -1,0 +1,35 @@
+8. Realizati o aplicatie pentru evidenta cartilor imprumutate de la o biblioteca.
+
+Informatii necesare:
+
+		- personalul bibliotecii
+		- carti existente accesibile pe genuri, autori, editura etc
+		- clienti
+		- tranzactii
+
+     Prezentarea problemei:
+
+     Personalul bibliotecii imprumuta carti cu anumite caracteristici 
+(titlu, gen, autor, editura, etc) la clienti, de asemenea cu caracteristicile lor (nume, prenume, CNP, adresa, CI etc). 
+     Imprumutul se face pe o perioada oarecare. Se vor  preciza data imprumutului/returnarii !!
+Valoarea din cimpul data poate fi considerata implicit cea curenta, insa sa poata fi modificata !!
+
+
+	
+	PROVOCARE:
+
+	- in caz de nerestituire a cartii(lor) la termenul fixat, din ziua 
+urmatoare scadentei incep sa curga penalizari de .5% zi din valoarea de inventar
+In caz de pierdere/deteriorare se percepe o amenda egala cu un coeficient de multiplicare specific fiecarei carti functie de valoarea ei.
+
+	Aplicatia va permite urmatoarele liste:
+
+	- lista cartilor pe titluri, genuri, autori (selectare la cerere !)
+	- penalizari/amenzi platite de clienti intr-o luna oarecare
+	- carti disponibile la un moment dat
+	 - lista imprumuturilor dintr-o luna oarecare 
+
+Observatie:
+	- pentru simplitate, nu se va percepe abonament  !!
+
+

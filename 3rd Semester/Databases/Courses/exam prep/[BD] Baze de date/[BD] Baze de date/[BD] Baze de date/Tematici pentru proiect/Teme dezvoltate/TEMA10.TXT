@@ -1,0 +1,40 @@
+10.  Realizati o aplicatie pentru evidenta rezervarilor de locuri la o companie aeriana.
+
+Informatii necesare:
+	
+	- avioane (tip, traseu, etc.)
+	- locuri existente pe tipuri (business, economic)
+	- clienti
+	- rezervare
+
+     Prezentarea problemei:
+
+	 Clientii pot rezerva locuri pentru un anumit traseu, la o anumita cursa, dus sau 
+dus-intors, intr-o anumita perioada.  Se vor  preciza datele de rezervare,  nr. persoane adulte,
+eventual nr. copii (pina in 12 ani). Tariful este separat, copiii platind jumatate de pret.
+
+
+	PROVOCARE:
+
+	- posibilitatea selectiei dintr-un pop-up al locurilor care se rezerva (clasa, geam, culoar)
+si al clientilor care au rezervari ACTIVE (caz in care cursa, locul, nr. persoane vor fi afisate AUTOMAT)
+	- daca  nu s-a facut plata cu 24 ORE inainte de data rezervarii, locurile (locul..)
+devin(e) liber(e).
+
+
+	Se recomanda urmatoarele liste:
+
+	- lista locurilor disponibile pe tip si cursa
+	- lista rezervarilor existente pe fiecare cursa si tip
+
+
+Foarte IMPORTANT:
+
+	- APLICATIA VA PERMITE INTRODUCEREA SI (MAI ALES !!) 
+POSIBILITATEA ACTUALIZARII DATELOR !!
+	- DATELE CALENDARISTICE VOR FI LASATE LIBERE, adica implicit 
+data sistem cu posib. de modificare !!!
+	- Nu faceti o validare completa la CNP-ri ci doar "de bun simt", adica primele 7 
+caractere (i.e sex + data nasterii !!)
+	- la introducere, cimpurile din interfata  vor fi GOLITE de datele precedente !!
+	- la actualizare cimpurile din interfata  vor fi  UMPLUTE cu datele deja salvate in fisiere

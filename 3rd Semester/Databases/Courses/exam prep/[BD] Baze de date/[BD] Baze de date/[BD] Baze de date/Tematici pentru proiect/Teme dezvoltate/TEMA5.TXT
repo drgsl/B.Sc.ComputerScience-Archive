@@ -1,0 +1,39 @@
+5. Realizati o aplicatie pentru evidenta casetelor video/DVD inchiriate de catre
+o firma de profil.
+
+	Informatii necesare:
+
+		- personalul firmei
+		- casete/DVD existente accesibile pe genuri, regizori, actori
+		- clienti
+		- tranzactii
+
+     Prezentarea problemei:
+
+     Personalul firmei imprumuta casete/DVD cu anumite caracteristici 
+(titlu, gen, regizor, actori principali, valoare inventar, etc) la clienti de
+asemenea cu caracteristicile lor (nume, prenume, CNP, adresa, CI etc). 
+     Inchirierea se face pe o perioada oarecare. Se vor  preciza data inchirierii/returnarii !!
+Valoarea din cimpul data poate fi considerata implicit cea curenta, insa sa poata fi modificata !!
+
+
+	
+	PROVOCARE:
+
+	- in caz de nerestituire a casetei/DVD la termenul fixat, din ziua 
+urmatoare scadentei incep sa curga penalizari de .5% zi din tariful de 
+inchiriere. In caz de pierdere/deteriorare se percepe o amenda egala cu un 
+coeficient de multiplicare specific fiecarei casete/DVD functie de valoarea ei.
+
+	Aplicatia va permite urmatoarele liste:
+
+	- lista casetelor/DVD pe titluri, genuri, actori (selectare la cerere !)
+	- penalizari/amenzi platite de clienti intr-o luna oarecare
+	- casete/DVD disponibile la un moment dat
+        - lista inchirierilor dintr-o luna oarecare (inclusiv cu suma realizata!!)
+
+Observatie:
+	- pentru simplitate, tariful de inchiriere va fi acelasi, respectiv  
+pentru casete si DVD, indiferent de perioada inchiriata, 
+FARA A SE PERCEPE ABONAMENT   !!
+

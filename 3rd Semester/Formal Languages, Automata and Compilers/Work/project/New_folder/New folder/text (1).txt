@@ -1,0 +1,60 @@
+int a;
+int d = -3;
+
+int r[2];
+
+
+##
+
+struct nume {
+    int e;
+};
+
+int x(int m, int k)
+{
+    char varX;
+    a = 4;
+}
+
+float f()
+{
+    int variabilaF;
+    a = 7;
+}
+
+int x(int r, char k)
+{
+
+}
+
+##
+
+main()
+{
+    const int l = 3;
+    a = 2+3*6;
+    r[2] = a;
+    Print("a+d=", a+d);
+    Print("-a-d=", -a-d);
+    // l = a;
+    string s;
+    // a = s;
+    // s = a;
+    Print("a=", a);
+    int n;
+    char c1;
+
+    if(a>=3 || a == 20)
+        Print("a=", a);
+    f();
+    x(12, a>3);
+    /*
+    Print("a>3: ", a>3);
+    Print("a<3: ", a<3);
+    Print("a && 0: ", a && 0);
+    Print("a || 0: ", a || 0);
+    */
+    char c;
+    int var = (a * 8 + 2) / 2 + 10;
+    
+}

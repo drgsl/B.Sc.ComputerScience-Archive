@@ -1,0 +1,35 @@
+9.  Realizati o aplicatie pentru evidenta camerelor si a clientilor dintr-un hotel. 
+Aplicatia va avea in vedere atit OCUPAREA cit si REZERVAREA 
+camerelor pentru a o anumita perioada. 
+
+Informatii necesare:
+
+	- personal hotel
+	- camere existente pe tipuri (single, double, apartament, penthouse(??) etc.)
+	- clienti
+	- rezervare/ocupare
+
+     Prezentarea problemei:
+
+     Personalul hotelului realizeaza rezervarea/ocuparea camerelor catre 
+diversi clienti pe o anumita perioada.  Se vor  preciza perioadele de rezervare, respectiv ocupare.
+Valoarea din cimpul data poate fi considerata implicit cea curenta, insa sa poata fi modificata !!
+
+
+	PROVOCARE:
+	
+	- daca cu o o zi inainte de data rezervarii nu s-a facut plata 
+camera este data automat libera.
+
+
+	Aplicatia va permite urmatoarele liste:
+
+	- lista camerelor disponibile pe fiecare etaj 
+	- lista rezervarilor pe camere 
+
+
+
+Observatii:
+
+	Pentru simplitate se vor considera un numar egal de camere pe fiecare etaj si de fiecare tip cu exceptia penthouse-ui in caz ca DORITI SA EXISTE !!
+

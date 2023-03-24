@@ -1,0 +1,27 @@
+BD - JOIN-URI (lab 4)
+1. PRODUSUL CARTEZIAN:
+	- SINTAXA: tabel1 CROSS JOIN tabel2
+	- nu necesita conditii
+	- tabelele pot fi scrise cu virgula (,) intre ele (in loc de CROSS JOIN)
+2. JOIN INTERN
+	- SINTAXA: tabel 1 JOIN tabel 2 ON conditie
+3. JOIN NATURAL
+	- SINTAXA: tabel1 NATURAL JOIN tabel2 
+	- join-ul natural este folosit cand numele coloanei dupa care se face join este identic in ambele tabele
+4. JOIN EXTERN
+	- se foloseste cand una din tabele este deficitara in informatii
+   a) JOIN EXTERN STANGA
+	- tabela cu mai multe informatii se afla in stanga join-ului
+	- SINTAXA: tabel_complet LEFT OUTER JOIN tabel_deficitar ON
+   b) JOIN EXTERN DREAPTA
+	- tabela cu mai multe informatii se afla in dreapta join-ului
+	- SINTAXA: tabel_deficitar RIGHT OUTER JOIN tabel_complet ON
+   c) JOIN COMPLET EXTERN
+	- o combinatie dintre join extern stanga si join extern dreapta
+	- SINTAXA: tabel1 FULL OUTER JOIN tabel2 ON
+
+
+
+
+
+	-

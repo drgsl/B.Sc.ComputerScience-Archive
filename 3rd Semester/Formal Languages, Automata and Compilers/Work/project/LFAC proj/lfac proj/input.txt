@@ -1,0 +1,28 @@
+define NMAX 100
+define BULVAL "TRUE"
+nat ok = 1
+function f () {nat param = 0}
+function f () { nat ok = 2}
+MAIN ()
+{   
+    real r
+    CLASS A { nat nr }
+    sir s = "abcd"
+    sir s1
+    s1 = m
+    character casdas = '.'
+    real ww = 3.2
+    real xx = 5.8
+    IF ( ok == 1 ) { x = 5 }
+    FOR nat i = 1,5,1 { x = x + 1 }
+    vec 50 nat v = [ 1, 2, 3]
+    vec 10 character vectorChar = [ ]
+    
+    BOOL a = false
+    BOOL b = true
+    
+    evaluate ( y )
+    y = x
+    evaluate ( y )
+    evaluate( 3 - 2 * x )
+}

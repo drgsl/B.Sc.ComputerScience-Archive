@@ -1,0 +1,36 @@
+1.select an, count(*) from studenti group by an
+/
+2.select count(*), an, grupa from studenti group by an, grupa order by an asc, grupa asc
+/
+3.select count(*), count(bursa), grupa, an from studenti group by grupa, an order by an, grupa
+/
+4.select sum(bursa) from studenti
+/
+5.select sum(bursa)/count(*) from studenti
+/
+6.select valoare, count(valoare) from note group by valoare order by valoare desc
+/
+7.select to_char(data_notare,'Day'), count(valoare) from note group by to_char(data_notare,'Day') order by count(valoare) desc
+/
+8.select to_char(data_notare,'Day'), count(valoare) from note group by to_char(data_notare,'Day'), to_char(data_notare,'D') order by to_char(data_notare,'D') asc
+/
+9.select nume, avg(valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by nume, n.nr_matricol order by avg(valoare) desc
+/
+10.select nume, avg(valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol(+) group by nume, n.nr_matricol order by avg(valoare) desc
+/
+11.select nume, avg(nvl(valoare,0)) from studenti s, note n where s.nr_matricol=n.nr_matricol group by nume, n.nr_matricol order by avg(nvl(valoare,0)) desc
+/
+12.select nume, avg(nvl(valoare,0)) from studenti s, note n where s.nr_matricol=n.nr_matricol group by nume, n.nr_matricol having avg(valoare)>8 order by avg(nvl(valoare,0)) desc
+/
+13.select s.nume, min(n.valoare), max(n.valoare), avg(n.valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by s.nume,n.nr_matricol having min(n.valoare)>=7
+/
+14.select s.nume, min(n.valoare), max(n.valoare), avg(n.valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by s.nume,n.nr_matricol having count(valoare)>=4
+/
+15.select nume, avg(valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol and an=3 and grupa like'A2' group by n.nr_matricol, nume
+/
+select nume, avg(valoare) from studenti s, note n where s.nr_matricol=n.nr_matricol group by n.nr_matricol,nume,an,grupa having an=3 and grupa='A2'
+/
+16.select max(avg(valoare)) from note group by nr_matricol
+/
+17.select c.titlu_curs, min(n.valoare), max(n.valoare) from note n, cursuri c where n.id_curs=c.id_curs group by c.titlu_curs, n.id_curs
+/

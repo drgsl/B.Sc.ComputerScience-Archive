@@ -1,0 +1,19 @@
+1.SELECT c.nume "Nume",t.den "Den.taxei",t.tip "Tipul taxei",i.suma "Suma aferenta"
+FROM contribuabili c,taxe t,incasari i
+where c.cod=i.codc and t.cod=i.codt;
+
+2.select t.den
+from taxe t,contribuabili c,incasari i,incasari j
+where c.cod=i.codc and t.cod=i.codt and i.codc=1001 and j.codc=1002 and i.codt=j.codt and i.codt<>103;
+
+3.select '$' || sum(i.suma) "Total tax value"
+from incasari i;
+
+4.select max(sum(i.suma)) "Suma maxima cumulata"
+from incasari i,taxe t,contribuabili c
+where c.cod=i.codc and t.cod=i.codt
+group by c.cod;
+
+5.select unique c.nume,t.tip
+from contribuabili c,incasari i,taxe t
+where c.cod=i.codc and t.cod=i.codt and to_char(t.tip) in ('1') and to_char(t.tip) not in ('2');

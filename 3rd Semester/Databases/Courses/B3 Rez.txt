@@ -1,0 +1,24 @@
+//2
+
+select nume,prenume,an,grupa from studenti s 
+        inner join (select nr_matricol, avg(valoare) from note 
+        group by nr_matricol 
+        having avg(valoare)>8) t 
+        on s.nr_matricol=t.nr_matricol;
+
+//3
+select nume, prenume 
+        from(select nume, prenume 
+        from(select nume, prenume 
+        from studenti order by nume desc, prenume desc) 
+        where rownum<3 order by nume, prenume) 
+        where rownum<2;
+
+//4
+update studenti s set s.nume=s.nume||'*' where s.nume in (select nume from studenti group by nume having count(nume)>1);
+
+//5
+select titlu_curs from note n inner join cursuri c on n.id_curs=c.id_curs group by n.id_curs,titlu_curs
+having count(distinct nr_matricol) = (select max(nrstud)
+from (select id_curs,count(distinct nr_matricol) as nrstud 
+from note group by id_curs) t);

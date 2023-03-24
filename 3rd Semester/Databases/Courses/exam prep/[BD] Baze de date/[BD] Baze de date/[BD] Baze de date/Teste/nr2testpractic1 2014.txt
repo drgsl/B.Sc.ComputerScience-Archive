@@ -1,0 +1,35 @@
+nr 2
+
+//1
+select c.nume,c.den,t.tip
+from contribuabili c,taxe t,incasari i
+where c.cod=i.codc(+) and t.cod=i.codt(+)?
+
+//2
+select den
+from taxe t inner join incasari i on t.cod=i.codt inner join contribuabili on c.cod=i.codc
+where nume='nume1'
+intersect
+from taxe t inner join incasari i on t.cod=i.codt inner join contribuabili on c.cod=i.codc
+where nume='nume2'
+order by den desc;
+
+//3
+select '$' || sum(sum(i.suma)) as "suma taxe"
+from incasari i;
+
+//4
+select max(sum(i.suma)) as "maxim"
+from incasari i;
+group by 
+
+//5
+select nume 
+from contribuabili c inner join incasari i on i.codc=c.cod
+			ineer join taxe t on i.codt=t.cod
+where t.tip=1
+minus 
+select nume 
+from contribuabili c inner join incasari i on i.codc=c.cod
+			ineer join taxe t on i.codt=t.cod
+where t.tip=2;

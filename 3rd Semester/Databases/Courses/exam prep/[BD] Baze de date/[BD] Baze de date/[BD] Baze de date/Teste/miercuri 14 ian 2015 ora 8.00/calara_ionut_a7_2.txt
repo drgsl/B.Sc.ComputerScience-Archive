@@ -1,0 +1,48 @@
+1.
+SELECT co.nume ,sum(i.suma)
+FROM contribuabili co inner join incasari i ON co.cod=i.codc
+group by sum(i.suma)
+--nu, din pacate departe de varianta, nu am ce sa iti dau !
+--0 
+--varianta corecta:
+select nume,sum(suma)valoare_cumulata
+from contribuabili c inner join incasari i on c.cod=i.codc
+group by nume
+having sum(suma) = 
+  (select max(sum(suma)) 
+  from incasari 
+  group by codc);
+
+
+2. 
+
+3.select * from(
+select t.den,sum(i.suma) from incasari i
+inner join taxe t on t.cod=i.codt group by t.den order by sum(i.suma) desc) WHERE ROWNUM <= 3
+--3 p
+
+4.update i 
+SET i.suma = i.suma + ((i.suma*10)/100) 
+FROM incasari i
+inner join taxe t 
+on t.cod=i.codt 
+where t.tip='2'
+--update cere set si where ! puteai folosi from in cadrul unei subinterogari din where !
+--iti dau 1 p, ca ai pus corect update si set, insa cel mai mare punctaj si dificultate o avea where-ul !
+--varianta corecta:
+update incasari 
+set suma = suma*1.1
+where codt in 
+  (select cod
+  from taxe 
+  where tip = 2);
+
+5.
+ALTER TABLE contribuabili
+ADD adresa VARCHAR(256) DEFAULT 'Iasi';
+
+ALTER TABLE contribuabili
+DROP COLUMN adresa;
+--3 p
+
+total:7 p
