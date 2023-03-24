@@ -2,7 +2,7 @@
 
 This repository contains all the coursework, projects, and assignments completed by Dragos A. Bobu throughout their Bachelor's degree in Computer Science. From algorithms and data structures to software engineering and machine learning, this collection showcases the diverse range of skills and knowledge gained during their academic journey.
 
-## Contents
+## 📁 Contents
 
 The repository is organized into folders that represent each course taken during the degree program. Each course folder contains subfolders that correspond to individual assignments or projects completed during the course.
 
@@ -15,7 +15,7 @@ To view or run the code in this repository, simply clone or download the reposit
 
 The code in this repository is provided under the GNU General Public License v3.0. Please refer to the [LICENSE] file included in the root directory of the repository for more information on the terms of use.
 
-## License
+## 📝 License
 
 This repository is licensed under the GNU General Public License v2.0. The full text of the license can be found in the [LICENSE](./LICENSE) file.
 
@@ -28,6 +28,6 @@ The GNU GPL is based on the principle of software freedom and includes the follo
 
 For more information about the principles behind the GPL, please see [The Foundations of the GPL](https://www.gnu.org/licenses/why-gpl.html).
 
-## Contact
+## 🤝 Contact
 
 If you have any questions about this repository or would like to get in touch with Dragos A. Bobu, feel free to reach out.
