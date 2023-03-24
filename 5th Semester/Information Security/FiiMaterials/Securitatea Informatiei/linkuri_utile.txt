@@ -1,0 +1,11 @@
+1. Matricea de Access
+https://security.stackexchange.com/questions/73410/safety-in-access-control-matrix-and-take-grant-model
+
+2. Bell-LaPadula model explained
+https://www.youtube.com/watch?v=r1pnyxgWD38
+
+3. Biba model explained
+https://www.youtube.com/watch?v=SEV110BkOfQ
+
+4. RBAC model
+https://www.youtube.com/watch?v=4Uya_I_Oxjk

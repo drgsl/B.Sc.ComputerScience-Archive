@@ -1,0 +1,10 @@
+
+class Compari(shopCrawler):
+
+class shopCrawler:
+
+microservices
+
+cypress - js automation testing 
+
+shopCrawler should check the url for the shop name before actually searching

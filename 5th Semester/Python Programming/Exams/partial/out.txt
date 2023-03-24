@@ -1,0 +1,7 @@
+Pe ecran se va afisa / Script will print on the screen
+
+[OK]
+maria
+carl
+marta
+john

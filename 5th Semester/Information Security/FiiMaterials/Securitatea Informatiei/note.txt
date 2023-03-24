@@ -1,0 +1,62 @@
+La matrice de exemplu tebuie avut in vedere ce anume contine multimea obiectelor, mai exact faptul ca S este inclus in O.
+Iar la substitutii daca avem comanda give_r(Xs1, Xs2,Xo) putem alege orice subiect convenabil la Xs1 respectiv Xs2 si orice obiect convenabil la Xo.
+(inclusiv acelasi subiect pentru Xs1 si Xs2
+
+v.0 
+O varianta corectă de rezolvare ar fi:
+give_d(Ana, Eva, Ion)
+give_og(Geo, Ion, Ana) și deja se vede că sistemul este nesigur relativ la dreptul g.
+
+
+v.1
+O varianta ar fi
+give_t(Geo, Ion, Eva)
+give_r(Geo, Geo, Eva)
+create_n(Geo,Nume_nou)
+ și sistemul este nesigur relativ la dreptul t.
+
+
+La BLP e foarte important cum desenam laticea in functie de fkuxurile de informatie date. 
+Adica fluxul merge de la o clasa mai slaba catre una mai tare. E --> D inseamna ca in laticea BLP clasa E va fi mai jos decat clasa D si inseamna ca voi trasa o linie de la E la D.
+Se la repeta identic laticea BLP de atatea ori cate clase de Biba avem. 
+Daca ne imaginam 3D, fiecare clasa de Biba va avea laticea de BLP pe un plan, si vom avea atatea plane cu BLP cate clase de Biba avem
+
+Ca variante de raspuns corecte erau mai multe, de aceea a si durat atat de mult corectatul. 
+Un exemplu pentru varianta 0 ar fi 
+
+Oana BZ
+Adi CY
+Ionuț DZ
+Maria EX
+fișe DZ
+liste AY
+note BX
+referate EZ 
+
+Pentru varianta 1 un exemplu ar fi 
+
+Maria BZ
+Adi CX
+Ionuț DZ
+Georgiana EY
+fișe EY
+liste AY
+note BY
+acte DZ
+
+
+Pentru varianta 2 ar fi
+
+Oana BY
+Adi CX
+Ionuț DX
+Maria EX
+fișe CY
+liste AX
+note BX
+acte DXY
+ 
+La exercitiul de departajare, la ambele, 1. si 2. raspunsul era nu.
+la 1 trebuia luata formula si mers pe ea si aratat cu putem obtine un tag valid pe un mesaj nou plecand de la un tag valid al unui mesaj existent.
+la 2 trebuia aratat ca avem nevoie, cand ajungem la Resolver, sa primim un element pentru verificare. Dar nu putem primi cheia publica pt verificare iar dacă ni se da cheia privată putem crea noi tag-uri, si dispare securitatea cu totul.
+Daca cineva nu isi gaseste nota va rog sa imi spuneti ca sa o trec din forms.

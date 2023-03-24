@@ -1,0 +1,11 @@
+Contributor: Stamate Valentin, 2019-2022
+GitHub: https://github.com/valstam/
+Linkedin: https://www.linkedin.com/in/valentin-stamate/
+
+-----SIGNATURE-----
+BotaL/jkrl176owZM25L4sXRb4r9Xb4yTCG7G3Em9U0RtebA3Glw4qJQR7x8ZSG/VFhbZtX5eb2pNbcafbadDX5zTE05uSo8zEBvPJ5pkN6qiox9nX4VjXIPE/GDHdhnqwjxirASUHsJTbEtj5DOAMbBv71j5JxBrBJBCWiZTqQ=
+-----END SIGNATURE-----
+
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCiVkj4P2iSjmIhnZguVpJNy3lFN8olA8gcqUyi2qJbgPrNXmVpTCRkb/hHXLZ2qZqENn0Ls4mJxAKE5jkWuxzYGQTBzR8d77ulED7YrX6+VOJA0ZTkWLnNm8N+luogi6xeB+eOPbuFCwcS3is7cvTi5tdov+vAjnyFq2LhUBmLxwIDAQAB
+-----END PUBLIC KEY-----

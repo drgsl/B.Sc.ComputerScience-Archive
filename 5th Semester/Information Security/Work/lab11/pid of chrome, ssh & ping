@@ -1,0 +1,49 @@
+dragosel@dragosel:~/Desktop$ ps xao pid,ppid,pgid,sig,comm | grep ping
+   6102    6095    6102 0000000000000000 ping
+
+
+dragosel@dragosel:~/Desktop$ ps xao pid,ppid,pgid,sig,comm | grep ssh
+    982       1     982 0000000000000000 sshd
+
+
+dragosel@dragosel:~/Desktop$ ps xao pid,ppid,pgid,sig,comm | grep chrome
+   2476    1894    1500 0000000000000000 chrome
+   2486       1    2485 0000000000000000 chrome_crashpad
+   2488       1    2487 0000000000000000 chrome_crashpad
+   2494    2476    1500 0000000000000000 chrome
+   2495    2476    1500 0000000000000000 chrome
+   2499    2495    1500 0000000000000000 chrome
+   2520    2494    1500 0000000000000000 chrome
+   2525    2476    1500 0000000000000000 chrome
+   2546    2499    1500 0000000000000000 chrome
+   2609    2499    1500 0000000000000000 chrome
+   2620    2499    1500 0000000000000000 chrome
+   2730    2499    1500 0000000000000000 chrome
+   2785    2499    1500 0000000000000000 chrome
+   2803    2476    1500 0000000000000000 chrome
+   5173    2499    1500 0000000000000000 chrome
+   5263    2499    1500 0000000000000000 chrome
+   6029    2499    1500 0000000000000000 chrome
+   6035    2499    1500 0000000000000000 chrome
+   6049    2499    1500 0000000000000000 chrome
+   6065    2499    1500 0000000000000000 chrome
+
+
+dragosel@dragosel:~/Desktop$ ps xao pid,ppid,pgid,sig,comm | grep zsh
+   6476    6299    6476 0000000000000000 zsh
+
+
+
+o capabilitate care stim ce face
+getpcaps - ca sa o arate
+ii stergem capabilitatea
+ca sa arate ca nu o mai are
+
+
+
+
+
+create txt file
+echo ca l a creat
+sterge l
+echo ca l a sters

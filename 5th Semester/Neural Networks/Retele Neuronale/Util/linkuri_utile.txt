@@ -1,0 +1,9 @@
+1. Clasificarile tuturor optimizatorilor
+https://towardsdatascience.com/optimizers-for-training-neural-network-59450d71caf6 
+https://towardsdatascience.com/overview-of-various-optimizers-in-neural-networks-17c1be2df6d5
+
+2. PDF cu notite luat de undeva
+https://github.com/adipeterca/shared-files/blob/main/Notite_RN.pdf
+
+3. Difference between on policy and off policy
+https://stats.stackexchange.com/questions/184657/what-is-the-difference-between-off-policy-and-on-policy-learning

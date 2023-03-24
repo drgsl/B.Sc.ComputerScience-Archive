@@ -1,0 +1,29 @@
+              Exam Hints
+Nota de trecere -> chestii din teme si laborator
+7-8.            -> chestii subtile unde trebuie sa intelegi detalii
+9-10            -> chestii care nu au fost la lab discutate
+--------------------------
+              Things to know
+              
+              Moduri de criptare: 
+inlantuite/neinlantuie (ECB,CBC etc)
+ trebuie sa intelegi ce erori pot aparea si cum lucreaza la niceli de pasii pe care ii face si componente etc.
+iportantele is diferentele
+
+
+              Matricea de control a accesului:
+ce inseamna un sistem nesigur?cum aflam ca e nesigur? ce inseamna ca e nesigur? etc
+Daca in matricea initiala NU avem in casuta C un drept, sa zicem dreptul W, si dupa indeplinirea unor functii acest drept apare, spunem ca e o scurgere de drepturi si matricea nu e sigura in W
+TO BE CARREFUL ON: orice subiect e si un obiect , dar nu invers
+
+            EX de protocoale
+posibil sa fie sau posibil sa nu
+trbuie sa intelegi cum lucreaza si probabil sa comentezi si sa observi unele detalii pe care sa le explici corect
+
+            BLP-BIBA
+testati ptu 3clase, 4 clase etc, ca sa intelegi bine cum lucreaza ex de tipul.
+
+            Torema 5(at least asa am auzit eu)
+nu o sa fie ptu ca nu a fost in slideuri
+--------------------------------
+*nimic din informatiile de mai sus nu e informatie 100% veridica sau garantata*

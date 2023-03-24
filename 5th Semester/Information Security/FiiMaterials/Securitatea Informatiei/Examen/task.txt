@@ -1,0 +1,13 @@
+Bună ziua,
+Vă veţi alege setul de subiecte pe care îl veţi rezolva folosind
+corespondenţa literă-cifră de mai jos astfel:
+consideraţi numărul format
+prin concatenarea primelor 2 litere din numele dumneavoastră de familie
+şi reduceţi-l modulo 3.
+Dacă rezultatul va fi 0, veţi rezolva setul v.0,  dacă este 1, veţi rezolva setul v.1 iar
+dacă este 2 veți rezolva setul v.2.
+Alegerea greșită a setului de
+exerciții duce la anularea rezolvării. Așadar mai verificați o dată
+înainte de a începe rezolvarea.
+
+Timp de lucru o oră + 10 minute marjă pentru submit.

@@ -1,0 +1,50 @@
+C:18,5,23,3,17,19,20,2,9,12,22,16
+
+	-------18 Best Price-------
+	5 Password Generator 
+	23 Countdown Timer
+	3 Spanzuratoarea
+	17 Car Monitorizer
+	19 COȘ CUMPĂRĂTURI CU INGREDIENTE
+	20 Text analyzer
+	2 Wiki-Page-Info
+	9 FolderToJson
+	12 WC
+	22 Phrase to sound
+	16 Watchdog
+
+
+
+B: 7,30,4,18,6,36,38,24,22,19,20,17,23
+
+	7 X si 0
+	---------30 Password manager---------
+	4 Currency Converter
+	18 TOP FORBES
+	6 Generate structure
+	36 Game of 2048
+	38 Sudoku
+	24 Battleships
+	22 GUESS THE NUMBER
+	19 Spanzuratoarea
+	20 Rock - Paper - Scrissors - Lizard - Spock
+	17 Razboi
+	23 movie rating + db
+
+
+A: 5,2,19,16,14,9,8
+
+	5 Minesweeper
+	2 Twitter
+	19 SNAKE
+	--------------16 CHESS-----------
+	14 GUI Resource Monitor
+	9 SongStorage
+	8 BingeWatch
+
+
+
+
+
+
+

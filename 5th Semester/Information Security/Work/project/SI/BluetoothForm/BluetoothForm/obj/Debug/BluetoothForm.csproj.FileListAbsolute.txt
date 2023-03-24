@@ -1,0 +1,9 @@
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\bin\Debug\BluetoothForm.exe.config
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\obj\Debug\BluetoothForm.csprojResolveAssemblyReference.cache
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\obj\Debug\BluetoothForm.Form1.resources
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\obj\Debug\BluetoothForm.Properties.Resources.resources
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\obj\Debug\BluetoothForm.csproj.GenerateResource.Cache
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\bin\Debug\BluetoothForm.exe
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\bin\Debug\BluetoothForm.pdb
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\obj\Debug\BluetoothForm.exe
+C:\Users\zeg68\Documents\Arduino\SI\BluetoothForm\BluetoothForm\obj\Debug\BluetoothForm.pdb

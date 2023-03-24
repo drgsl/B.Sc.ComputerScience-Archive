@@ -1,0 +1,11 @@
+1. Site-ul materiei
+https://profs.info.uaic.ro/~eonica/mpt/
+
+2. Cartea (sau una din ele)
+https://books.google.ro/books?id=7MqcBAAAQBAJ&pg=PA206&lpg=PA206&dq=linearization+point+coarse+grained+list&source=bl&ots=n5bVYBF6Qd&sig=ACfU3U1xFGr3da1U-c6N7ZPhCHjJ-eJ-sg&hl=ro&sa=X&ved=2ahUKEwjE_JC0yYj1AhXZS_EDHc98BsUQ6AF6BAghEAM#v=onepage&q=linearization%20point%20coarse%20grained%20list&f=false
+
+3. Optimistic Locking 
+https://loonytek.com/2019/12/23/optimistic-locking/
+
+4. Explicatie mai buna pentru cursul 4 (diferenta intre TAS si TTAS, vreo 40 de slide-uri)
+https://stackoverflow.com/questions/26322991/better-explanations-of-tas-vs-ttas-in-the-context-of-the-art-of-multiprocessor

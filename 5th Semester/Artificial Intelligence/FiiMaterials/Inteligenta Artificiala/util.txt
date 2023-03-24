@@ -1,0 +1,2 @@
+Echilibru Nash solver
+https://mindyourdecisions.com/GameSolver.html

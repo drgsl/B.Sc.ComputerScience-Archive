@@ -1,0 +1,28 @@
+anim.txt containing:
+
+goTo x y
+moveTo x y
+
+
+goto - draw circle at x, y 
+
+moveto - move the circle to x y
+-updates circle position
+
+moving is 
+
+
+oy difference
+ox difference
+
+ox / steps |
+           | each frame
+oy / steps |
+
+delay 10s after each step
+
+goto - teleports
+moveto - anims the path
+
+320 x 240 
+

@@ -1,0 +1,9 @@
+Iteratii rulate pentru fiecare tip de proiect (A,B sau C) = 1.000.000
+Studenti inscrisi = 354
+Studenti care au optat pentru probleme de tipul A = 294
+Studenti care au optat pentru probleme de tipul B = 238
+Studenti care au optat pentru probleme de tipul C = 291
+
+Received top 5 projects for A: 247 / 294 [84.01%]
+Received top 5 projects for B: 238 / 335 [71.04%]
+Received top 5 projects for C: 234 / 291 [80.41%]

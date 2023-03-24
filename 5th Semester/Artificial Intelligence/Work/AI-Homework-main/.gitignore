@@ -1,0 +1,10 @@
+venv/
+.idea/
+__pycache__/
+.vscode/
+gradlew
+gradlew.bat
+gradle/
+build/
+.gradle
+*.exe

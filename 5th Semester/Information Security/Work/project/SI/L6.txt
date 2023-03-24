@@ -1,0 +1,85 @@
+
+
+<html>
+<head>
+
+<?php
+
+ 
+if (isset($_POST['ron'])) // Red on
+{
+
+exec('sudo python /var/www/pin7l.py');
+}
+if (isset($_POST['roff']))  //  Red Off
+{
+exec('sudo python /var/www/pin7h.py');
+}
+if (isset($_POST['gon']))  // Green On
+{
+exec('sudo python /var/www/pin12l.py');
+}
+if (isset($_POST['goff']))  // Green Off
+{
+exec('sudo python /var/www/pin12h.py');
+}
+if (isset($_POST['bon']))  // Blue On
+{
+exec('sudo python /var/www/pin3l.py');
+}
+if (isset($_POST['boff']))  // Blue Off
+{
+exec('sudo python /var/www/pin3h.py');
+
+}
+?>
+
+  <title>L6_web server generalizat pt. Web of Things </title>
+</head>
+<body background="FX3.png">
+<center>
+<table witdh="400" border="1" bgcolor="silver">
+<td>
+
+<Font color='blue'><b>
+<center>
+Universitatea Tehnica 'Gh.Asachi' Iasi - Fac. Automatica si Calculatoare<br> 
+
+<img src="Mbed_mar.png" width="200" height="130"> </center>
+</Font><b>
+<center> <h1> <Font color='navy'>
+L6 -  Server generalizat ptentru<br> Web of Things <br>
+
+</h1></font>
+<center>
+
+<form method="post">
+  <table
+ style="width: 50%; text-align: left; margin-left: auto; margin-right: auto;"
+ border="2" cellpadding="2" cellspacing="2">
+      <tr>
+        <td style="text-align: center;"><button name="ron">RED ON</button></td>
+        <td style="text-align: center;"><button name="roff">RED OFF </button></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><button name="gon">GREEN ON</button></td>
+        <td style="text-align: center;"><button name="goff">GREEN OFF</button></td>
+      </tr>
+      <tr>
+        <td style="text-align: center;"><button name="bon">BLUE ON</button></td>
+        <td style="text-align: center;"><button name="boff">BLUE OFF</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+</form>
+
+<br>
+&copy 2018 Fac. Automatica si Calculatoare
+ 
+</td>
+</table>
+
+</body>
+</html>
+

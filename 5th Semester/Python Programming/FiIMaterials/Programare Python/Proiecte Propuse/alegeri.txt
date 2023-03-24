@@ -1,0 +1,26 @@
+A:
+Snake                  19
+Chess                  16
+Minesweeper             5
+GUI Resource Monitor   14
+Backgammon             25
+TrapTheMouse           29
+BubbleBuster           30
+GAME OF GO             18
+Messenger               3
+SongStorage             9
+
+B:
+X si O                 7
+Spanzuratoarea        19
+Razboi                17
+Generate Structure     6
+
+C:
+
+Asignare Dupa Algoritm:
+A: 19
+B: 17
+C: 18
+
+Alti studenti nu au primit ce au ales, deci e si dupa noroc.
