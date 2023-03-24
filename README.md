@@ -6,23 +6,35 @@ This repository contains all the coursework, projects, and assignments completed
 
 ## 📁 Contents
 
-The repository is organized into folders that represent each course taken during the degree program. Each course folder contains subfolders that correspond to individual assignments or projects completed during the course.
+This repository contains coursework and assignments completed during my Bachelor's degree in Computer Science. The courses covered a wide range of topics including:
 
-The repository also includes a separate folder for capstone or thesis projects, which are typically completed in the final year of the degree program.
+<img src="https://github.com/BobuDragos/B.Sc.ComputerScience-Archive/blob/main/classes.svg" align="left" width="50%">
+
+**First Semester**: Data Structures, Introduction to C++ Programming, Logics, and Math.
+
+**Second Semester**: Object Oriented Programming, Algorithms Design, Operating Systems, and Probabilities and Statistics.
+
+**Third Semester**: Computer Networks, Databases, and Graph Algorithms.
+
+**Fourth Semester**: Advanced Programming (Java), SGBD, Embedded Systems, Software Engineering, and Web Technologies.
+
+**Fifth Semester**: Artificial Intelligence, Information Security, Machine Learning, and Python Programming.
+
+**Sixth Semester**: Computer Graphics, Game Design, Internet of Things, Numeric Calculus, and Human-Computer Interaction.
+
 
 ## 🚀 Getting Started
 
 To view or run the code in this repository, simply clone or download the repository to your local machine. You can then navigate to the relevant course or project folder and open the code files in your preferred text editor or integrated development environment (IDE).
 
 
-The code in this repository is provided under the GNU General Public License v3.0. Please refer to the [LICENSE] file included in the root directory of the repository for more information on the terms of use.
-
 ## 📚 Courses
 
-Here are some links to the courses that I've taken during my Bachelor's degree in Computer Science:
+Here are some useful resources:
 
 - [Notion](https://www.notion.so/Facultate-f2c0e73370d34ee49fafff4e24f17981)
 - [FiiMaterials](https://fiimaterials.valentinstamate.com/)
+
 
 ## 📝 License
 
@@ -36,6 +48,7 @@ The GNU GPL is based on the principle of software freedom and includes the follo
 - The freedom to share any modifications you make to the software
 
 For more information about the principles behind the GPL, please see [The Foundations of the GPL](https://www.gnu.org/licenses/why-gpl.html).
+
 
 ## 🤝 Contact
 
