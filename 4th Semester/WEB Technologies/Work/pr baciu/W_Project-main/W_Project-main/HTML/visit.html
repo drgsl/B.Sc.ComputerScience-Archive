@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/visit.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Visit Us</title>
+</head>
+<body>
+
+<header class="header">
+    <!-- Logo -->
+    <a href="../PHP/index.php" class="logo" target="_self">Furry Park</a>
+    <!-- Hamburger icon -->
+    <input class="side-menu" type="checkbox" id="side-menu"/>
+    <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+    <!-- Menu -->
+    <nav class="nav">
+        <ul class="menu">
+            <li><a href="visit.html">Visit Us</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="../PHP/animals.php">Animals</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="body-v">
+    <div class="container-v">
+        <div class="header-v">
+            <h2>Create a reservation</h2>
+        </div>
+
+        <form class="form-v" id="form-v">
+            <div class="form-control-v">
+                <label>Name</label>
+                <input type="text" placeholder="Name" id="username">
+            </div>
+
+            <div class="form-control-v">
+                <label>Email</label>
+                <input type="email" placeholder="email" id="email">
+            </div>
+
+            <div class="form-control-v">
+                <label>Telephone Number</label>
+                <input type="text" placeholder="07.." id="number">
+            </div>
+
+            <div class="form-control-v">
+                <label>The number of people</label>
+                <input type="text" placeholder="Max 40" id="persons">
+            </div>
+
+            <div class="form-control-v">
+                <label>Date</label>
+                <input type="date" id="data">
+            </div>
+
+            <div class="form-control-v">
+                <label>Choose an hour:</label>
+                <select name="hour" id="hour">
+                    <option value="fh">7:30am - 9:00am</option>
+                    <option value="sh">9:00am - 10:30am</option>
+                    <option value="th">10:30am - 12:00am</option>
+                    <option value="fth">12:00am - 1:30pm</option>
+                    <option value="fvh">1:30pm - 3:00pm</option>
+                    <option value="sxh">3:00pm - 4:30pm</option>
+                    <option value="svh">4:30pm - 6:00pm</option>
+                    <option value="sxh">6:00pm - 7:30pm</option>
+                </select>
+            </div>
+
+            <input id="btn-submit" type="button" class="btn-submit" value="Submit" />
+
+        </form>
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        $("#btn-submit").click(function() {
+
+            var username= $("#username").val();
+            var email = $("#email").val();
+            var number = $("#number").val();
+            var persons = $("#persons").val();
+
+            if(username==''||email==''||number==''||persons=='') {
+                alert("Please fill all fields.");
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/PHP/visit.php",
+                data: {
+                    username: username,
+                    number: number,
+                    email: email,
+                    persons: persons
+                },
+                cache: false,
+                success: function(data) {
+                    alert(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+
+        });
+
+    });
+</script>
+
+</body>
+</html>

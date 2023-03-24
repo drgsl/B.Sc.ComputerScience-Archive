@@ -1,0 +1,10 @@
+hi! I'll need you to write an sql script that solves a PLSQL problem i'll send after i describe the database i'm working with to you.
+Firstly, the database looks like this:
+(fields are named in romanian, the problem will be in romanian too)
+There are a couple of databases that i have to work with:
+the cursuri table that has: id, titlu_curs, an, semestru, credite
+the didactic table that has: id, id_profesor, id_curs
+the note table that has: id, id_student, id_curs, valoare, data_notare
+the prieteni table that has: id, id_student1, id_student2
+the profesori table that has: id, nume, prenume, grad_didactic
+the studenti table that has: id, nr_matricol, nume, prenume, an, grupa, bursa, data_nastere, email

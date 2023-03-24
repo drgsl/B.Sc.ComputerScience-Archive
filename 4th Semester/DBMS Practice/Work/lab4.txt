@@ -1,0 +1,170 @@
+Creati o colectie de tipul record care sa retina din baza de date urmatoarele informatii despre studenti: 
+id-ul, media sa, numarul de restante si numarul de prieteni.
+Pentru aceasta creati un tip inregistrare. Apoi creati o colectie a carei elemente sa fie de tipul inregistrarii create
+in care sa retineti pentru ficare student in parte informatiile de mai sus. 
+Veti prelua din baza de date in colectie informatiile cerute si apoi veti afisa informatiile din colectie sub forma:
+(numele si prenumele pot fi citite pentru fiecare student in parte pe baza id-ului)
+Studentul Grozavu Claudia cu id-ul 1019 are:
+Media 7,9375
+Restante 2
+Nr amici 40
+
+Studentul Scortanu Petru cu id-ul 1020 are:
+Media 7,1875
+Restante 1
+Nr amici 41
+...
+
+
+
+Bună ziua! Pentru a rezolva această problemă, vom crea mai întâi tipul de înregistrare pentru a reține informațiile dorite despre studenți:
+
+vbnet
+Copy code
+CREATE TYPE student_info AS OBJECT (
+  id_student NUMBER,
+  medie NUMBER,
+  restante NUMBER,
+  nr_prieteni NUMBER
+);
+Apoi, vom crea colecția care conține elemente de tipul student_info:
+
+sql
+Copy code
+CREATE TYPE student_info_list IS TABLE OF student_info;
+Pentru a prelua informațiile despre studenți din baza de date și pentru a le stoca în colecția student_info_list, vom folosi următorul script SQL:
+
+sql
+Copy code
+DECLARE
+  studenti_info student_info_list := student_info_list();
+BEGIN
+  FOR s IN (SELECT id, nume, prenume FROM studenti) LOOP
+    DECLARE
+      total_credite NUMBER := 0;
+      medie NUMBER := 0;
+      nr_restante NUMBER := 0;
+      nr_prieteni NUMBER := 0;
+    BEGIN
+      FOR n IN (SELECT id_curs, valoare FROM note WHERE id_student = s.id) LOOP
+        DECLARE
+          credite_curs NUMBER;
+        BEGIN
+          SELECT credite INTO credite_curs FROM cursuri WHERE id = n.id_curs;
+          total_credite := total_credite + (credite_curs * n.valoare);
+          IF n.valoare < 5 THEN
+            nr_restante := nr_restante + 1;
+          END IF;
+        END;
+      END LOOP;
+      
+      IF total_credite > 0 THEN
+        medie := total_credite / (SELECT SUM(credite) FROM cursuri WHERE an =
+
+
+
+
+
+
+
+
+
+
+
+Bineînțeles! Pentru a rezolva această problemă, va trebui să creați o colecție de tip record care va conține informațiile solicitate despre fiecare student.
+
+Iată scriptul SQL care va crea colecția și va popula datele necesare:
+
+sql
+Copy code
+-- Crearea tipului RECORD
+CREATE OR REPLACE TYPE student_info AS OBJECT (
+  id_student NUMBER(10),
+  media NUMBER(5,2),
+  restante NUMBER(3),
+  nr_prieteni NUMBER(3)
+);
+ 
+-- Crearea colecției
+CREATE OR REPLACE TYPE student_info_table AS TABLE OF student_info;
+ 
+-- Popularea colecției
+DECLARE
+  l_studenti student_info_table := student_info_table();
+BEGIN
+  FOR s IN (SELECT id, nume, prenume FROM studenti) LOOP
+    DECLARE
+      l_media NUMBER(5,2) := 0;
+      l_nr_restante NUMBER(3) := 0;
+      l_nr_prieteni NUMBER(3) := 0;
+    BEGIN
+      -- Calcularea mediei
+      SELECT AVG(valoare) INTO l_media
+      FROM note
+      WHERE id_student = s.id;
+ 
+      -- Calcularea numărului de restanțe
+      SELECT COUNT(*) INTO l_nr_restante
+      FROM note
+      WHERE id_student = s.id
+        AND valoare < 5;
+ 
+      -- Calcularea numărului de prieteni
+      SELECT COUNT(*) INTO l_nr_prieteni
+      FROM prieteni
+      WHERE id_student1 = s.id
+        OR id_student2 = s.id;
+ 
+      -- Adăugarea informațiilor în colecție
+      l_studenti.EXTEND;
+      l_studenti
+
+
+
+
+Bună ziua! Pentru a rezolva această problemă, putem începe prin a crea un tip înregistrare care să rețină informațiile cerute despre un student:
+
+sql
+Copy code
+CREATE OR REPLACE TYPE student_info IS RECORD (
+    id_student NUMBER,
+    media FLOAT,
+    nr_restante NUMBER,
+    nr_prieteni NUMBER
+);
+Apoi putem crea o colecție a cărei elemente să fie de tipul înregistrării create:
+
+sql
+Copy code
+CREATE OR REPLACE TYPE student_info_list IS TABLE OF student_info;
+În continuare, putem folosi următorul script SQL pentru a prelua informațiile cerute din baza de date și a le adăuga într-o instanță a colecției create mai sus:
+
+sql
+Copy code
+DECLARE
+    studenti_info student_info_list := student_info_list();
+BEGIN
+    FOR s IN (SELECT id, nume, prenume FROM studenti)
+    LOOP
+        -- calculam media si numarul de restante
+        SELECT AVG(valoare), COUNT(*) INTO s.media, s.nr_restante
+        FROM note
+        WHERE id_student = s.id
+        AND valoare < 5;
+
+        -- calculam numarul de prieteni
+        SELECT COUNT(*) INTO s.nr_prieteni
+        FROM prieteni
+        WHERE id_student1 = s.id
+        OR id_student2 = s.id;
+
+        -- adaugam informatiile in colectie
+        studenti_info.extend;
+        studenti_info(studenti_info.count) := student_info(s.id, s.media, s.nr_restante, s.nr_prieteni);
+    END LOOP;
+
+    -- afisam informatiile
+    FOR i IN 1..studenti_info.count LOOP
+        DECLARE
+            nume_student VARCHAR2(100);
+            prenum

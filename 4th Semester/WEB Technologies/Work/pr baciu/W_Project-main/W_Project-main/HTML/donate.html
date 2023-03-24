@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/donate.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Donate</title>
+</head>
+<body>
+
+<header class="header">
+    <!-- Logo -->
+    <a href="../PHP/index.php" class="logo" target="_self">Furry Park</a>
+    <!-- Hamburger icon -->
+    <input class="side-menu" type="checkbox" id="side-menu"/>
+    <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+    <!-- Menu -->
+    <nav class="nav">
+        <ul class="menu">
+            <li><a href="visit.html">Visit Us</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="../PHP/animals.php">Animals</a></li>
+        </ul>
+    </nav>
+</header>
+
+<script src="/JAVASCRIPT/api.js"></script>
+
+<div class="body-d">
+    <div class="container-d">
+
+        <div class="header-d">
+            <h2>Payment Form</h2>
+        </div>
+
+        <form class="form-d" action="#">
+            <div class="account">
+
+                <h2>Account</h2>
+
+                <label></label>
+                <input type="text" placeholder="Last name">
+
+                <label></label>
+                <input type="text" placeholder="First Name">
+
+                <label></label>
+                <input type="email" placeholder="Email Adress" id="email">
+
+            </div>
+
+            <div class="cause">
+                <h2>Cause and sum</h2>
+
+                <label></label>
+                <input type="text" placeholder="Sum of money">
+
+                <label></label>
+                <select id="cause">
+                    <option>Causes</option>
+                    <option value="1">!For endangered animals!</option>
+                    <option value="2">!New habitat for penguins!</option>
+                    <option value="3">!Save damaged corals!</option>
+                    <option value="4">!Saving the glaciers!</option>
+                </select>
+
+
+            </div>
+
+            <div class="t-dob">
+                <h2>Date of birth</h2>
+            </div>
+
+            <div class="form-dob">
+
+                <label></label>
+                <input type="text" placeholder="DD" id="finput">
+
+                <label></label>
+                <input type="text" placeholder="MM">
+
+                <label></label>
+                <input type="text" placeholder="YYYY">
+
+            </div>
+
+            <div class="details">
+                <h2>Payments details</h2>
+
+                <label></label>
+                <input type="text" id="cn" placeholder="Card Number">
+
+                <label></label>
+                <input type="text" id="cvc" placeholder="CVC">
+
+                <div>
+                    <label></label>
+                    <select id="mm">
+                        <option>MM</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+
+                    <label></label>
+                    <select id="yyyy">
+                        <option>YYYY</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                    </select>
+                </div>
+            </div>
+            <button>Pay now</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

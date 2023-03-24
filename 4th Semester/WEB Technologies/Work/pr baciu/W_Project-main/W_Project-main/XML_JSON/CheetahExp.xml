@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<animal>
+  <species>Cheetah</species>
+  <type>Mammals</type>
+  <diet>Carnivore</diet>
+  <lifespan>14 years</lifespan>
+  <climate>Savannah</climate>
+  <description>fast as fuck boi</description>
+  <path>../Imagini/Cheetahs_1900x700.jpg</path>
+</animal>

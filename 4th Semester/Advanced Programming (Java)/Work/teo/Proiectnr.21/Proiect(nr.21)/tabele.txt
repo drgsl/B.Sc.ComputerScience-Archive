@@ -1,0 +1,8 @@
+*Pt tari
+country_id country_code country_name
+
+*Pt stat
+country_id state_id state_code state_name
+
+*Pt Oras (Comuna)
+state_id id name

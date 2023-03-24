@@ -1,0 +1,23 @@
+{
+  "name": "webtechnologies",
+  "version": "1.0.0",
+  "description": "- makeup product sugestions based on age, day time, color, etc.\r - feedback area\r - skin care products (maybe)\r - skin care quiz (maybe)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ecaterina-Hrib/WebTechnologies.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ecaterina-Hrib/WebTechnologies/issues"
+  },
+  "homepage": "https://github.com/Ecaterina-Hrib/WebTechnologies#readme",
+  "dependencies": {
+    "bson": "^4.4.0",
+    "mongoose": "^5.12.13"
+  }
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/signin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Visit Us</title>
+</head>
+<body>
+
+<header class="header">
+    <!-- Logo -->
+    <a href="index.html" class="logo" target="_self">Furry Park</a>
+    <!-- Hamburger icon -->
+    <input class="side-menu" type="checkbox" id="side-menu"/>
+    <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+    <!-- Menu -->
+    <nav class="nav">
+        <ul class="menu">
+            <li><a href="visit.html">Visit Us</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="../PHP/animals.php">Animals</a></li>
+        </ul>
+    </nav>
+</header>
+
+<script src="../JAVASCRIPT/api.js"></script>
+
+<div class="body-s">
+    <div class="container-v">
+        <div class="header-v">
+            <h2>Login</h2>
+        </div>
+
+        <form class="form-v" action="../PHP/server.php" method="post">
+
+            <div class="form-control-v">
+                <label>Username or Email</label>
+                <input type="text" name="txtUsername" placeholder="John Doe@blabla.com" id="Username">
+            </div>
+
+            <div class="form-control-v">
+                <label>Password</label>
+                <input type="password" name="txtPassword"
+                       placeholder="You have to use minimum 8 characters and a number" id="Password">
+            </div>
+
+            <div class="form-control-v">
+                <button type="submit" class="btn" name="login_user">Sign In</button>
+            </div>
+
+            <div class="sign">
+                <h4>Don't have an account? Register now!</h4>
+            </div>
+            <div class="buttonSup">
+                <a href="signup.html" target="_self">Sign-up</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+</body>
+
+</html>

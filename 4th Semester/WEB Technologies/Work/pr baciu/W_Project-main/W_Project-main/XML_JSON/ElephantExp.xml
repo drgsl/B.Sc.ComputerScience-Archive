@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<animal>
+  <species>Elephant</species>
+  <type>Mammals</type>
+  <diet>Herbivore</diet>
+  <lifespan>65 years</lifespan>
+  <climate>Savannah</climate>
+  <description>Trunk</description>
+  <path>../Imagini/Elephant_1900x700.jpg</path>
+</animal>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Scholarly HTML</title>
+    <link rel="stylesheet" href="../Scholarly HTML_files/scholarly.min.css">
+    <script src="../Scholarly HTML_files/scholarly.min.js.download"></script>
+</head>
+
+<body prefix="schema: http://schema.org">
+<header>
+    <div class="banner">
+        <img src="../Scholarly HTML_files/scholarly-html.svg" width="227" height="50" alt="Scholarly HTML logo">
+        <div class="status">Community Draft</div>
+    </div>
+    <h1>Furry Park</h1>
+</header>
+<!--
+XXX
+- check refs
+- the math example has too much maths
+- bring back some of the old style
+- make semantics, validation, processing sub-sections of each structural element
+- have a section before that for general constructs
+- explain why use RDFa
+- explain our patterns: RDFa, roles
+- figure captions need to get set throughout
+- dedication? see doc-dedication
+- syntactic constraints (prefix)
+- needs more sthenurines
+- examples of everything
+- some notes on using Semantic CSS
+- needs more RDFa in the spec itself
+-->
+<div role="contentinfo">
+    <dl>
+        <dt>Authors</dt>
+        <dd>
+            Baciu Alex Eduard & Puscasu Florin & Vasiliu Codrin
+        </dd>
+    </dl>
+</div>
+<section typeof="sa:Abstract" id="abstract" role="doc-abstract">
+    <h2><span>Abstract</span></h2>
+    <p>
+        The purpose of this document is to present a detailed description of our web application designed to manage
+        information related to a zoo.It will explain the purpose and features of the web application, the interfaces
+        of
+        the software, what the web application will do and the constraints under which it must operate.
+    </p>
+</section>
+<section id="introduction" role="doc-introduction">
+    <!-- review? -->
+    <h2><span></span>Introduction</h2>
+    <p>
+        Furry Park is a web-application for a zoo, and is meant to be user-friendly and eye candy.In our vision, it
+        should allow the users to browse through animal information like an encyclopedia and it should be a virtual
+        guide for the zoo.
+    </p>
+    <p>
+        Also, we want large groups to be able to book their visit and a guide if they want.Individuals can buy
+        tickets
+        online to avoid waiting in line.To expand our zoo, we implemented a donation page for people to help us.
+        For ease of access, users can create accounts, so they don't have to re-enter their personal data every
+        time.
+    </p>
+</section>
+<section id="structure">
+    <!-- review? -->
+    <h2><span></span>Overall Description</h2>
+    <p>
+        Furry Park is based on HTML (the base of the site), CSS (for design elements), javascript (for dynamic and
+        interactive content) and php for writing server-side web application logic and connect the application with the other web services.
+    </p>
+    <section id="Root">
+        <!-- review? -->
+        <h3><span></span>Product Functions </h3>
+        <ul>
+            <li>Account creation</li>
+            <li>Exporting and importing animal information</li>
+            <li>Donations platform</li>
+            <li>Booking platform</li>
+            <li>Sorting animals based on some infos</li>
+        </ul>
+    </section>
+    <section id="article">
+        <!-- review? -->
+        <h3><span></span>User Classes and Characteristics</h3>
+        <p>
+            Visitor:
+        </p>
+        <ul>
+            <li>Account creation</li>
+            <li>Search filters</li>
+            <li>Donations platform</li>
+            <li>Booking platform</li>
+            <li>Searching animals based on some characteristics</li>
+        </ul>
+        <p>
+            Admin:
+        </p>
+        <ul>
+            <li>Everything the visitor can do</li>
+            <li>Exporting and importing animal information</li>
+        </ul>
+        </p>
+    </section>
+    <section id="hunk">
+        <!-- review? -->
+        <h3><span></span>Operating Environment</h3>
+        <p>
+            The software will run on anything that supports a browser (such as phones running on Android and computers
+            running on Windows and Linux).
+        </p>
+
+
+    </section>
+
+</section>
+<section id="semantics">
+    <!-- review? -->
+    <h2><span></span>External Interface Requirements</h2>
+    <section id="person-org">
+        <!-- review? -->
+        <h3><span></span>User Interfaces</h3>
+        <p>
+            The menu bar of the website is present on all the other pages of the site and it directs the user to some
+            other key parts of the site.
+        </p>
+        <figure typeof="schema:SoftwareSourceCode" resource="#mathblock-example" id="mathblock-example"
+                role="doc-example">
+                <pre><code>
+                &lt;nav class="navbar"&gt;
+                    &lt;div class="logo"&gt;
+                        &lt;a href="index.html" target="_self"&gt;FURRY PARK&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;ul class="nav_list"&gt;
+                &lt;li&gt;
+                    &lt;a href="visit.html" target="_self"&gt;VISIT US&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;a href="animals.html" target="_self"&gt;ANIMALS&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;a href="donate.html" target="_self"&gt;DONATE&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;div class="meniu"&gt;
+                &lt;div class="line1"&gt;&lt;/div&gt;
+                &lt;div class="line2"&gt;&lt;/div&gt;
+                &lt;div class="line3"&gt;&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;/nav&gt;
+                </code></pre>
+            <img src="rsz_11menu_bar.PNG">
+            <figcaption></figcaption>
+        </figure>
+    </section>
+
+    <p>
+        The wepage is responsive so that it can adapt to any screen size.so for any existing screen our site is made to adapt immediately keeping
+        a pleasant organization in sight
+    </p>
+    <p>
+    <pre>
+                <code>
+                @media screen and (max-width:800px) {
+                    .container-v{
+                        width: 28rem;
+                        margin-bottom: 10rem;
+                    }
+                
+                    .body-v{
+                        height: 60rem;
+                    }
+                }
+                </code>
+            </pre>
+    </p>
+    <p>
+        The site works according to the following rules: if you want to visit the zoo, you must first make a reservation (which is done
+        by accessing the 'visit us' page in the navbar.After that you have the opportunity to support the zoo by equipping it with better
+        equipment, elements that improve the lives of animals through donations, which is possible by filling in the form on the donation
+        page that is on the side of the navbar.In order to make a plan with what to visit, what might interest you and all kinds of ideas,
+        we suggest you access the 'animals' page in the navbar, where you will be able to see which animals are eager to see you. You can
+        find out a lot of information about them, such as: scientific names, where they are found, if they are endangered, how long they
+        live, what they eat and many other curiosities.If you want to save the info on your computer,press the Export JSON button(to save it
+        as a json file) or on the Export button(to save it as a xml file).There is a secret feature for admins only: the import button,which
+        will appear on the animals page only if an admin is logged in.The import button allows the user to add a new animal to our database,
+        if the imported file is xml or json.
+        If our zoo was enough to make you smile, we invite you to be part of our family,
+        following just a few simple steps, that is to choose a username, a password, an email address to be up to date with all the
+        information related to animals and press the sign up button at the bottom of the page or on one of our pictures in the carousel
+        with pictures.
+        There will be an error displayed if any field of the forms is filled incorrectly. At the same time we will limit the number of
+        characters that can be written in forms to avoid modifying the database through the commands written in the boxes intended
+        for writing the information by the visitor.
+        If you are tired of us,you can always log out by pressing the log out button on the home page.
+    </p>
+    <img src="rsz_2error.png">
+    <section id="typing-sections">
+        <!-- review? -->
+        <h3><span></span>Hardware Interfaces</h3>
+        <p>
+            The minimum hardware requirements of the web-app are a Pentium 4 CPU or equivalent, 256
+            megabytes of RAM and 100MB disk space.
+        </p>
+    </section>
+    <section id="roles">
+        <!-- review? -->
+        <h3><span></span>Software Interfaces</h3>
+        <p>
+            The minimum requirements for the operating system are: minimum Windows XP SP2, OS X 10.5.6, Ubuntu 10.04,
+            Debian 6, OpenSuse 11.3, Fedora Linux 14 and any recent operating system for smartphones.Also, any recent
+            version of any browser that supports HTML5.
+        </p>
+    </section>
+    <section id="actions">
+        <!-- review? -->
+        <h3><span></span>Communications Interfaces</h3>
+        <p>
+            The web application does not require an internet connection or any other communication interface
+        </p>
+
+    </section>
+</section>
+<section id="scholarly-article">
+    <!-- review? -->
+    <h2><span></span>System Features</h2>
+    <p>
+        This section demonstrates the website's most prominent features and explains how they can be used and the results they will
+        give back to the user. The only solution to use the site is to have the database because it is a local one and otherwise you
+        would not have the necessary information to make certain orders.
+    </p>
+    <section>
+        <!-- review? -->
+        <h3><span>5.1</span> Import/export animal pages</h3>
+        <p>
+            If a user is logged in as an admin they can use the import/export button on the animal page.
+            Otherwise there will be an error displayed.
+            The admin can add an animal page by importing a file with the necessary information.
+            They can also export an animal page that is already on the website.
+        </p>
+        <p>
+            The available input/output file format is json.
+        </p>
+
+    </section>
+
+    <section>
+        <!-- review? -->
+        <h3><span>5.2</span> Filters</h3>
+        <p>
+            On the animal page there is a form based on keywords/tags. The user will recieve a list of animal
+            pages based on the applied filters.
+        </p>
+        <p>
+            On the bottom right side of the screen there is the reset button which
+            removes the selected filters.
+        </p>
+
+    </section>
+
+</section>
+<section>
+    <h2><span>6</span> References</h2>
+    <dl>
+        <dt id="ref-NYT">Scholarly HTML</dt>
+        <dd property="schema:citation" typeof="schema:ScholarlyArticle"
+            resource="https://w3c.github.io/scholarly-html/">
+            <cite property="schema:name"><a
+                    href="https://w3c.github.io/scholarly-html/">https://w3c.github.io/scholarly-html/</a></cite>
+        </dd>
+        <dt id="ref-HTML">IEEE-SRS-Tempate</dt>
+        <dd property="schema:citation" typeof="schema:WebPage" resource="https://github.com/rick4470/IEEE-SRS-Tempate">
+            <cite property="schema:name"><a href="https://github.com/rick4470/IEEE-SRS-Tempate">https://github.com/rick4470/IEEE-SRS-Tempates</a></cite>.
+        </dd>
+        <dt id="ref-WAI-ARIA">Course webpage</dt>
+        <dd property="schema:citation" typeof="schema:WebPage"
+            resource="https://profs.info.uaic.ro/~busaco/teach/courses/web/">
+            <cite property="schema:name"><a href="https://profs.info.uaic.ro/~busaco/teach/courses/web/">https://profs.info.uaic.ro/~busaco/teach/courses/web/</a></cite>.
+        </dd>
+
+    </dl>
+</section>
+</body>
+
+</html>

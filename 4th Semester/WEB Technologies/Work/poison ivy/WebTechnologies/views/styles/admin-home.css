@@ -1,0 +1,118 @@
+@import "nav.css";
+
+/* admin page css */
+
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #b3cef7;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #02121E;
+    border-radius: 20px;
+    border: 3px solid #b3cef7;
+}
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    scroll-behavior: smooth;
+    font-family: 'Nunito', sans-serif;
+    background-color: #b3cef7;
+    height: 100vh;
+    padding-top: 5em;
+}
+
+.admin-page {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.buton {
+    height: 3em;
+    width: 100%;
+    background: #CBC0D3;
+    border: none;
+    color: #02121E;
+    border-radius: 13px;
+    font-size: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: bold;
+    min-width: 4em;
+    margin: 3%;
+}
+
+.title {
+    margin: 3%;
+}
+
+@media screen and (max-width: 550px) {
+    .title {
+        margin: 3%;
+        font-size: 150%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .admin-page {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 10%;
+    }
+    .title {
+        margin-top: 5em;
+        margin: 3%;
+        font-size: 120%;
+    }
+    .buton {
+        height: 2em;
+        width: 100%;
+        background: #CBC0D3;
+        border: none;
+        color: #02121E;
+        border-radius: 13px;
+        font-size: 15px;
+        font-family: 'Nunito', sans-serif;
+        font-weight: bold;
+        min-width: 4em;
+        margin: 3%;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .title {
+        margin-top: 5em;
+        margin: 3%;
+        font-size: 105%;
+    }
+    .buton {
+        height: 2em;
+        width: 100%;
+        background: #CBC0D3;
+        border: none;
+        color: #02121E;
+        border-radius: 13px;
+        font-size: 12px;
+        font-family: 'Nunito', sans-serif;
+        font-weight: bold;
+        min-width: 4em;
+        margin: 3%;
+    }
+}

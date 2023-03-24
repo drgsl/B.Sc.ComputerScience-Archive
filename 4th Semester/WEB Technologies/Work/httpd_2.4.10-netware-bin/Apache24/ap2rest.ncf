@@ -1,0 +1,5 @@
+# NCF to restart Apache 2.x in own address space
+apache2 restart -p Apache24
+# If you have loaded Apache2.x in OS space use the line below.
+# apache2 restart
+

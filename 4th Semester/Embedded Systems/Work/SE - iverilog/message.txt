@@ -1,0 +1,155 @@
+v
+module ceas (
+    clk
+);
+    output reg clk;
+
+    always begin
+        #5 clk = ~clk;
+    end
+
+    initial begin
+        clk = 0;
+    end
+endmodule
+
+module product(Clk, start, x, y, r, ack);
+    input Clk, start;
+    input [31:0]x,y;
+    reg [3:0]counter;
+    output reg[31:0]r;
+    output reg ack;
+    reg [31:0]a,b;
+    reg [1:0]state;
+
+    always @(posedge Clk) begin
+        if(state == 0) begin
+            if(start == 1) begin
+                a <= x;
+                b <= y;
+                state <= 1;
+            end
+            else state <= 0;
+        end
+
+        else if (state == 1) begin
+            if (counter < b) begin
+                r <= r + a;
+                counter <= counter + 1;
+                state <= 1;
+            end
+
+            else state <= 2;
+        end
+
+        else if (state == 2) begin
+            ack <= 1;
+            state <= 3;
+        end
+
+        else if (state == 3) begin
+            state <= 4;
+        end
+
+        else if (state == 4) begin
+            state <= 0;
+            ack <= 0;
+        end
+    end
+
+    initial begin
+        state <= 0;
+        ack <= 0;
+        counter <= 0;
+        r <= 0;
+    end
+endmodule
+
+module putere(Clk, m, n, putere, start, ack);
+    input Clk, start;
+    input [31:0]m,n;
+    reg [3:0]counter;
+    output reg[31:0]putere;
+    wire [31:0] putereTemp;
+    output reg ack;
+
+    reg [31:0]a,b;
+    reg [3:0]state;
+
+    reg startPR;
+    wire ackPR;
+    product produs(Clk, startPR, a, putere, putereTemp, ackPR);
+
+    always @(posedge Clk) begin
+        if (state == 0) begin
+            if (start == 1) begin
+                a <= m;
+                b <= n;
+                counter <= 0;
+                putere <= 1;
+                state <= 1;
+            end
+            else state <= 0;
+        end
+
+        else if (state == 1) begin
+            if (counter <= b) begin
+                //facem produsul
+                startPR <= 1;
+                counter <= counter + 1;
+                state <= 2;
+            end
+            else state <= 8;
+        end
+
+        else if (state == 2) begin
+            if(ackPR == 1) begin
+                startPR <= 0;
+                putere <= putereTemp;
+                state <= 1;
+            end
+            else state <= 2;
+        end
+
+        else if (state == 8) begin
+            state <= 9;
+        end
+
+        else if (state == 9) begin
+            state <= 10;
+        end
+
+        else if (state == 10) begin
+            state <= 0;
+            ack <= 1;
+        end
+    end
+
+    initial begin
+        state <= 0;
+        ack <= 0;
+    end
+endmodule
+
+module main (
+);
+  wire c;
+  ceas clock(c);
+  
+  reg [31:0]x,y;
+  wire [31:0]r;
+  reg start;
+  wire ack;
+
+  putere forta(c, x, y, r, start, ack);
+
+  initial begin
+      $monitor("ack=%d, x=%d, y=%d, r=%d", ack, x, y, r);
+      x <= 6;
+      y <= 4;
+      #5 start <= 1;
+
+      #50 start <= 0;
+      #100 $stop();
+  end
+endmodule

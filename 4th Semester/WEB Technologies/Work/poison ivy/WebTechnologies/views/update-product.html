@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ivy sun - admins only</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/update-product.css">
+    <script src="updateProduct.js"></script>
+</head>
+
+<body onload="preloadStuff() && isAdminCookie()">
+    <div id="nav-background">
+        <div id="nav-container">
+            <header id="nav-header">
+                <h1><a class="nav-logo-function" href="index.html#home" id="nav-logo">
+            Ivy
+          </a></h1>
+                <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+            </header>
+            <nav>
+                <ul id="navv" class="nav-ul hide-ul">
+                    <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                    <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                    <li><a class="nav-link" href="makeup.html">Makeup</a></li>
+                    <li><a class="nav-link" href="search.html">Products</a></li>
+                    {{loggedin}}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script src="scripts/nav.js"></script>
+    <div class="title">
+        <b> Update product </b>
+    </div>
+
+    <div class="add-product-info">
+        <div class="info">
+            <label for="id">ID: </label>
+            <input disabled class="field" type="text" id="id" name="id" placeholder="   Makeup de seara">
+        </div>
+        <div class="info">
+            <label for="product-name">Product name: </label>
+            <input class="field" type="text" id="product-name" name="product-name" placeholder="   Makeup Revolution Wispy False Lash Mascara">
+        </div>
+
+        <div class="info">
+            <label for="product-link">Product link: </label>
+            <input class="field" type="text" id="product-link" name="product-link" placeholder="   https://makeupshop.ro/pagina/produs/categorie/ochi/mascara/produs.12561-mascara-makeup-revolution-wispy-false-lash-mascara">
+        </div>
+
+        <div class="info">
+            <label for="product-tag">Product tags: </label>
+            <input class="field" type="text" id="product-tag" name="product-tag" placeholder="   ">
+        </div>
+
+        <div class="info">
+            <label for="product-desc">Product description: </label>
+            <input class="field" type="text" id="product-desc" name="product-desc" placeholder="   Wispy False Lash Mascara este un rimel cu un finisaj natural, ce dispune de o perie unghiulara unica.">
+        </div>
+
+        <div class="info">
+            <label for="product-img">Product picture: </label>
+            <input class="field" type="text" id="product-img" name="product-img" placeholder="   MakeupRevolutionWispyFalseLashMascara.jpg">
+        </div>
+
+
+
+    </div>
+    <div class="save">
+        <button onclick="updateStuff()" class="btn-save"> Save </button>
+            <button onclick="deleteProduct()" class="btn-save"> Delete </button>
+        </a>
+    </div>
+</body>
+
+</html>

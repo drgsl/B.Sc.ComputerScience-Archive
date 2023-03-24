@@ -1,0 +1,8 @@
+# NCF to start Apache 2.x in own address space
+# Make sure that httpstk is not listening on 80
+# httpcloseport 80 /silent
+# search add SYS:/Apache24
+load address space = Apache24 SYS:/Apache24/apache2
+# If you have problems with 3rd-party modules try to load in OS space.
+# load SYS:/Apache24/apache2
+

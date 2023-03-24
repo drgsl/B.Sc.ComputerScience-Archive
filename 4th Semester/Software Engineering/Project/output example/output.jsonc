@@ -1,0 +1,35 @@
+[
+    {
+        "platform": "FB",
+        "count": 3,
+        "posts": [
+            {
+                "post": "This is a fb post"
+            },
+            {
+                "post": "This is another fb post"
+            },
+            {
+                "post": "The last but not least fb post"
+            }
+        ]
+    },
+    {
+        "platform": "Twitter",
+        "count": 4,
+        "posts": [
+            {
+                "post": "This is a tweet about politics"
+            },
+            {
+                "post": "This is a tweet about politics but this time i'm angry"
+            },
+            {
+                "post": "This is just a random thought I just had and wrote it on twitter"
+            },
+            {
+                "post": "This time i'm just spamming emojis to annoy the processing team"
+            }
+        ]
+    }
+]

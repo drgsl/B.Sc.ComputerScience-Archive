@@ -1,0 +1,37 @@
+https://askubuntu.com/questions/115619/using-usbdrive-as-ram-in-ubuntu
+
+I found out about this when I did it from http://www.tuxgarage.com/2011/07/add-virtual-ram-to-ubuntu-using-spare.html
+
+Plug-in your USB drive and make sure there are no important files on the drive. Delete all the files on the drive or re-format it and go to a Terminal.
+
+First, we need to unmount the drive if Ubuntu auto-mounted it when you plugged it in:
+
+sudo umount /media/drive-label
+Where 'drive-label' is the name you see for the USB drive when it is mounted.
+
+Or you can also do it this way:
+
+sudo umount /dev/sdx1
+Where 'sdx1' is your drive/partition letter. You can find it by running this command:
+
+sudo fdisk -l
+Now, we'll create the Swap file on your USB drive:
+
+sudo mkswap /dev/sdx1
+Where 'sdx1' is your drive letter we figured out from the output of 'fdisk -l' command above.
+
+Now, turn on your new Swap:
+
+sudo swapon -p 32767 /dev/sdx1
+Done!
+
+In order to make sure your new Swap is working, you can take a look at the output of this command:
+
+cat /proc/swaps
+My output is:
+
+/dev/sda2 partition 2047992 60692 -1
+/dev/sdb1 partition 7912708 17764 32767
+To take the stick out first turn off the Swap:
+
+sudo swapoff /dev/sdx1

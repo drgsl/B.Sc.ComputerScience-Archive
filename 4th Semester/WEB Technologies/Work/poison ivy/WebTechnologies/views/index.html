@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ivy sun</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/index.css">
+</head>
+
+<body class="image-display" onload=isAdminCookie()>
+    <div id="nav-background">
+        <div id="nav-container">
+            <header id="nav-header">
+                <h1><a class="nav-logo-function" href="index.html#home" id="nav-logo">
+      
+            Ivy
+          </a></h1>
+                <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+            </header>
+            <nav>
+                <ul id="navv" class="nav-ul hide-ul">
+                    <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                    <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                    <li><a class="nav-link" href="makeup.html">Makeup</a></li>
+                    <li><a class="nav-link" href="search.html">Products</a></li>
+                    {{loggedin}}
+
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="home-area" id="home">
+        <div class="text-part">
+            <h3>All about your skin</h3>
+            <p><b>Our advices make the beauty world better</b></p>
+
+        </div>
+    </div>
+    <div class="about-area" id="about">
+        <div class="about-section">
+            <div class="inner-container">
+                <h1>About Us</h1>
+                <p class="text">
+                    Our mission is that every Makeup enthusiast to have the best advices when it commes for beauty choices.
+                </p>
+                <div class="skills">
+                    <div class="skill-name">Beauty form </div>
+                    <div class="skill-name">New articles</div>
+                    <div class="skill-name">Makeup types</div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+
+    <div class="container">
+        <div class="contact-area-text">
+            <h2>Contact Us</h2>
+            <p>Feedback, improvements, or other things that might interest our community</p>
+        </div>
+        <div class="contact-area" id="contact">
+            <div class="row">
+                <div class="column">
+                    <img src="https://i.imgur.com/83QRv1s.gif" class="contact-pic">
+                </div>
+                <script src="scripts/contact.js"></script>
+                <div class="column">
+                    <form id="form-centering">
+                        <label for="fname">First Name</label>
+                        <input type="text" id="fname" name="firstname" placeholder="Your name..." class="contact-form">
+                        <label for="lname">Last Name</label>
+                        <input type="text" id="lname" name="lastname" placeholder="Your last name..." class="contact-form">
+                        <label for="country">Country</label>
+                        <select id="country" name="country" class="contact-form">
+            <option value="Romania">Romania</option>
+            <option value="Canada">Canada</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="Australia">Australia</option>
+            <option value="India">India</option>
+            <option value="France">France</option>
+            <option value="Spain">Spain</option>
+            <option value="Greece">Greece</option>
+            <option value="USA">USA</option>
+          </select>
+                        <label for="subject">Subject</label>
+                        <textarea id="subject" name="subject" placeholder="Write something..." class="contact-text"></textarea>
+                        <button type="submit" value="Submit" class="contact-submit" onclick="getAllPlaceHoldersAndPost()">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer class="footer-reference">
+        <p>Authors: Coteanu Andra & Hrib Ecaterina & Marele Carina </p>
+        <p> <a href="doc.html"> Scholarly HTML Documentation </a></p>
+    </footer>
+    <script src="scripts/nav.js"></script>
+</body>
+
+</html>

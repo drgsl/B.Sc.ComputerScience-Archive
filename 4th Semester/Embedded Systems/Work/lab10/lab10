@@ -1,0 +1,8 @@
+#include <8051.h>
+int main()
+{
+    while(1)
+        if(P2 == 1)
+            P1 = 0b11000000;
+}
+

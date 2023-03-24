@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7bbdd0b0-8d1a-4d39-8518-2dfb97f2e6c3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/description.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/project-template.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/RouteSeeker.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Route Seeker Project/RouteSeeker/SavedFrame.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeeker2/RouteSeeker.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/ConfigPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/ControlPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Controller.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Database.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/DrawingPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Edge.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/EdgeModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/EdgeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Graph.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Line.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Load.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/MainFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/NodeModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/NodeRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/RouteSeekerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/java/com/project/RouteSeeker/Solver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/resources/Edges.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/resources/Nodes.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../RouteSeekerSpring/project/src/test/java/com/project/RouteSeeker/RouteSeekerApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="29yNKT5U0RjYpgHsxRjLfsFYSGz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="untitled104" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="company" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="project" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="project.Main" />
+      <module name="RouteSeeker" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7bbdd0b0-8d1a-4d39-8518-2dfb97f2e6c3" name="Changes" comment="" />
+      <created>1654081301620</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1654081301620</updated>
+      <workItem from="1654223484669" duration="27000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

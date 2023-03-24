@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/signup.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Visit Us</title>
+</head>
+<body>
+
+<header class="header">
+    <!-- Logo -->
+    <a href="../PHP/index.php" class="logo" target="_self">Furry Park</a>
+    <!-- Hamburger icon -->
+    <input class="side-menu" type="checkbox" id="side-menu"/>
+    <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+    <!-- Menu -->
+    <nav class="nav">
+        <ul class="menu">
+            <li><a href="visit.html">Visit Us</a></li>
+            <li><a href="donate.html">Donate</a></li>
+            <li><a href="../PHP/animals.php">Animals</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="body-s">
+    <div class="container-v">
+        <div class="header-v">
+            <h2>Register</h2>
+        </div>
+
+        <form class="form-v" action="../PHP/server.php" method="post">
+
+            <div class="form-control-v">
+                <label>Full Name</label>
+                <input type="text" name="txtUsername" placeholder="John Doe" id="txtUsername">
+            </div>
+
+            <div class="form-control-v">
+                <label>Email</label>
+                <input type="email" name="txtMail" placeholder="blabla@bla.com" id="txtMail">
+            </div>
+
+            <div class="form-control-v">
+                <label>Password</label>
+                <input type="password" name="txtPassword"
+                       placeholder="You have to use minimum 8 characters and a number" id="txtPassword">
+            </div>
+
+            <div class="form-control-v">
+                <label> Repeat Password </label>
+                <input type="password" name="rpsw" placeholder="Don't cheat !" id="rpsw">
+            </div>
+
+            <div class="form-control-v">
+                <button type="submit" class="btn" name="reg_user">Sign Up</button>
+            </div>
+
+            <div class="sign">
+                <h4>Already have an account?</h4>
+            </div>
+
+            <div>
+                <a class="buttonSip" href="signin.html" target="_self">Sign-in</a>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+</body>
+
+</html>

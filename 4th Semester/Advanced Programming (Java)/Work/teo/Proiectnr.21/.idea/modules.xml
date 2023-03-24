@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Proiect(nr.21)/Correct an Address/Proiect/Client.iml" filepath="$PROJECT_DIR$/Proiect(nr.21)/Correct an Address/Proiect/Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Proiect(nr.21)/Correct an Address/Server/Compulsory.iml" filepath="$PROJECT_DIR$/Proiect(nr.21)/Correct an Address/Server/Compulsory.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Proiect(nr.21)/Proiect/Proiect.iml" filepath="$PROJECT_DIR$/Proiect(nr.21)/Proiect/Proiect.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Proiectnr.21.iml" filepath="$PROJECT_DIR$/.idea/Proiectnr.21.iml" />
+    </modules>
+  </component>
+</project>

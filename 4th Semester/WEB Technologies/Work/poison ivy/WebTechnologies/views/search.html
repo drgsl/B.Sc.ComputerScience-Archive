@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Ivy sun </title>
+    <link href="styles/search.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+</head>
+
+<body onload="populateData() && isAdminCookie()">
+    <div class="div-body">
+        <div id="nav-background">
+            <div id="nav-container">
+                <header id="nav-header">
+                    <h1>
+                        <a class="nav-logo-function" href="index.html#home" id="nav-logo"> Ivy </a>
+                    </h1>
+                    <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+                </header>
+                <nav>
+                    <ul id="navv" class="nav-ul hide-ul">
+                        <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                        <li><a class="nav-link" href="makeup.html">Makeup</a></li>
+                        <li><a class="nav-link" href="search.html">Products</a></li>
+                        {{loggedin}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <script src="scripts/nav.js"></script>
+
+        <div class="page">
+            <div class="left">
+                <div class="title"> Filter </div>
+
+                <div class="subtitle">
+
+                    <span>
+                        <input onchange="disableSlider()" checked type="checkbox" id="ageFilter" value="ageFilter">
+                        <label for="ageFilter"> <b id="agep" class="susbtitle1"> Age: 35</b> </p>
+                    </span>
+                    <input onchange="updateSlider(this.value)" id="megaSlider" class="slider" type="range" min="12" max="100" value="35">
+                </div>
+
+                <div class="subtitle"> <b class="susbtitle1"> Skin type: </b>
+                    <form>
+                        <input type="checkbox" id="skin1" class="checkboxfilter" value="oily">
+                        <label for="skin1"> oily</label><br>
+                        <input type="checkbox" id="skin2" class="checkboxfilter" value="balanced">
+                        <label for="skin2"> balanced</label><br>
+                        <input type="checkbox" id="skin3" class="checkboxfilter" value="dry">
+                        <label for="skin3"> dry</label><br>
+                        <input type="checkbox" id="skin4" class="checkboxfilter" value="combination">
+                        <label for="skin4"> combination</label><br>
+                        <br>
+                    </form>
+                </div>
+
+                <div class="subtitle"> <b class="susbtitle1"> Time of the day: </b>
+                    <form>
+                        <input type="checkbox" id="day1" class="checkboxfilter" value="daily">
+                        <label for="day1"> daily</label><br>
+                        <input type="checkbox" id="day2" class="checkboxfilter" value="fancy">
+                        <label for="day2"> fancy</label><br>
+                        <input type="checkbox" id="day3" class="checkboxfilter" value="natural">
+                        <label for="day3"> natural</label><br>
+                        <input type="checkbox" id="day4" class="checkboxfilter" value="event">
+                        <label for="day4"> event</label><br><br>
+                    </form>
+                </div>
+
+                <div class="subtitle"> <b class="susbtitle1"> Color palette: </b>
+                    <form>
+                        <input type="checkbox" id="color1" class="checkboxfilter" value="earthy browns">
+                        <label for="color1"> earthy browns</label><br>
+                        <input type="checkbox" id="color2" class="checkboxfilter" value="bright reds">
+                        <label for="color2"> bright reds</label><br>
+                        <input type="checkbox" id="color3" class="checkboxfilter" value="nature green">
+                        <label for="color3"> nature green</label><br>
+                        <input type="checkbox" id="color4" class="checkboxfilter" value="sky blue">
+                        <label for="color4"> sky blue</label><br>
+                        <input type="checkbox" id="color5" class="checkboxfilter" value="unicorn pastels">
+                        <label for="color5"> unicorn pastels</label><br>
+                        <input type="checkbox" id="color6" class="checkboxfilter" value="pink dreams">
+                        <label for="color6"> pink dreams</label><br>
+                        <input type="checkbox" id="color7" class="checkboxfilter" value="smokey eyes">
+                        <label for="color7"> smokey eyes</label><br>
+                        <input type="checkbox" id="color8" class="checkboxfilter" value="monochrome">
+                        <label for="color8"> monochrome</label><br><br>
+                    </form>
+
+                    <button onclick="filterByAnything()" class="button-filter" type="button" value="Filter"> Filter </button>
+                </div>
+
+
+
+            </div>
+            <div class="right">
+                <div class="search-section">
+                    <input type="text" id="searchbar" onchange="filterByName()" class="search-input" placeholder="search by name">
+                    <button class="search-button" type="button" value="Search" onclick="populateData()">All products</button>
+
+                </div>
+                <div class="product-section">
+
+                    <div class="row" id="productSection">
+
+
+                        <script src="scripts/search.js">
+                        </script>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <footer class="footer-reference">
+            <br>
+            <p>Authors: Coteanu Andra & Hrib Ecaterina & Marele Carina </p>
+            <p> <a href="doc.html"> Scholarly HTML Documentation </a></p>
+        </footer>
+</body>
+
+</html>

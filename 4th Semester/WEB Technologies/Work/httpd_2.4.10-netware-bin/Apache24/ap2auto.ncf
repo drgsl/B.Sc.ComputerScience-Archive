@@ -1,0 +1,7 @@
+# NCF to start Apache 2.x in own address space
+# and let automatically restart in case it crashes
+# Make sure that httpstk is not listening on 80
+# httpcloseport 80 /silent
+# search add SYS:/Apache24
+restart address space = Apache24 SYS:/Apache24/apache2
+

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ivy sun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/login.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+</head>
+
+<body onload=isAdminCookie()>
+    <div class="full-page">
+        <div id="nav-background">
+            <div id="nav-container">
+                <header id="nav-header">
+                    <h1><a class="nav-logo-function" href="index.html#home" id="nav-logo">
+
+              Ivy
+            </a></h1>
+                    <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+                </header>
+                <nav>
+                    <ul id="navv" class="nav-ul hide-ul">
+                        <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                        <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                        <li><a class="nav-link" href="makeup.html">Makeup</a></li>
+                        <li><a class="nav-link" href="search.html">Products</a></li>
+                        {{loggedin}}
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <script src="scripts/nav.js"></script>
+        <script src="scripts/search.js"></script>
+        <script src="scripts/searchMakeup.js"></script>
+        <div id='login-form' class='login-page'>
+
+            <div class="form-box">
+                <div class='button-box'>
+                    <div id='btn'></div>
+                    <button type='button' onclick='login()' class='toggle-btn'>Log In</button>
+                    <button type='button' onclick='register()' class='toggle-btn'>Register</button>
+                </div>
+
+                <form id='login' class='input-group-login'>
+                    <input type='text' id="emaillogin" class='input-field' placeholder='Email' required>
+                    <input type='password' id="passwordlogin" class='input-field' placeholder='Enter Password' required>
+                    <div class="remember-check">
+                        <input type='checkbox' class='check-box'> <b class="remember"> Remember Password </b>
+                    </div>
+
+                    <button type='button' class='submit-btn' onclick="loginUser()">Log in</button>
+                </form>
+
+                <form id='register' class='input-group-register'>
+                    <input id="firstName" type='text' class='input-field' placeholder='First Name' required>
+                    <input id="lastName" type='text' class='input-field' placeholder='Last Name ' required>
+                    <input id="email" type='email' class='input-field' placeholder='Email' required>
+                    <input id="password" type='password' class='input-field' placeholder='Enter Password' required>
+                    <input type='password' class='input-field' placeholder='Confirm Password' required>
+                    <input type='checkbox' class='check-box'> <b class="remember"> I agree to the <a href="doc.html">terms and
+              conditions</a> </b>
+                    <button type='button' onclick="registerUser()" class='submit-btn'>Register</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        var navButton = document.querySelector("#nav-menu-button");
+        var navUl = document.querySelector(".nav-ul");
+
+        function toggleMobileMenu() {
+            navUl.classList.toggle("hide-ul");
+        }
+
+        navButton.onclick = toggleMobileMenu;
+    </script>
+
+    <script>
+        var a = document.getElementById('login-form').style.display = 'block';
+        var x = document.getElementById('login');
+        var y = document.getElementById('register');
+        var z = document.getElementById('btn');
+
+        function register() {
+            x.style.left = '-46.25em';
+            y.style.left = '4.25em';
+            z.style.left = '5.55em';
+        }
+
+        function login() {
+
+            x.style.left = '4.25em';
+            y.style.left = '43.75em';
+            z.style.left = '0em';
+        }
+
+        function myfunctiononclick() {
+            document.location.href = "Myaccount.html";
+        }
+
+        async function registerUser() {
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            var data = {
+                id_user: "0",
+                username: firstName + " " + lastName,
+                email: email,
+                password: password,
+                is_admin: "0"
+            }
+            const response = await fetch("https://ivy-sun.herokuapp.com/api/v1/users/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+                    // TODO: verif pswd si confirm pswd sa fie la fel; bifat terms; redirect catre index.html + navbar
+            })
+
+            window.location.href = "https://ivy-sun.herokuapp.com/registered";
+        }
+        async function loginUser() {
+            var email = document.getElementById("emaillogin").value;
+            var password = document.getElementById("passwordlogin").value;
+
+            var data = {
+                email: email,
+                password: password
+            }
+            const response = (await fetch("https://ivy-sun.herokuapp.com/api/v1/token/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+
+                // TODO: verif pswd si confirm pswd sa fie la fel; bifat terms; redirect catre index.html + navbar
+            })).json().then((data) => {
+                if (data["token"] === "") {
+                    alert("ce ai facut jonutsule");
+                } else {
+                    console.log(data)
+                    document.cookie = "token=" + data["token"];
+                    window.location.href = "https://ivy-sun.herokuapp.com/search.html";
+                }
+
+            });
+
+        }
+    </script>
+
+</body>
+
+</html>

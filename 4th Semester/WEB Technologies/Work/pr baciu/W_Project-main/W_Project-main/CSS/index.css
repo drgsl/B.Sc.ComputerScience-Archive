@@ -1,0 +1,763 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.body {
+    height: auto;
+}
+
+/* --------------------------------------------------bara de navigare----universal---------------------------------------*/
+.header {
+    background-color: #333;
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 5.5rem;
+}
+
+.logo {
+    display: inline-block;
+    color: rgb(218, 212, 212);
+    font-size: 50px;
+    margin-left: 2rem;
+}
+
+/* Nav menu */
+.nav {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #333;
+    overflow: hidden;
+    z-index: 99;
+}
+
+.menu a {
+    display: block;
+    padding: 30px;
+    color: rgb(218, 212, 212);
+    font-size: 250%;
+    margin-top: 5rem;
+}
+
+.menu a:hover {
+    background-color: grey;
+}
+
+.nav {
+    max-height: 0;
+    transition: max-height .5s ease-out;
+}
+
+/* Menu Icon */
+.hamb {
+    cursor: pointer;
+    float: right;
+    padding: 40px 20px;
+}
+
+/* Style label tag */
+
+.hamb-line {
+    background: white;
+    display: block;
+    height: 3px;
+    position: relative;
+    width: 30px;
+
+}
+
+/* Style span tag */
+
+.hamb-line::before,
+.hamb-line::after {
+    background: white;
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 100%;
+}
+
+.hamb-line::before {
+    top: 5px;
+}
+
+.hamb-line::after {
+    top: -5px;
+}
+
+.side-menu {
+    display: none;
+}
+
+/* Hide checkbox */
+
+/* Toggle menu icon */
+.side-menu:checked ~ nav {
+    max-height: 100%;
+}
+
+.side-menu:checked ~ .hamb .hamb-line {
+    background: transparent;
+}
+
+.side-menu:checked ~ .hamb .hamb-line::before {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+.side-menu:checked ~ .hamb .hamb-line::after {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+/*---------------------------------------------------Imaginile principale----------------------------------------------------*/
+
+/* am setat ca toate imaginile sa aibe aceeasi dimensiune*/
+
+img {
+    vertical-align: middle;
+    width: 30px;
+    height: 570px;
+    z-index: 1;
+}
+
+
+.container {
+    position: relative;
+}
+
+.slide {
+    display: none;
+}
+
+
+.slide-divs {
+    display: flex;
+}
+
+.slide-div {
+    display: flex;
+}
+
+.slide_color1 {
+    background-color: #2468a5;
+}
+
+.slide_color2 {
+    background-color: #65a051;
+    text-align: left;
+}
+
+.slide_color3 {
+    background-color: #e57b2c;
+}
+
+
+/* Next si prev -- butoanele */
+.prev,
+.next {
+    cursor: pointer;
+    position: absolute;
+    top: 40%;
+    width: auto;
+    padding: 26px;
+    margin-top: -50px;
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* cand dai cu mouseul peste adaugam o culoare de background sa se vada frumos*/
+.prev:hover,
+.next:hover {
+    background-color: rgba(46, 44, 44, 0.8);
+}
+
+#first-img {
+    display: block;
+}
+
+.demo {
+    opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+    opacity: 1;
+}
+
+.slide_color1 h1 {
+    color: #f7f7f7;
+    font-size: 370%;
+    margin-left: 6rem;
+    margin-top: 4rem;
+    font-family: 'Palette Mosaic', cursive;
+    margin-bottom: 3rem;
+
+}
+
+.slide_color1 h2 {
+    color: #f7f7f7;
+    font-size: 180%;
+    margin-left: 6rem;
+    font-family: 'Palette Mosaic', cursive;
+    margin-bottom: 4rem;
+}
+
+.slide_color2 h1 {
+    color: #333;
+    font-size: 800%;
+    margin-left: 6rem;
+    margin-top: 4rem;
+    font-family: 'Palette Mosaic', cursive;
+
+}
+
+.slide_color3 h1 {
+    color: #333;
+    font-size: 400%;
+    margin-left: 6rem;
+    margin-top: 4rem;
+    font-family: 'Palette Mosaic', cursive;
+
+}
+
+.slide_color3 h2 {
+    color: #333;
+    font-size: 200%;
+    margin-left: 6rem;
+    margin-top: 4rem;
+    font-family: 'Palette Mosaic', cursive;
+    margin-bottom: 3rem;
+
+}
+
+.slide_color2 h2 {
+    color: #333;
+    font-size: 300%;
+    margin-left: 6rem;
+    font-family: 'Palette Mosaic', cursive;
+    margin-bottom: 4rem;
+}
+
+.btn-color {
+    margin-top: 4rem;
+}
+
+.btn-color1 a {
+    text-decoration: none;
+    font-size: 160%;
+    border: 3px solid #f7f7f7;
+    border-radius: 10px;
+    margin-left: 6rem;
+    background-color: #A56124;
+    font-family: 'Palette Mosaic', cursive;
+    height: 3rem;
+    color: #f7f7f7;
+}
+
+.btn-color2 a {
+    text-decoration: none;
+    font-size: 160%;
+    border: 3px solid #f7f7f7;
+    border-radius: 10px;
+    margin-left: 6rem;
+    background-color: #8e44ad;
+    font-family: 'Palette Mosaic', cursive;
+    height: 3rem;
+    color: #f7f7f7;
+
+}
+
+.btn-color3 a {
+    text-decoration: none;
+    font-size: 160%;
+    border: 3px solid #333;
+    border-width: 4px;
+    border-radius: 10px;
+    margin-left: 6rem;
+    background-color: #2C96E5;
+    font-family: 'Palette Mosaic', cursive;
+    height: 3rem;
+    color: #f7f7f7;
+
+}
+
+.btn-color a:hover {
+    background-color: #ca7f46;
+}
+
+/*---------------------------------------------------------Sfarsit imagini-----------------------------------------------------*/
+
+/* -------------------------------------------------------Bara cu informatii----------------------------------------------------*/
+
+.bar-2 {
+    display: flex;
+    height: 6rem;
+    width: auto;
+    background-color: rgb(226, 161, 41);
+    margin-top: 0;
+}
+
+.infos {
+    display: flex;
+    font-size: 170%;
+    margin-left: 33rem;
+    font-family: 'Palette Mosaic', cursive;
+    color: rgb(12, 69, 12);
+    margin-top: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+
+/*--------------------------------------------------------------Footer----------------------------------------------------------*/
+.sign-up {
+    margin-top: 4rem;
+    font-size: 110%;
+
+}
+
+.footer {
+    height: 15rem;
+    background-color: #333;
+}
+
+
+.signmsg h2 {
+    color: #e57b2c;
+    font-size: 330%;
+    margin-left: 12rem;
+}
+
+.signmsg h4 {
+    color: #ffffff;
+    font-size: 130%;
+    margin-left: 12rem;
+    margin-top: 2rem;
+}
+
+.signup {
+    height: 2.5rem;
+    width: 6rem;
+    border-color: #333;
+    background-color: #e57b2c;
+    border: 3px solid #f7f7f7;
+    margin-left: 12rem;
+    margin-top: 2rem;
+    border-radius: 10px;
+}
+
+
+.signup a {
+    font-size: 160%;
+    text-decoration: none;
+    text-align: center;
+    color: #ffffff
+}
+
+/*-----------------------------------------------------------------------------------------------------------------------------------*/
+
+
+/* pentru caruselul de imagini; il fac responsive   si pentru bara a doua unde avem mesajul de salut*/
+
+
+/* pentru a mari spatiul dintre iteme cand micsorez fereastra si totodata pentru pozele din carusel, mesajul de salut, si butoanele
+de reservare, donare, si inregistrare*/
+
+@media screen and (max-width: 1200px) {
+    .nav_list {
+        width: 73%;
+    }
+
+    .infos {
+        margin-left: 34%;
+        font-size: 140%;
+    }
+
+    img#cangur {
+        height: auto;
+    }
+
+    img#tigru {
+        height: auto;
+    }
+
+    img#pasari {
+        height: auto;
+    }
+
+    img#primapasari {
+        height: 30rem;
+    }
+
+    .slide_color2 h2 {
+        font-size: 230%;
+    }
+
+    .slide_color2 h1 {
+        font-size: 415%;
+    }
+
+    .slide_color1 h2 {
+        font-size: 145%;
+    }
+
+    .slide_color1 h1 {
+        font-size: 285%;
+    }
+
+    .slide_color3 h2 {
+        font-size: 145%;
+    }
+
+    .slide_color3 h1 {
+        font-size: 245%;
+    }
+
+    .slide-div {
+        height: 30rem;
+    }
+
+    .footer {
+        height: 13rem;
+    }
+
+    .signmsg h2 {
+        margin-left: 11%
+    }
+
+    .signmsg h4 {
+        margin-left: 11%;
+    }
+
+    .signup {
+        margin-left: 11%;
+    }
+
+}
+
+
+/* pentru bara de navigare  */
+
+@media screen and (max-width: 900px) {
+
+    .nav_list li {
+        opacity: 0;
+    }
+
+    .meniu {
+        display: block;
+    }
+
+    .infos h2 {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 150%;
+    }
+
+    .signmsg h2 {
+        color: #e57b2c;
+        font-size: 250%;
+        margin-left: 20%;
+
+    }
+
+    .signmsg h4 {
+        color: #ffffff;
+        font-size: 120%;
+        margin-left: 15%;
+        margin-top: 2rem;
+
+    }
+
+    .signup {
+        height: 2.5rem;
+        width: 6rem;
+        border-color: #333;
+        background-color: #e57b2c;
+        border: 3px solid #f7f7f7;
+        margin-left: 15%;
+        margin-top: 2rem;
+        border-radius: 10px;
+    }
+
+}
+
+
+@media screen and (max-width: 800px) {
+
+    #slide1 {
+        height: 31rem;
+        background-color: #2468a5;
+    }
+
+    #slide2 {
+        height: 31rem;
+        background-color: #65a051;
+    }
+
+    #slide3 {
+        height: 31rem;
+        background-color: #e57b2c;
+    }
+
+    img#primapasari {
+        height: 31rem;
+    }
+
+    img#pasari {
+        display: none;
+    }
+
+    img#tigru {
+        display: none;
+    }
+
+    img#cangur {
+        display: none;
+    }
+
+    .slide_color2 h2 {
+        font-size: 230%;
+    }
+
+    .slide_color2 h1 {
+        font-size: 465%;
+    }
+
+    .slide_color1 h2 {
+        font-size: 155%;
+    }
+
+    .slide_color1 h1 {
+        font-size: 285%;
+    }
+
+    .slide_color3 h2 {
+        font-size: 155%;
+    }
+
+    .slide_color3 h1 {
+        font-size: 285%;
+    }
+
+    .bar-2 {
+        width: 100%;
+    }
+
+    .infos {
+        margin-left: 4rem;
+        font-size: 140%;
+    }
+
+    .footer {
+        height: 15rem;
+    }
+
+    .signmsg h2 {
+        font-size: 220%;
+        margin-left: 8rem;
+
+    }
+
+    .signmsg h4 {
+        font-size: 110%;
+        margin-left: 6rem;
+
+    }
+
+    .infos h2 {
+        margin-left: 8rem;
+        font-size: 130%;
+    }
+
+    .signup {
+        height: 2rem;
+        width: 5rem;
+        border-color: #333;
+        background-color: #e57b2c;
+        border: 3px solid #f7f7f7;
+        margin-left: 15%;
+
+        margin-top: 2rem;
+        border-radius: 10px;
+    }
+
+    .signup a {
+        font-size: 125%;
+    }
+
+}
+
+@media screen and (max-width: 635px) {
+    .signmsg h2 {
+        color: #e57b2c;
+        font-size: 190%;
+        margin-left: 17%;
+
+    }
+
+    .signmsg h4 {
+        color: #ffffff;
+        font-size: 110%;
+        margin-left: 15%;
+        margin-top: 2rem;
+
+    }
+
+    .infos h2 {
+        margin-left: 5rem;
+
+        font-size: 120%;
+    }
+
+    .header a {
+        font-size: 270%;
+    }
+}
+
+
+@media screen and (max-width: 510px) {
+    .infos h2 {
+        margin-left: 3rem;
+        font-size: 110%;
+    }
+
+    .signmsg h2 {
+        color: #e57b2c;
+        font-size: 170%;
+        margin-left: 13%;
+
+    }
+
+    .signmsg h4 {
+        color: #ffffff;
+        font-size: 110%;
+        margin-left: 13%;
+        margin-top: 2rem;
+
+    }
+
+    .header a {
+        font-size: 250%;
+    }
+
+    .slide_color2 h1 {
+        font-size: 300%;
+        margin-left: 17%;
+    }
+
+    .slide_color2 h2 {
+        font-size: 200%;
+        margin-top: 1rem;
+        margin-left: 17%;
+    }
+
+    .btn-color2 a {
+        font-size: 150%;
+        margin-left: 25%;
+
+    }
+
+    .slide_color3 h1 {
+        font-size: 270%;
+        margin-left: 17%;
+    }
+
+    .slide_color3 h2 {
+        font-size: 160%;
+        margin-top: 1rem;
+        margin-left: 17%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .infos h2 {
+        margin-left: 1rem;
+        font-size: 110%;
+    }
+
+    .slide_color3 h1 {
+        font-size: 220%;
+        margin-left: 17%;
+    }
+
+    .slide_color3 h2 {
+        font-size: 160%;
+        margin-top: 1rem;
+        margin-left: 17%;
+    }
+
+    .slide_color1 h1 {
+        font-size: 220%;
+        margin-left: 17%;
+    }
+
+    .slide_color1 h2 {
+        font-size: 160%;
+        margin-top: 1rem;
+        margin-left: 17%;
+    }
+
+    .btn-color1 a {
+        font-size: 120%;
+        border: 3px solid #f7f7f7;
+        border-radius: 10px;
+        background-color: #A56124;
+        font-family: 'Palette Mosaic', cursive;
+        height: 3rem;
+        color: #f7f7f7;
+        margin-left: 4rem;
+    }
+}
+
+/* Responsiveness */
+@media (min-width: 900px) {
+    .nav {
+        max-height: none;
+        top: 0;
+        position: sticky;
+        float: right;
+        width: fit-content;
+    }
+
+    .menu li {
+        float: left;
+        top: 0;
+    }
+
+    .menu a {
+        margin-top: -1.2rem;
+    }
+
+    .menu a:hover {
+        background-color: transparent;
+        color: grey;
+    }
+
+    .hamb {
+        display: none;
+    }
+}

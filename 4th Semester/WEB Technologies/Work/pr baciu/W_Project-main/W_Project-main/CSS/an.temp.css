@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.body {
+    height: auto;
+}
+
+/* --------------------------------------------------bara de navigare----universal---------------------------------------*/
+.header {
+    background-color: #333;
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 6rem;
+}
+
+.logo {
+    display: inline-block;
+    color: rgb(218, 212, 212);
+    font-size: 50px;
+    margin-left: 2rem;
+}
+
+
+
+/* Nav menu */
+.nav {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: #333;
+    overflow: hidden;
+    z-index: 99;
+}
+
+.menu a {
+    display: block;
+    padding: 30px;
+    color: rgb(218, 212, 212);
+    font-size: 250%;
+    margin-top: 5rem;
+}
+
+.menu a:hover {
+    background-color: grey;
+}
+
+.nav {
+    max-height: 0;
+    transition: max-height .5s ease-out;
+}
+
+/* Menu Icon */
+.hamb {
+    cursor: pointer;
+    float: right;
+    padding: 40px 20px;
+}
+
+/* Style label tag */
+
+.hamb-line {
+    background: white;
+    display: block;
+    height: 3px;
+    position: relative;
+    width: 30px;
+
+}
+
+/* Style span tag */
+
+.hamb-line::before,
+.hamb-line::after {
+    background: white;
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all .2s ease-out;
+    width: 100%;
+}
+
+.hamb-line::before {
+    top: 5px;
+}
+
+.hamb-line::after {
+    top: -5px;
+}
+
+.side-menu {
+    display: none;
+}
+
+/* Hide checkbox */
+
+/* Toggle menu icon */
+.side-menu:checked ~ nav {
+    max-height: 100%;
+}
+
+.side-menu:checked ~ .hamb .hamb-line {
+    background: transparent;
+}
+
+.side-menu:checked ~ .hamb .hamb-line::before {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+.side-menu:checked ~ .hamb .hamb-line::after {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+
+.pozeanimale{
+    display: block;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4rem;
+}
+
+.text{
+    font-size: 150%;
+
+}
+
+.bucati{
+    display: flex;
+    margin-left: 15%;
+    margin-top: 3rem;
+}
+
+.bucati2{
+    margin-left: 15%;
+    margin-top: 3rem;
+}
+
+.info_anim{
+    font-size: 200%;
+    margin-left: 1rem;
+}
+
+.info{
+    font-size: 180%;
+}
+
+.button{
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+    float: right;
+    margin-right: 2rem;
+    display: block;
+}
+
+/*.button a{
+    border: 2px solid black;
+    background-color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    border-color: #ff9800;
+    color: orange;
+}*/
+
+
+.button a:hover {
+    background: #0b3fa0;
+    color: white;
+}
+
+
+@media (max-width:900px)
+{
+    .info_anim{
+        font-size: 140%;
+    }
+    
+    .info{
+        font-size: 150%;
+    }
+
+    .text{
+        font-size: 90%;
+    }
+    
+}
+
+@media (max-width:900px){
+    .text{
+        font-size: 80%;
+    }
+}
+
+/* Responsiveness */
+@media (min-width: 900px) {
+    .nav {
+        max-height: none;
+        top: 0;
+        position: sticky;
+        float: right;
+        width: fit-content;
+    }
+
+    .menu li {
+        float: left;
+        top: 0;
+    }
+
+    .menu a {
+        margin-top: -1.2rem;
+    }
+
+    .menu a:hover {
+        background-color: transparent;
+        color: grey;
+    }
+
+    .hamb {
+        display: none;
+    }
+}

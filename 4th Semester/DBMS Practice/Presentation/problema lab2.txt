@@ -1,0 +1,6 @@
+Pentru cursurile la care s-au pus note de 4 afisati care sunt acestea, cate note de 4 sunt de fiecare curs si care studenti au luat aceste note (restantierii). Numerotati studentii de la 1 la n. 
+Veti afisa de exemplu:  1. Cursul Logica are 100 restantieri. Studentii restantieri sunt: 
+1. Popescu Ion
+2. Vasilescu Vasile
+...
+100. Ionescu Ion

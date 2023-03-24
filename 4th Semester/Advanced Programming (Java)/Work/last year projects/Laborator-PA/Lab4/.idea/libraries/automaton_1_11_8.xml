@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="automaton-1.11-8">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../JavaFakerLibs/automaton-1.11-8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../JavaFakerLibs/commons-lang3-3.5_1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../JavaFakerLibs/generex-1.0.2_1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../JavaFakerLibs/javafaker-1.0.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../JavaFakerLibs/snakeyaml-1.23-android.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

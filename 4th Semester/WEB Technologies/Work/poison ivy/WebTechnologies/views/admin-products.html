@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ivy sun - admins only</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/admin-product.css">
+</head>
+
+<body onload="populateData() && isAdminCookie()">
+    <div id="nav-background">
+        <div id="nav-container">
+            <header id="nav-header">
+                <h1><a class="nav-logo-function" href="index.html#home" id="nav-logo">
+                  Ivy
+                </a></h1>
+                <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+            </header>
+            <nav>
+                <ul id="navv" class="nav-ul hide-ul">
+                    <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                    <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                    <li><a class="nav-link" href="makeup.html">Makeup</a></li>
+                    <li><a class="nav-link" href="search.html">Products</a></li>
+                    <li><a class="nav-link" href="1401040519092021.html">Admin</a></li>
+                    {{loggedin}}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script src="scripts/nav.js"></script>
+
+    <div class="admin-page">
+        <div class="title-container">
+            <div class="title">
+                <h2> Admin Page - Products </h2>
+            </div>
+            <div class="add-product">
+                <a href="add-product.html">
+                    <button class="add-product-button">Add product</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <input type="text" id="searchbar" onchange="filterAdminByName()" class="search-input" placeholder="Search by keywords...">
+
+            <div class="dropdown">
+                <button class="dropbtn">
+                            Filter by age
+                            <img class="dropdown-arrow" src="https://i.imgur.com/8HzN0T7.png">
+                        </button>
+                <div class="dropdown-content">
+                    <form>
+                        <input type="checkbox" id="age1" class="checkboxfilter" name="age1" value="12-18">
+                        <label for="age1"> 12-18 </label><br>
+                        <input type="checkbox" id="age2" class="checkboxfilter" name="age2" value="19-25">
+                        <label for="age2"> 19-25</label><br>
+                        <input type="checkbox" id="age3" class="checkboxfilter" name="age3" value="26-30">
+                        <label for="age3"> 26-30</label><br>
+                        <input type="checkbox" id="age4" class="checkboxfilter" name="age4" value="31-45">
+                        <label for="age4"> 31-45</label><br>
+                        <input type="checkbox" id="age5" class="checkboxfilter" name="age5" value="46-100">
+                        <label for="age4"> 46-100</label><br>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">
+                            Filter by skin type
+                            <img class="dropdown-arrow" src="https://i.imgur.com/8HzN0T7.png">
+                        </button>
+                <div class="dropdown-content">
+                    <form>
+                        <input type="checkbox" id="skin1" class="checkboxfilter" name="skin1" value="oily">
+                        <label for="skin1"> oily</label><br>
+                        <input type="checkbox" id="skin2" class="checkboxfilter" name="skin2" value="balanced">
+                        <label for="skin2"> balanced</label><br>
+                        <input type="checkbox" id="skin3" class="checkboxfilter" name="skin3" value="dry">
+                        <label for="skin3"> dry</label><br>
+                        <input type="checkbox" id="skin4" class="checkboxfilter" name="skin4" value="combination">
+                        <label for="skin4"> combination</label><br>
+                    </form>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">
+                            Filter by day time
+                            <img class="dropdown-arrow" src="https://i.imgur.com/8HzN0T7.png">
+                        </button>
+                <div class="dropdown-content">
+                    <form>
+                        <input type="checkbox" id="day1" class="checkboxfilter" name="day1" value="daily">
+                        <label for="day1"> daily</label><br>
+                        <input type="checkbox" id="day2" class="checkboxfilter" name="day2" value="fancy">
+                        <label for="day2"> fancy</label><br>
+                        <input type="checkbox" id="day3" class="checkboxfilter" name="day3" value="natural">
+                        <label for="day3"> natural</label><br>
+                        <input type="checkbox" id="day4" class="checkboxfilter" name="day4" value="event">
+                        <label for="day4"> event</label><br>
+                    </form>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">
+                            Filter by color palette
+                            <img class="dropdown-arrow" src="https://i.imgur.com/8HzN0T7.png">
+                        </button>
+                <div class="dropdown-content">
+                    <form>
+                        <input type="checkbox" id="color1" class="checkboxfilter" name="color1" value="earthy browns">
+                        <label for="color1"> earthy browns</label><br>
+                        <input type="checkbox" id="color2" class="checkboxfilter" name="color2" value="bright reds">
+                        <label for="color2"> bright reds</label><br>
+                        <input type="checkbox" id="color3" class="checkboxfilter" name="color3" value="nature green">
+                        <label for="color3"> nature green</label><br>
+                        <input type="checkbox" id="color4" class="checkboxfilter" name="color4" value="sky blue">
+                        <label for="color4"> sky blue</label><br>
+                        <input type="checkbox" id="color5" class="checkboxfilter" name="color5" value="unicorn pastels">
+                        <label for="color5"> unicorn pastels</label><br>
+                        <input type="checkbox" id="color6" class="checkboxfilter" name="color6" value="pink dreams">
+                        <label for="color6"> pink dreams</label><br>
+                    </form>
+                </div>
+            </div>
+
+            <button onclick="filterBySearch()" class="search-button" type="button" value="Search">Search</button>
+        </div>
+
+        <div class="product-container-parent">
+            <div class="product-container" id="productSectionAdmin">
+
+                <!-- <div class="row" > -->
+                <script src="scripts/adminProduct.js">
+                </script>
+                <!-- </div> -->
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

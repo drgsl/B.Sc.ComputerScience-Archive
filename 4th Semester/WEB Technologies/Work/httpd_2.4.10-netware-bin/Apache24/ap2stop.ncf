@@ -1,0 +1,5 @@
+# NCF to stop Apache 2.x in own address space
+apache2 shutdown -p Apache24
+# If you have loaded Apache2.x in OS space use the line below.
+# apache2 shutdown
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Ivy sun - admins only</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;1,200&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/admin-feedback.css">
+</head>
+
+<body onload="populateDataFeedback() && isAdminCookie()">
+    <div id="nav-background">
+        <div id="nav-container">
+            <header id="nav-header">
+                <h1>
+                    <a class="nav-logo-function" href="index.html#home" id="nav-logo"> Ivy </a>
+                </h1>
+                <img src="https://i.imgur.com/xcFvxAK.png" class="hamburger-img" id="nav-menu-button">
+            </header>
+            <nav>
+                <ul id="navv" class="nav-ul hide-ul">
+                    <li><a class="nav-link" href="index.html#about">About Us</a></li>
+                    <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+                    <li><a class="nav-link" href="makeup.html">Makeup</a></li>
+                    <li><a class="nav-link" href="search.html">Products</a></li>
+                    <li><a class="nav-link" href="1401040519092021.html">Admin</a></li>
+                    {{loggedin}}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script src="scripts/nav.js"></script>
+
+    <div class="admin-page">
+        <div class="title-container">
+            <div class="title">
+                <h2> Admin Page - Feedback </h2>
+            </div>
+        </div>
+
+        <div class="product-container-parent">
+            <div class="product-container" id="productSectionAdmin">
+
+                <script src="scripts/adminFeedback.js">
+                </script>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
