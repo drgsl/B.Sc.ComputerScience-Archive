@@ -1,4 +1,4 @@
-# CS Bachelor Work
+# Bachelor's Degree in Computer Science - Archive
 
 This repository contains all the coursework, projects, and assignments completed by Dragos A. Bobu throughout their Bachelor's degree in Computer Science. From algorithms and data structures to software engineering and machine learning, this collection showcases the diverse range of skills and knowledge gained during their academic journey.
 
