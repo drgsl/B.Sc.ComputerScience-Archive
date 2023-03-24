@@ -1,5 +1,7 @@
 # Bachelor's Degree in Computer Science - Archive
 
+<!-- [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=BobuDragos&layout=compact)](https://github.com/BobuDragos) -->
+
 This repository contains all the coursework, projects, and assignments completed by Dragos A. Bobu throughout their Bachelor's degree in Computer Science. From algorithms and data structures to software engineering and machine learning, this collection showcases the diverse range of skills and knowledge gained during their academic journey.
 
 ## 📁 Contents
@@ -14,6 +16,13 @@ To view or run the code in this repository, simply clone or download the reposit
 
 
 The code in this repository is provided under the GNU General Public License v3.0. Please refer to the [LICENSE] file included in the root directory of the repository for more information on the terms of use.
+
+## 📚 Courses
+
+Here are some links to the courses that I've taken during my Bachelor's degree in Computer Science:
+
+- [Notion](https://www.notion.so/Facultate-f2c0e73370d34ee49fafff4e24f17981)
+- [FiiMaterials](https://fiimaterials.valentinstamate.com/)
 
 ## 📝 License
 
